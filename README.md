@@ -178,14 +178,32 @@ Text fields support `` `inline code` ``, `**bold**` and `\n` line breaks.
 
 Routing uses `HashRouter` (URLs look like `/#/quiz`) and Vite's `base` is `'./'` (relative paths). The same build works at a domain root or in a sub-folder, with no server configuration.
 
-### GitHub Pages (recommended)
+### Cloudflare Pages (what we use)
 
-1. Push the repo to GitHub, on the `main` branch.
-2. On GitHub, go to **Settings → Pages → Build and deployment → Source** and choose **GitHub Actions**.
-3. The included workflow (`.github/workflows/deploy.yml`) builds and deploys on every push to `main`.
-4. Share the link: `https://<user>.github.io/<repo>/`.
+**Connected to GitHub (auto-deploys on every push):**
 
-If you ever need an absolute base path, build with `BASE_PATH=/<repo>/ npm run build`.
+1. Push the repo to GitHub.
+2. In the Cloudflare dashboard, go to **Workers & Pages → Create → Pages → Connect to Git** and pick the repo.
+3. Build settings:
+   - Framework preset: **Vite** (or None)
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+4. Click **Save and Deploy**. The site is live at `https://<project>.pages.dev`.
+
+Every push to `main` redeploys the site, and other branches get their own preview URL (useful for checking a friend's new chapter before merging). The Node version is pinned by `.nvmrc`. No redirect rules are needed, thanks to the `HashRouter`.
+
+**From your computer, without Git:**
+
+```bash
+npm run build
+npx wrangler pages deploy dist --project-name thinktwice
+```
+
+If the content is invalid, `npm run build` fails, so the deploy stops and the live site stays as it was. The error is in the build log.
+
+### Other free hosts
+
+The same `dist/` folder also works on Vercel (build `npm run build`, output `dist`) and on GitHub Pages. If you ever need an absolute base path, build with `BASE_PATH=/<repo>/ npm run build`.
 
 ### Netlify
 
