@@ -51,7 +51,6 @@ export default {
     "Des quiz qui font réfléchir, des cartes qui reviennent quand tu les oublies, et une banque d'erreurs qui garde chaque faute jusqu'à ce qu'elle soit vraiment corrigée.",
   'home.startQuiz': 'Lancer un quiz',
   'home.reviewCards': ({ count }) => `Réviser ${count} ${s(count, 'carte due', 'cartes dues')}`,
-  'home.reviseMistakes': ({ count }) => `Réviser ${count} ${s(count, 'erreur', 'erreurs')}`,
   'home.answeredToday': "Réponses aujourd'hui",
   'home.pctCorrect': ({ pct }) => `${pct} % de bonnes réponses`,
   'home.nothingYet': 'Rien pour le moment',
@@ -61,7 +60,7 @@ export default {
   'home.mastered': ({ count }) => `${count} ${s(count, 'maîtrisée', 'maîtrisées')}`,
   'home.cardsDue': 'Cartes à revoir',
   'home.cardsTotal': ({ count }) => `${count} cartes au total`,
-  'home.streak': 'Série',
+  'home.streakBadge': ({ count }) => `Série : ${count} ${s(count, 'jour', 'jours')}`,
   'home.streakHint': ({ count }) =>
     count ? `${count} ${s(count, 'jour', 'jours')} d'affilée` : "Révise aujourd'hui pour en lancer une",
   'home.todayPlan': 'Programme du jour',
@@ -127,6 +126,7 @@ export default {
   'setup.startExam': "Lancer l'examen",
 
   'player.revision': 'Révision',
+  'player.progress': 'Progression du quiz',
   'player.stop': 'Arrêter',
   'player.confirmStop': 'Arrêter ce quiz ? Les réponses déjà données restent dans tes stats.',
   'player.next': 'Suivante',
@@ -190,6 +190,7 @@ export default {
   'card.showAnswer': 'Voir la réponse',
   'session.left': ({ count }) => `${count} ${s(count, 'restante', 'restantes')}`,
   'session.end': 'Terminer',
+  'session.progress': 'Progression de la session',
   'session.didntKnow': 'Je ne savais pas',
   'session.knewIt': 'Je savais',
   'session.honest': 'Sois honnête — les cartes ratées reviennent plus vite.',

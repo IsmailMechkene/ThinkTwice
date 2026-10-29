@@ -39,6 +39,13 @@ export function verdictKey(pct) {
   return 'verdict.rough'
 }
 
+// Mastery: share of questions whose last answer was right and that are not in the mistake bank.
+export function masteryOf(questionIds, progress) {
+  if (!questionIds.length) return 0
+  const ok = questionIds.filter((id) => progress.questions[id]?.lastCorrect && !progress.mistakes[id]).length
+  return percent(ok, questionIds.length)
+}
+
 // Per-chapter accuracy from the saved question stats, weakest first.
 export function chapterAccuracy(subjects, stats, minAttempts = 1) {
   const rows = []

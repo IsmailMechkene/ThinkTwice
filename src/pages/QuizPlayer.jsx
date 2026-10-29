@@ -158,7 +158,7 @@ function QuizPlayer() {
         <span className="text-sm font-semibold tabular-nums">
           {index + 1}/{session.items.length}
         </span>
-        <ProgressBar value={index + (answered ? 1 : 0)} max={session.items.length} label="Quiz progress" />
+        <ProgressBar value={index + (answered ? 1 : 0)} max={session.items.length} label={t('player.progress')} />
         {session.mode === 'revise' && <span className="shrink-0 text-xs font-semibold text-rose-600 dark:text-rose-400">{t('player.revision')}</span>}
         {remaining != null ? (
           <span
@@ -179,19 +179,54 @@ function QuizPlayer() {
         </button>
       </div>
 
-      <QuestionCard
-        key={index}
-        question={current.question}
-        arranged={current.arranged}
-        chosen={answered?.chosen ?? null}
-        reveal={!!answered && !exam}
-        onChoose={choose}
-      />
+      {/* One dot per question: right / wrong / current / to come (exam mode hides right/wrong). */}
+      {session.items.length <= 40 && (
+        <ol className="mb-5 flex flex-wrap gap-1.5" aria-hidden>
+          {session.items.map((_, i) => {
+            const a = answers[i]
+            const cls =
+              a && !exam
+                ? a.correct
+                  ? 'bg-emerald-500'
+                  : 'bg-rose-500'
+                : a
+                  ? 'bg-indigo-400'
+                  : i === index
+                    ? 'bg-indigo-600 ring-2 ring-indigo-200 dark:ring-indigo-900'
+                    : 'bg-slate-200 dark:bg-slate-800'
+            return <li key={i} className={`h-2 w-5 rounded-full transition-colors ${cls}`} />
+          })}
+        </ol>
+      )}
+
+      <div key={index} className="animate-fade-up">
+        <QuestionCard
+          question={current.question}
+          arranged={current.arranged}
+          chosen={answered?.chosen ?? null}
+          reveal={!!answered && !exam}
+          onChoose={choose}
+        />
+      </div>
+
+      {answered && exam && <p className="mt-4 text-center text-sm text-slate-500 dark:text-slate-400">{t('player.locked')}</p>}
 
       {answered && !exam && (
-        <div className="mt-4 space-y-3" aria-live="polite">
+        <div className="animate-pop mt-4 space-y-3" aria-live="polite">
           <Explanation question={current.question} arranged={current.arranged} chosen={answered.chosen} />
-          {event && <p className="text-center text-sm text-slate-600 dark:text-slate-400">{t(`event.${event}`)}</p>}
+          {event && (
+            <p
+              className={`mx-auto w-fit rounded-full px-3 py-1.5 text-center text-sm font-medium ${
+                event === 'mastered' || event === 'progress'
+                  ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                  : event === 'same-day'
+                    ? 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                    : 'bg-rose-50 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+              }`}
+            >
+              {t(`event.${event}`)}
+            </p>
+          )}
         </div>
       )}
 

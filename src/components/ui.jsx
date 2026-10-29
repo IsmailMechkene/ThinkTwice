@@ -109,13 +109,53 @@ export function EmptyState({ title, children, action }) {
   )
 }
 
-export function Stat({ label, value, hint }) {
+const STAT_TONES = {
+  indigo: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-300',
+  emerald: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-300',
+  rose: 'bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-300',
+  amber: 'bg-amber-50 text-amber-600 dark:bg-amber-950 dark:text-amber-300',
+  violet: 'bg-violet-50 text-violet-600 dark:bg-violet-950 dark:text-violet-300',
+}
+
+export function Stat({ label, value, hint, icon, tone = 'indigo' }) {
   return (
-    <Card className="p-4">
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{label}</p>
-      <p className="mt-1 text-2xl font-bold tabular-nums">{value}</p>
-      {hint && <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{hint}</p>}
+    <Card className="flex items-start gap-3 p-4">
+      {icon && <span className={cx('hidden h-10 w-10 sm:grid shrink-0 place-items-center rounded-xl text-lg', STAT_TONES[tone])} aria-hidden>{icon}</span>}
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{label}</p>
+        <p className="mt-0.5 text-2xl font-bold tabular-nums">{value}</p>
+        {hint && <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">{hint}</p>}
+      </div>
     </Card>
+  )
+}
+
+// Circular progress (0–100). Text stays in neutral ink; the ring carries the colour.
+export function ProgressRing({ value, size = 56, stroke = 6, color = '#4f46e5', label, children }) {
+  const r = (size - stroke) / 2
+  const c = 2 * Math.PI * r
+  const pct = Math.max(0, Math.min(100, value || 0))
+  return (
+    <span className="relative inline-grid shrink-0 place-items-center" style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label={label}>
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke} className="stroke-slate-200 dark:stroke-slate-800" />
+        {pct > 0 && (
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={r}
+            fill="none"
+            strokeWidth={stroke}
+            stroke={color}
+            strokeLinecap="round"
+            strokeDasharray={`${(pct / 100) * c} ${c}`}
+            transform={`rotate(-90 ${size / 2} ${size / 2})`}
+            style={{ transition: 'stroke-dasharray 0.6s ease' }}
+          />
+        )}
+      </svg>
+      <span className="absolute text-xs font-bold tabular-nums">{children ?? `${Math.round(pct)}%`}</span>
+    </span>
   )
 }
 

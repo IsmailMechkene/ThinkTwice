@@ -1,7 +1,7 @@
 import { useContext, useMemo } from 'react'
 import { ProgressContext } from '../context/ProgressContext'
 import { subjects } from '../lib/content'
-import { percent } from '../lib/scoring'
+import { masteryOf, percent } from '../lib/scoring'
 
 export function useProgress() {
   const ctx = useContext(ProgressContext)
@@ -30,8 +30,16 @@ export function useSubjectStats() {
           if (progress.mistakes[id]) mistakes++
         }
       }
-      out[s.id] = { done, total: s.questionCount, attempts, accuracy: percent(correct, attempts), mistakes }
+      const ids = s.chapters.flatMap((c) => c.questionIds)
+      out[s.id] = {
+        done,
+        total: s.questionCount,
+        attempts,
+        accuracy: percent(correct, attempts),
+        mistakes,
+        mastery: masteryOf(ids, progress),
+      }
     }
     return out
-  }, [progress.questions, progress.mistakes])
+  }, [progress])
 }

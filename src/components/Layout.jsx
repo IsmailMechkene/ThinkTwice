@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router'
+import { NavLink, Outlet, useLocation } from 'react-router'
 import { useMistakes } from '../hooks/useMistakes'
 import { useTheme } from '../hooks/useTheme'
 import { useI18n } from '../i18n/I18nContext'
@@ -26,6 +26,7 @@ function CountBadge({ n }) {
 export default function Layout() {
   const { theme, toggle } = useTheme()
   const { t } = useI18n()
+  const { pathname } = useLocation()
   const { count: mistakes } = useMistakes()
 
   return (
@@ -33,8 +34,8 @@ export default function Layout() {
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
           <NavLink to="/" className="flex items-center gap-2 font-bold tracking-tight">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-indigo-600 text-sm text-white">T²</span>
-            <span className="text-lg">ThinkTwice</span>
+            <span className="brand-gradient grid h-8 w-8 place-items-center rounded-lg text-sm font-extrabold text-white shadow-sm shadow-indigo-500/30">T²</span>
+            <span className="text-lg">Think<span className="brand-text">Twice</span></span>
           </NavLink>
           <nav className="ml-4 hidden items-center gap-1 md:flex" aria-label={t('nav.main')}>
             {NAV.map((n) => (
@@ -71,7 +72,9 @@ export default function Layout() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:py-10">
-        <Outlet />
+        <div key={pathname} className="animate-fade-up">
+          <Outlet />
+        </div>
       </main>
 
       {/* Mobile tab bar */}

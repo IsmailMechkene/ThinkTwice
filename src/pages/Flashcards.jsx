@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
 import Flashcard from '../components/Flashcard'
@@ -12,6 +12,7 @@ import { BOX_INTERVAL_DAYS, boxOf, isDue, MAX_BOX } from '../lib/srs'
 
 // A card missed during a session comes back a few cards later in the same session.
 const RELEARN_GAP = 3
+const SWIPE_THRESHOLD = 90
 
 function BoxSummary({ cards, states }) {
   const { t } = useI18n()
@@ -67,6 +68,34 @@ function Session({ deck, onExit }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [flipped, answer])
 
+  // Swipe after flipping: right = knew it, left = didn't know.
+  const [dx, setDx] = useState(0)
+  const drag = useRef(null)
+  const onPointerDown = (e) => {
+    if (!flipped) return
+    drag.current = { x: e.clientX, moved: false }
+  }
+  const onPointerMove = (e) => {
+    if (!drag.current) return
+    const d = e.clientX - drag.current.x
+    if (Math.abs(d) > 6) drag.current.moved = true
+    setDx(d)
+  }
+  const onPointerUp = () => {
+    if (!drag.current) return
+    const d = dx
+    setDx(0)
+    setTimeout(() => (drag.current = null), 0)
+    if (Math.abs(d) > SWIPE_THRESHOLD) answer(d > 0)
+  }
+  // A drag must not also count as a tap that flips the card back.
+  const onClickCapture = (e) => {
+    if (drag.current?.moved) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
+  }
+
   if (!card) {
     return (
       <EmptyState title={t('session.complete')} action={<Button onClick={onExit}>{t('session.back')}</Button>}>
@@ -80,12 +109,38 @@ function Session({ deck, onExit }) {
     <div className="mx-auto max-w-2xl">
       <div className="mb-4 flex items-center gap-3">
         <span className="shrink-0 text-sm font-semibold tabular-nums">{t('session.left', { count: queue.length })}</span>
-        <ProgressBar value={done.knew} max={done.knew + queue.length} label="Session progress" />
+        <ProgressBar value={done.knew} max={done.knew + queue.length} label={t('session.progress')} />
         <button type="button" onClick={onExit} className="shrink-0 rounded-lg px-2 py-1 text-sm text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
           {t('session.end')}
         </button>
       </div>
-      <Flashcard key={`${card.id}-${reviewed}`} card={card} flipped={flipped} onFlip={() => setFlipped((f) => !f)} />
+      <div
+        className="relative touch-pan-y select-none"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onClickCapture={onClickCapture}
+        style={{
+          transform: dx ? `translateX(${dx}px) rotate(${dx / 25}deg)` : undefined,
+          transition: dx ? 'none' : 'transform 0.25s ease',
+        }}
+      >
+        <div key={`${card.id}-${reviewed}`} className="animate-pop">
+          <Flashcard card={card} flipped={flipped} onFlip={() => setFlipped((f) => !f)} />
+        </div>
+        {Math.abs(dx) > 20 && (
+          <span
+            aria-hidden
+            className={`pointer-events-none absolute top-5 rounded-xl border-2 px-3 py-1 text-sm font-extrabold uppercase ${
+              dx > 0 ? 'left-5 -rotate-6 border-emerald-500 text-emerald-600' : 'right-5 rotate-6 border-rose-500 text-rose-600'
+            }`}
+            style={{ opacity: Math.min(1, Math.abs(dx) / SWIPE_THRESHOLD) }}
+          >
+            {dx > 0 ? t('session.knewIt') : t('session.didntKnow')}
+          </span>
+        )}
+      </div>
       <div className="mt-5 grid grid-cols-2 gap-3">
         <Button variant="bad" disabled={!flipped} onClick={() => answer(false)} className="py-3.5">
           {t('session.didntKnow')}
@@ -97,6 +152,7 @@ function Session({ deck, onExit }) {
       <p className="mt-3 text-center text-xs text-slate-400">
         {flipped ? t('session.honest') : t('session.thinkFirst')}
         <span className="hidden sm:inline"> · {t('session.keys')}</span>
+        <span className="sm:hidden"> · {t('session.swipe')}</span>
       </p>
     </div>
   )

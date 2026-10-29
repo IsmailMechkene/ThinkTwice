@@ -1,9 +1,9 @@
 import { useParams } from 'react-router'
-import { Badge, Button, Card, EmptyState, PageHeader, ProgressBar } from '../components/ui'
+import { Badge, Button, Card, EmptyState, PageHeader, ProgressBar, ProgressRing } from '../components/ui'
 import { useProgress, useSubjectStats } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
 import { questionById, subjectById } from '../lib/content'
-import { percent } from '../lib/scoring'
+import { masteryOf, percent } from '../lib/scoring'
 
 export default function Subject() {
   const { subjectId } = useParams()
@@ -66,7 +66,13 @@ export default function Subject() {
             if (questionById[id]?.tier === 'core') core++
           }
           return (
-            <Card key={c.key} className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <Card key={c.key} className="flex flex-col gap-4 transition hover:shadow-md sm:flex-row sm:items-center">
+              <ProgressRing
+                value={masteryOf(c.questionIds, progress)}
+                color={subject.color}
+                size={60}
+                label={`${t('subject.mastery')} ${masteryOf(c.questionIds, progress)}%`}
+              />
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-semibold text-slate-500">{t('subject.chapter', { n: c.order ?? i + 1 })}</p>
                 <h3 className="font-semibold">{c.title}</h3>
@@ -76,7 +82,7 @@ export default function Subject() {
                   {attempts > 0 && <Badge>{t('subject.accuracyBadge', { pct: percent(correct, attempts) })}</Badge>}
                   {mistakes > 0 && <Badge tone="hard">{t('subject.toReviseBadge', { count: mistakes })}</Badge>}
                 </div>
-                <ProgressBar className="mt-2 max-w-sm" value={done} max={c.questionIds.length} color={subject.color} label={`${c.title} progress`} />
+                <ProgressBar className="mt-2 max-w-sm" value={done} max={c.questionIds.length} color={subject.color} label={t('subject.chapterCounts', { q: c.questionIds.length, core, cards: c.flashcardIds.length })} />
               </div>
               <div className="flex gap-2">
                 <Button to={quizLink(c.key)} className="flex-1 sm:flex-none">
