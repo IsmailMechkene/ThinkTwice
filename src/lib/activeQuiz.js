@@ -5,7 +5,7 @@ import { load, remove, save } from './storage'
 
 const key = (profileId) => `activeQuiz:${profileId}`
 
-export function saveActiveQuiz(profileId, session, index, answers) {
+export function saveActiveQuiz(profileId, session, index, answers, visited = []) {
   save(key(profileId), {
     mode: session.mode,
     items: session.items.map((it) => ({ qid: it.question.id, order: it.arranged.map((c) => c.orig) })),
@@ -13,6 +13,7 @@ export function saveActiveQuiz(profileId, session, index, answers) {
     startedAt: session.startedAt,
     index,
     answers,
+    visited,
   })
 }
 
@@ -24,18 +25,22 @@ export function clearActiveQuiz(profileId) {
 export function loadActiveQuiz(profileId) {
   const s = load(key(profileId), null)
   if (!s || !Array.isArray(s.items) || !Array.isArray(s.answers)) return null
-  const kept = s.items.map((it, i) => ({ it, a: s.answers[i] || null })).filter(({ it }) => questionById[it.qid])
+  const seen = Array.isArray(s.visited) ? s.visited : []
+  const kept = s.items
+    .map((it, i) => ({ it, a: s.answers[i] || null, v: !!seen[i] }))
+    .filter(({ it }) => questionById[it.qid])
   if (!kept.length) return null
   const items = kept.map(({ it }) => {
     const question = questionById[it.qid]
     return { question, arranged: it.order.map((orig, i) => ({ letter: LETTERS[i], orig, text: question.choices[orig] })) }
   })
   const answers = kept.map(({ a }) => a)
-  const firstOpen = answers.findIndex((a) => !a)
   return {
     session: { mode: s.mode, items, deadline: s.deadline ?? null, startedAt: s.startedAt ?? Date.now() },
-    index: Math.min(Number.isInteger(s.index) ? s.index : 0, items.length - 1, firstOpen === -1 ? items.length - 1 : firstOpen),
+    // Back on the question you were looking at (you can now move freely, so don't jump to the first open one).
+    index: Math.max(0, Math.min(Number.isInteger(s.index) ? s.index : 0, items.length - 1)),
     answers,
+    visited: kept.map(({ v }) => v),
   }
 }
 

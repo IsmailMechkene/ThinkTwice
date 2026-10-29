@@ -105,7 +105,9 @@ export default function Results() {
     return <EmptyState title={t('results.none')} action={<Button to="/quiz">{t('results.startQuiz')}</Button>} />
   }
 
-  const wrong = answers.filter((a) => !a.correct)
+  // Answered wrong vs never answered (skipped, or time ran out). Only answered mistakes go to the mistake bank.
+  const wrong = answers.filter((a) => !a.correct && a.chosen != null)
+  const skipped = answers.filter((a) => a.chosen == null)
   const minutes = Math.floor(result.durationSec / 60)
 
   return (
@@ -123,6 +125,7 @@ export default function Results() {
             <div className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
               <Chip>⏱ {t('results.time', { m: minutes, s: result.durationSec % 60 })}</Chip>
               {wrong.length > 0 && <Chip>🧩 {t('results.toBank', { count: wrong.length })}</Chip>}
+              {skipped.length > 0 && <Chip>⏭ {t('results.skippedChip', { count: skipped.length })}</Chip>}
             </div>
             <div className="mt-5 flex flex-wrap justify-center gap-2 sm:justify-start">
               {wrong.length > 0 && (
@@ -158,7 +161,7 @@ export default function Results() {
 
       <SectionTitle>{t('results.mistakes', { count: wrong.length })}</SectionTitle>
       {wrong.length === 0 ? (
-        <Card className="text-center">{t('results.perfect')}</Card>
+        <Card className="text-center">{skipped.length ? t('results.noWrong') : t('results.perfect')}</Card>
       ) : (
         <Card className="overflow-hidden p-0">
           <ul className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -167,6 +170,19 @@ export default function Results() {
             ))}
           </ul>
         </Card>
+      )}
+
+      {skipped.length > 0 && (
+        <>
+          <SectionTitle hint={t('results.skippedHint')}>{t('results.skipped', { count: skipped.length })}</SectionTitle>
+          <Card className="overflow-hidden p-0">
+            <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+              {skipped.map((a) => (
+                <MistakeItem key={a.qid} answer={a} />
+              ))}
+            </ul>
+          </Card>
+        </>
       )}
     </div>
   )

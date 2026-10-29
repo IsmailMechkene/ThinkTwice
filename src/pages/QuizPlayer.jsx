@@ -2,7 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router'
 import Icon from '../components/Icon'
 import QuestionCard, { Explanation } from '../components/QuestionCard'
-import { Button, EmptyState, ProgressBar } from '../components/ui'
+import QuestionGrid from '../components/QuestionGrid'
+import { Button, Card, EmptyState, ProgressBar } from '../components/ui'
 import { useProgress } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
 import { LETTERS, matchesFilter, questionById } from '../lib/content'
@@ -33,6 +34,7 @@ function useSession(state, progress, profileId) {
       session: { mode: state.mode, items, deadline: state.examMinutes ? Date.now() + state.examMinutes * 60_000 : null, startedAt: Date.now() },
       index: 0,
       answers: [],
+      visited: [],
     }
   })[0]
 }
@@ -59,6 +61,8 @@ function QuizPlayer() {
 
   const [index, setIndex] = useState(restored?.index ?? 0)
   const [answers, setAnswers] = useState(restored?.answers ?? []) // { qid, chosen, correct, order }
+  const [visited, setVisited] = useState(restored?.visited ?? []) // questions already shown (unanswered + left = skipped)
+  const [showGrid, setShowGrid] = useState(true)
   const [event, setEvent] = useState(null)
   const [now, setNow] = useState(Date.now())
   const finishedRef = useRef(false)
@@ -72,9 +76,9 @@ function QuizPlayer() {
       if (finishedRef.current) return
       finishedRef.current = true
       clearActiveQuiz(profileId)
-      // Unanswered questions (timer ran out) count as wrong in the score but are not added to the mistake bank.
+      // Unanswered questions (skipped, or timer ran out) count as wrong in the score but are not added to the mistake bank.
       const all = session.items.map(
-        (it, i) => finalAnswers[i] || { qid: it.question.id, chosen: null, correct: false, order: it.arranged.map((c) => c.orig) },
+        (it, i) => finalAnswers[i] || { qid: it.question.id, chosen: null, correct: false, skipped: true, order: it.arranged.map((c) => c.orig) },
       )
       const summary = summarize(all.map((a) => ({ ...a, question: questionById[a.qid] })))
       const result = { mode: session.mode, answers: all, durationSec: Math.round((Date.now() - session.startedAt) / 1000) }
@@ -109,15 +113,40 @@ function QuizPlayer() {
     [current, answered, answerQuestion, exam, index],
   )
 
-  const next = useCallback(() => {
-    if (!answered) return
-    if (index + 1 >= session.items.length) finish(answers)
-    else {
-      setIndex(index + 1)
+  const goTo = useCallback(
+    (i) => {
+      if (i < 0 || i >= session.items.length || i === index) return
+      setIndex(i)
       setEvent(null)
       window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-  }, [answered, index, session, finish, answers])
+    },
+    [index, session],
+  )
+
+  const unansweredCount = session ? session.items.length - answers.filter(Boolean).length : 0
+
+  const requestFinish = useCallback(() => {
+    if (unansweredCount > 0 && !confirm(t('player.confirmFinish', { count: unansweredCount }))) return
+    finish(answers)
+  }, [unansweredCount, finish, answers, t])
+
+  // Next = skip when the question has no answer. On the last question it finishes.
+  const next = useCallback(() => {
+    if (index + 1 >= session.items.length) requestFinish()
+    else goTo(index + 1)
+  }, [index, session, requestFinish, goTo])
+
+  const prev = useCallback(() => goTo(index - 1), [goTo, index])
+
+  // Remember every question shown, to tell "skipped" from "not seen yet".
+  useEffect(() => {
+    setVisited((v) => {
+      if (v[index]) return v
+      const nextV = [...v]
+      nextV[index] = true
+      return nextV
+    })
+  }, [index])
 
   // Exam countdown.
   useEffect(() => {
@@ -129,28 +158,31 @@ function QuizPlayer() {
     if (session?.deadline && now >= session.deadline) finish(answers)
   }, [now, session, finish, answers])
 
-  // Keyboard: A-D or 1-4 to answer, Enter / → for next.
+  // Keyboard: A-D or 1-4 to answer, → (or Enter once answered) for next, ← for previous.
   useEffect(() => {
     const onKey = (e) => {
       if (e.target instanceof HTMLInputElement || e.metaKey || e.ctrlKey || e.altKey) return
       const k = e.key.toUpperCase()
       const pos = LETTERS.indexOf(k) >= 0 ? LETTERS.indexOf(k) : ['1', '2', '3', '4'].indexOf(k)
       if (pos >= 0 && current && !answered) choose(current.arranged[pos].orig)
-      else if ((e.key === 'Enter' || e.key === 'ArrowRight') && answered) {
+      else if (e.key === 'ArrowRight' || (e.key === 'Enter' && answered)) {
         e.preventDefault()
         next()
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        prev()
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [current, answered, choose, next])
+  }, [current, answered, choose, next, prev])
 
   const score = useMemo(() => answers.filter((a) => a?.correct).length, [answers])
 
   // Save the quiz in progress after every answer / question change.
   useEffect(() => {
-    if (session?.items.length && !finishedRef.current) saveActiveQuiz(profileId, session, index, answers)
-  }, [session, index, answers, profileId])
+    if (session?.items.length && !finishedRef.current) saveActiveQuiz(profileId, session, index, answers, visited)
+  }, [session, index, answers, visited, profileId])
 
   if (!session) return <Navigate to="/quiz" replace />
   if (!session.items.length) {
@@ -173,7 +205,7 @@ function QuizPlayer() {
         <span className="text-sm font-semibold tabular-nums">
           {index + 1}/{session.items.length}
         </span>
-        <ProgressBar value={index + (answered ? 1 : 0)} max={session.items.length} label={t('player.progress')} />
+        <ProgressBar value={session.items.length - unansweredCount} max={session.items.length} label={t('player.progress')} />
         {session.mode === 'revise' && <span className="shrink-0 text-xs font-semibold text-rose-600 dark:text-rose-400">{t('player.revision')}</span>}
         {remaining != null ? (
           <span
@@ -194,25 +226,27 @@ function QuizPlayer() {
         </button>
       </div>
 
-      {/* One dot per question: right / wrong / current / to come (exam mode hides right/wrong). */}
-      {session.items.length <= 40 && (
-        <ol className="mb-5 flex flex-wrap gap-1.5" aria-hidden>
-          {session.items.map((_, i) => {
-            const a = answers[i]
-            const cls =
-              a && !exam
-                ? a.correct
-                  ? 'bg-emerald-500'
-                  : 'bg-rose-500'
-                : a
-                  ? 'bg-indigo-400'
-                  : i === index
-                    ? 'bg-indigo-600 ring-2 ring-indigo-200 dark:ring-indigo-900'
-                    : 'bg-slate-200 dark:bg-slate-800'
-            return <li key={i} className={`h-2 w-5 rounded-full transition-colors ${cls}`} />
-          })}
-        </ol>
-      )}
+      <Card className="mb-5 p-4">
+        <button
+          type="button"
+          onClick={() => setShowGrid((g) => !g)}
+          aria-expanded={showGrid}
+          className="flex w-full items-center justify-between text-sm font-semibold"
+        >
+          <span>
+            {t('grid.title')}{' '}
+            <span className="font-normal text-slate-500 dark:text-slate-400">
+              · {t('grid.answeredOf', { done: session.items.length - unansweredCount, total: session.items.length })}
+            </span>
+          </span>
+          <Icon name="arrow" className={`h-4 w-4 text-slate-400 transition ${showGrid ? '-rotate-90' : 'rotate-90'}`} />
+        </button>
+        {showGrid && (
+          <div className="mt-3">
+            <QuestionGrid total={session.items.length} answers={answers} visited={visited} index={index} exam={exam} onJump={goTo} />
+          </div>
+        )}
+      </Card>
 
       <div key={index} className="animate-fade-up">
         <QuestionCard
@@ -245,9 +279,12 @@ function QuizPlayer() {
         </div>
       )}
 
-      <div className="sticky bottom-20 mt-5 flex justify-end md:static">
-        <Button onClick={next} disabled={!answered} className="shadow-lg">
-          {isLast ? t('player.seeResults') : t('player.next')} <Icon name="arrow" className="h-4 w-4" />
+      <div className="sticky bottom-20 mt-5 flex items-center justify-between gap-2 md:static">
+        <Button variant="secondary" onClick={prev} disabled={index === 0} className="shadow-lg md:shadow-none">
+          <Icon name="arrow" className="h-4 w-4 rotate-180" /> {t('player.prev')}
+        </Button>
+        <Button onClick={next} variant={answered || isLast ? 'primary' : 'secondary'} className="shadow-lg">
+          {isLast ? t('player.seeResults') : answered ? t('player.next') : t('player.skip')} <Icon name="arrow" className="h-4 w-4" />
         </Button>
       </div>
       <p className="mt-3 hidden text-center text-xs text-slate-400 sm:block">{t('player.keys')}</p>
