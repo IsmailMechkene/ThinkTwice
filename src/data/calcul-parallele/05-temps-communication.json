@@ -1,0 +1,343 @@
+{
+  "id": "comm",
+  "title": "Temps de communication",
+  "order": 5,
+  "description": "T = τ + N/β, types de communication, half/full duplex, link-bound vs processor-bound, O2O et O2A sur chaîne, anneau et grille.",
+  "questions": [
+    {
+      "id": "calcul-parallele-comm-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un message de N = 5 000 octets traverse un seul lien de bande passante β = 10⁶ octets/s, avec une latence τ = 1 ms. Quel est le temps de communication ?",
+      "choices": {
+        "A": "5 ms",
+        "B": "6 ms",
+        "C": "1 ms",
+        "D": "7 ms"
+      },
+      "answer": "B",
+      "explanation": "Sur un lien : T = τ + N/β = 1 ms + 5 000/10⁶ s = 1 ms + 5 ms = 6 ms.",
+      "why": {
+        "A": "5 ms = N/β seul : on a oublié la latence τ (le temps d'envoi d'un message vide).",
+        "C": "1 ms = τ seul : on a oublié le temps de transfert N/β.",
+        "D": "On a compté la latence deux fois ; elle n'est payée qu'une fois par lien."
+      },
+      "ref": "Notes ch3 — Estimation du temps de communication",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Sur une chaîne linéaire, le processeur 2 envoie un message de taille N au processeur 7 (O2O). Quel est le temps de communication ?",
+      "choices": {
+        "A": "7 (τ + N/β)",
+        "B": "τ + 5N/β",
+        "C": "τ + N/β",
+        "D": "5 (τ + N/β)"
+      },
+      "answer": "D",
+      "explanation": "O2O sur la chaîne : T = |i − j| · (τ + N/β) = 5 (τ + N/β). Chaque lien traversé coûte τ + N/β.",
+      "why": {
+        "A": "7 est le numéro du destinataire ; le nombre de liens traversés est |7 − 2| = 5.",
+        "B": "La latence τ est payée sur CHAQUE lien, pas une seule fois.",
+        "C": "C'est le coût d'un seul lien ; or le message en traverse 5."
+      },
+      "ref": "Notes ch3 — Réseau linéaire, O2O",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur un anneau de p = 10 processeurs, le processeur 2 envoie un message au processeur 9 sur un seul chemin, le plus court. Quel est le temps ?",
+      "choices": {
+        "A": "3 (τ + N/β)",
+        "B": "7 (τ + N/β)",
+        "C": "5 (τ + N/β)",
+        "D": "10 (τ + N/β)"
+      },
+      "answer": "A",
+      "explanation": "T = min(|i − j|, p − |i − j|) · (τ + N/β) = min(7, 3) · (τ + N/β) = 3 (τ + N/β) : on passe par l'autre côté de l'anneau.",
+      "why": {
+        "B": "7 = |i − j| est le chemin dans un sens ; dans l'autre sens, il ne faut que 3 sauts.",
+        "C": "5 = p/2 est le diamètre (le pire cas), pas la distance entre 2 et 9.",
+        "D": "10 = p : c'est le tour complet de l'anneau."
+      },
+      "ref": "Notes ch3 — Anneau, O2O cas 1",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-004",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Sur un anneau, on coupe un message en deux parties N₁ et N − N₁, envoyées simultanément par les deux chemins. Comment choisir le découpage pour minimiser le temps ?",
+      "choices": {
+        "A": "Toujours en deux moitiés égales, quelle que soit la position de i et j",
+        "B": "La plus grosse partie sur le chemin le plus long, pour équilibrer",
+        "C": "La plus grosse partie sur le chemin le plus court, en égalisant les deux temps",
+        "D": "Tout le message sur le chemin le plus court, l'autre restant inutilisé"
+      },
+      "answer": "C",
+      "explanation": "T = max(|i − j|(τ + N₁/β), (p − |i − j|)(τ + (N − N₁)/β)). Quand N₁ augmente, le premier terme augmente et le second diminue : le minimum est atteint quand les deux termes sont égaux, donc le plus gros morceau prend le chemin le plus court.",
+      "why": {
+        "A": "Des moitiés égales ne sont optimales que si les deux chemins ont la même longueur (nœuds diamétralement opposés).",
+        "B": "Le chemin long traverse plus de liens : y mettre le plus gros morceau rallonge le temps maximal.",
+        "D": "C'est le cas « un seul chemin » ; utiliser aussi l'autre chemin réduit le temps."
+      },
+      "ref": "Notes ch3 — Anneau, O2O cas 2 (deux chemins)",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur un anneau, un message de i vers j est coupé en deux parties envoyées simultanément par les deux chemins. Dans quel cas couper en deux moitiés égales est-il le meilleur choix ?",
+      "choices": {
+        "A": "Quand i et j sont voisins",
+        "B": "Quand i et j sont diamétralement opposés",
+        "C": "Dans tous les cas, quelle que soit la position",
+        "D": "Seulement quand p est impair"
+      },
+      "answer": "B",
+      "explanation": "Quand i et j sont diamétralement opposés, les deux chemins ont la même longueur ; les deux temps sont égaux pour N₁ = N/2.",
+      "why": {
+        "A": "Voisins : un chemin fait 1 saut, l'autre p − 1. Il faut alors mettre beaucoup plus que la moitié sur le chemin court.",
+        "C": "Si les chemins ont des longueurs différentes, des moitiés égales déséquilibrent les deux temps.",
+        "D": "Avec p impair, deux nœuds ne peuvent jamais être exactement opposés : les chemins diffèrent toujours d'un saut."
+      },
+      "ref": "Notes ch3 — Anneau, O2O cas 2",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un processeur peut envoyer des messages en même temps sur plusieurs de ses liens. Comment qualifie-t-on ce dispositif de communication ?",
+      "choices": {
+        "A": "Half duplex",
+        "B": "Full duplex",
+        "C": "Processor-bound",
+        "D": "Link-bound"
+      },
+      "answer": "D",
+      "explanation": "Link-bound : communications simultanées à partir d'un même processeur, sur ses différents liens.",
+      "why": {
+        "A": "Half duplex décrit un lien qui n'envoie pas dans les deux sens en même temps.",
+        "B": "Full duplex décrit un lien qui envoie dans les deux sens en même temps, pas un processeur qui utilise plusieurs liens.",
+        "C": "Processor-bound est l'inverse : un processeur ne fait qu'un envoi à la fois."
+      },
+      "ref": "Notes ch3 — Dispositif de communication",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un lien permet à ses deux extrémités d'émettre en même temps, dans les deux sens. De quel type de lien s'agit-il ?",
+      "choices": {
+        "A": "Full duplex",
+        "B": "Half duplex",
+        "C": "Link-bound",
+        "D": "Processor-bound"
+      },
+      "answer": "A",
+      "explanation": "Full duplex : envoi simultané possible dans les deux sens. Half duplex : pas d'envoi simultané dans les deux sens.",
+      "why": {
+        "B": "Half duplex interdit justement l'envoi simultané dans les deux sens.",
+        "C": "Link-bound qualifie un processeur qui envoie sur plusieurs liens à la fois, pas un lien.",
+        "D": "Processor-bound qualifie un processeur limité à un envoi à la fois."
+      },
+      "ref": "Notes ch3 — Type de liens",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur une chaîne de p = 10 processeurs (numérotés de 1 à 10), le processeur 3 diffuse un message à tous les autres (O2A), en mode link-bound. Quel est le temps ?",
+      "choices": {
+        "A": "9 (τ + N/β)",
+        "B": "2 (τ + N/β)",
+        "C": "7 (τ + N/β)",
+        "D": "5 (τ + N/β)"
+      },
+      "answer": "C",
+      "explanation": "En link-bound, on envoie des deux côtés en parallèle : le temps est dicté par le côté le plus éloigné. T = max(i − 1, p − i)·(τ + N/β) = max(2, 7)·(τ + N/β) = 7 (τ + N/β).",
+      "why": {
+        "A": "9 = p − 1 suppose un envoi depuis une extrémité ; ici le processeur 3 envoie des deux côtés.",
+        "B": "2 est le côté le plus proche ; il faut attendre que le côté le plus éloigné soit servi.",
+        "D": "5 = p/2 ne vaut que si l'émetteur est au milieu de la chaîne."
+      },
+      "ref": "Notes ch3 — Réseau linéaire, O2A link-bound",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur un anneau de p = 8 processeurs, un processeur diffuse un message à tous (O2A), en link-bound, en envoyant dans les deux sens. Quel est le temps ?",
+      "choices": {
+        "A": "7 (τ + N/β)",
+        "B": "4 (τ + N/β)",
+        "C": "8 (τ + N/β)",
+        "D": "2 (τ + N/β)"
+      },
+      "answer": "B",
+      "explanation": "T = (p/2)·(τ + N/β) = 4 (τ + N/β) : le message progresse dans les deux sens, et le nœud le plus éloigné est à 4 sauts.",
+      "why": {
+        "A": "7 = p − 1 correspond à un envoi dans un seul sens.",
+        "C": "8 = p : c'est un tour complet, inutile ici.",
+        "D": "2 sous-estime la distance : le nœud opposé est à p/2 = 4 sauts."
+      },
+      "ref": "Notes ch3 — Anneau, O2A link-bound",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-010",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Sur une grille 2D, le processeur (1,1) envoie un message au processeur (3,4) en coupant le message en deux moitiés, envoyées simultanément par deux chemins. Quel est le temps ?",
+      "choices": {
+        "A": "5 (τ + N/β)",
+        "B": "(5/2) (τ + N/β)",
+        "C": "7 (τ + N/(2β))",
+        "D": "5 (τ + N/(2β))"
+      },
+      "answer": "D",
+      "explanation": "Distance = |i₁ − i₂| + |j₁ − j₂| = 2 + 3 = 5 sauts. Chaque moitié (N/2) fait 5 sauts en parallèle : T = 5 (τ + N/(2β)).",
+      "why": {
+        "A": "C'est le cas d'un seul chemin avec le message entier.",
+        "B": "Diviser tout par 2 revient à diviser aussi la latence ; or τ est payé à chaque saut quelle que soit la taille.",
+        "C": "7 = 3 + 4 additionne les coordonnées d'arrivée au lieu des écarts |Δi| + |Δj|."
+      },
+      "ref": "Notes ch3 — Grille 2D, O2O cas 2",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur la grille 2D, envoyer deux moitiés par deux chemins ne divise pas le temps total par 2. Pourquoi ?",
+      "choices": {
+        "A": "Les deux moitiés doivent emprunter le même premier lien",
+        "B": "La bande passante β est divisée par deux sur chaque chemin",
+        "C": "La latence τ est payée à chaque saut, quelle que soit la taille",
+        "D": "Le nombre de sauts double quand on utilise deux chemins"
+      },
+      "answer": "C",
+      "explanation": "Seul le terme de transfert N/β est divisé par deux (N/(2β)). La latence τ, elle, est payée entière sur chaque lien.",
+      "why": {
+        "A": "Les deux chemins partent par des liens différents : c'est ce qui rend l'envoi simultané possible.",
+        "B": "Chaque lien garde sa bande passante β ; c'est la quantité de données par chemin qui est divisée.",
+        "D": "Chaque moitié fait le même nombre de sauts minimal, |Δi| + |Δj|."
+      },
+      "ref": "Notes ch3 — Grille 2D, O2O cas 2",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-012",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un processeur maître envoie la même matrice à tous les autres processeurs. Quel type de communication est-ce ?",
+      "choices": {
+        "A": "O2A (one to all)",
+        "B": "O2O (one to one)",
+        "C": "A2O (all to one)",
+        "D": "A2A (all to all)"
+      },
+      "answer": "A",
+      "explanation": "Un émetteur, tous les processeurs comme destinataires : O2A (one to all).",
+      "why": {
+        "B": "O2O relie un seul émetteur à un seul destinataire.",
+        "C": "A2O est le sens inverse : tous envoient vers un seul (par exemple pour rassembler des résultats).",
+        "D": "En A2A, tous les processeurs envoient à tous."
+      },
+      "ref": "Notes ch3 — Types de communication",
+      "source": "notes-reseaux"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "calcul-parallele-comm-f001",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Temps de communication sur 1 lien ?",
+      "back": "T = τ + N/β. τ : latence (temps d'envoi d'un message vide). N : taille du message (octets). β : bande passante du lien (octets/s).",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 9 types de communication ?",
+      "back": "Émetteurs × destinataires ∈ {One, Some, All} : O2O, O2S, O2A, S2O, S2S, S2A, A2O, A2S, A2A.",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Half duplex vs full duplex ?",
+      "back": "Half duplex : pas d'envoi simultané dans les deux sens. Full duplex : envoi simultané possible dans les deux sens.",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f004",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Processor-bound vs link-bound ?",
+      "back": "Processor-bound : un processeur ne fait qu'un envoi à la fois. Link-bound : un processeur envoie simultanément sur plusieurs liens.",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f005",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Chaîne linéaire : O2O de i vers j, et O2A link-bound depuis i ?",
+      "back": "O2O : T = |i − j|(τ + N/β). O2A link-bound : T = max(i − 1, p − i)(τ + N/β), car c'est le côté le plus éloigné qui compte.",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f006",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Anneau : O2O sur un seul chemin ?",
+      "back": "T = min(|i − j|, p − |i − j|)(τ + N/β) : on prend le chemin le plus court.",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f007",
+      "kind": "why",
+      "tier": "core",
+      "front": "Anneau, O2O sur deux chemins : comment couper le message ?",
+      "back": "Le plus gros morceau prend le chemin le plus court. L'optimum est atteint quand les deux temps sont égaux ; ce sont des moitiés égales seulement si i et j sont opposés.",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f008",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Anneau : O2A en link-bound ?",
+      "back": "T = (p/2)(τ + N/β) : on diffuse dans les deux sens.",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f009",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Grille 2D : O2O de (i₁, j₁) vers (i₂, j₂), sur 1 chemin puis 2 chemins ?",
+      "back": "1 chemin : (|i₁ − i₂| + |j₁ − j₂|)(τ + N/β). 2 chemins (deux moitiés) : (|i₁ − i₂| + |j₁ − j₂|)(τ + N/(2β)).",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    }
+  ]
+}

@@ -1,0 +1,514 @@
+{
+  "id": "perf",
+  "title": "Sources de parallélisme & performances",
+  "order": 1,
+  "description": "Implicite/explicite, données/tâches/flux, accélération, efficacité, Amdahl, granularité, degré, chemin critique.",
+  "questions": [
+    {
+      "id": "calcul-parallele-perf-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Le compilateur réordonne les instructions et le processeur en exécute plusieurs par cycle (superscalaire). Le programmeur n'a rien écrit de parallèle. De quelle forme de parallélisme s'agit-il ?",
+      "choices": {
+        "A": "Explicite, puisque le code final s'exécute bien en parallèle",
+        "B": "Implicite, car il est extrait par le compilateur et le matériel",
+        "C": "De tâches, car chaque unité exécute une instruction différente",
+        "D": "De flux, car les instructions traversent un pipeline matériel"
+      },
+      "answer": "B",
+      "explanation": "Implicite = le parallélisme est extrait automatiquement (compilateur, pipeline, superscalaire) sans intervention du programmeur.",
+      "why": {
+        "A": "Explicite signifie que le programmeur parallélise lui-même (threads, MPI, OpenMP). Ce n'est pas le cas ici.",
+        "C": "Le parallélisme de tâches est une source qu'on identifie dans le programme, pas une extraction automatique par le matériel.",
+        "D": "Le pipeline matériel est justement un exemple de parallélisme implicite ; le parallélisme de flux désigne un découpage du traitement en étapes confiées à des processeurs."
+      },
+      "ref": "Résumé parallélisme §1 — Formes de parallélisme",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "On applique le même filtre de flou à chacun des 10 000 pixels d'une image, en répartissant les pixels sur 8 processeurs. Quelle source de parallélisme exploite-t-on ?",
+      "choices": {
+        "A": "Le parallélisme de tâches, car chaque processeur a sa propre zone",
+        "B": "Le parallélisme de flux, car les pixels passent l'un après l'autre",
+        "C": "Le parallélisme implicite, car le découpage de l'image est automatique",
+        "D": "Le parallélisme de données : même calcul sur des données différentes"
+      },
+      "answer": "D",
+      "explanation": "Même tâche répétée sur beaucoup de données régulières (tableau de pixels) : c'est le cas typique du parallélisme de données. La difficulté principale est la distribution des données.",
+      "why": {
+        "A": "Le parallélisme de tâches applique des calculs DIFFÉRENTS sur des données différentes. Ici le calcul est identique partout.",
+        "B": "Le parallélisme de flux enchaîne des étapes différentes (travail à la chaîne). Ici il n'y a qu'une étape.",
+        "C": "Implicite/explicite décrit qui parallélise (forme), pas la source. Et ici c'est le programmeur qui répartit les pixels."
+      },
+      "ref": "Résumé parallélisme §2.1 — Parallélisme de données",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un programme reçoit un flot de paquets. Chaque paquet doit être décompressé, puis déchiffré, puis analysé ; chaque étape est confiée à un processeur différent qui traite le paquet suivant dès qu'il a fini. Quelle source de parallélisme est exploitée ?",
+      "choices": {
+        "A": "Le parallélisme de flux : chaque processeur réalise une étape",
+        "B": "Le parallélisme de données : chaque paquet est une donnée distincte",
+        "C": "Le parallélisme de tâches : les trois étapes sont indépendantes",
+        "D": "Le parallélisme mixte : il y a à la fois des étapes et des paquets"
+      },
+      "answer": "A",
+      "explanation": "Travail à la chaîne : chaque processeur est un spécialiste d'une étape, et chaque donnée traverse la séquence d'étapes en mode pipeline (comme la station de lavage).",
+      "why": {
+        "B": "En parallélisme de données, chaque processeur ferait TOUT le traitement sur ses propres paquets.",
+        "C": "Les étapes ne sont pas indépendantes : chaque paquet doit passer par elles dans l'ordre.",
+        "D": "Le parallélisme mixte combine plusieurs modes (données + tâches, etc.). Ici un seul mode est utilisé : le pipeline."
+      },
+      "ref": "Résumé parallélisme §2.3 — Parallélisme de flux",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un programme met 120 s en séquentiel et 20 s sur 8 processeurs. Que valent l'accélération S₈ et l'efficacité E₈ ?",
+      "choices": {
+        "A": "S₈ = 6 et E₈ ≈ 1,33",
+        "B": "S₈ ≈ 0,17 et E₈ = 0,75",
+        "C": "S₈ = 6 et E₈ = 0,75",
+        "D": "S₈ = 8 et E₈ = 1"
+      },
+      "answer": "C",
+      "explanation": "S₈ = T₁/T₈ = 120/20 = 6 ; E₈ = S₈/p = 6/8 = 0,75 (les processeurs sont utilisés à 75 %).",
+      "why": {
+        "A": "1,33 = 8/6 : on a inversé la formule. L'efficacité est S/p, pas p/S.",
+        "B": "0,17 = 20/120 : on a calculé Tp/T₁ au lieu de T₁/Tp.",
+        "D": "C'est le cas idéal théorique, pas ce que donnent les temps mesurés."
+      },
+      "ref": "Résumé parallélisme §7.1–7.2 — Accélération et efficacité",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Après parallélisation sur 4 processeurs, le temps passe de T₁ = 50 s à T₄ = 60 s. Comment interpréter ce résultat ?",
+      "choices": {
+        "A": "Accélération normale, car on reste dans le cas 1 < Sp ≤ p",
+        "B": "Ralentissement : Sp < 1, la parallélisation est mauvaise",
+        "C": "Accélération super-linéaire due aux effets de mémoire cache",
+        "D": "Efficacité idéale, puisque les 4 processeurs ont travaillé"
+      },
+      "answer": "B",
+      "explanation": "S₄ = 50/60 ≈ 0,83 < 1 : le programme parallèle est plus lent que le séquentiel, c'est une mauvaise parallélisation.",
+      "why": {
+        "A": "Le cas normal exige Sp > 1. Ici Sp ≈ 0,83.",
+        "C": "Super-linéaire signifie Sp > p, donc ici Sp > 4. On en est très loin.",
+        "D": "E = S/p ≈ 0,21. Que les processeurs « travaillent » ne suffit pas : ils perdent du temps (communications, surcoûts)."
+      },
+      "ref": "Résumé parallélisme §7.1 — Les trois cas de Sp",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-006",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Sur une matrice énorme lue ligne par ligne, on mesure S₁₆ = 20 avec 16 processeurs. Selon le cours, quelle est l'explication la plus probable ?",
+      "choices": {
+        "A": "La loi d'Amdahl autorise Sp > p dès que la fraction séquentielle f est faible",
+        "B": "Un grain plus fin a supprimé les coûts de communication entre processeurs",
+        "C": "La mesure est fausse, car Sp ne peut jamais dépasser p par définition",
+        "D": "Chaque processeur ne traite qu'une partie des données, qui tient en cache"
+      },
+      "answer": "D",
+      "explanation": "Accélération super-linéaire : en séquentiel, T₁ inclut beaucoup de swaps (données trop grosses pour le cache). En parallèle, chaque part tient en cache, le swap disparaît, donc Tp < T₁/p et Sp > p.",
+      "why": {
+        "A": "Amdahl donne une BORNE supérieure 1/(f + (1−f)/p), toujours ≤ p. Elle n'explique jamais Sp > p.",
+        "B": "Un grain plus fin augmente au contraire les communications et la synchronisation.",
+        "C": "Le cours présente Sp > p comme un cas réel (super-linéaire), pas comme une erreur."
+      },
+      "ref": "Résumé parallélisme §7.1 — Accélération super-linéaire",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "20 % d'un programme est strictement séquentiel. Selon Amdahl, quelle accélération maximale peut-on espérer, quel que soit le nombre de processeurs ?",
+      "choices": {
+        "A": "5",
+        "B": "20",
+        "C": "0,8 × p",
+        "D": "p / 5"
+      },
+      "answer": "A",
+      "explanation": "Quand p → ∞, Sp ≤ 1/(f + (1−f)/p) tend vers 1/f = 1/0,2 = 5.",
+      "why": {
+        "B": "On a confondu le pourcentage (20 %) avec la borne. La borne est 1/f, pas f × 100.",
+        "C": "(1−f)·p ignore que la partie séquentielle prend un temps fixe : l'accélération ne croît pas indéfiniment avec p.",
+        "D": "Cette expression croît sans limite avec p, alors qu'Amdahl plafonne à 1/f."
+      },
+      "ref": "Résumé parallélisme §8 — Loi d'Amdahl",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un programme a une fraction séquentielle f = 0,25. Quelle accélération maximale Amdahl prévoit-il avec p = 3 processeurs ?",
+      "choices": {
+        "A": "3",
+        "B": "4",
+        "C": "2",
+        "D": "2,25"
+      },
+      "answer": "C",
+      "explanation": "Sp ≤ 1/(f + (1−f)/p) = 1/(0,25 + 0,75/3) = 1/(0,25 + 0,25) = 2.",
+      "why": {
+        "A": "3 = p : c'est l'accélération idéale, qui ignore la partie séquentielle.",
+        "B": "4 = 1/f : c'est la limite quand p → ∞, pas la valeur pour p = 3.",
+        "D": "2,25 = p·(1−f) : ce n'est pas la formule d'Amdahl."
+      },
+      "ref": "Résumé parallélisme §8 — Loi d'Amdahl",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un traitement en 3 étapes (1 u.t. chacune) est mis en pipeline sur 3 processeurs, pour n = 8 données. Que valent T₃ et S₃ ?",
+      "choices": {
+        "A": "T₃ = 8 et S₃ = 3",
+        "B": "T₃ = 10 et S₃ = 2,4",
+        "C": "T₃ = 11 et S₃ ≈ 2,18",
+        "D": "T₃ = 26 et S₃ ≈ 0,92"
+      },
+      "answer": "B",
+      "explanation": "T₁ = p·n = 24. Tp = n + p − 1 = 8 + 2 = 10. S₃ = 24/10 = 2,4. Les p − 1 = 2 u.t. en plus servent à remplir et vider le pipeline.",
+      "why": {
+        "A": "On a oublié le remplissage du pipeline : la dernière donnée sort p − 1 u.t. après être entrée.",
+        "C": "On a compté Tp = n + p au lieu de n + p − 1.",
+        "D": "On a ajouté les étapes au temps séquentiel (p·n + p − 1) : ce n'est pas le temps du pipeline."
+      },
+      "ref": "Résumé parallélisme §4 — Parallélisme de flux : exemple",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pour un pipeline à p étapes, pourquoi l'accélération n'approche p que lorsque le nombre de données n est très grand devant p ?",
+      "choices": {
+        "A": "Parce que chaque étape devient plus rapide quand n augmente",
+        "B": "Parce que les dépendances entre étapes disparaissent pour n grand",
+        "C": "Parce que le nombre de processeurs utilisés augmente avec n",
+        "D": "Parce que les p − 1 u.t. de remplissage deviennent négligeables"
+      },
+      "answer": "D",
+      "explanation": "Sp = p·n / (n + p − 1). Les p − 1 unités de remplissage/vidange sont un coût fixe : quand n ≫ p, il devient négligeable et Sp → p.",
+      "why": {
+        "A": "La durée d'une étape ne dépend pas de n.",
+        "B": "Les dépendances restent : chaque donnée passe toujours les étapes dans l'ordre.",
+        "C": "Le nombre de processeurs est fixé à p (une étape par processeur)."
+      },
+      "ref": "Résumé parallélisme §4 — Généralisation (p étapes)",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-011",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "On parallélise sur un cluster dont le réseau est lent. Quelle granularité faut-il viser ?",
+      "choices": {
+        "A": "Un grain grossier : peu de communications et des tâches longues",
+        "B": "Un grain fin, pour exposer le maximum de parallélisme possible",
+        "C": "Un grain fin, car les petites tâches se transmettent plus vite",
+        "D": "Peu importe : seul le nombre de processeurs influence le temps"
+      },
+      "answer": "A",
+      "explanation": "Communication lente → granularité grosse : on limite les échanges en faisant des tâches longues.",
+      "why": {
+        "B": "Un grain fin donne plus de parallélisme mais multiplie les communications, très coûteuses sur un réseau lent.",
+        "C": "Chaque petite tâche implique des échanges : leur nombre explose, et c'est ce coût qui domine.",
+        "D": "Le cours lie explicitement la granularité à l'architecture (vitesse de communication)."
+      },
+      "ref": "Résumé parallélisme §5.1 — Granularité",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe découpe son calcul en seulement 3 gros blocs de même taille pour une machine à 8 processeurs. Quel est le principal problème ?",
+      "choices": {
+        "A": "Le surcoût de communication et de synchronisation devient trop élevé",
+        "B": "Le degré de parallélisme devient trop élevé pour la machine",
+        "C": "Grain trop gros : 5 processeurs restent inactifs, la charge est mal répartie",
+        "D": "L'accélération devient super-linéaire et fausse les mesures"
+      },
+      "answer": "C",
+      "explanation": "Compromis de granularité : un grain trop gros provoque un déséquilibre de charge et des processeurs inactifs. Ici Dmax = 3 < 8 processeurs.",
+      "why": {
+        "A": "C'est le défaut d'un grain trop FIN, pas trop gros.",
+        "B": "Avec 3 blocs, le degré de parallélisme vaut 3 : il est trop FAIBLE, pas trop élevé.",
+        "D": "Rien ici ne fait tenir les données en cache ; le problème est l'inactivité."
+      },
+      "ref": "Résumé parallélisme §8 — Compromis de granularité",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un programme s'exécute en 4 phases : S0 ; puis S1 ∥ S2 ∥ S3 ; puis S4 ∥ S5 ; puis S6. Que valent Dmax et Dmoy ?",
+      "choices": {
+        "A": "Dmax = 3 et Dmoy = 2",
+        "B": "Dmax = 7 et Dmoy = 1,75",
+        "C": "Dmax = 3 et Dmoy ≈ 2,33",
+        "D": "Dmax = 3 et Dmoy = 1,75"
+      },
+      "answer": "D",
+      "explanation": "Degrés successifs : 1, 3, 2, 1. Dmax = 3. Dmoy = (1 + 3 + 2 + 1)/4 = 7/4 = 1,75.",
+      "why": {
+        "A": "2 = (Dmax + Dmin)/2 : ce n'est pas la moyenne des degrés des phases.",
+        "B": "7 est le nombre total de tâches, pas le nombre de tâches simultanées.",
+        "C": "7/3 : on a divisé par 3 au lieu du nombre de phases (4)."
+      },
+      "ref": "Résumé parallélisme §5.2 — Degré de parallélisme",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-014",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une première écriture d'un programme atteint Topt = 3 avec 4 processeurs. Une autre écriture du même programme atteint aussi Topt = 3, mais avec 3 processeurs. Que vaut Popt ?",
+      "choices": {
+        "A": "4, le degré maximal de la première écriture",
+        "B": "3, le minimum de processeurs pour atteindre Topt",
+        "C": "3,5, la moyenne des deux écritures",
+        "D": "Impossible à dire sans connaître T₁"
+      },
+      "answer": "B",
+      "explanation": "Popt est le nombre MINIMAL de processeurs qui permet d'obtenir Topt. C'est un optimum global : il ne dépend pas de la représentation choisie.",
+      "why": {
+        "A": "Popt ne dépend pas d'une représentation particulière : on prend le minimum sur toutes les écritures.",
+        "C": "Un nombre de processeurs n'est pas une moyenne.",
+        "D": "T₁ sert à l'accélération, pas à la définition de Popt."
+      },
+      "ref": "Résumé parallélisme §6 — Point important sur Popt",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-015",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Six tâches de 1 u.t. : t3 dépend de t1 et t2 ; t5 dépend de t3 et t4 ; t6 dépend de t5. Avec autant de processeurs que voulu, quelle accélération maximale peut-on atteindre ?",
+      "choices": {
+        "A": "1,5",
+        "B": "4",
+        "C": "3",
+        "D": "6"
+      },
+      "answer": "A",
+      "explanation": "Chemin critique t1 → t3 → t5 → t6 : Topt = 4. T₁ = 6. Comme Tp ≥ Topt, Sp ≤ T₁/Topt = 6/4 = 1,5.",
+      "why": {
+        "B": "4 est Topt (la longueur du chemin critique), pas l'accélération.",
+        "C": "3 est Dmax (t1, t2 et t4 peuvent démarrer ensemble). Le chemin critique limite pourtant le temps.",
+        "D": "Les tâches ne peuvent pas toutes s'exécuter en même temps : les dépendances l'interdisent."
+      },
+      "ref": "Résumé parallélisme §6 et §8 — Chemin critique, Sp ≤ T₁/Topt",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-016",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Une entreprise veut accélérer un logiciel séquentiel existant de 200 000 lignes, très complexe. Quelle approche le cours suggère-t-il ?",
+      "choices": {
+        "A": "Tout réécrire en parallèle dès le départ, car c'est plus simple",
+        "B": "Compter uniquement sur le parallélisme implicite du compilateur",
+        "C": "Partir du séquentiel existant et l'adapter progressivement",
+        "D": "Utiliser le parallélisme de flux, valable pour tout programme"
+      },
+      "answer": "C",
+      "explanation": "Deux approches : adapter un programme séquentiel existant, ou concevoir en parallèle dès le départ. Concevoir directement en parallèle est facile sur du code simple, mais plus difficile sur du code complexe.",
+      "why": {
+        "A": "Le cours précise que la conception parallèle directe devient difficile quand le code est complexe.",
+        "B": "Le parallélisme implicite ne demande rien au programmeur, mais ce n'est pas une démarche de parallélisation du code.",
+        "D": "Le parallélisme de flux est le moins courant et ne s'applique qu'aux traitements en étapes successives."
+      },
+      "ref": "Résumé parallélisme §1 — Deux approches de parallélisation",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un programme comporte beaucoup de tâches différentes qui manipulent beaucoup de données. Quelle démarche le cours recommande-t-il ?",
+      "choices": {
+        "A": "Répartir les tâches au hasard pour équilibrer la charge",
+        "B": "Appliquer directement les techniques du parallélisme de données",
+        "C": "Placer chaque tâche dans un étage de pipeline, une par processeur",
+        "D": "Étudier les dépendances, puis choisir la meilleure approche"
+      },
+      "answer": "D",
+      "explanation": "Beaucoup de tâches et beaucoup de données : on étudie les dépendances et on choisit la meilleure approche, pour minimiser le temps d'exécution et les ressources.",
+      "why": {
+        "A": "Le cours dit justement qu'on ne peut pas répartir des tâches différentes au hasard.",
+        "B": "Les techniques du parallélisme de données supposent une même tâche répétée, ce qui n'est pas le cas.",
+        "C": "Le pipeline suppose une chaîne d'étapes régulière, sans rapport avec l'analyse des dépendances demandée."
+      },
+      "ref": "Résumé parallélisme §2.2 — Parallélisme de tâches",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un programme a une fraction séquentielle f = 10 %. Selon Amdahl, quelle accélération maximale peut-on obtenir avec 16 processeurs ?",
+      "choices": {
+        "A": "Environ 9,4, soit deux fois plus qu'avec 8",
+        "B": "Environ 6,4",
+        "C": "Exactement 10",
+        "D": "Exactement 16"
+      },
+      "answer": "B",
+      "explanation": "S₁₆ ≤ 1/(0,1 + 0,9/16) = 1/0,15625 = 6,4. Doubler p ne double pas S : la partie séquentielle pèse de plus en plus.",
+      "why": {
+        "A": "S₈ ≈ 4,7 ; doubler p ne double pas l'accélération quand une partie est séquentielle.",
+        "C": "10 = 1/f est la limite quand p → ∞, pas la valeur pour 16 processeurs.",
+        "D": "16 = p est l'accélération idéale, impossible avec 10 % de séquentiel."
+      },
+      "ref": "Résumé parallélisme §8 — Loi d'Amdahl",
+      "source": "resume-parallelisme"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "calcul-parallele-perf-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Parallélisme implicite vs explicite ?",
+      "back": "Implicite : extrait automatiquement (compilateur, pipeline, superscalaire). Explicite : le programmeur parallélise lui-même (threads, MPI, OpenMP).",
+      "ref": "§1",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f002",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Les 3 sources de parallélisme ?",
+      "back": "Données : même calcul sur des données différentes. Tâches : calculs différents sur des données différentes. Flux : travail à la chaîne (pipeline). Plusieurs à la fois = parallélisme mixte.",
+      "ref": "§2",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f003",
+      "kind": "why",
+      "tier": "core",
+      "front": "Quelle est la difficulté principale du parallélisme de données ?",
+      "back": "La distribution des données (et des tâches) entre les processeurs.",
+      "ref": "§2.1",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f004",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Accélération Sp(n) : formule et 3 cas ?",
+      "back": "Sp = T₁/Tp. Sp < 1 : ralentissement. 1 < Sp ≤ p : cas normal. Sp > p : super-linéaire.",
+      "ref": "§7.1",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f005",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Efficacité Ep : formule et sens ?",
+      "back": "Ep = Sp/p = T₁/(p·Tp). C'est le taux d'utilisation des processeurs ; Ep = 1 est l'idéal.",
+      "ref": "§7.2",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f006",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi une accélération super-linéaire est-elle possible ?",
+      "back": "En séquentiel, les données ne tiennent pas en cache, d'où beaucoup de swaps. En parallèle, chaque part tient en cache : plus de swap, donc Tp < T₁/p.",
+      "ref": "§7.1",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f007",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Loi d'Amdahl (fraction séquentielle f) ?",
+      "back": "Sp ≤ 1/(f + (1−f)/p), qui tend vers 1/f. Exemple : f = 10 % ⇒ Sp ne dépasse jamais 10.",
+      "ref": "§8",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f008",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Pipeline à p étapes, n données : T₁, Tp, Sp ?",
+      "back": "T₁ = p·n ; Tp = n + p − 1 ; Sp = p·n/(n + p − 1), qui tend vers p si n ≫ p. Les p − 1 u.t. servent à remplir et vider le pipeline.",
+      "ref": "§4",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Granularité (grain) ?",
+      "back": "La taille moyenne des tâches élémentaires après parallélisation (en temps ou en instructions). Communication lente ⇒ grain grossier ; communication rapide ⇒ grain fin.",
+      "ref": "§5.1",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f010",
+      "kind": "why",
+      "tier": "core",
+      "front": "Compromis de granularité : risque d'un grain trop fin / trop gros ?",
+      "back": "Trop fin : surcoût de communication et de synchronisation. Trop gros : déséquilibre de charge et processeurs inactifs.",
+      "ref": "§8",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Degré de parallélisme ? Que dit Dmax ?",
+      "back": "Le nombre de sous-tâches exécutées simultanément ; il varie pendant l'exécution. Dmax = nombre maximal de processeurs utilisables.",
+      "ref": "§5.2",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Topt, Popt et chemin critique ?",
+      "back": "Topt = la somme des durées des tâches du chemin le plus long du DAG (chemin critique). Popt = le nombre MINIMAL de processeurs qui atteint Topt (optimum global).",
+      "ref": "§6",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f013",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Borne de l'accélération liée au chemin critique ?",
+      "back": "Tp ≥ Topt toujours, donc Sp ≤ T₁/Topt, quel que soit p.",
+      "ref": "§8",
+      "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f014",
+      "kind": "why",
+      "tier": "bonus",
+      "front": "Quand l'efficacité est-elle maximale ?",
+      "back": "Quand la charge est équilibrée : tous les processeurs ont la même quantité de travail.",
+      "ref": "§8",
+      "source": "resume-parallelisme"
+    }
+  ]
+}

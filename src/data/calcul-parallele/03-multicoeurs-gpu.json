@@ -1,0 +1,361 @@
+{
+  "id": "gpu",
+  "title": "Multi-cœurs & GPU",
+  "order": 3,
+  "description": "Processeurs multi-cœurs, GPU vs CPU, mémoire graphique, programmation CUDA.",
+  "questions": [
+    {
+      "id": "calcul-parallele-gpu-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Pourquoi les constructeurs ont-ils choisi le multi-cœur plutôt que de continuer à monter la fréquence d'horloge ?",
+      "choices": {
+        "A": "Pour pousser la fréquence de chaque cœur au-delà des limites d'un processeur",
+        "B": "Pour gagner en puissance par le parallélisme, avec moins d'énergie et de chaleur",
+        "C": "Pour remplacer la mémoire cache par une mémoire partagée plus rapide",
+        "D": "Pour que les programmes séquentiels n'aient plus besoin d'être réécrits"
+      },
+      "answer": "B",
+      "explanation": "Monter la fréquence a ses limites, et les multiprocesseurs consomment et chauffent beaucoup. Le multi-cœur multiplie la puissance par le parallélisme sans augmenter la fréquence, avec moins de consommation et de chaleur.",
+      "why": {
+        "A": "Le principe est justement de NE PAS augmenter la fréquence.",
+        "C": "Les multi-cœurs gardent des caches (distincts ou communs).",
+        "D": "C'est faux : il faut repenser les programmes, sinon un seul cœur travaille."
+      },
+      "ref": "Fiche archi §10 — Processeurs multi-cœurs",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "On lance un programme séquentiel, sans aucune modification, sur un processeur quadri-cœur. Que se passe-t-il ?",
+      "choices": {
+        "A": "Le système le répartit automatiquement sur les 4 cœurs",
+        "B": "Il s'exécute environ 4 fois plus vite qu'avant",
+        "C": "Il n'utilise qu'un seul des 4 cœurs",
+        "D": "Il ne peut pas s'exécuter sans être recompilé"
+      },
+      "answer": "C",
+      "explanation": "Le multi-cœur ne suffit pas seul : les programmes doivent être repensés, sinon ils n'utilisent qu'un seul cœur.",
+      "why": {
+        "A": "Rien ne découpe automatiquement un programme séquentiel en travaux parallèles.",
+        "B": "Sans parallélisation, un seul cœur travaille : pas de gain notable.",
+        "D": "Le programme s'exécute normalement, mais sur un seul cœur."
+      },
+      "ref": "Fiche archi §10 — Attention",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-003",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Pourquoi les quadri-cœurs ont-ils pu remplacer facilement les bi-cœurs ?",
+      "choices": {
+        "A": "Le passage ne demande quasiment aucune modification logicielle",
+        "B": "Les quadri-cœurs utilisent une fréquence deux fois plus élevée",
+        "C": "Les quadri-cœurs n'ont plus besoin de mémoire cache",
+        "D": "Les logiciels bi-cœurs exploitaient déjà parfaitement 4 cœurs"
+      },
+      "answer": "A",
+      "explanation": "Les quadri-cœurs remplacent les bi-cœurs car le passage ne demande quasiment aucune modification logicielle.",
+      "why": {
+        "B": "Le multi-cœur ne repose pas sur la hausse de fréquence.",
+        "C": "Ils ont bien des caches (par exemple un cache par paire de cœurs chez Intel).",
+        "D": "Le cours note au contraire que très peu de logiciels gèrent bien le bi-cœur."
+      },
+      "ref": "Fiche archi §10 — Attention",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur une puce, deux cœurs utilisent un seul cache, lui-même relié au FSB. Lequel des trois types d'architecture multi-cœur est-ce ?",
+      "choices": {
+        "A": "Caches distincts",
+        "B": "« Quad-Core » Intel",
+        "C": "GPU intégré (IGP)",
+        "D": "Cache commun"
+      },
+      "answer": "D",
+      "explanation": "Les 3 types : 1) caches distincts (un cache par cœur) ; 2) cache commun (un seul cache partagé) ; 3) « Quad-Core » Intel = 2 puces double-cœur.",
+      "why": {
+        "A": "Avec des caches distincts, chaque cœur a son propre cache.",
+        "B": "Le « Quad-Core » Intel assemble 2 puces double-cœur, soit 4 cœurs.",
+        "C": "L'IGP est un processeur graphique intégré, pas une architecture multi-cœur du cours."
+      },
+      "ref": "Fiche archi §10 — Les trois types d'architectures multi-cœurs",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment le GPU répartit-il ses transistors par rapport au CPU ?",
+      "choices": {
+        "A": "Plus d'ALU et moins de caches, avec une bande passante mémoire plus élevée",
+        "B": "Plus de caches et de contrôle, avec une bande passante mémoire plus faible",
+        "C": "La même répartition que le CPU : seule la fréquence d'horloge diffère",
+        "D": "Plus de caches et moins d'ALU, pour accélérer les parties séquentielles"
+      },
+      "answer": "A",
+      "explanation": "GPU : beaucoup plus d'ALU, moins de caches, bande passante mémoire plus élevée. Il accélère les calculs intensifs ; le CPU garde les parties séquentielles.",
+      "why": {
+        "B": "Ce profil (caches, contrôle, bande passante plus faible) est celui du CPU.",
+        "C": "Leurs répartitions de transistors sont très différentes.",
+        "D": "Les parties séquentielles sont le rôle du CPU, et le GPU a moins de caches."
+      },
+      "ref": "Fiche archi §11.3 — CPU et GPU",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application lit et analyse un fichier de configuration (traitement séquentiel), puis multiplie de très grandes matrices. Quelle répartition CPU/GPU est la plus logique ?",
+      "choices": {
+        "A": "Tout sur le GPU, puisqu'il est le plus parallèle",
+        "B": "L'analyse du fichier sur le CPU, les matrices sur le GPU",
+        "C": "L'analyse du fichier sur le GPU, les matrices sur le CPU",
+        "D": "Tout sur le CPU, le GPU étant réservé à l'affichage"
+      },
+      "answer": "B",
+      "explanation": "Le CPU traite les parties séquentielles ; le GPU accélère les calculs intensifs (comme le produit de grandes matrices).",
+      "why": {
+        "A": "Le GPU n'est pas fait pour les parties séquentielles : c'est le rôle du CPU.",
+        "C": "C'est l'inverse de la répartition des rôles.",
+        "D": "Avec CUDA, le GPU sert aussi au calcul non graphique."
+      },
+      "ref": "Fiche archi §11.3 et §12 — CPU/GPU, CUDA",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un PC de bureautique bon marché n'a pas de mémoire sur sa carte graphique. Quelle organisation de la mémoire graphique utilise-t-il ?",
+      "choices": {
+        "A": "Une mémoire dédiée, reliée au GPU par un bus dédié",
+        "B": "Le cache du CPU, partagé avec le GPU",
+        "C": "La mémoire partagée : une partie de la RAM réservée au GPU",
+        "D": "Aucune : le GPU affiche sans mémoire graphique"
+      },
+      "answer": "C",
+      "explanation": "Mémoire partagée : une partie de la RAM centrale est réservée au GPU, qui y accède via la mémoire de l'ordinateur. C'est typique des configurations économiques et bureautiques.",
+      "why": {
+        "A": "La mémoire dédiée est embarquée sur la carte, avec un bus dédié : c'est le choix de la performance.",
+        "B": "Le cours ne parle pas de cache CPU utilisé comme mémoire graphique.",
+        "D": "La mémoire graphique est indispensable : elle stocke les données géométriques et colorimétriques."
+      },
+      "ref": "Fiche archi §11.1 — Mémoire graphique",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-008",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Pour des jeux modernes et du calcul intensif, que choisir entre GPU intégré (IGP) et carte graphique dédiée ?",
+      "choices": {
+        "A": "L'IGP, car il partage la RAM centrale",
+        "B": "L'IGP, car il consomme moins d'énergie",
+        "C": "Peu importe, leurs performances sont égales",
+        "D": "La carte dédiée, la plus puissante"
+      },
+      "answer": "D",
+      "explanation": "La carte dédiée, avec sa propre mémoire vive, est la plus puissante : jeux modernes et calcul. L'IGP est moins cher et plus économe, mais moins performant.",
+      "why": {
+        "A": "Utiliser la RAM centrale est plutôt un handicap pour la performance.",
+        "B": "Consommer moins est un atout de l'IGP, mais sa performance est plus faible.",
+        "C": "Le cours oppose clairement la puissance de la carte dédiée et la moindre performance de l'IGP."
+      },
+      "ref": "Fiche archi §11.2 — Carte dédiée et IGP",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel problème CUDA résout-il pour les applications scientifiques ?",
+      "choices": {
+        "A": "Avec OpenGL ou Cg, il fallait écrire le calcul comme une application graphique",
+        "B": "Avant CUDA, les GPU ne pouvaient exécuter aucun calcul de quelque nature",
+        "C": "CUDA remplace le CPU, qui devient inutile dans les programmes scientifiques",
+        "D": "CUDA rend possible l'exécution des programmes séquentiels sans les modifier"
+      },
+      "answer": "A",
+      "explanation": "Les langages graphiques obligeaient à écrire une application scientifique comme une application graphique. CUDA, extension du C, exploite le GPU par des threads parallèles.",
+      "why": {
+        "B": "Les GPU calculaient déjà (affichage, rendu 3D) ; c'était leur accès pour le calcul non graphique qui était difficile.",
+        "C": "Un programme CUDA garde une partie série qui s'exécute sur le CPU (hôte).",
+        "D": "Il faut écrire des kernels exécutés par des threads parallèles : le code doit être parallélisé."
+      },
+      "ref": "Fiche archi §12 — Programmer un GPU : CUDA",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans CUDA, quels threads peuvent se synchroniser et partager la mémoire partagée (Shared Memory) ?",
+      "choices": {
+        "A": "Tous les threads de la grille, quel que soit leur bloc",
+        "B": "Les threads d'un même bloc",
+        "C": "Les threads de deux blocs voisins dans la grille",
+        "D": "Le thread hôte et les threads du kernel"
+      },
+      "answer": "B",
+      "explanation": "Un bloc est une liste de threads qui peuvent coopérer : ils se synchronisent et partagent la mémoire partagée.",
+      "why": {
+        "A": "La coopération (synchronisation, mémoire partagée) se fait au niveau du bloc, pas de toute la grille.",
+        "C": "Être voisin dans la grille ne donne pas accès à la mémoire partagée d'un autre bloc.",
+        "D": "L'hôte est le CPU ; il ne partage pas la Shared Memory des blocs du GPU."
+      },
+      "ref": "Fiche archi §12 — Modèle d'exécution",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un programme CUDA mélange code CPU et code GPU. Quelle partie s'exécute sur l'hôte (host) ?",
+      "choices": {
+        "A": "Le kernel, exécuté par des threads parallèles",
+        "B": "Les blocs, exécutés comme des CTA",
+        "C": "Le code série, en C classique",
+        "D": "Uniquement la bibliothèque mathématique"
+      },
+      "answer": "C",
+      "explanation": "Serial = code C classique sur le CPU (l'hôte). Kernel = code C exécuté par des threads parallèles sur le GPU (le device).",
+      "why": {
+        "A": "Le kernel s'exécute sur le GPU (device).",
+        "B": "Les blocs s'exécutent comme des CTA sur les cœurs SM du GPU.",
+        "D": "La bibliothèque est l'un des 3 modules du logiciel CUDA ; ce n'est pas « la partie hôte »."
+      },
+      "ref": "Fiche archi §12 — Un programme CUDA = code CPU + code GPU",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-012",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Comment un kernel CUDA est-il exécuté sur le GPU ?",
+      "choices": {
+        "A": "Comme un unique thread GPU qui rappelle le CPU à chaque calcul",
+        "B": "Comme un bloc de grilles, chaque grille correspondant à un thread",
+        "C": "Comme des processus lourds ayant chacun sa mémoire virtuelle",
+        "D": "Comme une grille de blocs de threads, les blocs en CTA sur les SM"
+      },
+      "answer": "D",
+      "explanation": "CUDA exécute une séquence de kernels. Chaque kernel est une grille de blocs de threads ; les blocs s'exécutent comme des CTA (Concurrent Thread Array) sur les cœurs SM.",
+      "why": {
+        "A": "Un kernel est exécuté par de nombreux threads parallèles, pas par un seul.",
+        "B": "La hiérarchie est inversée : la grille contient des blocs, qui contiennent des threads.",
+        "C": "Ce sont des threads, regroupés en blocs, pas des processus lourds."
+      },
+      "ref": "Fiche archi §12 — Modèle d'exécution : grille, blocs, threads",
+      "source": "fiche-architectures"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "calcul-parallele-gpu-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Processeur multi-cœur ?",
+      "back": "Un processeur avec au moins deux cœurs (unités de calcul) gravés sur la même puce.",
+      "ref": "Fiche archi §10",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f002",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi le multi-cœur plutôt que la hausse de fréquence ?",
+      "back": "On gagne en puissance par le parallélisme sans monter la fréquence (qui a ses limites), avec moins de consommation et de chaleur.",
+      "ref": "Fiche archi §10",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 3 types d'architectures multi-cœurs ?",
+      "back": "1) Caches distincts ; 2) cache commun ; 3) « Quad-Core » Intel = 2 puces double-cœur.",
+      "ref": "Fiche archi §10",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f004",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi le multi-cœur ne suffit-il pas seul ?",
+      "back": "Il faut repenser (paralléliser) les programmes, sinon ils n'utilisent qu'un seul cœur.",
+      "ref": "Fiche archi §10",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "GPU : définition et rôle ?",
+      "back": "Un circuit à la structure hautement parallèle, sur la carte graphique, qui réalise les calculs d'affichage et libère le CPU (rendu 3D, mémoire vidéo, signal vidéo).",
+      "ref": "Fiche archi §11",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "CPU vs GPU ?",
+      "back": "CPU : beaucoup de transistors pour les caches et le contrôle, bande passante plus faible, parties séquentielles. GPU : plus d'ALU, moins de caches, bande passante plus élevée, calcul intensif.",
+      "ref": "Fiche archi §11.3",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Mémoire graphique partagée vs dédiée ?",
+      "back": "Partagée : une partie de la RAM centrale est réservée au GPU (configurations économiques). Dédiée : mémoire sur la carte, avec un bus dédié (performance).",
+      "ref": "Fiche archi §11.1",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f008",
+      "kind": "distinction",
+      "tier": "bonus",
+      "front": "Carte graphique dédiée vs IGP ?",
+      "back": "Dédiée : carte séparée avec sa propre mémoire, la plus puissante. IGP : intégré au northbridge ou au CPU, utilise la RAM, moins performant mais moins cher et plus économe.",
+      "ref": "Fiche archi §11.2",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "CUDA : définition et ses 3 modules ?",
+      "back": "Une API de NVIDIA, extension du langage C, pour programmer le GPU avec des threads. Modules : API, runtime (entre l'utilisateur et le driver), bibliothèque mathématique.",
+      "ref": "Fiche archi §12",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f010",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Modèle d'exécution CUDA (grille, bloc, thread) ?",
+      "back": "Un kernel = une grille de blocs de threads. Les threads d'un bloc se synchronisent et partagent la Shared Memory. Les blocs s'exécutent comme des CTA sur les cœurs SM.",
+      "ref": "Fiche archi §12",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-gpu-f011",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Host vs device dans CUDA ?",
+      "back": "Host = CPU, qui exécute le code série en C classique. Device = GPU, qui exécute le kernel avec des threads parallèles.",
+      "ref": "Fiche archi §12",
+      "source": "fiche-architectures"
+    }
+  ]
+}

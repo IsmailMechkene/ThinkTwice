@@ -1,0 +1,666 @@
+{
+  "id": "omp",
+  "title": "OpenMP",
+  "order": 6,
+  "description": "Fork-join, statut des variables, clauses, synchronisation, boucles (reduction, ordered, schedule), sections.",
+  "questions": [
+    {
+      "id": "calcul-parallele-omp-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans le modèle fork-join d'OpenMP, que se passe-t-il à la fin d'une région parallèle ?",
+      "choices": {
+        "A": "Chaque thread poursuit seul la suite du programme, sans attendre",
+        "B": "Le thread maître est détruit et le dernier thread arrivé continue",
+        "C": "Les threads se synchronisent par une barrière implicite, puis seul le maître continue",
+        "D": "Tous les threads restent actifs et exécutent aussi la région séquentielle"
+      },
+      "answer": "C",
+      "explanation": "Join : les threads se synchronisent via une barrière implicite, puis seul le thread maître continue (région séquentielle).",
+      "why": {
+        "A": "Il y a une barrière implicite au join : les threads s'attendent.",
+        "B": "Le maître est celui qui a démarré l'exécution, et c'est lui qui continue.",
+        "D": "La région séquentielle n'est exécutée que par le thread maître."
+      },
+      "ref": "Résumé OpenMP §2 — Modèle fork-join",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Avec `export OMP_NUM_THREADS=4`, combien de lignes ce programme affiche-t-il ?",
+      "code": "#pragma omp parallel\n{\n  int rang = omp_get_thread_num();\n  printf(\"Hello World du thread : %d !\\n\", rang);\n  if (rang == 0)\n    printf(\"Nombre total de threads : %d\\n\", omp_get_num_threads());\n}",
+      "choices": {
+        "A": "4 lignes « Hello World » et 1 ligne « Nombre total »",
+        "B": "1 ligne « Hello World » et 1 ligne « Nombre total »",
+        "C": "4 lignes « Hello World » et 4 lignes « Nombre total »",
+        "D": "5 lignes « Hello World », en comptant le thread maître"
+      },
+      "answer": "A",
+      "explanation": "Chacun des 4 threads exécute la région et affiche « Hello ». Seul le thread de rang 0 affiche le nombre total (4).",
+      "why": {
+        "B": "Toute la région parallèle est exécutée par chaque thread, pas seulement par le maître.",
+        "C": "Le test `rang == 0` limite le second printf au seul thread de rang 0.",
+        "D": "Le maître fait partie des 4 threads (il a le rang 0) ; il n'y a pas de 5e thread."
+      },
+      "ref": "Résumé OpenMP §4 — Exemple 1 : Hello World",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'affiche chaque thread dans ce code ?",
+      "code": "int x = 10;\n#pragma omp parallel private(x) num_threads(2)\n{\n  printf(\"x = %d\\n\", x);\n}",
+      "choices": {
+        "A": "x = 10, car la copie privée reprend la valeur d'origine",
+        "B": "x = 0, valeur par défaut d'une variable privée",
+        "C": "Une erreur : une variable privée ne peut pas être lue",
+        "D": "Une valeur indéterminée : la copie privée n'est pas initialisée"
+      },
+      "answer": "D",
+      "explanation": "`private` crée une copie par thread, NON initialisée : sa valeur est indéterminée tant que le thread ne l'a pas affectée.",
+      "why": {
+        "A": "C'est le comportement de `firstprivate`, pas de `private`.",
+        "B": "Le cours précise « non initialisée » : rien ne garantit la valeur 0.",
+        "C": "La lecture est permise ; c'est seulement sa valeur qui n'est pas définie."
+      },
+      "ref": "Résumé OpenMP §5 — Statut des variables",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Avec la clause `firstprivate(x)`, qu'affiche chaque thread ?",
+      "code": "int x = 10;\n#pragma omp parallel firstprivate(x) num_threads(2)\n{\n  printf(\"x = %d\\n\", x);\n}",
+      "choices": {
+        "A": "Une valeur indéterminée, comme avec private",
+        "B": "x = 10 pour chaque thread",
+        "C": "x = 10 pour le maître, et une valeur indéterminée pour l'autre",
+        "D": "x = 20, car les deux copies sont additionnées"
+      },
+      "answer": "B",
+      "explanation": "`firstprivate` : variable privée, initialisée avec la valeur de la variable originale (10) dans chaque thread.",
+      "why": {
+        "A": "Justement, `firstprivate` corrige ce défaut de `private` en initialisant la copie.",
+        "C": "L'initialisation s'applique à tous les threads, pas seulement au maître.",
+        "D": "Combiner les copies, c'est le rôle de `reduction`, pas de `firstprivate`."
+      },
+      "ref": "Résumé OpenMP §5 — firstprivate",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une boucle parallèle, chaque thread calcule une valeur dans une copie privée de `x`, et l'on veut retrouver `x` mis à jour dans la variable originale après la boucle. Quelle clause utiliser ?",
+      "choices": {
+        "A": "private",
+        "B": "firstprivate",
+        "C": "lastprivate",
+        "D": "threadprivate"
+      },
+      "answer": "C",
+      "explanation": "`lastprivate` : variable privée, et la variable originale est mise à jour après la modification.",
+      "why": {
+        "A": "Avec `private`, la variable originale n'est pas mise à jour à la sortie.",
+        "B": "`firstprivate` agit à l'entrée (initialisation), pas à la sortie.",
+        "D": "`threadprivate` fait persister une valeur privée d'une région à l'autre ; il ne recopie rien dans l'original."
+      },
+      "ref": "Résumé OpenMP §5 — lastprivate",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Chaque thread a besoin d'un compteur personnel qui garde sa valeur d'une région parallèle à la suivante. Quel statut lui donner ?",
+      "choices": {
+        "A": "threadprivate",
+        "B": "private",
+        "C": "firstprivate",
+        "D": "shared"
+      },
+      "answer": "A",
+      "explanation": "`threadprivate` : variable privée à chaque thread, dont la valeur persiste d'une région parallèle à une autre.",
+      "why": {
+        "B": "La copie `private` n'existe que dans la région ; elle est perdue à la fin.",
+        "C": "`firstprivate` initialise une copie temporaire à chaque région, sans persistance.",
+        "D": "Une variable `shared` est commune à tous : ce n'est pas un compteur personnel."
+      },
+      "ref": "Résumé OpenMP §5 — threadprivate",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-007",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une variable `i` est déclarée `threadprivate`. Au début d'une région parallèle, on veut que la copie de chaque thread reçoive la valeur du thread maître. Quelle clause utiliser ?",
+      "choices": {
+        "A": "firstprivate(i)",
+        "B": "copyprivate(i)",
+        "C": "lastprivate(i)",
+        "D": "copyin(i)"
+      },
+      "answer": "D",
+      "explanation": "`copyin(i)` initialise une variable threadprivate avec la valeur du thread maître.",
+      "why": {
+        "A": "`firstprivate` crée une nouvelle copie privée initialisée ; il ne sert pas à initialiser une variable threadprivate.",
+        "B": "`copyprivate` diffuse, depuis une région `single`, la valeur d'un thread vers les autres.",
+        "C": "`lastprivate` agit en sortie, en mettant à jour la variable originale."
+      },
+      "ref": "Résumé OpenMP §6 — copyin",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-008",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un étudiant écrit `#pragma omp single copyprivate(v) nowait`. Quel est le problème ?",
+      "choices": {
+        "A": "nowait est interdit dans une région single",
+        "B": "copyprivate ne peut pas être combinée avec nowait",
+        "C": "copyprivate ne s'utilise qu'avec la directive master",
+        "D": "Aucun : nowait accélère simplement la copie"
+      },
+      "answer": "B",
+      "explanation": "`copyprivate` copie les valeurs privées modifiées dans un `single` vers les autres threads ; le cours précise qu'elle ne peut pas être utilisée avec `nowait`.",
+      "why": {
+        "A": "`nowait` sert à annuler les barrières implicites, comme celle de fin de `single`. Le problème vient de sa combinaison avec `copyprivate`.",
+        "C": "Le cours associe `copyprivate` aux régions `single`, pas à `master`.",
+        "D": "La combinaison est interdite : les autres threads doivent attendre pour recevoir la copie."
+      },
+      "ref": "Résumé OpenMP §6 — copyprivate et nowait",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "On veut qu'un message de log soit affiché une seule fois, toujours par le thread de rang 0, sans bloquer les autres threads. Quelle directive utiliser ?",
+      "choices": {
+        "A": "single",
+        "B": "critical",
+        "C": "master",
+        "D": "barrier"
+      },
+      "answer": "C",
+      "explanation": "`master` : région exécutée uniquement par le thread maître (rang 0) ; les autres threads continuent.",
+      "why": {
+        "A": "`single` choisit le premier thread arrivé (imprévisible), et les autres sont bloqués.",
+        "B": "`critical` fait exécuter la section par TOUS les threads, un à la fois.",
+        "D": "`barrier` synchronise tous les threads, sans rien faire exécuter une seule fois."
+      },
+      "ref": "Résumé OpenMP §7 — master",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle affirmation sur la directive `single` est correcte ?",
+      "choices": {
+        "A": "Un seul thread l'exécute, le premier arrivé, et les autres sont bloqués",
+        "B": "Le thread 0 l'exécute toujours, et les autres continuent sans attendre",
+        "C": "Chaque thread l'exécute, mais un seul à la fois",
+        "D": "Le premier thread arrivé l'exécute, et les autres continuent leur travail"
+      },
+      "answer": "A",
+      "explanation": "`single` : région exécutée par un seul thread, le premier arrivé (imprévisible) ; les autres sont bloqués.",
+      "why": {
+        "B": "Ça, c'est `master` : thread 0, sans blocage des autres.",
+        "C": "Ça, c'est `critical` : tous passent, un à la fois.",
+        "D": "Le premier arrivé est correct, mais les autres sont bloqués, ils ne continuent pas."
+      },
+      "ref": "Résumé OpenMP §7 — single",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une région parallèle, chaque thread doit écrire une ligne dans un fichier commun PUIS mettre à jour deux variables partagées, sans qu'un autre thread s'intercale. Quelle directive choisir ?",
+      "choices": {
+        "A": "atomic",
+        "B": "single",
+        "C": "master",
+        "D": "critical"
+      },
+      "answer": "D",
+      "explanation": "`critical` : une section (plusieurs instructions) exécutée par un seul thread à la fois. Ici, chaque thread doit passer, mais un par un.",
+      "why": {
+        "A": "`atomic` protège la mise à jour d'UNE variable (++, --, opération logique), pas un bloc de plusieurs instructions.",
+        "B": "Avec `single`, un seul thread exécuterait le bloc ; les autres n'écriraient jamais leur ligne.",
+        "C": "Avec `master`, seul le thread 0 exécuterait le bloc."
+      },
+      "ref": "Résumé OpenMP §7 — critical vs atomic",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Ce code donne un résultat faux et différent à chaque exécution. Pourquoi ?",
+      "code": "int somme = 0;\n#pragma omp parallel for\nfor (i = 0; i < N; i++)\n  somme += a[i];",
+      "choices": {
+        "A": "i est partagée par défaut, donc des threads refont les mêmes itérations",
+        "B": "somme est partagée par défaut : les mises à jour simultanées se perdent",
+        "C": "somme est privée par défaut, donc le résultat final vaut toujours 0",
+        "D": "parallel for exécute la boucle en entier dans chaque thread"
+      },
+      "answer": "B",
+      "explanation": "Par défaut, les variables sont partagées. Plusieurs threads modifient `somme` en même temps et des mises à jour se perdent. Solution : `reduction(+:somme)`.",
+      "why": {
+        "A": "La variable de la boucle parallélisée (i) est privée par défaut.",
+        "C": "Par défaut, tout est partagé (sauf les compteurs de boucle), pas privé.",
+        "D": "`parallel for` répartit les itérations entre les threads ; chaque thread n'en fait qu'une partie."
+      },
+      "ref": "Résumé OpenMP §5 et §8.1 — shared, reduction",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Avec `#pragma omp parallel for reduction(+ : res)`, comment `res` est-elle gérée pendant la boucle ?",
+      "choices": {
+        "A": "Tous les threads mettent à jour res directement, l'un après l'autre",
+        "B": "Chaque thread a une copie non initialisée ; la dernière écrite l'emporte",
+        "C": "Chaque thread a une copie locale initialisée à 0, combinée à la fin",
+        "D": "Le thread maître calcule res seul, une fois la boucle terminée"
+      },
+      "answer": "C",
+      "explanation": "Une copie locale de `res` est associée à chaque thread, initialisée selon l'opération (0 pour l'addition). Les copies sont combinées à la fin.",
+      "why": {
+        "A": "Ce serait une section critique : lent, et ce n'est pas le mécanisme de `reduction`.",
+        "B": "La copie est initialisée selon l'opérateur, et les copies sont combinées, pas écrasées.",
+        "D": "Les threads calculent bien leurs parts en parallèle ; seule la combinaison a lieu à la fin."
+      },
+      "ref": "Résumé OpenMP §8.1 — Clause reduction",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une boucle parallélisée, on veut que les `printf(\"i=%d\", i)` s'affichent dans l'ordre séquentiel. Que faut-il faire ?",
+      "choices": {
+        "A": "Mettre `ordered` sur le parallel for et `#pragma omp ordered` autour du printf",
+        "B": "Entourer le printf de `#pragma omp critical` pour imposer l'ordre",
+        "C": "Utiliser schedule(static) : les threads s'exécutent alors dans l'ordre",
+        "D": "Mettre seulement `#pragma omp ordered` autour du printf, sans clause"
+      },
+      "answer": "A",
+      "explanation": "Le code de `#pragma omp ordered` est exécuté dans l'ordre séquentiel, et cette directive doit être utilisée dans un `parallel for ordered` (ou `for ordered`).",
+      "why": {
+        "B": "`critical` garantit un thread à la fois, mais pas l'ordre des itérations.",
+        "C": "`static` fixe la répartition des itérations, pas l'ordre dans lequel les threads affichent.",
+        "D": "La directive `ordered` exige la clause `ordered` sur la boucle."
+      },
+      "ref": "Résumé OpenMP §8.2 — Clause ordered",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-015",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelles itérations le thread th_1 exécute-t-il ?",
+      "code": "#pragma omp parallel for schedule(static, 3) num_threads(2)\nfor (i = 1; i <= 12; i++)\n  traiter(i);",
+      "choices": {
+        "A": "Les itérations 7 à 12",
+        "B": "Les itérations 2, 4, 6, 8, 10 et 12",
+        "C": "Les itérations 4 à 6 seulement",
+        "D": "Les itérations 4 à 6, puis 10 à 12"
+      },
+      "answer": "D",
+      "explanation": "static avec une taille de bloc de 3 : les blocs sont distribués de façon circulaire (round-robin). th_0 : 1–3, th_1 : 4–6, th_0 : 7–9, th_1 : 10–12.",
+      "why": {
+        "A": "C'est `static` SANS taille de bloc : N/p = 6 itérations contiguës par thread.",
+        "B": "C'est une distribution par blocs de taille 1, pas 3.",
+        "C": "La distribution continue en round-robin jusqu'à épuisement des blocs."
+      },
+      "ref": "Résumé OpenMP §8.3 — schedule(static, taille_bloc)",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Les itérations d'une boucle ont des coûts très différents : certaines durent 1 ms, d'autres 1 s, de façon imprévisible. Quel schedule choisir ?",
+      "choices": {
+        "A": "static, la répartition par défaut",
+        "B": "dynamic",
+        "C": "static avec un bloc de taille N/p",
+        "D": "runtime"
+      },
+      "answer": "B",
+      "explanation": "`dynamic` : dès qu'un thread termine son bloc, il prend le suivant dans la file d'attente. C'est adapté quand les itérations n'ont pas le même coût.",
+      "why": {
+        "A": "`static` fixe la répartition à l'avance : un thread peut hériter de toutes les itérations coûteuses.",
+        "C": "C'est encore une répartition fixe, avec le même risque de déséquilibre.",
+        "D": "`runtime` reporte seulement le choix au moment de l'exécution ; il ne règle pas le problème par lui-même."
+      },
+      "ref": "Résumé OpenMP §8.3 — dynamic",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Avec `schedule(guided)`, comment évolue la taille des blocs d'itérations distribués ?",
+      "choices": {
+        "A": "Elle reste fixe, égale à taille_bloc",
+        "B": "Elle augmente au fil de l'exécution",
+        "C": "Elle diminue : elle dépend des itérations restantes",
+        "D": "Elle est choisie par le compilateur"
+      },
+      "answer": "C",
+      "explanation": "guided ressemble à dynamic, mais la taille du bloc suivant dépend des itérations restantes : x = N/p, y = (N − x)/p, z = (N − (x + y))/p… Les blocs rétrécissent.",
+      "why": {
+        "A": "Une taille fixe correspond à static ou dynamic avec taille_bloc.",
+        "B": "Les itérations restantes diminuent, donc les blocs aussi.",
+        "D": "Laisser le choix au compilateur, c'est `auto`."
+      },
+      "ref": "Résumé OpenMP §8.3 — guided",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-018",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Que se passe-t-il quand n = 500 ?",
+      "code": "#pragma omp parallel if(n > 1000)\n{\n  calcul();\n}",
+      "choices": {
+        "A": "La région s'exécute de façon séquentielle",
+        "B": "La région est créée avec 1000 threads",
+        "C": "Erreur, car n n'est pas une constante",
+        "D": "Les threads attendent que n dépasse 1000"
+      },
+      "answer": "A",
+      "explanation": "`if(expression)` : les threads ne sont créés que si l'expression est non nulle ; sinon, l'exécution est séquentielle. Utile pour ne pas paralléliser les petits problèmes.",
+      "why": {
+        "B": "La valeur dans le `if` est une condition, pas un nombre de threads (c'est le rôle de `num_threads`).",
+        "C": "L'expression est évaluée à l'exécution ; une variable est permise.",
+        "D": "La condition est évaluée une fois, à l'entrée de la région ; rien n'attend."
+      },
+      "ref": "Résumé OpenMP §6 — Clause if",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est l'effet de `#pragma omp parallel default(none)` ?",
+      "choices": {
+        "A": "Toutes les variables deviennent privées par défaut",
+        "B": "La région est créée sans nombre de threads par défaut",
+        "C": "Les variables partagées sont interdites dans la région",
+        "D": "On doit déclarer explicitement le statut de chaque variable"
+      },
+      "answer": "D",
+      "explanation": "`default(none)` oblige à déclarer le statut (shared, private…) de chaque variable utilisée. Cela évite les partages involontaires.",
+      "why": {
+        "A": "Rien n'est implicite avec `none` : ni partagé, ni privé.",
+        "B": "La clause concerne le statut des variables, pas le nombre de threads.",
+        "C": "On peut toujours partager une variable, à condition de l'écrire `shared(...)`."
+      },
+      "ref": "Résumé OpenMP §6 — default(shared|none)",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-020",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans l'exemple d'initialisation de matrice, pourquoi faut-il `private(j)` ?",
+      "code": "int n = 9000, i, j;\n#pragma omp parallel for num_threads(2) private(j)\nfor (i = 0; i < n; i++) {\n  a[i] = (int *) malloc(n * sizeof(int));\n  for (j = 0; j < n; j++)\n    a[i][j] = i * j;\n}",
+      "choices": {
+        "A": "Sans private(j), les itérations de j seraient réparties entre les threads",
+        "B": "Seul i est privé d'office : j, partagée, serait modifiée par les deux threads",
+        "C": "private(j) initialise j à 0 dans chaque thread avant la boucle interne",
+        "D": "Sans private(j), malloc ne pourrait pas allouer les lignes en parallèle"
+      },
+      "answer": "B",
+      "explanation": "La variable de la boucle parallélisée (i) est privée par défaut. Mais j est déclarée hors de la région : elle serait partagée, et les deux threads modifieraient le même j en même temps.",
+      "why": {
+        "A": "Seule la boucle sur i est parallélisée ; la boucle interne reste séquentielle dans chaque thread.",
+        "C": "`private` n'initialise rien ; c'est la boucle interne qui fait `j = 0`.",
+        "D": "Le statut de j n'a aucun lien avec malloc."
+      },
+      "ref": "Résumé OpenMP §8 et §10 — Exemple 2 : initialisation d'une matrice",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-021",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle différence mémoire y a-t-il entre threads et processus ?",
+      "choices": {
+        "A": "Chaque thread a sa propre mémoire virtuelle, séparée des autres",
+        "B": "Les processus partagent leur mémoire, mais pas les threads",
+        "C": "Les threads d'un processus partagent sa mémoire virtuelle",
+        "D": "Un thread ne peut accéder à aucune variable partagée"
+      },
+      "answer": "C",
+      "explanation": "Un thread est un « processus léger » (un processus dans un processus). Les threads d'un même processus partagent la mémoire virtuelle ; chaque processus a la sienne.",
+      "why": {
+        "A": "C'est le cas des processus, pas des threads.",
+        "B": "C'est l'inverse : chaque processus a sa propre mémoire virtuelle.",
+        "D": "Le partage de la mémoire est justement ce qui permet les variables `shared`."
+      },
+      "ref": "Résumé OpenMP §2 — Notion de thread",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Deux fonctions indépendantes, `lireFichier()` et `calculerStats()`, doivent tourner en parallèle, chacune sur un thread. Quelle construction utiliser ?",
+      "choices": {
+        "A": "sections, avec un bloc section par fonction",
+        "B": "parallel for, sur une boucle de 2 itérations",
+        "C": "single, une directive pour chaque fonction",
+        "D": "master pour l'une, critical pour l'autre"
+      },
+      "answer": "A",
+      "explanation": "`sections` : partage de travail où chaque `section` est exécutée en parallèle par un thread différent. C'est l'outil des tâches différentes.",
+      "why": {
+        "B": "`parallel for` répartit les itérations d'une même boucle ; il faudrait déguiser le code. `sections` est fait pour ça.",
+        "C": "Deux `single` successifs bloquent les autres threads à chaque fois : les fonctions ne s'exécutent pas en parallèle.",
+        "D": "`master` et `critical` sont des directives de synchronisation, pas de partage de travail."
+      },
+      "ref": "Résumé OpenMP §9 — Sections",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Combien de threads exécutent la région parallèle ?",
+      "code": "omp_set_num_threads(4);\n#pragma omp parallel num_threads(2)\n{\n  travail();\n}",
+      "choices": {
+        "A": "4, car omp_set_num_threads a été appelée avant",
+        "B": "6, car les deux réglages s'additionnent",
+        "C": "Autant que de CPU, la valeur par défaut",
+        "D": "2, car num_threads() l'emporte"
+      },
+      "answer": "D",
+      "explanation": "`omp_set_num_threads(nb)` fixe le nombre de threads seulement si `num_threads()` n'est pas utilisé. Ici, la clause de la région impose 2.",
+      "why": {
+        "A": "La clause `num_threads()` de la région est prioritaire sur `omp_set_num_threads`.",
+        "B": "Les réglages ne s'additionnent pas ; un seul s'applique.",
+        "C": "La valeur par défaut (nombre de CPU) ne s'applique que si rien n'est précisé."
+      },
+      "ref": "Résumé OpenMP §4 et §6 — omp_set_num_threads, num_threads",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-024",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Pour l'initialisation de la matrice 9000 × 9000 avec 2 threads, quel gain peut-on attendre sur la partie parallélisée ?",
+      "choices": {
+        "A": "Exactement 2, puisque le travail est partagé équitablement",
+        "B": "Proche de 2, limité par la création des threads et les accès mémoire",
+        "C": "Supérieur à 2, car chaque thread a sa propre mémoire virtuelle",
+        "D": "Proche de 1, car malloc ne peut jamais être appelé en parallèle"
+      },
+      "answer": "B",
+      "explanation": "Avec 2 threads, on s'attend à un gain proche de 2, limité par le coût de création des threads et par les accès mémoire (malloc).",
+      "why": {
+        "A": "Créer les threads et accéder à la mémoire a un coût : le gain idéal n'est pas atteint.",
+        "C": "Les threads partagent la même mémoire virtuelle.",
+        "D": "malloc limite le gain, mais le cours attend tout de même un gain proche de 2."
+      },
+      "ref": "Résumé OpenMP §10 — Analyse",
+      "source": "resume-openmp"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "calcul-parallele-omp-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "OpenMP ?",
+      "back": "Une API de programmation par directives, pour écrire des programmes parallèles sur des systèmes à mémoire partagée (C, C++, Fortran).",
+      "ref": "Résumé OpenMP §1",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Modèle fork-join ?",
+      "back": "On démarre avec le seul thread maître. Fork : il crée une équipe de threads. Join : barrière implicite, puis seul le maître continue.",
+      "ref": "Résumé OpenMP §2",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Mise en œuvre d'OpenMP (3 étapes) ?",
+      "back": "1) `#include <omp.h>` ; 2) compiler avec `gcc -fopenmp` ; 3) fixer le nombre de threads avec `export OMP_NUM_THREADS=2`. Mesurer le temps avec `omp_get_wtime()`.",
+      "ref": "Résumé OpenMP §3",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 fonctions utiles : get_num_threads, get_thread_num, set_num_threads, in_parallel ?",
+      "back": "`omp_get_num_threads()` : nombre de threads. `omp_get_thread_num()` : rang du thread. `omp_set_num_threads(nb)` : fixe le nombre (sauf si num_threads() est utilisé). `omp_in_parallel()` : 1 si on est dans une région parallèle.",
+      "ref": "Résumé OpenMP §4",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "private vs firstprivate vs lastprivate ?",
+      "back": "private : copie par thread, non initialisée. firstprivate : copie initialisée avec la valeur d'origine. lastprivate : copie privée, et l'original est mis à jour après.",
+      "ref": "Résumé OpenMP §5",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "threadprivate et copyin ?",
+      "back": "threadprivate : variable privée dont la valeur persiste d'une région parallèle à l'autre. copyin : initialise cette variable avec la valeur du thread maître.",
+      "ref": "Résumé OpenMP §5–6",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f007",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Statut par défaut des variables dans une région parallèle ?",
+      "back": "Partagées (shared), sauf les compteurs d'itérations de la boucle parallélisée, qui sont privés.",
+      "ref": "Résumé OpenMP §5 et §8",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f008",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Clauses num_threads, if et default(none) ?",
+      "back": "num_threads(n) : nombre de threads de la région. if(expr) : parallèle seulement si expr ≠ 0, sinon séquentiel. default(none) : oblige à déclarer le statut de chaque variable.",
+      "ref": "Résumé OpenMP §6",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "copyprivate et nowait ?",
+      "back": "copyprivate : diffuse les valeurs privées modifiées dans un single vers les autres threads. nowait : annule les barrières implicites. Les deux ne peuvent pas être combinées.",
+      "ref": "Résumé OpenMP §6",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "master vs single ?",
+      "back": "master : seul le thread 0 exécute, les autres continuent. single : un seul thread (le premier arrivé, imprévisible) exécute, les autres sont bloqués.",
+      "ref": "Résumé OpenMP §7",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f011",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "critical vs atomic vs barrier ?",
+      "back": "critical : une section exécutée par un seul thread à la fois. atomic : mise à jour atomique d'une seule variable (++, --, op. logique). barrier : tous les threads s'attendent.",
+      "ref": "Résumé OpenMP §7",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Clause reduction(op : res) ?",
+      "back": "Chaque thread a une copie locale de res, initialisée selon op (0 pour +). Les copies sont combinées à la fin.",
+      "ref": "Résumé OpenMP §8.1",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f013",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Clause et directive ordered ?",
+      "back": "Le code sous `#pragma omp ordered` s'exécute dans l'ordre séquentiel. Il faut l'utiliser dans un `parallel for ordered` ou un `for ordered`.",
+      "ref": "Résumé OpenMP §8.2",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f014",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "schedule : static, dynamic, guided, runtime, auto ?",
+      "back": "static : N/p par thread, ou blocs distribués en round-robin. dynamic : un thread libre prend le bloc suivant (coûts inégaux). guided : blocs de plus en plus petits. runtime : choisi à l'exécution. auto : choisi par le compilateur.",
+      "ref": "Résumé OpenMP §8.3",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f015",
+      "kind": "definition",
+      "tier": "core",
+      "front": "parallel for vs parallel + for ?",
+      "back": "Équivalents : `#pragma omp parallel for` = une région `parallel` qui contient un `#pragma omp for`. La variable de boucle est privée par défaut.",
+      "ref": "Résumé OpenMP §8",
+      "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f016",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Directive sections ?",
+      "back": "Partage de travail : chaque `#pragma omp section` est exécutée en parallèle par un thread différent. Elle sert aux tâches différentes.",
+      "ref": "Résumé OpenMP §9",
+      "source": "resume-openmp"
+    }
+  ]
+}

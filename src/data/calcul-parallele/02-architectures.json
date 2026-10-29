@@ -1,0 +1,514 @@
+{
+  "id": "archi",
+  "title": "Architectures parallèles",
+  "order": 2,
+  "description": "Flynn, SIMD/MIMD, SMP (UMA/NUMA), mémoire distribuée, CLUMPS, Leopold, clusters et grilles.",
+  "questions": [
+    {
+      "id": "calcul-parallele-archi-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un frontal diffuse une instruction ; tous les processeurs, identiques et synchronisés, l'exécutent au même moment, chacun sur sa propre donnée. Quelle classe de Flynn ?",
+      "choices": {
+        "A": "SIMD",
+        "B": "MIMD",
+        "C": "MISD",
+        "D": "SPMD"
+      },
+      "answer": "A",
+      "explanation": "SIMD : un seul flux d'instructions (même opération pour tous, synchronisée) et plusieurs flux de données.",
+      "why": {
+        "B": "En MIMD, chaque processeur exécute son propre code, de façon asynchrone.",
+        "C": "MISD = plusieurs instructions sur une seule donnée ; aucune machine réelle n'existe.",
+        "D": "SPMD est une variante de MIMD : même programme, mais exécution asynchrone, pas la même instruction au même instant."
+      },
+      "ref": "Fiche archi §2–3.1 — Flynn, SIMD",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur un cluster, chaque nœud exécute le MÊME programme sur sa propre portion de données, à son rythme, sans synchronisation instruction par instruction. Comment classer ce mode ?",
+      "choices": {
+        "A": "SIMD, car tous les nœuds exécutent le même programme",
+        "B": "SISD, car chaque nœud est une machine séquentielle",
+        "C": "SPMD, une variante de MIMD",
+        "D": "MISD, car il y a plusieurs flux d'instructions"
+      },
+      "answer": "C",
+      "explanation": "SPMD (Single Program Multiple Data) : même programme sur des données différentes, exécution asynchrone. C'est une variante de MIMD, avec l'ordre SIMD < SPMD < MIMD.",
+      "why": {
+        "A": "SIMD exige la même instruction au même instant (synchronisé). Ici chaque nœud avance à son rythme.",
+        "B": "Le système global a plusieurs flux d'instructions et de données, ce n'est pas SISD.",
+        "D": "MISD travaille sur un seul flux de données, et aucune machine réelle ne l'a concrétisé."
+      },
+      "ref": "Fiche archi §2 — SPMD",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un camarade affirme : « Chacune des 4 classes de Flynn correspond à des machines réelles, et cette classification suffit à classer finement toute architecture. » Où est l'erreur ?",
+      "choices": {
+        "A": "SISD n'a aucune machine réelle, car toutes les machines sont parallèles",
+        "B": "MISD n'a aucune machine réelle, et Flynn reste trop simpliste",
+        "C": "Flynn repose sur trois flux, ce qui donne en réalité huit classes",
+        "D": "SIMD et MIMD ne sont qu'une seule classe vue sous deux angles"
+      },
+      "answer": "B",
+      "explanation": "MISD existe dans la classification, mais aucune machine ne l'a concrétisé. Flynn est la classification la plus répandue, mais elle est simpliste et insuffisante pour un classement fin.",
+      "why": {
+        "A": "SISD correspond aux machines séquentielles classiques, qui existent bel et bien.",
+        "C": "Flynn utilise deux flux (instructions et données), chacun simple ou multiple : 4 classes.",
+        "D": "SIMD (synchronisé, même instruction) et MIMD (asynchrone, codes différents) sont deux classes distinctes."
+      },
+      "ref": "Fiche archi §2 — Attention",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi l'architecture SIMD est-elle en voie de disparition ?",
+      "choices": {
+        "A": "Elle ne convient pas aux calculs réguliers comme le traitement d'images",
+        "B": "Ses processeurs sont asynchrones, donc trop difficiles à coordonner",
+        "C": "Elle ne dispose d'aucun réseau d'interconnexion entre processeurs",
+        "D": "Elle exige des processeurs spécifiques, dépassés par ceux du marché"
+      },
+      "answer": "D",
+      "explanation": "SIMD demande des processeurs spécifiques. Elle a été dépassée par l'évolution des processeurs du marché et par les machines MIMD qui les utilisent.",
+      "why": {
+        "A": "C'est l'inverse : SIMD convient justement aux calculs numériques réguliers (images).",
+        "B": "Les processeurs SIMD sont synchronisés, pas asynchrones.",
+        "C": "Les processeurs SIMD sont bien reliés par un réseau d'interconnexion."
+      },
+      "ref": "Fiche archi §3.1 — Architecture SIMD",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un laboratoire veut passer de 32 à plusieurs milliers de processeurs pour obtenir de très hautes performances. Quel modèle mémoire choisir ?",
+      "choices": {
+        "A": "La mémoire partagée (SMP), car la programmation y est plus facile",
+        "B": "La mémoire distribuée, seule à offrir une telle extensibilité",
+        "C": "L'organisation UMA, car le temps d'accès reste le même partout",
+        "D": "Le SIMD, qui peut aller jusqu'à 65 536 éléments de calcul"
+      },
+      "answer": "B",
+      "explanation": "Les machines à mémoire distribuée sont les seules capables de fournir de très hautes performances, grâce à leur extensibilité.",
+      "why": {
+        "A": "La programmation SMP est facile, mais l'extensibilité est faible (2 à 64 processeurs) et le coût très élevé.",
+        "C": "UMA (une seule mémoire commune) a une extensibilité limitée.",
+        "D": "SIMD n'est pas un modèle mémoire ; il utilise des processeurs spécifiques peu puissants et disparaît."
+      },
+      "ref": "Fiche archi §4.1–4.2",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une machine faite de plusieurs SMP reliés, un processeur peut lire la mémoire des autres SMP, mais plus lentement que sa mémoire locale. De quelle organisation s'agit-il ?",
+      "choices": {
+        "A": "UMA, car tous les processeurs voient la même mémoire",
+        "B": "CLUMPS, car la machine est construite à partir de SMP",
+        "C": "SIMD, car les processeurs partagent un même frontal",
+        "D": "NUMA (cc-NUMA) : le temps dépend de la distance"
+      },
+      "answer": "D",
+      "explanation": "NUMA : plusieurs SMP reliés, chaque SMP peut accéder à la mémoire des autres, et le temps d'accès dépend de la distance processeur–module. L'organisation est extensible.",
+      "why": {
+        "A": "En UMA, le temps d'accès est le même pour tous les processeurs et toutes les cases.",
+        "B": "Dans un CLUMPS, la mémoire est distribuée entre les SMP : pas d'accès direct à la mémoire des autres SMP.",
+        "C": "SIMD décrit le flux d'instructions, pas l'organisation de la mémoire."
+      },
+      "ref": "Fiche archi §4.1 — UMA ou NUMA",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "L'IBM SP3 relie par un réseau dédié des nœuds SMP de 16 processeurs. La mémoire est partagée dans chaque nœud et distribuée entre les nœuds. Comment l'appelle-t-on ?",
+      "choices": {
+        "A": "Un CLUMPS (cluster de SMP)",
+        "B": "Une machine UMA",
+        "C": "Un SMP unique",
+        "D": "Une grille de calcul"
+      },
+      "answer": "A",
+      "explanation": "CLUMPS (Clusters of SMP) : machine MIMD construite à partir de SMP, avec une mémoire partagée dans chaque SMP et distribuée entre les SMP.",
+      "why": {
+        "B": "UMA suppose une seule mémoire commune avec un temps d'accès uniforme.",
+        "C": "Un SMP unique a une mémoire globale partagée par tous les processeurs, ce qui n'est pas le cas entre les nœuds.",
+        "D": "Une grille relie des clusters hétérogènes dispersés via un WAN ou Internet, pas des nœuds sur un réseau dédié."
+      },
+      "ref": "Fiche archi §4.2 — CLUMPS",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-008",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle description correspond à l'architecture hybride (mémoire distribuée-partagée), comme la SGI Origin2000 ?",
+      "choices": {
+        "A": "Mémoire physiquement partagée, programmée par passage de messages",
+        "B": "Mémoire partagée dans chaque nœud, distribuée entre les nœuds",
+        "C": "Mémoire physiquement distribuée, programmée comme une mémoire partagée",
+        "D": "Mémoire unique avec un temps d'accès identique pour tous"
+      },
+      "answer": "C",
+      "explanation": "Hybride : la mémoire est physiquement distribuée (le matériel peut suivre le passage de messages), mais la programmation suit le modèle mémoire partagée.",
+      "why": {
+        "A": "C'est l'inverse de l'hybride : la mémoire y est physiquement distribuée.",
+        "B": "C'est la définition d'un CLUMPS.",
+        "D": "C'est la définition de l'UMA."
+      },
+      "ref": "Fiche archi §4.3 — Architecture hybride",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Sur une machine à mémoire distribuée, pourquoi p processeurs ne rendent-ils pas un programme p fois plus rapide ?",
+      "choices": {
+        "A": "Les échanges de données entre processeurs coûtent cher",
+        "B": "Les processeurs y sont plus lents que ceux d'un SMP",
+        "C": "La mémoire globale devient un goulot d'étranglement",
+        "D": "Tous doivent exécuter la même instruction au même instant"
+      },
+      "answer": "A",
+      "explanation": "Les processeurs doivent échanger des données, et le coût des communications est très important. Optimiser les mouvements de données est la clé de la performance.",
+      "why": {
+        "B": "Le cours ne dit rien de tel : le problème vient des communications, pas de la vitesse des processeurs.",
+        "C": "Il n'y a justement pas de mémoire globale en mémoire distribuée.",
+        "D": "C'est le fonctionnement SIMD, pas celui d'une machine MIMD à mémoire distribuée."
+      },
+      "ref": "Fiche archi §4.2 — Attention",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans le classement de Leopold, que se passe-t-il quand on passe du SMP à la grille (Grid) ?",
+      "choices": {
+        "A": "Couplage plus étroit, grain plus fin, communication plus rapide",
+        "B": "Couplage plus lâche, grain plus grossier, communication plus lente",
+        "C": "Couplage plus lâche, grain plus fin, communication plus lente",
+        "D": "Couplage plus lâche, grain plus grossier, communication plus rapide"
+      },
+      "answer": "B",
+      "explanation": "De gauche à droite (SIMD → SMP → CC-NUMA → DMPC → Cluster → Grid), les machines s'éloignent : le couplage devient lâche, la communication lente, donc seul un grain grossier est rentable.",
+      "why": {
+        "A": "C'est le sens inverse (de la grille vers le SMP).",
+        "C": "Avec une communication lente, le grain doit devenir plus grossier, pas plus fin.",
+        "D": "Plus les machines sont éloignées, plus la communication est lente."
+      },
+      "ref": "Fiche archi §5 — Classement de Leopold",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application échange en permanence de très petits messages entre ses tâches (grain fin). D'après le classement de Leopold, quelle cible est la plus adaptée ?",
+      "choices": {
+        "A": "Une grille de calcul",
+        "B": "Un cluster",
+        "C": "Un SMP",
+        "D": "Un DMPC"
+      },
+      "answer": "C",
+      "explanation": "Le grain fin exige une communication rapide et un couplage étroit : c'est le côté gauche de l'axe de Leopold (SMP, mémoire partagée).",
+      "why": {
+        "A": "La grille est à l'extrême droite : couplage lâche, communication lente, grain grossier.",
+        "B": "Le cluster est côté mémoire distribuée, avec une communication plus lente : il favorise un grain plus grossier.",
+        "D": "Le DMPC est une machine à mémoire distribuée, plus à droite que le SMP sur l'axe."
+      },
+      "ref": "Fiche archi §5 — Classement de Leopold",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des stations de travail situées dans plusieurs pays coopèrent via Internet. Dans le tableau « parallèle / distribué » du cours, où se placent-elles ?",
+      "choices": {
+        "A": "Parallèle et distribué",
+        "B": "Parallèle mais pas distribué",
+        "C": "Ni parallèle ni distribué",
+        "D": "Distribué mais pas parallèle"
+      },
+      "answer": "D",
+      "explanation": "Les stations à longue distance forment un système distribué, mais pas parallèle : les communications sont trop lentes.",
+      "why": {
+        "A": "Parallèle et distribué correspond aux stations sur réseau local ou spécialisé, et aux CLUMPS.",
+        "B": "Parallèle mais pas distribué correspond aux machines vectorielles et aux SMP.",
+        "C": "Ni l'un ni l'autre correspond aux PC qui ne communiquent pas. Ici les stations coopèrent."
+      },
+      "ref": "Fiche archi §6 — Systèmes parallèles et distribués",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces systèmes est à la fois parallèle ET distribué selon le cours ?",
+      "choices": {
+        "A": "Un CLUMPS",
+        "B": "Une machine vectorielle",
+        "C": "Des PC isolés qui ne communiquent pas",
+        "D": "Des stations reliées à longue distance"
+      },
+      "answer": "A",
+      "explanation": "Les CLUMPS et les stations sur réseau local ou spécialisé sont parallèles (ils coopèrent rapidement) et distribués (pas de mémoire primaire partagée globale).",
+      "why": {
+        "B": "Une machine vectorielle est parallèle mais pas distribuée.",
+        "C": "Des PC qui ne communiquent pas ne sont ni parallèles ni distribués.",
+        "D": "À longue distance, les communications sont trop lentes : distribué, mais pas parallèle."
+      },
+      "ref": "Fiche archi §6 — Systèmes parallèles et distribués",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des universités relient par Internet leurs clusters hétérogènes situés dans cinq villes. L'utilisateur soumet ses calculs sans savoir où ils tournent ni où sont ses données. De quoi s'agit-il ?",
+      "choices": {
+        "A": "D'un cluster hétérogène, car les nœuds sont différents",
+        "B": "D'un CLUMPS, car chaque site regroupe plusieurs SMP",
+        "C": "D'une grille de calcul, rendue transparente par le middleware",
+        "D": "D'une machine NUMA, car l'accès dépend de la distance"
+      },
+      "answer": "C",
+      "explanation": "Grille : collection de clusters hétérogènes, dispersés géographiquement, reliés par WAN/Internet. Le middleware masque l'architecture (comme le réseau électrique de Foster).",
+      "why": {
+        "A": "Un cluster est situé au même endroit, sur un LAN rapide. Ici les sites sont dispersés et reliés par Internet.",
+        "B": "Un CLUMPS est une machine MIMD sur un réseau dédié, pas un ensemble de sites reliés par Internet.",
+        "D": "NUMA décrit l'accès mémoire à l'intérieur d'une machine à mémoire partagée."
+      },
+      "ref": "Fiche archi §8.2 — Grilles",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelles caractéristiques doit avoir le réseau d'un cluster dédié ?",
+      "choices": {
+        "A": "Un WAN, pour pouvoir relier des sites très éloignés",
+        "B": "Une bande passante faible, compensée par une latence faible",
+        "C": "Une topologie en anneau, imposée pour tous les clusters",
+        "D": "Une bande passante élevée et une latence faible"
+      },
+      "answer": "D",
+      "explanation": "Le réseau d'un cluster peut être un LAN rapide : il faut une bande passante élevée et une latence faible (ex. Fast Ethernet, Myrinet).",
+      "why": {
+        "A": "Le WAN caractérise les grilles. Un cluster est au même endroit.",
+        "B": "Une bande passante faible pénaliserait les échanges ; le cours exige une bande passante élevée.",
+        "C": "Le cours n'impose aucune topologie particulière aux clusters."
+      },
+      "ref": "Fiche archi §8.1 — Clusters",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un réseau d'interconnexion établit les connexions « à la volée », au moment où les messages arrivent sur les liens (ex. crossbar). Quel critère de classement et quelle valeur ?",
+      "choices": {
+        "A": "Topologie statique",
+        "B": "Topologie dynamique",
+        "C": "Commutation de circuit",
+        "D": "Mode d'opération synchrone"
+      },
+      "answer": "B",
+      "explanation": "Un réseau dynamique établit les connexions à la volée. Crossbar et multi-étages sont des topologies dynamiques ; anneau, grille, hypercube et arbre sont statiques.",
+      "why": {
+        "A": "Une topologie statique a des liens fixes (anneau, grille 2D, hypercube…).",
+        "C": "La commutation (circuit/paquet) est un autre critère : la technique de transfert, pas la façon dont la topologie se forme.",
+        "D": "Le mode d'opération (synchrone/asynchrone) est encore un autre critère."
+      },
+      "ref": "Fiche archi §7 — Critères de classement des réseaux",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-017",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Selon le tableau des ères du calcul parallèle, où se situe principalement le parallélisme après 2000 ?",
+      "choices": {
+        "A": "Dans les processeurs vectoriels",
+        "B": "Dans les machines SMP / MPP",
+        "C": "Sur la puce (multi-cœur)",
+        "D": "Dans les clusters sur LAN"
+      },
+      "answer": "C",
+      "explanation": "Après 2000, le parallélisme passe sur la puce : les processeurs multi-cœurs.",
+      "why": {
+        "A": "Les processeurs vectoriels correspondent aux années 1970.",
+        "B": "SMP/MPP correspondent aux années 1980.",
+        "D": "Les clusters sur LAN correspondent aux années 1990 (puis les grilles sur WAN dans les années 2000)."
+      },
+      "ref": "Fiche archi §9 — Ères du calcul parallèle",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-018",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel est le bon couple avantage / inconvénient d'un système SMP ?",
+      "choices": {
+        "A": "Programmation facile / extensibilité faible",
+        "B": "Programmation difficile / extensibilité forte",
+        "C": "Programmation facile / extensibilité forte",
+        "D": "Programmation difficile / extensibilité faible"
+      },
+      "answer": "A",
+      "explanation": "SMP : pas de communications explicites à écrire, donc la programmation est facile. Mais une mémoire partagée par des dizaines de processeurs est coûteuse et complexe : 2 à 64 processeurs en général.",
+      "why": {
+        "B": "C'est le profil de la mémoire distribuée.",
+        "C": "La forte extensibilité est justement ce qui manque au SMP.",
+        "D": "La programmation est facile en SMP, grâce à la communication implicite via la mémoire."
+      },
+      "ref": "Fiche archi §4.1 — SMP",
+      "source": "fiche-architectures"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "calcul-parallele-archi-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 classes de Flynn ?",
+      "back": "SISD (séquentiel), SIMD (vectoriel), MISD (aucune machine réelle), MIMD (multiprocesseurs). Deux flux : instructions et données, chacun simple ou multiple.",
+      "ref": "Fiche archi §2",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "SPMD ?",
+      "back": "Single Program Multiple Data : variante de MIMD où le même programme tourne sur des données différentes. Ordre : SIMD < SPMD < MIMD.",
+      "ref": "Fiche archi §2",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "SIMD vs MIMD (instructions, exécution, processeurs) ?",
+      "back": "SIMD : même instruction pour tous, synchronisé, processeurs spécifiques, calcul régulier, en voie de disparition. MIMD : code propre à chaque processeur, asynchrone, processeurs du marché, la plus répandue.",
+      "ref": "Fiche archi §3",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f004",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Mémoire partagée vs distribuée ?",
+      "back": "Partagée : mémoire globale, communication implicite, programmation facile, peu extensible. Distribuée : chaque processeur a sa mémoire, messages explicites, plus difficile, très extensible.",
+      "ref": "Fiche archi §4",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "UMA vs NUMA ?",
+      "back": "UMA : une mémoire commune, même temps d'accès pour tous, peu extensible. NUMA (cc-NUMA) : plusieurs SMP reliés, le temps d'accès dépend de la distance, extensible.",
+      "ref": "Fiche archi §4.1",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "CLUMPS ?",
+      "back": "Cluster de SMP : mémoire partagée à l'intérieur de chaque SMP, distribuée entre les SMP. Exemple : IBM SP3 (nœuds de 16 processeurs).",
+      "ref": "Fiche archi §4.2",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f007",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Architecture hybride (distribuée-partagée) ?",
+      "back": "La mémoire est physiquement distribuée, mais on la programme comme une mémoire partagée. Exemple : SGI Origin2000.",
+      "ref": "Fiche archi §4.3",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f008",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi p processeurs ≠ programme p fois plus rapide ?",
+      "back": "Les processeurs doivent échanger des données et les communications coûtent très cher. Optimiser les mouvements de données est la clé.",
+      "ref": "Fiche archi §4.2",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Axe de Leopold : ordre et tendances ?",
+      "back": "SIMD → SMP → CC-NUMA → DMPC → Cluster → Grid. Vers la droite : couplage plus lâche, grain plus grossier, communication plus lente.",
+      "ref": "Fiche archi §5",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Système parallèle vs système distribué ?",
+      "back": "Parallèle : des éléments de calcul qui coopèrent pour résoudre vite de grands problèmes. Distribué : des processeurs autonomes, sans mémoire primaire partagée, qui coopèrent par messages.",
+      "ref": "Fiche archi §6",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 critères de classement des réseaux d'interconnexion ?",
+      "back": "Mode d'opération (synchrone/asynchrone), contrôle (centralisé/décentralisé), commutation (circuit/paquet), topologie (statique/dynamique).",
+      "ref": "Fiche archi §7",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f012",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Cluster vs grille ?",
+      "back": "Cluster : nœuds faiblement couplés au même endroit, sur un LAN rapide. Grille : clusters hétérogènes dispersés, reliés par WAN/Internet, rendus transparents par le middleware.",
+      "ref": "Fiche archi §8",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f013",
+      "kind": "why",
+      "tier": "bonus",
+      "front": "Pourquoi les clusters sont-ils apparus dans les années 90 ?",
+      "back": "Les supercalculateurs spécialisés étaient trop chers. Grâce aux progrès des réseaux et aux stations bon marché, les clusters sont devenus un moyen économique d'obtenir de la haute performance.",
+      "ref": "Fiche archi §8.1",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-archi-f014",
+      "kind": "why",
+      "tier": "bonus",
+      "front": "L'image de la grille selon Foster (1998) ?",
+      "back": "Le réseau électrique : on branche la prise et on reçoit la puissance, sans savoir quelle centrale la produit.",
+      "ref": "Fiche archi §8.2",
+      "source": "fiche-architectures"
+    }
+  ]
+}

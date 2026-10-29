@@ -1,0 +1,544 @@
+{
+  "id": "reseaux",
+  "title": "Réseaux d'interconnexion",
+  "order": 4,
+  "description": "Bus, crossbar, multi-étages ; paramètres n, m, D, Δ, K ; chaîne, anneau, grilles, tore, arbre, hypercube.",
+  "questions": [
+    {
+      "id": "calcul-parallele-reseaux-001",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une machine à mémoire partagée, l'adresse d'un banc mémoire tient sur b = 4 bits et l'adresse d'une case dans un banc sur a = 20 bits. Quelle est la largeur du bus d'adresses côté processeur, puis côté mémoire ?",
+      "choices": {
+        "A": "20 bits côté processeur, 24 bits côté mémoire",
+        "B": "24 bits des deux côtés",
+        "C": "24 bits côté processeur, 20 bits côté mémoire",
+        "D": "4 bits côté processeur, 20 bits côté mémoire"
+      },
+      "answer": "C",
+      "explanation": "Une adresse est un couple (b, a). Côté processeur, il faut b + a = 24 bits (quel banc, quelle case). Le réseau utilise b pour choisir le banc, qui ne reçoit donc que a = 20 bits.",
+      "why": {
+        "A": "C'est l'inverse : le processeur doit aussi désigner le banc, donc son côté est le plus large.",
+        "B": "Le banc n'a pas besoin de b : le réseau l'a déjà utilisé pour l'atteindre.",
+        "D": "Avec seulement b, le processeur ne pourrait pas désigner la case dans le banc."
+      },
+      "ref": "Fiche archi §13 — Mémoire partagée : les bus",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Sur un réseau à bus, P1 est en train d'envoyer une donnée à M3. Au même moment, P2 veut écrire dans M1. Que se passe-t-il ?",
+      "choices": {
+        "A": "P2 attend : le bus reste réservé jusqu'à l'arrivée de la donnée de P1",
+        "B": "P2 écrit en même temps, puisque M1 et M3 sont deux bancs différents",
+        "C": "P1 est interrompu pour laisser passer P2, qui vise un banc plus proche",
+        "D": "Le réseau fait passer P2 par un autre chemin, libre à ce moment-là"
+      },
+      "answer": "A",
+      "explanation": "Quand une information passe sur le bus, il est réservé jusqu'à son arrivée. Le bus n'offre aucun parallélisme : P2 doit attendre P1.",
+      "why": {
+        "B": "Accéder en parallèle à des bancs différents est possible avec un crossbar, pas avec un bus.",
+        "C": "Rien ne permet d'interrompre un transfert en cours sur le bus.",
+        "D": "Un bus n'offre qu'un seul chemin, partagé par tous."
+      },
+      "ref": "Notes ch3 — Cas SM : bus ; Fiche archi §14",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-reseaux-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans un crossbar, P1 et P3 veulent écrire au même moment dans le même banc M2. Que se passe-t-il ?",
+      "choices": {
+        "A": "Les deux accès ont lieu en même temps, puisque le crossbar est un graphe complet",
+        "B": "Une boîte d'échange arbitre entre les deux processeurs",
+        "C": "C'est impossible : chaque processeur n'est relié qu'à un seul banc",
+        "D": "Exclusion mutuelle sur le banc M2 : l'un des deux attend"
+      },
+      "answer": "D",
+      "explanation": "Le crossbar relie chaque processeur à chaque banc : accès parallèles possibles à des bancs DIFFÉRENTS, mais exclusion mutuelle sur un même banc.",
+      "why": {
+        "A": "Le graphe complet permet le parallélisme sur des bancs différents, pas sur le même banc.",
+        "B": "Les boîtes d'échange appartiennent aux réseaux multi-étages, pas au crossbar.",
+        "C": "Dans un crossbar, chaque processeur est relié à chaque banc."
+      },
+      "ref": "Fiche archi §14 — Un étage (crossbar)",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans un réseau multi-étages, deux processeurs passent par la même boîte d'échange et demandent tous les deux la position « exchange ». Que se passe-t-il ?",
+      "choices": {
+        "A": "Conflit : deux processeurs dans une même boîte imposent toujours un arbitrage",
+        "B": "Pas de conflit : ils demandent la même position, l'accès est simultané",
+        "C": "Conflit : la position exchange ne peut servir qu'un seul processeur à la fois",
+        "D": "Pas de conflit : une boîte peut prendre les deux positions en même temps"
+      },
+      "answer": "B",
+      "explanation": "Règle des conflits : si deux processeurs passent par la même boîte et demandent la même position (straight ou exchange), l'accès est simultané. Sinon, il faut un arbitrage.",
+      "why": {
+        "A": "Il n'y a arbitrage que si les positions demandées sont différentes.",
+        "C": "En position exchange, e1 → s2 et e2 → s1 : les deux entrées sont servies.",
+        "D": "Une boîte est dans UNE position à la fois ; c'est justement l'origine des conflits."
+      },
+      "ref": "Fiche archi §14 — La règle des conflits",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-005",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans une boîte d'échange, P1 arrive par l'entrée e1 et doit sortir par s1. P2 arrive par e2 et doit aussi sortir par s1. Que se passe-t-il ?",
+      "choices": {
+        "A": "Pas de conflit : la boîte passe en straight et sert les deux",
+        "B": "Pas de conflit : la boîte passe en exchange et sert les deux",
+        "C": "Conflit : P1 demande straight et P2 exchange, il faut arbitrer",
+        "D": "Conflit seulement si P1 et P2 visent le même banc mémoire"
+      },
+      "answer": "C",
+      "explanation": "e1 → s1 exige la position straight ; e2 → s1 exige la position exchange. Positions différentes dans la même boîte : arbitrage.",
+      "why": {
+        "A": "En straight, e2 va vers s2, pas vers s1 : P2 n'est pas servi.",
+        "B": "En exchange, e1 va vers s2, pas vers s1 : P1 n'est pas servi.",
+        "D": "Le conflit se joue dans la boîte, dès que les positions demandées diffèrent."
+      },
+      "ref": "Fiche archi §14 — Boîtes d'échange",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une chaîne linéaire relie p = 10 processeurs. Combien de liens m, et quel diamètre D ?",
+      "choices": {
+        "A": "m = 9 et D = 9",
+        "B": "m = 10 et D = 5",
+        "C": "m = 9 et D = 5",
+        "D": "m = 10 et D = 9"
+      },
+      "answer": "A",
+      "explanation": "Chaîne : m = p − 1 = 9 et D = p − 1 = 9. Pour aller d'un bout à l'autre, on traverse tous les liens.",
+      "why": {
+        "B": "Ce sont les valeurs de l'anneau (m = p, D = E(p/2)).",
+        "C": "D = 5 suppose qu'on peut tourner dans les deux sens : c'est l'anneau, pas la chaîne.",
+        "D": "m = p ajoute le lien de bouclage, qui n'existe que dans l'anneau."
+      },
+      "ref": "Fiche archi §15.2 — Chaîne linéaire",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel est le diamètre d'un anneau de p = 9 processeurs ?",
+      "choices": {
+        "A": "5",
+        "B": "8",
+        "C": "9",
+        "D": "4"
+      },
+      "answer": "D",
+      "explanation": "Anneau : D = E(p/2) = E(4,5) = 4. On peut tourner dans les deux sens, donc on ne parcourt jamais plus de la moitié de l'anneau.",
+      "why": {
+        "A": "5 arrondit p/2 vers le haut ; E désigne la partie entière.",
+        "B": "8 = p − 1 est le diamètre de la chaîne, sans lien de bouclage.",
+        "C": "9 = p est le nombre de liens de l'anneau, pas son diamètre."
+      },
+      "ref": "Fiche archi §15.3 — Anneau",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pour une grille 2D de 4 × 5 processeurs (sans bouclage), que valent m et D ?",
+      "choices": {
+        "A": "m = 40 et D = 4",
+        "B": "m = 31 et D = 7",
+        "C": "m = 31 et D = 9",
+        "D": "m = 20 et D = 7"
+      },
+      "answer": "B",
+      "explanation": "m = 2·q₁·q₂ − (q₁ + q₂) = 40 − 9 = 31. D = q₁ + q₂ − 2 = 7 (d'un coin au coin opposé).",
+      "why": {
+        "A": "Ce sont les valeurs de la grille torique (m = 2q₁q₂, D = E(q₁/2) + E(q₂/2)).",
+        "C": "D = q₁ + q₂ = 9 oublie de compter les sauts : il y a (q₁ − 1) + (q₂ − 1) liens à traverser.",
+        "D": "20 est le nombre de nœuds n, pas le nombre de liens."
+      },
+      "ref": "Fiche archi §15.4 et Q10 — Grille 2D",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-009",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Pour une grille 2D TORIQUE de 4 × 6 processeurs, que valent m et D ?",
+      "choices": {
+        "A": "m = 38 et D = 8",
+        "B": "m = 48 et D = 8",
+        "C": "m = 48 et D = 5",
+        "D": "m = 24 et D = 5"
+      },
+      "answer": "C",
+      "explanation": "Tore : chaque nœud a 4 voisins, donc m = 4n/2 = 2·24 = 48. D = E(4/2) + E(6/2) = 2 + 3 = 5.",
+      "why": {
+        "A": "Ce sont les valeurs de la grille 2D sans bouclage.",
+        "B": "Les liens de bouclage réduisent aussi le diamètre : on ne fait jamais plus d'un demi-tour par direction.",
+        "D": "24 est le nombre de nœuds n, pas le nombre de liens."
+      },
+      "ref": "Fiche archi §15.5 — Grille 2D torique",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un arbre binaire complet a h = 4 niveaux. Combien de nœuds a-t-il, et quel est son diamètre ?",
+      "choices": {
+        "A": "n = 15 et D = 6",
+        "B": "n = 16 et D = 4",
+        "C": "n = 15 et D = 3",
+        "D": "n = 8 et D = 6"
+      },
+      "answer": "A",
+      "explanation": "n = 2^h − 1 = 15. D = 2(h − 1) = 6 : de feuille à feuille en passant par la racine, h − 1 sauts pour monter et h − 1 pour descendre.",
+      "why": {
+        "B": "n = 2^h oublie le −1 ; D = h confond le diamètre avec la hauteur.",
+        "C": "D = h − 1 ne compte que la montée vers la racine, pas la descente.",
+        "D": "8 = 2^(h−1) est le nombre de feuilles seulement."
+      },
+      "ref": "Fiche archi §15.7 — Arbre binaire",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pour un hypercube de dimension d = 5, que valent n, m et D ?",
+      "choices": {
+        "A": "n = 32, m = 160, D = 5",
+        "B": "n = 25, m = 40, D = 5",
+        "C": "n = 32, m = 80, D = 16",
+        "D": "n = 32, m = 80, D = 5"
+      },
+      "answer": "D",
+      "explanation": "n = 2^d = 32 ; m = d·2^(d−1) = 5 × 16 = 80 ; D = d = 5 (et Δ = d = 5).",
+      "why": {
+        "A": "160 = d·2^d compte chaque lien deux fois (une fois par extrémité) : il faut diviser par 2.",
+        "B": "25 = d² : le nombre de nœuds est 2^d, pas d².",
+        "C": "D = n/2 est faux : le diamètre de l'hypercube vaut sa dimension d."
+      },
+      "ref": "Fiche archi §15.8 — Hypercube",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans un hypercube de dimension 5, quelle est la distance entre les nœuds 10110 et 00011 ?",
+      "choices": {
+        "A": "2",
+        "B": "3",
+        "C": "4",
+        "D": "5"
+      },
+      "answer": "B",
+      "explanation": "La distance est le nombre de bits différents (distance de Hamming) : 10110 vs 00011 diffèrent aux positions 1, 3 et 5, soit 3.",
+      "why": {
+        "A": "Il manque un bit : comparez les deux mots position par position.",
+        "C": "Seuls 3 bits diffèrent ; les positions 2 et 4 sont identiques.",
+        "D": "5 est la dimension (et le diamètre), pas la distance entre ces deux nœuds."
+      },
+      "ref": "Fiche archi §15.8 — Numérotation (code de Hamming)",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans un 3-cube, quels sont les voisins du nœud 101 ?",
+      "choices": {
+        "A": "100, 110 et 111",
+        "B": "001, 011 et 111",
+        "C": "001, 111 et 100",
+        "D": "000, 100 et 111"
+      },
+      "answer": "C",
+      "explanation": "Deux nœuds sont voisins si leurs numéros diffèrent d'un seul bit. En inversant chaque bit de 101 : 001, 111, 100.",
+      "why": {
+        "A": "110 diffère de 101 sur deux bits : ce n'est pas un voisin.",
+        "B": "011 diffère de 101 sur deux bits : ce n'est pas un voisin.",
+        "D": "000 diffère de 101 sur deux bits : ce n'est pas un voisin."
+      },
+      "ref": "Fiche archi §15.8 — Numérotation",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-014",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans un 3-cube, combien de chemins de longueur minimale entre 000 et 111 ne partagent aucun nœud intermédiaire (méthode du cours : on choisit le premier bit à modifier) ?",
+      "choices": {
+        "A": "3",
+        "B": "1",
+        "C": "6",
+        "D": "8"
+      },
+      "answer": "A",
+      "explanation": "Distance 3 (3 bits différents). On choisit le premier bit modifié : gauche (000 → 100 → 110 → 111), milieu (000 → 010 → 011 → 111), droite (000 → 001 → 101 → 111). On obtient 3 chemins parallèles disjoints, autant que la dimension.",
+      "why": {
+        "B": "K = 1 caractérise la chaîne et l'arbre ; l'hypercube offre plusieurs chemins parallèles.",
+        "C": "6 = 3! compte TOUS les ordres de modification des bits, mais ces chemins partagent des nœuds intermédiaires.",
+        "D": "8 est le nombre de nœuds du 3-cube."
+      },
+      "ref": "Fiche archi §15.8 — Exemple 001 → 110",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelles topologies ont une connectivité K = 1, donc aucun parallélisme de communication possible ?",
+      "choices": {
+        "A": "L'anneau et la grille 2D",
+        "B": "L'hypercube et l'arbre binaire",
+        "C": "La chaîne linéaire et l'anneau",
+        "D": "La chaîne linéaire et l'arbre binaire"
+      },
+      "answer": "D",
+      "explanation": "Dans une chaîne et dans un arbre, le chemin entre deux nœuds est unique : K = 1.",
+      "why": {
+        "A": "Anneau : K = 2 ; grille 2D : K ≥ 2.",
+        "B": "L'hypercube a plusieurs chemins parallèles (K = d).",
+        "C": "L'anneau a K = 2 : on peut tourner dans les deux sens."
+      },
+      "ref": "Fiche archi §16 — Fiche formules",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "On conçoit un réseau et on veut surtout réduire son COÛT (câbles, ports par nœud). Quels paramètres faut-il minimiser ?",
+      "choices": {
+        "A": "Le diamètre D et la connectivité K",
+        "B": "Le nombre de liens m et le degré maximal Δ",
+        "C": "Le nombre de nœuds n et le diamètre D",
+        "D": "La connectivité K et le degré maximal Δ"
+      },
+      "answer": "B",
+      "explanation": "Faisabilité (coût) : un petit m et un petit Δ donnent moins de câbles et moins de ports par nœud. Performance : petit D (peu de sauts) et grand K (parallélisme, tolérance aux pannes).",
+      "why": {
+        "A": "D et K mesurent la performance, et l'on cherche à AUGMENTER K, pas à le réduire.",
+        "C": "n est le nombre de processeurs voulu ; D est un critère de performance.",
+        "D": "Réduire K diminue le parallélisme et la tolérance aux pannes ; K n'est pas un critère de coût."
+      },
+      "ref": "Notes ch3 — Paramètres faisabilité / performance ; Fiche archi §15.1",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-reseaux-017",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "On remplace un anneau de 64 processeurs par une grille 2D carrée 8 × 8 (sans bouclage). Comment évoluent le degré Δ et le diamètre D ?",
+      "choices": {
+        "A": "Δ reste à 2 et D passe de 32 à 8",
+        "B": "Δ passe de 2 à 4 et D passe de 63 à 16",
+        "C": "Δ passe de 2 à 4 et D passe de 32 à 14",
+        "D": "Δ passe de 4 à 2 et D passe de 14 à 32"
+      },
+      "answer": "C",
+      "explanation": "Anneau : Δ = 2, D = E(64/2) = 32. Grille 8 × 8 : Δ = 4, D = 8 + 8 − 2 = 14. On paie plus de ports par nœud pour un diamètre bien plus petit (≈ 2√n).",
+      "why": {
+        "A": "Dans une grille, un nœud intérieur a 4 voisins : Δ = 4.",
+        "B": "63 est le diamètre de la chaîne, et 16 = q₁ + q₂ oublie le −2.",
+        "D": "C'est le sens inverse : on part de l'anneau, pas de la grille."
+      },
+      "ref": "Notes ch3 — Comparaison linéaire / anneau / grille 2D",
+      "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-reseaux-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "On compare un hypercube de dimension 4 et une grille torique 4 × 4 (16 nœuds chacun). Qu'est-ce qui est vrai ?",
+      "choices": {
+        "A": "Ils ont les mêmes valeurs de n, m, Δ et D",
+        "B": "L'hypercube a un diamètre de 2, le tore de 4",
+        "C": "Le tore a deux fois plus de liens que l'hypercube",
+        "D": "L'hypercube a un degré de 8, le tore de 4"
+      },
+      "answer": "A",
+      "explanation": "Hypercube d = 4 : n = 16, m = 4·2³ = 32, Δ = 4, D = 4. Tore 4 × 4 : n = 16, m = 2·16 = 32, Δ = 4, D = 2 + 2 = 4. Les quatre valeurs sont identiques.",
+      "why": {
+        "B": "Le diamètre de l'hypercube vaut d = 4.",
+        "C": "Les deux ont m = 32.",
+        "D": "Le degré de l'hypercube vaut d = 4, pas 2d."
+      },
+      "ref": "Fiche archi §16 — Fiche formules",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-019",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Pourquoi le réseau en étoile est-il jugé infaisable pour un grand nombre de processeurs ?",
+      "choices": {
+        "A": "Son diamètre vaut n − 1, ce qui rend les messages très lents",
+        "B": "Il demande n² liens, ce qui coûte trop cher en câbles",
+        "C": "Sa connectivité est nulle : aucun message ne peut passer",
+        "D": "Le nœud central a un degré n − 1, trop de ports pour un seul nœud"
+      },
+      "answer": "D",
+      "explanation": "Dans l'étoile, le nœud central est relié à tous les autres : Δ = n − 1, d'où l'infaisabilité. C'est un modèle client-serveur, centralisé.",
+      "why": {
+        "A": "Tout message passe par le centre : le diamètre vaut 2, pas n − 1.",
+        "B": "L'étoile n'a que n − 1 liens.",
+        "C": "Les messages passent bien, via le nœud central."
+      },
+      "ref": "Notes ch3 — Réseau en étoile",
+      "source": "notes-reseaux"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "calcul-parallele-reseaux-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Que relie le réseau en mémoire partagée (SM) et en mémoire distribuée (DM) ?",
+      "back": "SM : il relie les bus de données et d'adresses des processeurs à n'importe quel module mémoire. DM : il achemine des messages (entête : destinataire, expéditeur, infos ; puis corps).",
+      "ref": "Fiche archi §13",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f002",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi le bus d'adresses fait-il b + a bits côté processeur, mais a côté mémoire ?",
+      "back": "Le processeur doit désigner le banc (b) et la case (a). Le réseau utilise b pour choisir le banc, qui ne reçoit donc que a.",
+      "ref": "Fiche archi §13",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Bus vs crossbar vs multi-étages ?",
+      "back": "Bus : un banc, aucun parallélisme, exclusion mutuelle. Crossbar : graphe complet, accès parallèles à des bancs différents. Multi-étages : boîtes d'échange, accès simultanés sauf conflit dans une boîte.",
+      "ref": "Fiche archi §14",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Boîte d'échange : positions straight et exchange ?",
+      "back": "Straight : e1 → s1, e2 → s2. Exchange : e1 → s2, e2 → s1.",
+      "ref": "Fiche archi §14",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Règle des conflits dans une boîte d'échange ?",
+      "back": "Même position demandée par les deux processeurs : accès simultané. Positions différentes : arbitrage.",
+      "ref": "Fiche archi §14",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 5 grandeurs d'un réseau DM : n, m, Δ, D, K ?",
+      "back": "n : nombre de nœuds. m : nombre de liens. Δ : degré maximal. D : diamètre (plus grande distance). K : connectivité (nombre de chemins différents entre deux nœuds).",
+      "ref": "Fiche archi §15.1",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f007",
+      "kind": "why",
+      "tier": "core",
+      "front": "Que veulent dire un petit D, un petit m ou Δ, et K ≥ 2 ?",
+      "back": "Petit D : messages rapides. Petits m et Δ : réseau moins cher. K ≥ 2 : communications parallèles possibles et meilleure résistance aux pannes (K = 1 : aucun parallélisme).",
+      "ref": "Fiche archi §15.1",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f008",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Chaîne linéaire de p nœuds : m, D, Δ, K ?",
+      "back": "m = p − 1, D = p − 1, Δ = 2, K = 1.",
+      "ref": "Fiche archi §15.2",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f009",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Anneau de p nœuds : m, D, Δ, K ?",
+      "back": "m = p, D = E(p/2), Δ = 2, K = 2.",
+      "ref": "Fiche archi §15.3",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f010",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Grille 2D q₁ × q₂ : n, m, D, Δ, K ?",
+      "back": "n = q₁q₂, m = 2q₁q₂ − (q₁ + q₂), D = q₁ + q₂ − 2, Δ = 4, K ≥ 2.",
+      "ref": "Fiche archi §15.4",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f011",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Grille 2D torique q₁ × q₂ : m, D, Δ ?",
+      "back": "m = 2q₁q₂, D = E(q₁/2) + E(q₂/2), Δ = 4, K ≥ 2.",
+      "ref": "Fiche archi §15.5",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f012",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Arbre binaire à h niveaux : n, m, D, Δ, K ?",
+      "back": "n = 2^h − 1, m = 2^h − 2, D = 2(h − 1), Δ = 3, K = 1.",
+      "ref": "Fiche archi §15.7",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f013",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Hypercube de dimension d : n, m, D, Δ ?",
+      "back": "n = 2^d, m = d·2^(d−1), D = Δ = d. Récurrences : n_d = 2n_(d−1), m_d = 2m_(d−1) + n_(d−1).",
+      "ref": "Fiche archi §15.8",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f014",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Numérotation de l'hypercube (code de Hamming) ?",
+      "back": "Chaque nœud a un numéro binaire sur d bits. Deux voisins diffèrent d'un seul bit. Distance = nombre de bits différents.",
+      "ref": "Fiche archi §15.8",
+      "source": "fiche-architectures"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f015",
+      "kind": "why",
+      "tier": "bonus",
+      "front": "Pourquoi le réseau en étoile est-il infaisable à grande échelle ?",
+      "back": "Le nœud central a un degré Δ = n − 1. C'est un modèle client-serveur, centralisé.",
+      "ref": "Notes ch3",
+      "source": "notes-reseaux"
+    }
+  ]
+}
