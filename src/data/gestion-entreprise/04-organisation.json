@@ -1,0 +1,346 @@
+{
+  "id": "orga",
+  "title": "La fonction d'organisation",
+  "order": 4,
+  "description": "Les 3 étapes, relations formelles et informelles, centralisation, organigramme et ses 5 principes, les 4 structures.",
+  "questions": [
+    {
+      "id": "gestion-entreprise-orga-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans quel ordre se déroulent les trois étapes de la fonction d'organisation ?",
+      "choices": {
+        "A": "Former les groupes → répartir tâches et responsabilités → coordonner",
+        "B": "Répartir tâches et responsabilités → former les groupes → coordonner",
+        "C": "Coordonner → former les groupes → répartir tâches et responsabilités",
+        "D": "Former les groupes → coordonner → répartir tâches et responsabilités"
+      },
+      "answer": "A",
+      "explanation": "Organiser : 1) former des groupes de travail ; 2) répartir les tâches et les responsabilités (relations formelles) ; 3) coordonner les groupes vers l'objectif fixé lors de la planification.",
+      "why": {
+        "B": "On répartit les tâches entre des groupes déjà formés.",
+        "C": "On ne coordonne que des groupes qui existent et ont des tâches.",
+        "D": "La coordination vient en dernier, une fois les tâches réparties."
+      },
+      "ref": "§4 — Définition",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Deux collègues de services différents déjeunent ensemble chaque jour et s'échangent des informations utiles au travail. Comment le cours qualifie-t-il ce lien ?",
+      "choices": {
+        "A": "Une relation formelle, puisqu'elle sert le travail",
+        "B": "Une relation informelle : spontanée, non gérable, mais influente",
+        "C": "Une relation hiérarchique, à faire figurer sur l'organigramme",
+        "D": "Une relation sans importance pour l'organisation"
+      },
+      "answer": "B",
+      "explanation": "Les relations informelles naissent spontanément entre les personnes. On ne peut pas les gérer, mais elles ont une influence, et il faut en tenir compte.",
+      "why": {
+        "A": "Les relations formelles (dirigeant–subordonné) sont établies par la nomination, pas spontanément.",
+        "C": "L'organigramme ne montre que les relations formelles.",
+        "D": "Le cours insiste au contraire sur leur influence."
+      },
+      "ref": "§4 — Relations formelles et informelles",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un nouvel employé cherche, sur l'organigramme, qui est ami avec qui dans l'entreprise. Que va-t-il trouver ?",
+      "choices": {
+        "A": "Les amitiés, si elles influencent le travail",
+        "B": "Toutes les relations, formelles et informelles",
+        "C": "Rien de tel : l'organigramme ne montre que les relations formelles",
+        "D": "Seulement les relations entre directeurs"
+      },
+      "answer": "C",
+      "explanation": "L'organigramme est une représentation graphique des groupes de travail et des relations formelles UNIQUEMENT.",
+      "why": {
+        "A": "Même influentes, les relations informelles n'apparaissent pas sur l'organigramme.",
+        "B": "Les relations informelles ne se gèrent pas et ne se représentent pas sur l'organigramme.",
+        "D": "L'organigramme montre tous les groupes de travail et toutes les relations formelles, pas seulement celles des directeurs."
+      },
+      "ref": "§4 — L'organigramme",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans une entreprise, le directeur financier décide seul des dépenses de son service, sans en référer au PDG. De quel type d'organisation s'agit-il ?",
+      "choices": {
+        "A": "D'une organisation centralisée",
+        "B": "D'une structure hiérarchique pure",
+        "C": "D'une organisation informelle",
+        "D": "D'une organisation décentralisée"
+      },
+      "answer": "D",
+      "explanation": "Organisation décentralisée : la décision est répartie entre plusieurs responsables (exemple du cours : le directeur financier décide des dépenses).",
+      "why": {
+        "A": "En organisation centralisée, les décisions sont prises au sommet.",
+        "B": "La structure hiérarchique est traditionnelle et centralisée.",
+        "C": "« Informel » qualifie des relations spontanées, pas la répartition des décisions."
+      },
+      "ref": "§4 — Centralisée / décentralisée",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "On décide qu'un chef d'équipe n'encadrera pas plus de 8 personnes. Quel principe de l'organigramme est appliqué ?",
+      "choices": {
+        "A": "L'unité de commandement",
+        "B": "L'éventail de subordination",
+        "C": "La spécialisation",
+        "D": "La définition du poste"
+      },
+      "answer": "B",
+      "explanation": "L'éventail de subordination, c'est le nombre d'employés par groupe.",
+      "why": {
+        "A": "L'unité de commandement, c'est le droit de donner des ordres et les moyens de les faire exécuter.",
+        "C": "La spécialisation, ce sont des tâches propres à un métier précis.",
+        "D": "La définition du poste, ce sont les tâches et le profil recherché."
+      },
+      "ref": "§4 — Les 5 principes de l'organigramme",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un responsable peut donner des ordres, mais il n'a aucun moyen de récompenser ni de sanctionner. Quel principe de l'organigramme est incomplet ?",
+      "choices": {
+        "A": "L'unité de commandement",
+        "B": "La responsabilisation",
+        "C": "L'éventail de subordination",
+        "D": "La spécialisation"
+      },
+      "answer": "A",
+      "explanation": "Unité de commandement : le droit de donner des ordres ET les moyens de les faire exécuter (récompenses et sanctions). Ici, il manque les moyens.",
+      "why": {
+        "B": "La responsabilisation concerne l'employé (récompense si la tâche est faite, pénalité sinon), pas le pouvoir du chef.",
+        "C": "L'éventail de subordination concerne le nombre d'employés par groupe.",
+        "D": "La spécialisation concerne la nature des tâches."
+      },
+      "ref": "§4 — Les 5 principes de l'organigramme",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un employé reçoit une prime quand il atteint son objectif, et une pénalité sinon. Quel principe de l'organigramme est appliqué ?",
+      "choices": {
+        "A": "La définition du poste",
+        "B": "L'éventail de subordination",
+        "C": "La responsabilisation",
+        "D": "La spécialisation"
+      },
+      "answer": "C",
+      "explanation": "Responsabilisation : récompense si la tâche est faite, pénalité sinon.",
+      "why": {
+        "A": "La définition du poste précise les tâches et le profil, pas les récompenses.",
+        "B": "L'éventail de subordination est le nombre d'employés par groupe.",
+        "D": "La spécialisation, ce sont des tâches propres à un métier."
+      },
+      "ref": "§4 — Les 5 principes de l'organigramme",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une entreprise, chaque employé rend compte à deux supérieurs de même pouvoir, et aucune activité n'est dupliquée. Quelle structure, et quel inconvénient ?",
+      "choices": {
+        "A": "Divisionnelle — coût des doublons",
+        "B": "Hiérarchique — décisions lentes",
+        "C": "Fonctionnelle — conflits entre directeurs",
+        "D": "Matricielle — coordination difficile"
+      },
+      "answer": "D",
+      "explanation": "Matricielle : deux supérieurs de même pouvoir, pas de doublon. Elle est plus souple et mobile, mais les décisions doivent être acceptées par tous et la coordination est difficile.",
+      "why": {
+        "A": "La divisionnelle duplique justement les activités dans chaque division.",
+        "B": "En hiérarchique, chacun a un seul supérieur.",
+        "C": "La fonctionnelle s'organise par spécialité ; le cours ne parle pas de double rattachement égal."
+      },
+      "ref": "§4 — Les formes de structure",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une PME veut une structure simple, sans conflit de décision, où l'information passe par un seul transmetteur. Quel prix devra-t-elle payer ?",
+      "choices": {
+        "A": "Des conflits entre directeurs de spécialité",
+        "B": "Des décisions lentes et des profils polyvalents à trouver",
+        "C": "Le coût des activités dupliquées",
+        "D": "Des décisions à faire accepter par deux supérieurs"
+      },
+      "answer": "B",
+      "explanation": "C'est la structure hiérarchique (un seul supérieur, centralisée) : simple, sans conflit, information facile. Mais les décisions sont lentes et il faut des profils polyvalents.",
+      "why": {
+        "A": "Les conflits entre directeurs sont l'inconvénient de la structure fonctionnelle.",
+        "C": "Le coût des doublons est celui de la structure divisionnelle.",
+        "D": "C'est l'inconvénient de la structure matricielle."
+      },
+      "ref": "§4 — Les formes de structure",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise est organisée avec un directeur RH, un directeur production, un directeur commercial et un directeur financier. Quel risque majeur guette cette structure ?",
+      "choices": {
+        "A": "Des décisions trop lentes, car tout remonte au sommet",
+        "B": "Le coût élevé des activités dupliquées",
+        "C": "Des conflits entre directeurs, chacun défendant ses intérêts",
+        "D": "Une coordination impossible entre deux supérieurs égaux"
+      },
+      "answer": "C",
+      "explanation": "Structure fonctionnelle (par spécialité) : elle permet une décentralisation partielle, mais crée des conflits entre directeurs, chacun défendant ses intérêts.",
+      "why": {
+        "A": "La lenteur des décisions est l'inconvénient de la structure hiérarchique, centralisée.",
+        "B": "Les doublons caractérisent la structure divisionnelle.",
+        "D": "Les deux supérieurs égaux caractérisent la structure matricielle."
+      },
+      "ref": "§4 — Les formes de structure",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un groupe crée une division « Europe » et une division « Afrique », chacune avec ses propres services de production et d'achats, sous une direction centrale. Quels inconvénients faut-il prévoir ?",
+      "choices": {
+        "A": "Le coût des doublons et des conflits entre divisions (matières premières)",
+        "B": "Des décisions lentes et l'obligation d'avoir des profils polyvalents",
+        "C": "Des employés soumis à deux supérieurs de même pouvoir",
+        "D": "Aucun : la double spécialisation supprime les conflits"
+      },
+      "answer": "A",
+      "explanation": "Structure divisionnelle : activités dupliquées dans chaque division sous une direction centrale. Avantage : double spécialisation. Inconvénients : conflits entre divisions (matières premières) et coût des doublons.",
+      "why": {
+        "B": "Ce sont les inconvénients de la structure hiérarchique.",
+        "C": "C'est le principe de la structure matricielle.",
+        "D": "La double spécialisation est bien l'avantage, mais elle ne supprime ni les conflits ni le coût des doublons."
+      },
+      "ref": "§4 — Les formes de structure",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-012",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle structure combine plusieurs rattachements tout en évitant de dupliquer les activités ?",
+      "choices": {
+        "A": "La structure divisionnelle",
+        "B": "La structure hiérarchique",
+        "C": "La structure fonctionnelle",
+        "D": "La structure matricielle"
+      },
+      "answer": "D",
+      "explanation": "Matricielle : chaque employé a deux supérieurs de même pouvoir, et il n'y a pas de doublon. C'est plus souple et mobile.",
+      "why": {
+        "A": "La divisionnelle duplique les activités dans chaque division.",
+        "B": "En hiérarchique, chacun n'a qu'un seul supérieur.",
+        "C": "La fonctionnelle découpe par spécialité, sans le double rattachement égal de la matrice."
+      },
+      "ref": "§4 — Les formes de structure",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-013",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Selon le cours, de quoi dépend le choix entre organisation centralisée et décentralisée ?",
+      "choices": {
+        "A": "Du statut juridique de l'entreprise (SARL ou SA)",
+        "B": "Du type d'activité et de la taille de l'entreprise",
+        "C": "Du nombre de relations informelles entre employés",
+        "D": "Uniquement de la préférence du dirigeant"
+      },
+      "answer": "B",
+      "explanation": "Le choix entre centralisation et décentralisation dépend du type d'activité et de la taille de l'entreprise.",
+      "why": {
+        "A": "Le cours ne lie pas ce choix au statut juridique.",
+        "C": "Les relations informelles ne se gèrent pas ; elles ne déterminent pas la structure de décision.",
+        "D": "Le cours cite des critères objectifs : l'activité et la taille."
+      },
+      "ref": "§4 — Centralisée / décentralisée",
+      "source": "resume-gestion"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "gestion-entreprise-orga-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Organiser : définition et 3 étapes ?",
+      "back": "Agencer les ressources, surtout humaines : 1) former des groupes de travail ; 2) répartir tâches et responsabilités ; 3) coordonner vers l'objectif fixé lors de la planification.",
+      "ref": "§4",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-f002",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Relations formelles vs informelles ?",
+      "back": "Formelles : dirigeant–subordonné, établies par la nomination, visibles sur l'organigramme. Informelles : spontanées, non gérables, mais influentes.",
+      "ref": "§4",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Organisation centralisée vs décentralisée ?",
+      "back": "Centralisée : décisions prises au sommet. Décentralisée : décision répartie entre plusieurs responsables. Le choix dépend du type d'activité et de la taille.",
+      "ref": "§4",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Organigramme ?",
+      "back": "Représentation graphique des groupes de travail et des relations formelles uniquement.",
+      "ref": "§4",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 5 principes de l'organigramme ?",
+      "back": "Définition du poste, spécialisation, éventail de subordination (nombre d'employés par groupe), responsabilisation (récompense/pénalité), unité de commandement (droit de donner des ordres + moyens de les faire exécuter).",
+      "ref": "§4",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Structures hiérarchique et fonctionnelle : principe, + et − ?",
+      "back": "Hiérarchique : un seul supérieur, centralisée. + simple, pas de conflit, info facile ; − décisions lentes, profils polyvalents. Fonctionnelle : par spécialité. + décentralisation partielle ; − conflits entre directeurs.",
+      "ref": "§4",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-orga-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Structures divisionnelle et matricielle : principe, + et − ?",
+      "back": "Divisionnelle : activités dupliquées par division. + double spécialisation ; − conflits entre divisions, coût des doublons. Matricielle : deux supérieurs égaux, sans doublon. + souple ; − décisions à faire accepter, coordination difficile.",
+      "ref": "§4",
+      "source": "resume-gestion"
+    }
+  ]
+}

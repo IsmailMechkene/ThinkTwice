@@ -1,0 +1,478 @@
+{
+  "id": "entreprise",
+  "title": "L'entreprise",
+  "order": 1,
+  "description": "Définitions, autonomie, patrimoine, classifications, statuts juridiques, rôles, fonctions et notions financières.",
+  "questions": [
+    {
+      "id": "gestion-entreprise-entreprise-001",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une société, les propriétaires ne peuvent pas imposer leurs choix au quotidien : c'est le dirigeant qui tranche. Quelle forme d'autonomie de l'entreprise cela illustre-t-il ?",
+      "choices": {
+        "A": "L'autonomie juridique",
+        "B": "L'autonomie financière",
+        "C": "L'autonomie décisionnelle",
+        "D": "L'autonomie patrimoniale"
+      },
+      "answer": "C",
+      "explanation": "Autonomie décisionnelle : les propriétaires et l'entreprise sont indépendants, et c'est le dirigeant qui décide.",
+      "why": {
+        "A": "L'autonomie juridique, c'est la personnalité morale, avec un représentant qui assume la responsabilité.",
+        "B": "L'autonomie financière concerne l'argent de l'entreprise, pas qui prend les décisions.",
+        "D": "Le cours ne cite que trois formes : juridique, décisionnelle et financière. Le patrimoine est une ressource, pas une forme d'autonomie."
+      },
+      "ref": "§1 — Caractéristiques : autonomie",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Le fonds de commerce d'une boutique (clientèle, nom, emplacement) peut être vendu. De quel type de patrimoine relève-t-il ?",
+      "choices": {
+        "A": "Immatériel : il a une valeur marchande, sans corps physique",
+        "B": "Matériel : il est attaché à des locaux bien réels",
+        "C": "Humain : il repose sur la relation avec la clientèle",
+        "D": "Financier : il peut être converti en argent à la vente"
+      },
+      "answer": "A",
+      "explanation": "Le patrimoine immatériel a une valeur marchande sans corps physique : logiciel, brevet, fonds de commerce.",
+      "why": {
+        "B": "Les locaux eux-mêmes sont matériels, mais le fonds de commerce n'a pas de corps physique.",
+        "C": "Le patrimoine humain, ce sont le savoir-faire, les compétences et la culture d'entreprise.",
+        "D": "Le patrimoine financier, c'est l'argent. Pouvoir vendre un bien ne le rend pas financier."
+      },
+      "ref": "§1 — Patrimoine",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une minoterie achète du blé aux agriculteurs et le transforme en farine. Dans quel secteur d'activité se classe-t-elle ?",
+      "choices": {
+        "A": "Primaire, car elle travaille une ressource agricole",
+        "B": "Secondaire, car elle transforme la matière",
+        "C": "Tertiaire, car elle vend sa farine à des clients",
+        "D": "Primaire et secondaire à la fois, selon l'étape"
+      },
+      "answer": "B",
+      "explanation": "Le secondaire regroupe la transformation (industrie, artisanat). La minoterie ne cultive pas le blé, elle le transforme.",
+      "why": {
+        "A": "Le primaire exploite les ressources naturelles SANS transformation, comme l'agriculteur qui cultive le blé.",
+        "C": "Toute entreprise vend sa production ; le tertiaire désigne les services (banque, médecine, enseignement).",
+        "D": "On classe l'entreprise selon son activité, qui est ici la transformation."
+      },
+      "ref": "§1 — Classification selon le secteur",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle association « activité → secteur » est FAUSSE ?",
+      "choices": {
+        "A": "Agriculture → primaire",
+        "B": "Banque → tertiaire",
+        "C": "Industrie → secondaire",
+        "D": "Artisanat → tertiaire"
+      },
+      "answer": "D",
+      "explanation": "L'artisanat transforme de la matière : il relève du secondaire, comme l'industrie.",
+      "why": {
+        "A": "Correct : l'agriculture exploite une ressource naturelle sans la transformer.",
+        "B": "Correct : la banque est un service.",
+        "C": "Correct : l'industrie est de la transformation."
+      },
+      "ref": "§1 — Classification selon le secteur",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Ahmed lance seul son activité et veut que son patrimoine personnel soit protégé si l'entreprise fait faillite. Quel statut choisir ?",
+      "choices": {
+        "A": "L'entreprise individuelle",
+        "B": "La SUARL",
+        "C": "La SARL",
+        "D": "La SA"
+      },
+      "answer": "B",
+      "explanation": "La SUARL a un seul propriétaire, une personnalité morale et une responsabilité limitée : le patrimoine personnel est protégé.",
+      "why": {
+        "A": "L'entreprise individuelle n'a pas de personnalité morale : l'entreprise se confond avec son propriétaire, c'est très risqué.",
+        "C": "La SARL exige au moins 2 associés.",
+        "D": "La SA exige au moins 7 actionnaires et un capital très important."
+      },
+      "ref": "§1 — Statut juridique",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Trois amis créent ensemble une société. Chacun ne veut risquer que l'argent qu'il apporte, pas ses biens personnels. Quel statut convient ?",
+      "choices": {
+        "A": "Une SA",
+        "B": "Une SUARL",
+        "C": "Une entreprise individuelle",
+        "D": "Une SARL"
+      },
+      "answer": "D",
+      "explanation": "SARL : 2 associés ou plus, responsables dans la limite de leur apport, pas de leur patrimoine personnel.",
+      "why": {
+        "A": "Une SA demande au moins 7 actionnaires.",
+        "B": "Une SUARL n'a qu'un seul propriétaire.",
+        "C": "Une entreprise individuelle n'a qu'un propriétaire et pas de responsabilité limitée."
+      },
+      "ref": "§1 — Statut juridique",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi l'entreprise individuelle est-elle considérée comme très risquée pour son propriétaire ?",
+      "choices": {
+        "A": "Sans personnalité morale, l'entreprise se confond avec son propriétaire",
+        "B": "Elle n'a pas besoin d'être enregistrée, donc elle n'est pas protégée",
+        "C": "Elle doit réunir au moins 7 associés, souvent en désaccord",
+        "D": "Elle impose un capital minimum d'un million de dinars"
+      },
+      "answer": "A",
+      "explanation": "L'entreprise individuelle n'a pas de personnalité morale : entreprise = propriétaire. Ses dettes engagent donc les biens personnels du propriétaire.",
+      "why": {
+        "B": "Le cours précise au contraire qu'elle doit être enregistrée.",
+        "C": "Elle n'a qu'un seul propriétaire ; 7 ou plus, c'est la SA.",
+        "D": "Ce capital très important caractérise la SA."
+      },
+      "ref": "§1 — Statut juridique",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment appelle-t-on la fraction du capital détenue par un associé dans une SARL, puis dans une SA ?",
+      "choices": {
+        "A": "Une action dans la SARL, une part sociale dans la SA",
+        "B": "Une part sociale dans les deux cas",
+        "C": "Une part sociale dans la SARL, une action dans la SA",
+        "D": "Une action dans les deux cas"
+      },
+      "answer": "C",
+      "explanation": "SARL (société de personnes) : part sociale = part du capital. SA (société de capitaux) : action = % du capital.",
+      "why": {
+        "A": "C'est l'inverse.",
+        "B": "La SA, société de capitaux, émet des actions.",
+        "D": "La SARL, société de personnes, a des parts sociales."
+      },
+      "ref": "§1 — Statut juridique",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-009",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le chiffre d'affaires d'une entreprise couvre tout juste ses charges, sans rien dégager pour investir. Selon le cours, est-elle « vraiment rentable » ?",
+      "choices": {
+        "A": "Oui, puisque ses revenus couvrent ses dépenses",
+        "B": "Non : il lui manque une capacité d'investissement",
+        "C": "Non : son CA devrait valoir au moins le double des charges",
+        "D": "Oui, à condition qu'elle soit constituée en SA"
+      },
+      "answer": "B",
+      "explanation": "Une entreprise est vraiment rentable si son CA (1) couvre ses charges ET (2) lui donne une capacité d'investissement. Ici, seule la première condition est remplie.",
+      "why": {
+        "A": "Couvrir ses charges ne suffit pas ; il faut aussi pouvoir investir.",
+        "C": "Le cours ne fixe aucun seuil de ce type.",
+        "D": "Le statut juridique ne détermine pas la rentabilité."
+      },
+      "ref": "§1 — À retenir (rentabilité)",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un hôpital public dépense plus qu'il ne reçoit. Comment le cours propose-t-il de juger ce type d'organisme ?",
+      "choices": {
+        "A": "Comme une entreprise non rentable, qui doit fermer",
+        "B": "Comme une entreprise en manque de liquidité",
+        "C": "Comme une entreprise sans patrimoine",
+        "D": "Sur son rôle social, pas sur sa rentabilité"
+      },
+      "answer": "D",
+      "explanation": "Les organismes à but non lucratif (ministères, hôpitaux, universités, clubs) sont jugés sur leur rôle social, pas sur la rentabilité.",
+      "why": {
+        "A": "La rentabilité est l'objectif dans environ 90 % des cas, mais pas pour les organismes à but non lucratif.",
+        "B": "La liquidité est un autre problème (décalage entre entrées et sorties d'argent) ; ce n'est pas le critère de jugement de ces organismes.",
+        "C": "Un hôpital a bien un patrimoine (bâtiments, matériel, personnel)."
+      },
+      "ref": "§1 — Caractéristiques : rentabilité",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise verse des salaires à ses employés, des dividendes à ses actionnaires et des loyers à un propriétaire. Quel rôle joue-t-elle ainsi ?",
+      "choices": {
+        "A": "La redistribution des revenus",
+        "B": "Le rôle social, car elle lutte contre le chômage",
+        "C": "Le rôle économique, car elle maximise ses profits",
+        "D": "Le rôle décisionnel, car elle choisit qui payer"
+      },
+      "answer": "A",
+      "explanation": "Redistribution des revenus : l'entreprise verse des revenus (salaires pour le travail, intérêts et dividendes pour le capital, loyers), et les individus consomment ses produits.",
+      "why": {
+        "B": "Le rôle social, c'est lutter contre le chômage et la pauvreté et apporter de la stabilité. Ici, on décrit des flux de revenus.",
+        "C": "Le rôle économique, c'est créer des richesses et maximiser les profits, pas les verser.",
+        "D": "Le rôle décisionnel fait de l'entreprise un centre de décision ; il ne décrit pas ces versements."
+      },
+      "ref": "§1 — Rôles de l'entreprise",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise étudie les besoins des clients pour concevoir un nouveau produit, qui sortira dans trois ans. Quelle fonction est à l'œuvre ?",
+      "choices": {
+        "A": "La production, car il s'agit de concevoir un produit",
+        "B": "La fonction commerciale à court terme",
+        "C": "La fonction commerciale à long terme (stratégique)",
+        "D": "La fonction financière, car le projet engage des fonds"
+      },
+      "answer": "C",
+      "explanation": "Fonction commerciale (marketing), long terme : identifier les besoins des clients pour concevoir le produit. Le court terme, c'est la commercialisation et la vente.",
+      "why": {
+        "A": "La production gère l'aspect technique (fabrication), les stocks et les fournisseurs, pas l'étude des besoins des clients.",
+        "B": "Le court terme commercial, c'est la communication, l'existence du produit et la fixation du prix.",
+        "D": "La fonction financière garantit la rentabilité, la solvabilité et la stabilité ; elle n'étudie pas les clients."
+      },
+      "ref": "§1 — Fonctions de l'entreprise",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Négocier les prix avec les fournisseurs de matières premières et suivre les entrées et sorties de stock relève de quelle fonction ?",
+      "choices": {
+        "A": "La fonction commerciale",
+        "B": "La fonction production",
+        "C": "La fonction financière",
+        "D": "La fonction ressources humaines"
+      },
+      "answer": "B",
+      "explanation": "Production : aspect technique, gestion des stocks (entrées = matières premières, sorties = produits finis) et négociation avec les fournisseurs.",
+      "why": {
+        "A": "La fonction commerciale est tournée vers les clients (besoins, vente, prix), pas vers les fournisseurs.",
+        "C": "La fonction financière veille à la rentabilité, à la solvabilité et à la stabilité, pas aux stocks.",
+        "D": "Les RH gèrent les postes, les profils, la rémunération et les carrières."
+      },
+      "ref": "§1 — Fonctions de l'entreprise",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-014",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise rentable n'arrive pas à payer ses fournisseurs ce mois-ci : ses clients la paient à 90 jours, alors qu'elle doit régler ses achats à 30 jours. Quel est son problème ?",
+      "choices": {
+        "A": "Un problème de rentabilité : ses charges dépassent son CA",
+        "B": "Un problème de stabilité : trop de capitaux propres",
+        "C": "Un problème de survie : il n'existe plus de marché",
+        "D": "Un problème de liquidité : un décalage entre entrées et sorties"
+      },
+      "answer": "D",
+      "explanation": "Le problème de liquidité vient du décalage entre les entrées et les sorties d'argent. On peut être rentable et manquer de liquidités à un moment donné.",
+      "why": {
+        "A": "L'énoncé précise que l'entreprise est rentable ; le souci est le calendrier des paiements.",
+        "B": "La stabilité, c'est l'équilibre entre capitaux propres et endettement, sans rapport avec des délais de paiement.",
+        "C": "Elle a des clients, donc un marché ; ils paient simplement tard."
+      },
+      "ref": "§1 — Notions financières",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise finance 90 % de ses besoins par des emprunts, et presque rien par ses capitaux propres. Quelle notion financière est menacée en premier ?",
+      "choices": {
+        "A": "La stabilité, avec un risque de surendettement",
+        "B": "La liquidité au sens strict (les billets)",
+        "C": "La rentabilité économique",
+        "D": "L'autonomie juridique"
+      },
+      "answer": "A",
+      "explanation": "Stabilité : l'équilibre entre les ressources financières (capitaux propres et endettement externe), pour éviter le surendettement.",
+      "why": {
+        "B": "La liquidité concerne le décalage entre entrées et sorties d'argent, pas la structure du financement.",
+        "C": "On peut être rentable tout en étant très endetté ; c'est l'équilibre du financement qui est en cause.",
+        "D": "L'autonomie juridique (personnalité morale) n'est pas liée au niveau d'endettement."
+      },
+      "ref": "§1 — Notions financières",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-016",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Un prêt bancaire remboursable sur 7 ans est une ressource :",
+      "choices": {
+        "A": "à court terme",
+        "B": "propre (capitaux propres)",
+        "C": "à long terme",
+        "D": "de liquidité au sens strict"
+      },
+      "answer": "C",
+      "explanation": "Le cours distingue les ressources à long terme (plus de 5 ans) et à court terme (moins d'un an). 7 ans, c'est du long terme.",
+      "why": {
+        "A": "Le court terme, c'est moins d'un an.",
+        "B": "Un prêt bancaire est un endettement externe, pas des capitaux propres.",
+        "D": "Au sens strict, la liquidité, ce sont les billets de banque."
+      },
+      "ref": "§1 — Notions financières",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise très riche voit ses clients abandonner son produit, devenu inutile. Selon le cours, qu'est-ce qui menace sa survie ?",
+      "choices": {
+        "A": "Rien, tant qu'elle conserve un patrimoine financier important",
+        "B": "Rien, tant qu'elle garde sa personnalité morale",
+        "C": "Sa perte d'autonomie financière vis-à-vis des banques",
+        "D": "La disparition de son marché : plus de clients à satisfaire"
+      },
+      "answer": "D",
+      "explanation": "L'entreprise survit tant qu'il existe un marché, c'est-à-dire des clients dont elle satisfait les besoins.",
+      "why": {
+        "A": "L'argent ne remplace pas un marché ; sans clients, l'activité n'a plus de raison d'être.",
+        "B": "La personnalité morale est un statut juridique ; elle ne garantit pas la survie.",
+        "C": "L'énoncé décrit une perte de clients, pas un problème de dépendance financière."
+      },
+      "ref": "§1 — Caractéristiques : survie",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-018",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Pour classer une entreprise selon sa taille (micro-entreprise, PME, grande entreprise), quels indicateurs le cours retient-il ?",
+      "choices": {
+        "A": "Le nombre d'associés, le capital et le statut juridique",
+        "B": "Le chiffre d'affaires, les bénéfices et les effectifs",
+        "C": "Le secteur d'activité, le produit et les clients",
+        "D": "Le nombre de concurrents et les barrières à l'entrée"
+      },
+      "answer": "B",
+      "explanation": "La taille se mesure avec des indicateurs fiables : chiffre d'affaires (CA), bénéfices, effectifs.",
+      "why": {
+        "A": "Ces éléments servent à la classification juridique, pas à la taille.",
+        "C": "Le secteur est une autre classification (primaire, secondaire, tertiaire).",
+        "D": "Ces indicateurs mesurent l'intensité de la concurrence."
+      },
+      "ref": "§1 — Classification selon la taille",
+      "source": "resume-gestion"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "gestion-entreprise-entreprise-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les deux définitions de l'entreprise ?",
+      "back": "1) Un groupe humain de production, autonome, avec un patrimoine, qui vend sa production. 2) Une structure économique et sociale qui combine des moyens (humains, matériels, immatériels, financiers), avec un objectif de rentabilité.",
+      "ref": "§1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 3 formes d'autonomie de l'entreprise ?",
+      "back": "Juridique (personnalité morale, avec un représentant responsable), décisionnelle (le dirigeant décide, indépendamment des propriétaires) et financière.",
+      "ref": "§1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Les 4 types de patrimoine ?",
+      "back": "Matériel (valeur marchande et corps physique : machines). Immatériel (valeur sans corps : brevet, logiciel, fonds de commerce). Financier (l'argent). Humain (savoir-faire, compétences, culture).",
+      "ref": "§1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f004",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Secteurs primaire, secondaire, tertiaire ?",
+      "back": "Primaire : ressources naturelles sans transformation (agriculture). Secondaire : transformation (industrie, artisanat). Tertiaire : services (banque, médecine, enseignement).",
+      "ref": "§1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Statuts juridiques : nombre de propriétaires et responsabilité ?",
+      "back": "Individuelle : 1, sans personnalité morale (très risquée). SUARL : 1, responsabilité limitée. SARL : 2 ou plus, limitée à l'apport (parts sociales). SA : 7 ou plus, société de capitaux (actions, conseil d'administration, PDG).",
+      "ref": "§1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les rôles de l'entreprise ?",
+      "back": "Économique (richesses, croissance, profits), social (emploi, stabilité), politique, redistribution des revenus (salaires, intérêts, dividendes, loyers) et décisionnel (centre de décision).",
+      "ref": "§1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f007",
+      "kind": "why",
+      "tier": "core",
+      "front": "Quand une entreprise est-elle « vraiment rentable » ?",
+      "back": "Quand son CA (1) couvre ses charges ET (2) lui donne une capacité d'investissement.",
+      "ref": "§1 — À retenir",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f008",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 fonctions de l'entreprise et leur mission ?",
+      "back": "RH : postes, profils, rémunération, évaluation, carrières. Commerciale : besoins clients (long terme) et vente/prix (court terme). Production : fabrication, stocks, fournisseurs. Financière : rentabilité, solvabilité, stabilité.",
+      "ref": "§1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Liquidité, solvabilité, stabilité ?",
+      "back": "Liquidité : de l'argent disponible ; le problème vient du décalage entre entrées et sorties. Solvabilité : capacité à rembourser ses dettes. Stabilité : équilibre entre capitaux propres et endettement (éviter le surendettement).",
+      "ref": "§1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f010",
+      "kind": "why",
+      "tier": "core",
+      "front": "De quoi dépend la survie de l'entreprise ?",
+      "back": "De l'existence d'un marché : des clients dont elle satisfait les besoins.",
+      "ref": "§1",
+      "source": "resume-gestion"
+    }
+  ]
+}

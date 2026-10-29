@@ -1,0 +1,355 @@
+{
+  "id": "env",
+  "title": "L'environnement de l'entreprise",
+  "order": 2,
+  "description": "Micro, méso et macroenvironnement, concurrence, acteurs périphériques, typologie des environnements.",
+  "questions": [
+    {
+      "id": "gestion-entreprise-env-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une usine dépend d'un fournisseur pour une pièce clé. Dans quel niveau d'environnement se situe ce fournisseur ?",
+      "choices": {
+        "A": "Le microenvironnement",
+        "B": "Le mésoenvironnement",
+        "C": "Le macroenvironnement",
+        "D": "Les acteurs périphériques"
+      },
+      "answer": "A",
+      "explanation": "Le microenvironnement regroupe les relations les plus directes : les clients et les fournisseurs.",
+      "why": {
+        "B": "Le mésoenvironnement, ce sont la concurrence et les acteurs périphériques.",
+        "C": "Le macroenvironnement réunit des facteurs généraux (économiques, politiques, technologiques…).",
+        "D": "Les acteurs périphériques (État, système financier, syndicats) font partie du méso, pas des relations directes."
+      },
+      "ref": "§2 — Les trois niveaux",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "À quel niveau d'environnement appartiennent à la fois les concurrents et les syndicats ?",
+      "choices": {
+        "A": "Au microenvironnement",
+        "B": "Au mésoenvironnement",
+        "C": "Au macroenvironnement",
+        "D": "À aucun : ce sont des acteurs internes"
+      },
+      "answer": "B",
+      "explanation": "Le mésoenvironnement réunit la concurrence et les acteurs périphériques (État, système financier, syndicats).",
+      "why": {
+        "A": "Le micro se limite aux relations directes : clients et fournisseurs.",
+        "C": "Le macro réunit des facteurs généraux, pas des acteurs précis comme un concurrent ou un syndicat.",
+        "D": "Les syndicats et les concurrents font partie de l'environnement, qui est extérieur à l'entreprise."
+      },
+      "ref": "§2 — Les trois niveaux",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "La hausse de l'inflation et l'ouverture au libre-échange affectent une entreprise. Ces facteurs relèvent :",
+      "choices": {
+        "A": "du microenvironnement, car ils touchent ses clients",
+        "B": "du mésoenvironnement, comme la concurrence",
+        "C": "du macroenvironnement (économique et international)",
+        "D": "des acteurs périphériques, via l'État"
+      },
+      "answer": "C",
+      "explanation": "Le macroenvironnement regroupe les facteurs généraux : économiques (PIB, inflation…), internationaux (mondialisation, libre-échange), etc.",
+      "why": {
+        "A": "Ils touchent tout le monde : ce ne sont pas des relations directes avec des clients ou des fournisseurs.",
+        "B": "Le méso, ce sont des acteurs (concurrents, État, banques, syndicats), pas des facteurs généraux.",
+        "D": "L'État peut agir, mais l'inflation et la mondialisation sont des facteurs macro, pas un acteur."
+      },
+      "ref": "§2 — Les trois niveaux",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pour une marque de café, que représente une marque de thé ?",
+      "choices": {
+        "A": "Une concurrence directe, car les deux sont des boissons",
+        "B": "Une barrière à l'entrée sur le marché du café",
+        "C": "Aucune concurrence, car les produits sont différents",
+        "D": "Une concurrence indirecte : autre produit, même besoin"
+      },
+      "answer": "D",
+      "explanation": "Concurrence indirecte : des produits différents qui satisfont le même besoin. La concurrence directe, c'est le même produit sous des marques différentes.",
+      "why": {
+        "A": "La concurrence directe exige le même produit (une autre marque de café).",
+        "B": "Une barrière à l'entrée est un obstacle pour un nouvel entrant (notoriété, innovation…), pas un produit concurrent.",
+        "C": "Des produits différents peuvent se concurrencer s'ils répondent au même besoin."
+      },
+      "ref": "§2 — La concurrence",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces éléments est une barrière à l'entrée, qui réduit l'intensité de la concurrence sur un marché ?",
+      "choices": {
+        "A": "La forte notoriété des marques déjà installées",
+        "B": "Un grand nombre de clients aux besoins variés",
+        "C": "Une inflation élevée dans le pays",
+        "D": "L'existence de produits de substitution"
+      },
+      "answer": "A",
+      "explanation": "Les barrières à l'entrée sont l'expérience des entreprises en place, l'innovation, la notoriété de la marque et la puissance financière. Avec le nombre de concurrents, elles mesurent l'intensité de la concurrence.",
+      "why": {
+        "B": "Beaucoup de clients attire plutôt de nouveaux entrants ; ce n'est pas un obstacle.",
+        "C": "L'inflation est un facteur macroéconomique, pas une barrière propre au marché.",
+        "D": "Les produits de substitution relèvent de la concurrence indirecte, pas des barrières à l'entrée."
+      },
+      "ref": "§2 — La concurrence (intensité)",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise n'a qu'un seul fournisseur possible pour sa matière première. Selon le cours, quel risque cela crée-t-il ?",
+      "choices": {
+        "A": "Un risque de concurrence indirecte",
+        "B": "Un risque de monopole du fournisseur",
+        "C": "Un risque de surendettement",
+        "D": "Aucun, si le fournisseur est disponible"
+      },
+      "answer": "B",
+      "explanation": "Les critères de choix des fournisseurs : disponibilité, nombre de fournisseurs (risque de monopole) et politique de vente.",
+      "why": {
+        "A": "La concurrence indirecte concerne des produits différents qui répondent au même besoin des clients.",
+        "C": "Le surendettement est un problème de stabilité financière, pas de fournisseur.",
+        "D": "La disponibilité n'est qu'un critère ; le nombre de fournisseurs en est un autre."
+      },
+      "ref": "§2 — Microenvironnement : fournisseurs",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le rôle des organismes de financement, selon le cours ?",
+      "choices": {
+        "A": "Relier les entreprises qui ont une capacité de financement aux ménages qui en ont besoin",
+        "B": "Couvrir les risques de l'entreprise en cas de sinistre",
+        "C": "Relier les agents ayant une capacité de financement aux agents ayant un besoin de financement",
+        "D": "Fournir des infrastructures et des services publics gratuits"
+      },
+      "answer": "C",
+      "explanation": "Ils relient les agents à capacité de financement (ex. les ménages) à ceux qui ont un besoin de financement (ex. les entreprises).",
+      "why": {
+        "A": "C'est l'inverse de l'exemple du cours : ce sont les ménages qui ont une capacité, et les entreprises un besoin.",
+        "B": "Couvrir les risques, c'est le rôle des assurances.",
+        "D": "C'est le rôle de l'État."
+      },
+      "ref": "§2 — Acteurs périphériques : système financier",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un ménage place ses économies en actions et en obligations à la bourse. De quel type d'épargne s'agit-il ?",
+      "choices": {
+        "A": "D'une épargne passive",
+        "B": "D'une épargne improductive",
+        "C": "D'un besoin de financement",
+        "D": "D'une épargne active"
+      },
+      "answer": "D",
+      "explanation": "Épargne active : placée en bourse (actions, obligations). Épargne passive : improductive (non placée).",
+      "why": {
+        "A": "Passive veut dire non placée ; or ici l'argent est investi.",
+        "B": "Improductive est synonyme de passive dans le cours.",
+        "C": "Le ménage a une capacité de financement : il prête son argent, il n'en emprunte pas."
+      },
+      "ref": "§2 — Acteurs périphériques : système financier",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans un secteur, les changements sont fréquents mais de faible impact (innovations progressives). Quel type d'environnement, et quel comportement ?",
+      "choices": {
+        "A": "Instable — on s'adapte",
+        "B": "Turbulent — on anticipe",
+        "C": "Stable — on peut l'ignorer",
+        "D": "Transitoire — on anticipe"
+      },
+      "answer": "A",
+      "explanation": "Fréquence forte et impact faible = environnement instable (innovations progressives). On s'adapte.",
+      "why": {
+        "B": "Turbulent = fréquence forte ET impact fort (nouvelles technologies) ; il est difficile d'anticiper comme de s'adapter.",
+        "C": "Stable = fréquence faible et impact faible ; ici les changements sont fréquents.",
+        "D": "Transitoire = fréquence faible et impact fort."
+      },
+      "ref": "§2 — Typologie des environnements",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une réforme majeure arrive rarement, mais bouleverse le secteur quand elle arrive. Comment qualifier cet environnement ?",
+      "choices": {
+        "A": "Stable : il change rarement",
+        "B": "Transitoire : on s'adapte ou on anticipe selon la période",
+        "C": "Turbulent : impossible de s'adapter",
+        "D": "Instable : on se contente de s'adapter"
+      },
+      "answer": "B",
+      "explanation": "Fréquence faible et impact fort = environnement transitoire. Selon la période, on s'adapte ou on anticipe.",
+      "why": {
+        "A": "Stable suppose aussi un impact faible ; ici l'impact est fort.",
+        "C": "Turbulent suppose des changements fréquents ; ici ils sont rares.",
+        "D": "Instable = changements fréquents de faible impact, l'inverse de ce cas."
+      },
+      "ref": "§2 — Typologie des environnements",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le secteur d'une entreprise est bouleversé en permanence par de nouvelles technologies, avec des changements fréquents ET de fort impact. Que dit le cours ?",
+      "choices": {
+        "A": "L'environnement est instable : il suffit de s'adapter",
+        "B": "L'environnement est transitoire : il faut anticiper",
+        "C": "L'environnement est turbulent : s'adapter comme anticiper est difficile",
+        "D": "L'environnement est stable : la prévision est facile"
+      },
+      "answer": "C",
+      "explanation": "Fréquence forte et impact fort = environnement turbulent (nouvelles technologies). Il est difficile de s'adapter comme d'anticiper.",
+      "why": {
+        "A": "Instable = impact faible ; ici l'impact est fort.",
+        "B": "Transitoire = changements rares ; ici ils sont fréquents.",
+        "D": "Stable = changements rares et faibles, l'opposé de ce cas."
+      },
+      "ref": "§2 — Typologie des environnements",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-012",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une petite entreprise aux moyens limités suit les tendances fixées par le leader de son marché. Quel comportement face au changement correspond à sa position ?",
+      "choices": {
+        "A": "Anticiper, car c'est toujours le meilleur choix",
+        "B": "Ignorer l'environnement, faute de moyens",
+        "C": "Anticiper, comme le leader qu'elle suit",
+        "D": "S'adapter : les suiveurs réagissent après coup"
+      },
+      "answer": "D",
+      "explanation": "Le choix dépend de l'état de l'environnement et des ressources de l'entreprise (capital, capacités). Les leaders anticipent ; les suiveurs s'adaptent.",
+      "why": {
+        "A": "Anticiper demande des ressources ; ce n'est pas toujours possible ni optimal.",
+        "B": "Ignorer n'est raisonnable que dans un environnement stable ; une entreprise qui suit un leader doit au moins s'adapter.",
+        "C": "Ce sont les leaders, avec leurs ressources, qui anticipent ; pas les suiveurs."
+      },
+      "ref": "§2 — À retenir (comportements)",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans quel type d'environnement l'entreprise peut-elle, sans grand risque, choisir d'ignorer les changements ?",
+      "choices": {
+        "A": "Turbulent",
+        "B": "Stable",
+        "C": "Instable",
+        "D": "Transitoire"
+      },
+      "answer": "B",
+      "explanation": "Stable (fréquence faible, impact faible) : les activités ne changent pas. On peut ignorer, s'adapter ou anticiper, car la prévision est facile.",
+      "why": {
+        "A": "Turbulent : changements fréquents et forts ; les ignorer serait fatal.",
+        "C": "Instable : innovations fréquentes, auxquelles il faut s'adapter.",
+        "D": "Transitoire : changements rares mais forts ; il faut s'adapter ou anticiper."
+      },
+      "ref": "§2 — Typologie des environnements",
+      "source": "resume-gestion"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "gestion-entreprise-env-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Environnement de l'entreprise ?",
+      "back": "Tout ce qui entoure l'entreprise : le cadre dans lequel elle évolue, formé d'individus, d'organismes et de facteurs.",
+      "ref": "§2",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f002",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Micro, méso et macroenvironnement ?",
+      "back": "Micro : relations directes (clients, fournisseurs). Méso : concurrence et acteurs périphériques (État, système financier, syndicats). Macro : facteurs généraux (économiques, socio-culturels, politiques, technologiques, écologiques, internationaux).",
+      "ref": "§2",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Concurrence directe vs indirecte, et intensité ?",
+      "back": "Directe : même produit, marques différentes. Indirecte : produits différents, même besoin. L'intensité se mesure par le nombre de concurrents et les barrières à l'entrée.",
+      "ref": "§2",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les barrières à l'entrée citées dans le cours ?",
+      "back": "L'expérience des entreprises en place, l'innovation, la notoriété de la marque, la puissance financière.",
+      "ref": "§2",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les acteurs périphériques et leur rôle ?",
+      "back": "L'État (infrastructures, services publics, réglementation). Le système financier (assurances, organismes de financement). Les syndicats, dont le poids dépend du climat social.",
+      "ref": "§2",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f006",
+      "kind": "distinction",
+      "tier": "bonus",
+      "front": "Capacité vs besoin de financement ; épargne passive vs active ?",
+      "back": "Les ménages ont une capacité de financement, les entreprises un besoin ; les organismes de financement les relient. Épargne passive : improductive. Active : placée en bourse (actions, obligations).",
+      "ref": "§2",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Typologie des environnements (fréquence × impact) ?",
+      "back": "Stable (faible/faible) : ignorer, s'adapter ou anticiper. Instable (fréquent/faible) : s'adapter. Transitoire (rare/fort) : s'adapter ou anticiper. Turbulent (fréquent/fort) : difficile de s'adapter comme d'anticiper.",
+      "ref": "§2",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f008",
+      "kind": "why",
+      "tier": "core",
+      "front": "De quoi dépend le comportement face au changement ?",
+      "back": "De l'état de l'environnement et des ressources de l'entreprise (capital, capacités). Les leaders anticipent ; les suiveurs s'adaptent.",
+      "ref": "§2 — À retenir",
+      "source": "resume-gestion"
+    }
+  ]
+}

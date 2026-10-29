@@ -1,0 +1,334 @@
+{
+  "id": "plan",
+  "title": "La fonction de planification",
+  "order": 5,
+  "description": "Objectifs SMART, planification stratégique vs opérationnelle, le processus en 5 étapes, SWOT, FCS, benchmarking.",
+  "questions": [
+    {
+      "id": "gestion-entreprise-plan-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Lequel de ces objectifs respecte le mieux les critères SMART ?",
+      "choices": {
+        "A": "Devenir la meilleure entreprise du secteur",
+        "B": "Augmenter nos ventes le plus possible",
+        "C": "Augmenter le CA de 10 % d'ici le 31 décembre",
+        "D": "Améliorer la satisfaction des clients bientôt"
+      },
+      "answer": "C",
+      "explanation": "SMART = Spécifique, Mesurable, Atteignable, Réaliste, Temporel. Seul C est précis, chiffré (10 %) et daté (31 décembre).",
+      "why": {
+        "A": "Ni mesurable, ni limité dans le temps : « meilleure » n'est pas chiffré.",
+        "B": "« Le plus possible » n'est pas mesurable, et il n'y a pas d'échéance.",
+        "D": "« Améliorer » sans chiffre n'est pas mesurable, et « bientôt » n'est pas une date."
+      },
+      "ref": "§5 — Des objectifs SMART",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Objectif : « Réduire de 20 % les retards de livraison. » Quel critère SMART manque clairement ?",
+      "choices": {
+        "A": "Temporel : aucune échéance n'est fixée",
+        "B": "Mesurable : on ne peut pas le chiffrer",
+        "C": "Spécifique : on ne sait pas de quoi il s'agit",
+        "D": "Atteignable : 20 % est forcément impossible"
+      },
+      "answer": "A",
+      "explanation": "L'objectif est précis (les retards de livraison) et chiffré (20 %), mais il n'est pas limité dans le temps.",
+      "why": {
+        "B": "« 20 % » le rend justement mesurable.",
+        "C": "Il vise une chose précise : les retards de livraison.",
+        "D": "Rien ne permet d'affirmer que 20 % est hors de portée ; le seul manque évident est l'échéance."
+      },
+      "ref": "§5 — Des objectifs SMART",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Acheter les matières premières, payer les salaires et gérer la liquidité relèvent de quelle planification ?",
+      "choices": {
+        "A": "De la planification stratégique, car ce sont des décisions vitales",
+        "B": "De la planification opérationnelle : des actions concrètes du quotidien",
+        "C": "D'aucune planification : c'est de l'exécution",
+        "D": "De l'analyse SWOT de l'entreprise"
+      },
+      "answer": "B",
+      "explanation": "Planification opérationnelle : actions concrètes du quotidien, décidées par les niveaux opérationnels et tactiques, à court terme. Ce sont les exemples du cours.",
+      "why": {
+        "A": "La planification stratégique fixe les grandes orientations globales à long terme (ex. doubler le CA).",
+        "C": "Ces actions se planifient bien, à court terme.",
+        "D": "Le SWOT est un outil de diagnostic (étape 1), pas un type de planification."
+      },
+      "ref": "§5 — Planification stratégique / opérationnelle",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "« Doubler le chiffre d'affaires d'ici cinq ans. » De quel type de planification s'agit-il, et qui décide ?",
+      "choices": {
+        "A": "Opérationnelle, décidée par les chefs d'équipe",
+        "B": "Opérationnelle, décidée par le service commercial",
+        "C": "Stratégique, décidée par les niveaux tactiques",
+        "D": "Stratégique, décidée par l'autorité au sommet"
+      },
+      "answer": "D",
+      "explanation": "Planification stratégique : grandes orientations globales, décidées par l'autorité au sommet, à long terme (5 ans ou plus). « Doubler le CA » est l'exemple du cours.",
+      "why": {
+        "A": "Les chefs d'équipe gèrent des actions concrètes à court terme.",
+        "B": "Un horizon de 5 ans et un objectif global relèvent du stratégique, pas de l'opérationnel.",
+        "C": "Les niveaux tactiques et opérationnels décident de la planification opérationnelle, pas des orientations globales."
+      },
+      "ref": "§5 — Planification stratégique / opérationnelle",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lors d'une analyse SWOT, un grand concurrent étranger annonce son arrivée sur le marché. Où le classer ?",
+      "choices": {
+        "A": "Menace (diagnostic externe)",
+        "B": "Faiblesse (diagnostic interne)",
+        "C": "Opportunité (diagnostic externe)",
+        "D": "Force (diagnostic interne)"
+      },
+      "answer": "A",
+      "explanation": "SWOT : diagnostic interne (forces, faiblesses) et externe (opportunités, menaces). Un nouveau concurrent est un élément externe et défavorable : une menace.",
+      "why": {
+        "B": "Les faiblesses sont internes à l'entreprise ; un concurrent est extérieur.",
+        "C": "Une opportunité est un élément externe favorable ; ici il est défavorable.",
+        "D": "Une force est interne et favorable."
+      },
+      "ref": "§5 — Étape 1 : analyse SWOT",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans l'analyse SWOT d'une entreprise, « un personnel très qualifié et expérimenté » est :",
+      "choices": {
+        "A": "une opportunité",
+        "B": "une menace",
+        "C": "une force",
+        "D": "une faiblesse"
+      },
+      "answer": "C",
+      "explanation": "Le personnel est interne à l'entreprise, et c'est un atout : une force (diagnostic interne).",
+      "why": {
+        "A": "Les opportunités viennent de l'extérieur ; le personnel est interne.",
+        "B": "Une menace est externe et défavorable.",
+        "D": "C'est un atout, pas une faiblesse."
+      },
+      "ref": "§5 — Étape 1 : analyse SWOT",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Le gouvernement adopte une loi qui subventionne les exportations, alors que l'entreprise veut se développer à l'étranger. Dans le SWOT, c'est :",
+      "choices": {
+        "A": "une force, car elle aide l'entreprise",
+        "B": "une faiblesse, car l'entreprise en dépend",
+        "C": "une menace, car c'est une décision politique",
+        "D": "une opportunité (externe et favorable)"
+      },
+      "answer": "D",
+      "explanation": "Une décision des pouvoirs publics vient de l'environnement (externe). Elle est favorable au projet : c'est une opportunité.",
+      "why": {
+        "A": "Les forces sont internes ; une loi est externe.",
+        "B": "Les faiblesses sont internes et défavorables.",
+        "C": "Un facteur politique n'est pas forcément une menace : ici il est favorable."
+      },
+      "ref": "§5 — Étape 1 : analyse SWOT",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-008",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Les stratégies sont choisies. L'équipe les traduit maintenant en actions concrètes et chiffrées, avec un budget. À quelle étape du processus de planification est-elle ?",
+      "choices": {
+        "A": "Étape 3 : élaborer les stratégies",
+        "B": "Étape 4 : préparer les plans d'action et le budget",
+        "C": "Étape 5 : réaliser les plans d'action et suivre",
+        "D": "Étape 2 : définir la mission et les objectifs"
+      },
+      "answer": "B",
+      "explanation": "Étape 4 : préparer les plans d'action (PA) et le budget, c'est-à-dire traduire les stratégies en actions concrètes et chiffrées.",
+      "why": {
+        "A": "L'étape 3 décide COMMENT atteindre les objectifs ; ici, les stratégies sont déjà choisies.",
+        "C": "L'étape 5 consiste à exécuter les plans puis à comparer les résultats aux objectifs.",
+        "D": "Les objectifs sont fixés avant les stratégies, à l'étape 2."
+      },
+      "ref": "§5 — Le processus en 5 étapes",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Les plans d'action sont lancés. Six mois plus tard, la direction compare les résultats obtenus aux objectifs fixés. Quelle étape du processus est-ce ?",
+      "choices": {
+        "A": "Étape 1 : évaluer la situation actuelle",
+        "B": "Étape 3 : élaborer les stratégies",
+        "C": "Étape 5 : réaliser et suivre les résultats",
+        "D": "Étape 4 : préparer plans d'action et budget"
+      },
+      "answer": "C",
+      "explanation": "Étape 5 : réaliser les plans d'action et suivre les résultats, c'est-à-dire exécuter puis comparer les résultats aux objectifs.",
+      "why": {
+        "A": "L'étape 1 analyse la situation de départ (SWOT), avant toute action.",
+        "B": "L'étape 3 définit comment atteindre les objectifs ; elle ne mesure pas les résultats.",
+        "D": "L'étape 4 chiffre les actions avant de les lancer."
+      },
+      "ref": "§5 — Le processus en 5 étapes",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une banque compare ses délais de traitement des crédits à ceux des meilleures banques du pays pour repérer ses retards et copier leurs méthodes. Quel outil utilise-t-elle ?",
+      "choices": {
+        "A": "Le benchmarking (étalonnage)",
+        "B": "L'analyse SWOT",
+        "C": "Les facteurs clés de succès",
+        "D": "La planification opérationnelle"
+      },
+      "answer": "A",
+      "explanation": "Benchmarking : comparer ses performances, méthodes et processus à ceux des meilleurs du secteur, pour repérer les écarts et s'inspirer des meilleures pratiques.",
+      "why": {
+        "B": "Le SWOT classe des forces, faiblesses, opportunités et menaces ; ce n'est pas une comparaison aux meilleurs.",
+        "C": "Les FCS sont les éléments qui font réussir sur un marché (position, coûts, image…), pas une méthode de comparaison.",
+        "D": "Il s'agit ici d'un diagnostic (étape 1), pas d'actions du quotidien."
+      },
+      "ref": "§5 — Outils de l'étape 1",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces éléments N'EST PAS un facteur clé de succès (FCS) cité dans le cours ?",
+      "choices": {
+        "A": "La position sur le marché",
+        "B": "L'image et la réputation",
+        "C": "Les technologies utilisées",
+        "D": "Le nombre de syndicats"
+      },
+      "answer": "D",
+      "explanation": "Les FCS cités : position sur le marché, position en matière de coûts, image et réputation, technologies utilisées, rentabilité et puissance financière. Les syndicats sont des acteurs périphériques de l'environnement.",
+      "why": {
+        "A": "C'est un FCS du cours.",
+        "B": "C'est un FCS du cours.",
+        "C": "C'est un FCS du cours."
+      },
+      "ref": "§5 — Outils de l'étape 1 : FCS",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-012",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Dans l'exemple du cours, laquelle de ces formulations est la MISSION (et non un objectif stratégique) ?",
+      "choices": {
+        "A": "Atteindre mille dinars de CA",
+        "B": "Accroître le chiffre d'affaires",
+        "C": "Acheter les matières premières",
+        "D": "Réduire les coûts de 5 % cette année"
+      },
+      "answer": "B",
+      "explanation": "Exemple du cours : mission = accroître le CA ; objectif stratégique = atteindre mille dinars de CA. La mission donne la direction ; l'objectif la chiffre.",
+      "why": {
+        "A": "C'est l'objectif stratégique de l'exemple : la mission traduite en cible chiffrée.",
+        "C": "C'est une action opérationnelle du quotidien.",
+        "D": "C'est un objectif chiffré et daté, pas une mission."
+      },
+      "ref": "§5 — Étape 2 : mission et objectifs",
+      "source": "resume-gestion"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "gestion-entreprise-plan-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Planifier ?",
+      "back": "Fixer des objectifs, puis élaborer les stratégies et les plans d'action pour les atteindre.",
+      "ref": "§5",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Objectifs SMART ?",
+      "back": "Spécifiques, Mesurables, Atteignables, Réalistes, Temporels (limités dans le temps).",
+      "ref": "§5",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Planification stratégique vs opérationnelle ?",
+      "back": "Stratégique : grandes orientations, décidées au sommet, long terme (5 ans ou plus), ex. doubler le CA. Opérationnelle : actions du quotidien, niveaux opérationnels et tactiques, court terme, ex. payer les salaires.",
+      "ref": "§5",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 5 étapes du processus de planification ?",
+      "back": "1) Évaluer la situation (SWOT). 2) Définir la mission et les objectifs. 3) Élaborer les stratégies. 4) Préparer les plans d'action et le budget. 5) Réaliser les plans d'action et suivre les résultats.",
+      "ref": "§5",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Analyse SWOT : interne vs externe ?",
+      "back": "Diagnostic interne : forces et faiblesses. Diagnostic externe : opportunités et menaces.",
+      "ref": "§5",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Facteurs clés de succès (FCS) ?",
+      "back": "Position sur le marché, position en matière de coûts (domination par les coûts), image et réputation, technologies utilisées, rentabilité et puissance financière.",
+      "ref": "§5",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-f007",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Benchmarking (étalonnage) ?",
+      "back": "Comparer ses performances, méthodes et processus à ceux des meilleurs du secteur, pour repérer les écarts et s'inspirer des meilleures pratiques.",
+      "ref": "§5",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-plan-f008",
+      "kind": "distinction",
+      "tier": "bonus",
+      "front": "Mission vs objectif stratégique (exemple du cours) ?",
+      "back": "Mission : accroître le CA (la direction). Objectif stratégique : atteindre mille dinars de CA (la cible chiffrée).",
+      "ref": "§5",
+      "source": "resume-gestion"
+    }
+  ]
+}

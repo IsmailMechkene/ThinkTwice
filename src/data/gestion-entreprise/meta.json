@@ -1,0 +1,15 @@
+{
+  "name": "Gestion d'entreprise",
+  "description": "L'entreprise, son environnement, la gestion, la fonction d'organisation et la fonction de planification.",
+  "icon": "💼",
+  "color": "#0891b2",
+  "language": "fr",
+  "contributors": [],
+  "sources": {
+    "resume-gestion": {
+      "label": "Résumé — Gestion d'entreprise",
+      "file": "courses/gestion d'entreprises/resume_gestion.pdf",
+      "author": ""
+    }
+  }
+}

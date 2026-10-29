@@ -1,0 +1,292 @@
+{
+  "id": "gestion",
+  "title": "La gestion",
+  "order": 3,
+  "description": "Définition, les 4 fonctions de la gestion, une science humaine et exacte, rôles et compétences du gestionnaire.",
+  "questions": [
+    {
+      "id": "gestion-entreprise-gestion-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans quel ordre s'enchaînent les 4 fonctions de la gestion ?",
+      "choices": {
+        "A": "Organiser → Planifier → Diriger → Contrôler",
+        "B": "Planifier → Diriger → Organiser → Contrôler",
+        "C": "Planifier → Organiser → Diriger → Contrôler",
+        "D": "Diriger → Planifier → Organiser → Contrôler"
+      },
+      "answer": "C",
+      "explanation": "Planifier → Organiser → Diriger → Contrôler. On fixe d'abord les objectifs, puis on agence les ressources, on dirige, et on contrôle les résultats.",
+      "why": {
+        "A": "On ne peut pas organiser avant de savoir quel objectif atteindre : la coordination vise l'objectif fixé lors de la planification.",
+        "B": "On organise (groupes, tâches) avant de diriger.",
+        "D": "Diriger sans plan ni organisation n'a pas de sens ; la planification vient en premier."
+      },
+      "ref": "§3 — Les 4 fonctions de la gestion",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "En fin de trimestre, un responsable compare les ventes réalisées aux objectifs fixés pour décider des corrections. Quelle fonction de la gestion exerce-t-il ?",
+      "choices": {
+        "A": "Planifier",
+        "B": "Contrôler",
+        "C": "Organiser",
+        "D": "Diriger"
+      },
+      "answer": "B",
+      "explanation": "Contrôler, c'est la dernière fonction de la gestion : vérifier les résultats par rapport aux objectifs.",
+      "why": {
+        "A": "Planifier, c'est fixer les objectifs et les plans, pas mesurer les résultats.",
+        "C": "Organiser, c'est agencer les ressources (groupes, tâches, coordination).",
+        "D": "Diriger, c'est conduire les équipes dans l'action, pas comparer les résultats aux objectifs."
+      },
+      "ref": "§3 — Les 4 fonctions de la gestion",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un chef d'atelier encadre six ouvriers et répartit leur travail. Est-il un gestionnaire au sens du cours ?",
+      "choices": {
+        "A": "Oui : il y a des gestionnaires à tous les niveaux de la hiérarchie",
+        "B": "Non : seul le dirigeant de l'entreprise est un gestionnaire",
+        "C": "Non : un gestionnaire n'a que des compétences conceptuelles",
+        "D": "Oui, mais seulement s'il dispose d'un budget à gérer"
+      },
+      "answer": "A",
+      "explanation": "Le gestionnaire n'est pas seulement le dirigeant : il y en a à tous les niveaux de la hiérarchie.",
+      "why": {
+        "B": "C'est justement l'idée fausse que le cours corrige.",
+        "C": "À la base, ce sont même les compétences techniques qui comptent le plus.",
+        "D": "Le cours ne pose pas cette condition ; gérer, c'est exploiter des ressources (y compris humaines) vers un but."
+      },
+      "ref": "§3 — Le gestionnaire",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une manager relaie les nouvelles consignes de la direction à son équipe et fait remonter les problèmes du terrain. Quel rôle du gestionnaire joue-t-elle ?",
+      "choices": {
+        "A": "Interpersonnel : elle représente son équipe",
+        "B": "Décisionnel : elle prend des décisions",
+        "C": "Conceptuel : elle analyse et résout des problèmes",
+        "D": "Informationnel : elle collecte, traite et transmet l'information"
+      },
+      "answer": "D",
+      "explanation": "Rôle informationnel : collecter l'information, la traiter de façon fiable et pertinente, et la transmettre, verticalement (direction ↔ équipe) comme horizontalement.",
+      "why": {
+        "A": "Le rôle interpersonnel, c'est être leader et représentant, pas faire circuler l'information.",
+        "B": "Elle transmet des consignes, elle ne décide pas ici.",
+        "C": "« Conceptuel » est une compétence, pas un rôle ; les trois rôles sont interpersonnels, informationnels et décisionnels."
+      },
+      "ref": "§3 — Le gestionnaire : rôles",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Le directeur représente son entreprise lors de la signature d'un partenariat officiel. Quel rôle du gestionnaire exerce-t-il ?",
+      "choices": {
+        "A": "Un rôle informationnel",
+        "B": "Un rôle interpersonnel",
+        "C": "Un rôle technique",
+        "D": "Un rôle financier"
+      },
+      "answer": "B",
+      "explanation": "Les rôles interpersonnels sont ceux de leader et de représentant.",
+      "why": {
+        "A": "Le rôle informationnel consiste à collecter, traiter et transmettre l'information.",
+        "C": "« Technique » désigne une compétence (exécuter des tâches spécifiques), pas un rôle.",
+        "D": "Le cours ne parle pas de rôle financier du gestionnaire ; la fonction financière est une fonction de l'entreprise."
+      },
+      "ref": "§3 — Le gestionnaire : rôles",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pour un directeur général, au sommet de la hiérarchie, quelle compétence pèse le plus ?",
+      "choices": {
+        "A": "Technique",
+        "B": "Interrelationnelle",
+        "C": "Conceptuelle",
+        "D": "Toutes pèsent autant"
+      },
+      "answer": "C",
+      "explanation": "Plus on monte dans la hiérarchie, plus les compétences conceptuelles comptent (analyse, vision, résolution de problèmes, créativité).",
+      "why": {
+        "A": "Les compétences techniques comptent surtout à la base.",
+        "B": "Les compétences interrelationnelles ont le même poids à tous les niveaux.",
+        "D": "Le cours montre bien des poids différents selon le niveau."
+      },
+      "ref": "§3 — Le gestionnaire : compétences",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un chef d'équipe, au premier niveau de la hiérarchie, encadre des techniciens. Quelle compétence lui est la plus utile ?",
+      "choices": {
+        "A": "Technique : exécuter des tâches spécifiques",
+        "B": "Conceptuelle : vision et analyse globales",
+        "C": "Interrelationnelle, plus qu'aux autres niveaux",
+        "D": "Aucune en particulier : seule l'ancienneté compte"
+      },
+      "answer": "A",
+      "explanation": "Plus on descend dans la hiérarchie, plus les compétences techniques comptent.",
+      "why": {
+        "B": "La compétence conceptuelle compte surtout au sommet.",
+        "C": "L'interrelationnel a le même poids à tous les niveaux, pas plus à la base.",
+        "D": "Le cours associe clairement des compétences à chaque niveau."
+      },
+      "ref": "§3 — Le gestionnaire : compétences",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Selon le tableau du cours, quelle compétence du gestionnaire a le même poids à tous les niveaux de la hiérarchie ?",
+      "choices": {
+        "A": "La compétence technique",
+        "B": "La compétence conceptuelle",
+        "C": "La compétence décisionnelle",
+        "D": "La compétence interrelationnelle"
+      },
+      "answer": "D",
+      "explanation": "L'interrelationnel (relations, gestion du stress, négociation, leadership) pèse autant au sommet, au niveau moyen et à la base.",
+      "why": {
+        "A": "Le technique augmente quand on descend dans la hiérarchie.",
+        "B": "Le conceptuel augmente quand on monte.",
+        "C": "« Décisionnel » est un rôle du gestionnaire, pas une compétence."
+      },
+      "ref": "§3 — Le gestionnaire : compétences",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-009",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "La gestion est « une science à la fois humaine et exacte ». Lequel de ces exemples illustre son côté HUMAIN ?",
+      "choices": {
+        "A": "La peur du risque chez un investisseur",
+        "B": "La fonction d'utilité du consommateur",
+        "C": "La rentabilité qui augmente avec le risque",
+        "D": "L'organisation scientifique du travail"
+      },
+      "answer": "A",
+      "explanation": "Chaque exemple du cours oppose une part exacte et une part humaine. En finance, la rentabilité augmente avec le risque (exact), mais l'investisseur a peur du risque (humain).",
+      "why": {
+        "B": "La fonction d'utilité est la part exacte ; les préférences sont la part humaine.",
+        "C": "C'est la part exacte de l'exemple financier.",
+        "D": "C'est la part exacte de l'exemple RH ; les émotions sont la part humaine."
+      },
+      "ref": "§3 — Une science humaine et exacte",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-010",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Négocier avec un syndicat, gérer son stress et faire preuve de leadership relèvent de quelle compétence ?",
+      "choices": {
+        "A": "Technique",
+        "B": "Conceptuelle",
+        "C": "Interrelationnelle",
+        "D": "Informationnelle"
+      },
+      "answer": "C",
+      "explanation": "Compétences interrelationnelles : relations, gestion du stress, négociation, leadership.",
+      "why": {
+        "A": "Le technique, c'est exécuter des tâches spécifiques.",
+        "B": "Le conceptuel, c'est l'analyse, la vision, la résolution de problèmes et la créativité.",
+        "D": "« Informationnel » est un rôle (collecter, traiter, transmettre), pas une compétence."
+      },
+      "ref": "§3 — Le gestionnaire : compétences",
+      "source": "resume-gestion"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "gestion-entreprise-gestion-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Gérer ?",
+      "back": "Conduire une situation vers un but : exploiter des ressources pour atteindre une situation future voulue. On distingue une gestion globale et une gestion par ressource.",
+      "ref": "§3",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 fonctions de la gestion, dans l'ordre ?",
+      "back": "Planifier → Organiser → Diriger → Contrôler.",
+      "ref": "§3",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les objectifs de la gestion ?",
+      "back": "Produire, maximiser les bénéfices et minimiser les coûts, sous l'influence de l'environnement.",
+      "ref": "§3",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f004",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi la gestion est-elle une science humaine ET exacte ? (3 exemples)",
+      "back": "Consommateur : fonction d'utilité vs préférences. Finance : la rentabilité augmente avec le risque vs la peur du risque. RH : organisation scientifique du travail vs émotions.",
+      "ref": "§3",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 3 rôles du gestionnaire ?",
+      "back": "Interpersonnels (leader, représentant). Informationnels (collecter, traiter, transmettre l'information). Décisionnels (prendre des décisions).",
+      "ref": "§3",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 3 compétences du gestionnaire ?",
+      "back": "Techniques (tâches spécifiques). Interrelationnelles (relations, stress, négociation, leadership). Conceptuelles (analyse, vision, résolution de problèmes, créativité).",
+      "ref": "§3",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Comment le poids des compétences varie-t-il selon le niveau hiérarchique ?",
+      "back": "Sommet : surtout conceptuelles. Base : surtout techniques. Interrelationnelles : même poids à tous les niveaux.",
+      "ref": "§3",
+      "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f008",
+      "kind": "why",
+      "tier": "core",
+      "front": "Le gestionnaire est-il seulement le dirigeant ?",
+      "back": "Non : il y a des gestionnaires à tous les niveaux de la hiérarchie.",
+      "ref": "§3",
+      "source": "resume-gestion"
+    }
+  ]
+}
