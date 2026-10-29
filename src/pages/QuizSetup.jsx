@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
+import ResumeBanner from '../components/ResumeBanner'
 import { Button, Card, Chip, PageHeader, Toggle } from '../components/ui'
 import { useMistakes } from '../hooks/useMistakes'
 import { useProgress } from '../hooks/useProgress'
@@ -57,6 +58,7 @@ export default function QuizSetup() {
           )
         }
       />
+      <ResumeBanner />
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <Card>
           <FilterPanel value={filter} onChange={setFilter} items={questions} showDifficulty />

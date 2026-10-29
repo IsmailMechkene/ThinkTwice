@@ -28,7 +28,7 @@ export default {
 
   'profile.defaultName': 'Me',
   'profile.who': 'Who is studying?',
-  'profile.savedHint': 'Progress is saved in this browser, separately for each person.',
+  'profile.savedHint': 'Progress is saved automatically in this browser, separately for each person — even an unfinished quiz.',
   'profile.addPlaceholder': 'Add a person…',
   'profile.newName': 'New profile name',
   'profile.add': 'Add',
@@ -242,4 +242,11 @@ export default {
   'stats.recent': 'Recent sessions',
 
   'notFound.title': 'Page not found',
+
+  'resume.title': 'Unfinished quiz',
+  'resume.text': ({ answered, total }) => `${answered}/${total} answered — pick up where you left off.`,
+  'resume.continue': 'Resume',
+  'resume.discard': 'Discard',
+  'resume.confirmDiscard': 'Discard this unfinished quiz? Answers already given stay in your stats.',
+  'storage.unavailable': 'Your browser is blocking local storage (private window?). Progress will be lost when you close this tab.',
 }

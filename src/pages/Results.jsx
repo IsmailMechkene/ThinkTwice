@@ -11,7 +11,7 @@ import { RESULT_KEY } from './QuizPlayer'
 function loadResult(state) {
   if (state?.result) return state.result
   try {
-    return JSON.parse(sessionStorage.getItem(RESULT_KEY))
+    return JSON.parse(localStorage.getItem(RESULT_KEY))
   } catch {
     return null
   }

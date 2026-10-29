@@ -8,14 +8,17 @@ import { useI18n } from '../i18n/I18nContext'
 import { LETTERS, matchesFilter, questionById } from '../lib/content'
 import { arrangeChoices } from '../lib/quiz'
 import { shuffle } from '../lib/random'
+import { clearActiveQuiz, loadActiveQuiz, saveActiveQuiz } from '../lib/activeQuiz'
 import { summarize } from '../lib/scoring'
 
 export const RESULT_KEY = 'thinktwice:lastResult'
 
 // Builds the fixed list of questions for this session (frozen at mount).
-function useSession(state, progress) {
+// Without navigation state (reload, "Resume" button), the saved quiz in progress is restored.
+function useSession(state, progress, profileId) {
   return useState(() => {
-    if (!state) return null
+    if (!state) return loadActiveQuiz(profileId)
+    clearActiveQuiz(profileId)
     let ids = state.questionIds
     if (state.mode === 'revise') {
       ids = shuffle(
@@ -26,7 +29,11 @@ function useSession(state, progress) {
       .map((id) => questionById[id])
       .filter(Boolean)
       .map((q) => ({ question: q, arranged: arrangeChoices(q, state.mode === 'revise') }))
-    return { mode: state.mode, items, deadline: state.examMinutes ? Date.now() + state.examMinutes * 60_000 : null, startedAt: Date.now() }
+    return {
+      session: { mode: state.mode, items, deadline: state.examMinutes ? Date.now() + state.examMinutes * 60_000 : null, startedAt: Date.now() },
+      index: 0,
+      answers: [],
+    }
   })[0]
 }
 
@@ -44,12 +51,14 @@ export default function QuizPlayerPage() {
 function QuizPlayer() {
   const { state } = useLocation()
   const navigate = useNavigate()
-  const { progress, answerQuestion, recordSession } = useProgress()
+  const { progress, answerQuestion, recordSession, currentProfile } = useProgress()
   const { t } = useI18n()
-  const session = useSession(state, progress)
+  const profileId = currentProfile.id
+  const restored = useSession(state, progress, profileId)
+  const session = restored?.session
 
-  const [index, setIndex] = useState(0)
-  const [answers, setAnswers] = useState([]) // { qid, chosen, correct, order }
+  const [index, setIndex] = useState(restored?.index ?? 0)
+  const [answers, setAnswers] = useState(restored?.answers ?? []) // { qid, chosen, correct, order }
   const [event, setEvent] = useState(null)
   const [now, setNow] = useState(Date.now())
   const finishedRef = useRef(false)
@@ -62,6 +71,7 @@ function QuizPlayer() {
     (finalAnswers) => {
       if (finishedRef.current) return
       finishedRef.current = true
+      clearActiveQuiz(profileId)
       // Unanswered questions (timer ran out) count as wrong in the score but are not added to the mistake bank.
       const all = session.items.map(
         (it, i) => finalAnswers[i] || { qid: it.question.id, chosen: null, correct: false, order: it.arranged.map((c) => c.orig) },
@@ -75,13 +85,13 @@ function QuizPlayer() {
         subjects: [...new Set(session.items.map((it) => it.question.subjectId))],
       })
       try {
-        sessionStorage.setItem(RESULT_KEY, JSON.stringify(result))
+        localStorage.setItem(RESULT_KEY, JSON.stringify(result))
       } catch {
         /* ignore */
       }
       navigate('/results', { replace: true, state: { result } })
     },
-    [session, recordSession, navigate],
+    [session, recordSession, navigate, profileId],
   )
 
   const choose = useCallback(
@@ -137,7 +147,12 @@ function QuizPlayer() {
 
   const score = useMemo(() => answers.filter((a) => a?.correct).length, [answers])
 
-  if (!state) return <Navigate to="/quiz" replace />
+  // Save the quiz in progress after every answer / question change.
+  useEffect(() => {
+    if (session?.items.length && !finishedRef.current) saveActiveQuiz(profileId, session, index, answers)
+  }, [session, index, answers, profileId])
+
+  if (!session) return <Navigate to="/quiz" replace />
   if (!session.items.length) {
     return (
       <EmptyState

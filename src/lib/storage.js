@@ -27,6 +27,27 @@ export function remove(key) {
   }
 }
 
+// False in browsers that block storage (some private modes, blocked site data).
+export function storageAvailable() {
+  try {
+    const k = PREFIX + '__test'
+    localStorage.setItem(k, '1')
+    localStorage.removeItem(k)
+    return true
+  } catch {
+    return false
+  }
+}
+
+// Asks the browser not to evict our data when disk space runs low (best effort).
+export function requestPersistentStorage() {
+  try {
+    navigator.storage?.persist?.().catch(() => {})
+  } catch {
+    /* unsupported */
+  }
+}
+
 export const PROGRESS_VERSION = 1
 
 export function emptyProgress() {

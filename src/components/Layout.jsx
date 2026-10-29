@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router'
 import { useMistakes } from '../hooks/useMistakes'
 import { useTheme } from '../hooks/useTheme'
 import { useI18n } from '../i18n/I18nContext'
+import { storageAvailable } from '../lib/storage'
 import Icon from './Icon'
 import LanguageSwitch from './LanguageSwitch'
 import ProfileMenu from './ProfileMenu'
@@ -28,6 +30,7 @@ export default function Layout() {
   const { t } = useI18n()
   const { pathname } = useLocation()
   const { count: mistakes } = useMistakes()
+  const [canSave] = useState(storageAvailable)
 
   return (
     <div className="min-h-dvh pb-20 md:pb-0">
@@ -70,6 +73,12 @@ export default function Layout() {
           </div>
         </div>
       </header>
+
+      {!canSave && (
+        <p role="alert" className="bg-amber-100 px-4 py-2 text-center text-sm font-medium text-amber-900 dark:bg-amber-950 dark:text-amber-200">
+          ⚠️ {t('storage.unavailable')}
+        </p>
+      )}
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:py-10">
         <div key={pathname} className="animate-fade-up">

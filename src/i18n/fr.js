@@ -29,7 +29,7 @@ export default {
 
   'profile.defaultName': 'Moi',
   'profile.who': 'Qui révise ?',
-  'profile.savedHint': 'La progression est enregistrée dans ce navigateur, séparément pour chaque personne.',
+  'profile.savedHint': 'La progression est enregistrée automatiquement dans ce navigateur, pour chaque personne — même un quiz pas terminé.',
   'profile.addPlaceholder': 'Ajouter une personne…',
   'profile.newName': 'Nom du nouveau profil',
   'profile.add': 'Ajouter',
@@ -246,4 +246,11 @@ export default {
   'stats.recent': 'Sessions récentes',
 
   'notFound.title': 'Page introuvable',
+
+  'resume.title': 'Quiz en cours',
+  'resume.text': ({ answered, total }) => `${answered}/${total} ${s(answered, 'réponse', 'réponses')} — reprends là où tu t’étais arrêté.`,
+  'resume.continue': 'Reprendre',
+  'resume.discard': 'Abandonner',
+  'resume.confirmDiscard': 'Abandonner ce quiz en cours ? Les réponses déjà données restent dans tes stats.',
+  'storage.unavailable': 'Ton navigateur bloque le stockage local (fenêtre privée ?). La progression sera perdue à la fermeture de cet onglet.',
 }

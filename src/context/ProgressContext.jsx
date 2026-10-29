@@ -2,7 +2,7 @@ import { createContext, useCallback, useEffect, useMemo, useRef, useState } from
 import { dayKey } from '../lib/date'
 import { applyAnswer } from '../lib/mistakes'
 import { reviewCard } from '../lib/srs'
-import { downloadJson, emptyProgress, load, normalizeProgress, remove, save } from '../lib/storage'
+import { downloadJson, emptyProgress, load, normalizeProgress, remove, requestPersistentStorage, save } from '../lib/storage'
 
 export const ProgressContext = createContext(null)
 
@@ -49,6 +49,7 @@ export function ProgressProvider({ children }) {
     setProgressState(next)
   }, [])
 
+  useEffect(() => requestPersistentStorage(), [])
   useEffect(() => save('profiles', profiles), [profiles])
   useEffect(() => save(`progress:${profiles.current}`, progress), [profiles.current, progress])
 
@@ -148,6 +149,7 @@ export function ProgressProvider({ children }) {
     (id) => {
       if (profiles.list.length <= 1) return
       remove(`progress:${id}`)
+      remove(`activeQuiz:${id}`)
       const list = profiles.list.filter((x) => x.id !== id)
       const current = profiles.current === id ? list[0].id : profiles.current
       setProfiles({ list, current })

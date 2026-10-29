@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import Icon from '../components/Icon'
+import ResumeBanner from '../components/ResumeBanner'
 import SubjectCard from '../components/SubjectCard'
 import { Card, EmptyState, Stat } from '../components/ui'
 import { useMistakes } from '../hooks/useMistakes'
@@ -72,6 +73,7 @@ export default function Home() {
 
   return (
     <div>
+      <ResumeBanner />
       <section className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
         <div className="brand-gradient relative overflow-hidden rounded-3xl p-6 text-white shadow-lg shadow-indigo-500/20 sm:p-8">
           <div aria-hidden className="pointer-events-none absolute -top-16 -right-10 h-56 w-56 rounded-full bg-white/10 blur-2xl" />

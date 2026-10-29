@@ -222,7 +222,10 @@ The interface is available in English and French (the **EN | FR** switch in the 
 
 ## Progress, profiles and privacy
 
-- Progress is stored in each browser's `localStorage` under `thinktwice:progress:<profile>`. Nothing is sent anywhere.
+- Progress is saved automatically in each browser's `localStorage` (`thinktwice:progress:<profile>`) after every answer and every flashcard. Nothing is sent anywhere.
+- **An unfinished quiz is saved too** (`thinktwice:activeQuiz:<profile>`). If you close or reload the tab mid-quiz, Home and Quiz show a **Resume** banner that puts you back on the same question, with your answers and the exam timer intact.
+- The site asks the browser for *persistent storage*, so its data isn't evicted when the disk is low. If storage is blocked (some private windows), a warning bar says progress won't survive closing the tab.
+- **Always use the same address.** Browser storage belongs to one exact URL. On Cloudflare Pages, use the main `https://<project>.pages.dev` link, not a per-deployment preview link (`https://abc123.<project>.pages.dev`): a preview link starts with empty progress.
 - Several people can share a device: use the profile menu (top right) to add or switch people.
 - To move to another device or browser, use **Export** in the profile menu, then **Import** on the other side.
 - Questions and flashcards are keyed by their permanent ids, so adding, reordering or editing content keeps everyone's progress. If a question is deleted, its progress is ignored but not lost: it comes back if the question returns.
