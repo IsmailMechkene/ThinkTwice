@@ -3,6 +3,7 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Too
 import { Badge, Button, Card, EmptyState, PageHeader, ProgressBar, Stat } from '../components/ui'
 import { useMistakes } from '../hooks/useMistakes'
 import { useProgress } from '../hooks/useProgress'
+import { useI18n } from '../i18n/I18nContext'
 import { subjects } from '../lib/content'
 import { formatDay } from '../lib/date'
 import { chapterAccuracy, percent } from '../lib/scoring'
@@ -34,6 +35,7 @@ function ChartCard({ title, subtitle, children }) {
 
 export default function Stats() {
   const { progress } = useProgress()
+  const { t, locale } = useI18n()
   const { count: mistakes } = useMistakes()
 
   const days = useMemo(
@@ -42,13 +44,13 @@ export default function Stats() {
         .sort(([a], [b]) => a.localeCompare(b))
         .slice(-30)
         .map(([day, d]) => ({
-          day: formatDay(day),
+          day: formatDay(day, locale),
           answered: d.answered || 0,
           accuracy: d.answered ? percent(d.correct, d.answered) : null,
           mistakes: d.mistakes ?? 0,
           cards: d.cards || 0,
         })),
-    [progress.daily],
+    [progress.daily, locale],
   )
   const quizDays = days.filter((d) => d.answered > 0)
 
@@ -62,9 +64,9 @@ export default function Stats() {
   if (!totals.attempts && !cardsReviewed) {
     return (
       <div>
-        <PageHeader title="Stats" />
-        <EmptyState title="No activity yet" action={<Button to="/quiz">Take a first quiz</Button>}>
-          Your accuracy, weakest chapters and progress over time will show up here.
+        <PageHeader title={t('stats.title')} />
+        <EmptyState title={t('stats.noActivity')} action={<Button to="/quiz">{t('stats.firstQuiz')}</Button>}>
+          {t('stats.noActivityHint')}
         </EmptyState>
       </div>
     )
@@ -72,19 +74,19 @@ export default function Stats() {
 
   return (
     <div>
-      <PageHeader title="Stats" subtitle="Where you stand, and where to focus next." />
+      <PageHeader title={t('stats.title')} subtitle={t('stats.subtitle')} />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
-        <Stat label="Answers" value={totals.attempts} />
-        <Stat label="Accuracy" value={totals.attempts ? `${percent(totals.correct, totals.attempts)}%` : '—'} />
-        <Stat label="In mistake bank" value={mistakes} />
-        <Stat label="Mastered" value={Object.keys(progress.mastered).length} hint="Left the mistake bank" />
-        <Stat label="Cards reviewed" value={cardsReviewed} />
+        <Stat label={t('stats.answers')} value={totals.attempts} />
+        <Stat label={t('stats.accuracy')} value={totals.attempts ? `${percent(totals.correct, totals.attempts)}%` : '—'} />
+        <Stat label={t('stats.inBank')} value={mistakes} />
+        <Stat label={t('stats.mastered')} value={Object.keys(progress.mastered).length} hint={t('stats.masteredHint')} />
+        <Stat label={t('stats.cardsReviewed')} value={cardsReviewed} />
       </div>
 
-      <h2 className="mt-8 mb-3 text-lg font-bold">Weakest chapters</h2>
+      <h2 className="mt-8 mb-3 text-lg font-bold">{t('stats.weakest')}</h2>
       {weakest.length === 0 ? (
-        <Card className="text-sm text-slate-500">Answer at least 3 questions in a chapter to see it ranked here.</Card>
+        <Card className="text-sm text-slate-500">{t('stats.weakestEmpty')}</Card>
       ) : (
         <Card className="space-y-4">
           {weakest.map((w) => (
@@ -108,16 +110,16 @@ export default function Stats() {
                 className="shrink-0 py-1.5"
                 to={`/quiz?subject=${encodeURIComponent(w.subject.id)}&chapter=${encodeURIComponent(w.chapter.key)}`}
               >
-                Practice
+                {t('stats.practice')}
               </Button>
             </div>
           ))}
         </Card>
       )}
 
-      <h2 className="mt-8 mb-3 text-lg font-bold">Progress over time</h2>
+      <h2 className="mt-8 mb-3 text-lg font-bold">{t('stats.overTime')}</h2>
       <div className="grid gap-4 lg:grid-cols-2">
-        <ChartCard title="Accuracy per day" subtitle="% of questions answered correctly (last 30 active days)">
+        <ChartCard title={t('stats.accuracyPerDay')} subtitle={t('stats.accuracyPerDayHint')}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={quizDays} margin={{ top: 8, right: 12, left: -16, bottom: 0 }}>
               <CartesianGrid stroke="var(--chart-grid)" vertical={false} />
@@ -136,7 +138,7 @@ export default function Stats() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Questions answered per day">
+        <ChartCard title={t('stats.answeredPerDay')}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={quizDays} margin={{ top: 8, right: 12, left: -16, bottom: 0 }}>
               <CartesianGrid stroke="var(--chart-grid)" vertical={false} />
@@ -148,7 +150,7 @@ export default function Stats() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Mistake bank size" subtitle="Questions still to fix at the end of each day — going down is good">
+        <ChartCard title={t('stats.bankSize')} subtitle={t('stats.bankSizeHint')}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={days} margin={{ top: 8, right: 12, left: -16, bottom: 0 }}>
               <CartesianGrid stroke="var(--chart-grid)" vertical={false} />
@@ -167,17 +169,17 @@ export default function Stats() {
         </ChartCard>
 
         <Card>
-          <h3 className="font-semibold">Daily log</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">The same data as the charts, as a table.</p>
+          <h3 className="font-semibold">{t('stats.dailyLog')}</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{t('stats.dailyLogHint')}</p>
           <div className="mt-3 max-h-56 overflow-auto">
             <table className="w-full text-sm tabular-nums">
               <thead className="sticky top-0 bg-white text-left text-xs text-slate-500 dark:bg-slate-900">
                 <tr>
-                  <th className="py-1 font-semibold">Day</th>
-                  <th className="py-1 text-right font-semibold">Answered</th>
-                  <th className="py-1 text-right font-semibold">Accuracy</th>
-                  <th className="py-1 text-right font-semibold">Cards</th>
-                  <th className="py-1 text-right font-semibold">Mistakes</th>
+                  <th className="py-1 font-semibold">{t('stats.colDay')}</th>
+                  <th className="py-1 text-right font-semibold">{t('stats.colAnswered')}</th>
+                  <th className="py-1 text-right font-semibold">{t('stats.colAccuracy')}</th>
+                  <th className="py-1 text-right font-semibold">{t('stats.colCards')}</th>
+                  <th className="py-1 text-right font-semibold">{t('stats.colMistakes')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -198,7 +200,7 @@ export default function Stats() {
 
       {progress.sessions.length > 0 && (
         <>
-          <h2 className="mt-8 mb-3 text-lg font-bold">Recent sessions</h2>
+          <h2 className="mt-8 mb-3 text-lg font-bold">{t('stats.recent')}</h2>
           <Card className="divide-y divide-slate-100 p-0 dark:divide-slate-800">
             {[...progress.sessions]
               .reverse()
@@ -206,7 +208,7 @@ export default function Stats() {
               .map((s) => (
                 <div key={s.at} className="flex items-center justify-between gap-3 px-5 py-3 text-sm">
                   <span>
-                    {formatDay(s.day)} <Badge className="ml-2">{s.mode}</Badge>
+                    {formatDay(s.day, locale)} <Badge className="ml-2">{t(`mode.${s.mode}`)}</Badge>
                   </span>
                   <span className="font-semibold tabular-nums">
                     {s.correct}/{s.total} · {percent(s.correct, s.total)}%

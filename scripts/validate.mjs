@@ -156,6 +156,16 @@ for (const subject of readdirSync(DATA).sort()) {
   report.push(stats)
 }
 
+// UI translations: every language must define exactly the same keys as English.
+const i18nDir = join(ROOT, 'src', 'i18n')
+const { default: en } = await import(new URL(`file:///${join(i18nDir, 'en.js').replace(/\\/g, '/')}`))
+for (const file of readdirSync(i18nDir).filter((f) => /^[a-z]{2}\.js$/.test(f) && f !== 'en.js')) {
+  const { default: dict } = await import(new URL(`file:///${join(i18nDir, file).replace(/\\/g, '/')}`))
+  const rel = `src/i18n/${file}`
+  for (const k of Object.keys(en)) if (!(k in dict)) err(rel, `missing translation "${k}"`)
+  for (const k of Object.keys(dict)) if (!(k in en)) err(rel, `unknown key "${k}" (not in en.js)`)
+}
+
 console.log('\nThinkTwice content check\n')
 for (const s of report) {
   console.log(`  ${s.subject}: ${s.chapters} chapters, ${s.questions} questions, ${s.flashcards} flashcards (${s.core} core items)`)

@@ -4,7 +4,8 @@ import RichText from '../components/RichText'
 import { Explanation, QuestionMeta } from '../components/QuestionCard'
 import { Button, Card, EmptyState, PageHeader, ProgressBar } from '../components/ui'
 import { LETTERS, questionById } from '../lib/content'
-import { percent, summarize, verdict } from '../lib/scoring'
+import { percent, summarize, verdictKey } from '../lib/scoring'
+import { useI18n } from '../i18n/I18nContext'
 import { RESULT_KEY } from './QuizPlayer'
 
 function loadResult(state) {
@@ -17,11 +18,12 @@ function loadResult(state) {
 }
 
 function ScoreRing({ pct }) {
+  const { t } = useI18n()
   const r = 52
   const c = 2 * Math.PI * r
   const color = pct >= 70 ? '#059669' : pct >= 50 ? '#d97706' : '#e11d48'
   return (
-    <svg viewBox="0 0 120 120" className="h-36 w-36" role="img" aria-label={`Score ${pct}%`}>
+    <svg viewBox="0 0 120 120" className="h-36 w-36" role="img" aria-label={t('results.score', { pct })}>
       <circle cx="60" cy="60" r={r} fill="none" strokeWidth="10" className="stroke-slate-200 dark:stroke-slate-800" />
       <circle
         cx="60"
@@ -42,6 +44,7 @@ function ScoreRing({ pct }) {
 }
 
 function MistakeItem({ answer }) {
+  const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const question = questionById[answer.qid]
   const arranged = answer.order.map((orig, i) => ({ letter: LETTERS[i], orig, text: question.choices[orig] }))
@@ -56,16 +59,16 @@ function MistakeItem({ answer }) {
         </p>
         <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
           <p className="rounded-lg bg-rose-50 p-2.5 dark:bg-rose-950/40">
-            <span className="font-semibold text-rose-700 dark:text-rose-300">Your answer: </span>
-            {chosen ? <RichText text={`${chosen.letter}. ${chosen.text}`} /> : <em>no answer (time ran out)</em>}
+            <span className="font-semibold text-rose-700 dark:text-rose-300">{t('results.yourAnswer')}</span>
+            {chosen ? <RichText text={`${chosen.letter}. ${chosen.text}`} /> : <em>{t('results.noAnswer')}</em>}
           </p>
           <p className="rounded-lg bg-emerald-50 p-2.5 dark:bg-emerald-950/40">
-            <span className="font-semibold text-emerald-700 dark:text-emerald-300">Correct: </span>
+            <span className="font-semibold text-emerald-700 dark:text-emerald-300">{t('results.correct')}</span>
             <RichText text={`${right.letter}. ${right.text}`} />
           </p>
         </div>
         <button type="button" onClick={() => setOpen((o) => !o)} className="mt-3 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
-          {open ? 'Hide explanation' : 'Show explanation'}
+          {open ? t('results.hide') : t('results.show')}
         </button>
       </Card>
       {open && (
@@ -79,12 +82,13 @@ function MistakeItem({ answer }) {
 
 export default function Results() {
   const { state } = useLocation()
+  const { t } = useI18n()
   const result = useMemo(() => loadResult(state), [state])
   const answers = useMemo(() => (result?.answers || []).filter((a) => questionById[a.qid]), [result])
   const summary = useMemo(() => summarize(answers.map((a) => ({ ...a, question: questionById[a.qid] }))), [answers])
 
   if (!answers.length) {
-    return <EmptyState title="No results to show" action={<Button to="/quiz">Start a quiz</Button>} />
+    return <EmptyState title={t('results.none')} action={<Button to="/quiz">{t('results.startQuiz')}</Button>} />
   }
 
   const wrong = answers.filter((a) => !a.correct)
@@ -92,32 +96,28 @@ export default function Results() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageHeader title="Results" subtitle={result.mode === 'revise' ? 'Mistake revision' : result.mode === 'exam' ? 'Timed exam' : 'Quiz'} />
+      <PageHeader title={t('results.title')} subtitle={t(`mode.${result.mode}`)} />
 
       <Card className="flex flex-col items-center gap-6 sm:flex-row">
         <ScoreRing pct={summary.pct} />
         <div>
-          <p className="text-2xl font-bold">
-            {summary.correct} / {summary.total} correct
-          </p>
-          <p className="mt-1 text-slate-600 dark:text-slate-400">{verdict(summary.pct)}</p>
-          <p className="mt-1 text-sm text-slate-500">
-            Time: {minutes}m {result.durationSec % 60}s
-          </p>
+          <p className="text-2xl font-bold">{t('results.correctOf', { correct: summary.correct, total: summary.total })}</p>
+          <p className="mt-1 text-slate-600 dark:text-slate-400">{t(verdictKey(summary.pct))}</p>
+          <p className="mt-1 text-sm text-slate-500">{t('results.time', { m: minutes, s: result.durationSec % 60 })}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {wrong.length > 0 && (
               <Button to="/quiz/play" state={{ mode: 'revise' }}>
-                Revise my mistakes
+                {t('results.revise')}
               </Button>
             )}
             <Button to="/quiz" variant="secondary">
-              New quiz
+              {t('results.newQuiz')}
             </Button>
           </div>
         </div>
       </Card>
 
-      <h2 className="mt-8 mb-3 text-lg font-bold">By chapter</h2>
+      <h2 className="mt-8 mb-3 text-lg font-bold">{t('results.byChapter')}</h2>
       <Card className="space-y-4">
         {summary.chapters.map((c) => (
           <div key={c.key}>
@@ -135,9 +135,9 @@ export default function Results() {
         ))}
       </Card>
 
-      <h2 className="mt-8 mb-3 text-lg font-bold">Mistakes ({wrong.length})</h2>
+      <h2 className="mt-8 mb-3 text-lg font-bold">{t('results.mistakes', { count: wrong.length })}</h2>
       {wrong.length === 0 ? (
-        <Card className="text-center">No mistakes — perfect round. 🎯</Card>
+        <Card className="text-center">{t('results.perfect')}</Card>
       ) : (
         <ul className="space-y-3">
           {wrong.map((a) => (

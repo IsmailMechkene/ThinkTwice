@@ -31,11 +31,12 @@ export function summarize(answers) {
   }
 }
 
-export function verdict(pct) {
-  if (pct >= 90) return 'Excellent — exam-ready on this set.'
-  if (pct >= 70) return 'Solid. Revise the mistakes below and you are there.'
-  if (pct >= 50) return 'Halfway. Focus on the weakest chapters first.'
-  return 'Rough round — that is what revision is for. Start with the mistakes.'
+// Returns an i18n key.
+export function verdictKey(pct) {
+  if (pct >= 90) return 'verdict.excellent'
+  if (pct >= 70) return 'verdict.solid'
+  if (pct >= 50) return 'verdict.half'
+  return 'verdict.rough'
 }
 
 // Per-chapter accuracy from the saved question stats, weakest first.

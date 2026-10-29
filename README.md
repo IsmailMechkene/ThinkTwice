@@ -194,6 +194,14 @@ If you ever need an absolute base path, build with `BASE_PATH=/<repo>/ npm run b
 
 ---
 
+## Interface language (English / French)
+
+The interface is available in English and French (the **EN | FR** switch in the header). It is detected from the browser on the first visit, then remembered. Course content is not translated; it stays in the language of each subject.
+
+- Translations live in `src/i18n/en.js` and `src/i18n/fr.js`. Each entry is a string with `{placeholders}`, or a function for plurals.
+- To add a language, copy `en.js` to `<code>.js`, translate it, and add it to `DICTIONARIES` and `LANGUAGES` in `src/i18n/I18nContext.jsx`.
+- `npm run validate` fails if a language file is missing a key, or has a key that `en.js` doesn't have.
+
 ## Progress, profiles and privacy
 
 - Progress is stored in each browser's `localStorage` under `thinktwice:progress:<profile>`. Nothing is sent anywhere.

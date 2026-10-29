@@ -116,7 +116,7 @@ export function ProgressProvider({ children }) {
   const importProgress = useCallback(
     (data) => {
       if (data?.app !== 'thinktwice' || typeof data.progress !== 'object') {
-        throw new Error('This file is not a ThinkTwice progress export.')
+        throw new Error('not-thinktwice-export')
       }
       setProgress(normalizeProgress(data.progress))
     },

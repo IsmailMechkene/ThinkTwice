@@ -4,18 +4,11 @@ import Icon from '../components/Icon'
 import QuestionCard, { Explanation } from '../components/QuestionCard'
 import { Button, EmptyState, ProgressBar } from '../components/ui'
 import { useProgress } from '../hooks/useProgress'
+import { useI18n } from '../i18n/I18nContext'
 import { LETTERS, matchesFilter, questionById } from '../lib/content'
 import { arrangeChoices } from '../lib/quiz'
 import { shuffle } from '../lib/random'
 import { summarize } from '../lib/scoring'
-
-const EVENT_TEXT = {
-  added: 'Saved to your mistake bank.',
-  reset: 'Missed again — back to 0/2 in your mistake bank.',
-  progress: 'Mistake bank: 1/2. Get it right again on another day to clear it.',
-  'same-day': 'Already counted today. Come back another day to clear it.',
-  mastered: 'Cleared from your mistake bank! 🎉',
-}
 
 export const RESULT_KEY = 'thinktwice:lastResult'
 
@@ -52,6 +45,7 @@ function QuizPlayer() {
   const { state } = useLocation()
   const navigate = useNavigate()
   const { progress, answerQuestion, recordSession } = useProgress()
+  const { t } = useI18n()
   const session = useSession(state, progress)
 
   const [index, setIndex] = useState(0)
@@ -147,10 +141,10 @@ function QuizPlayer() {
   if (!session.items.length) {
     return (
       <EmptyState
-        title={session.mode === 'revise' ? 'No mistakes to revise 🎉' : 'No questions to play'}
-        action={<Button to="/quiz">Set up a quiz</Button>}
+        title={session.mode === 'revise' ? t('player.noMistakes') : t('player.noQuestions')}
+        action={<Button to="/quiz">{t('player.setup')}</Button>}
       >
-        {session.mode === 'revise' ? 'Your mistake bank is empty for this selection.' : 'Try widening your filters.'}
+        {session.mode === 'revise' ? t('player.noMistakesHint') : t('player.widen')}
       </EmptyState>
     )
   }
@@ -165,7 +159,7 @@ function QuizPlayer() {
           {index + 1}/{session.items.length}
         </span>
         <ProgressBar value={index + (answered ? 1 : 0)} max={session.items.length} label="Quiz progress" />
-        {session.mode === 'revise' && <span className="shrink-0 text-xs font-semibold text-rose-600 dark:text-rose-400">Revision</span>}
+        {session.mode === 'revise' && <span className="shrink-0 text-xs font-semibold text-rose-600 dark:text-rose-400">{t('player.revision')}</span>}
         {remaining != null ? (
           <span
             className={`flex shrink-0 items-center gap-1 text-sm font-semibold tabular-nums ${remaining < 60_000 ? 'text-rose-600' : ''}`}
@@ -178,10 +172,10 @@ function QuizPlayer() {
         )}
         <button
           type="button"
-          onClick={() => confirm('Stop this quiz? Answers so far are kept in your stats.') && finish(answers)}
+          onClick={() => confirm(t('player.confirmStop')) && finish(answers)}
           className="shrink-0 rounded-lg px-2 py-1 text-sm text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
         >
-          Stop
+          {t('player.stop')}
         </button>
       </div>
 
@@ -197,16 +191,16 @@ function QuizPlayer() {
       {answered && !exam && (
         <div className="mt-4 space-y-3" aria-live="polite">
           <Explanation question={current.question} arranged={current.arranged} chosen={answered.chosen} />
-          {event && EVENT_TEXT[event] && <p className="text-center text-sm text-slate-600 dark:text-slate-400">{EVENT_TEXT[event]}</p>}
+          {event && <p className="text-center text-sm text-slate-600 dark:text-slate-400">{t(`event.${event}`)}</p>}
         </div>
       )}
 
-      <div className="sticky bottom-20 mt-5 flex justify-end sm:static">
+      <div className="sticky bottom-20 mt-5 flex justify-end md:static">
         <Button onClick={next} disabled={!answered} className="shadow-lg">
-          {isLast ? 'See results' : 'Next'} <Icon name="arrow" className="h-4 w-4" />
+          {isLast ? t('player.seeResults') : t('player.next')} <Icon name="arrow" className="h-4 w-4" />
         </Button>
       </div>
-      <p className="mt-3 hidden text-center text-xs text-slate-400 sm:block">Keys: A–D or 1–4 to answer · Enter for next</p>
+      <p className="mt-3 hidden text-center text-xs text-slate-400 sm:block">{t('player.keys')}</p>
     </div>
   )
 }

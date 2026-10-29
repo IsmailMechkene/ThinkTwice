@@ -1,7 +1,9 @@
 import { Link } from 'react-router'
+import { useI18n } from '../i18n/I18nContext'
 import { ProgressBar } from './ui'
 
 export default function SubjectCard({ subject, stats }) {
+  const { t } = useI18n()
   return (
     <Link
       to={`/subject/${subject.id}`}
@@ -22,20 +24,18 @@ export default function SubjectCard({ subject, stats }) {
       </div>
       <div className="mt-auto pt-5">
         <div className="mb-1.5 flex justify-between text-xs text-slate-500 dark:text-slate-400">
-          <span>
-            {stats.done}/{stats.total} questions done
-          </span>
-          <span>{subject.chapters.length} chapters</span>
+          <span>{t('subjectCard.done', { done: stats.done, total: stats.total })}</span>
+          <span>{t('subjectCard.chapters', { count: subject.chapters.length })}</span>
         </div>
         <ProgressBar value={stats.done} max={stats.total} color={subject.color} label={`${subject.name} progress`} />
         <div className="mt-3 flex gap-4 text-sm">
           <span>
             <span className="font-semibold tabular-nums">{stats.attempts ? `${stats.accuracy}%` : '—'}</span>{' '}
-            <span className="text-slate-500 dark:text-slate-400">accuracy</span>
+            <span className="text-slate-500 dark:text-slate-400">{t('subjectCard.accuracy')}</span>
           </span>
           <span>
             <span className={`font-semibold tabular-nums ${stats.mistakes ? 'text-rose-600 dark:text-rose-400' : ''}`}>{stats.mistakes}</span>{' '}
-            <span className="text-slate-500 dark:text-slate-400">to revise</span>
+            <span className="text-slate-500 dark:text-slate-400">{t('subjectCard.toRevise')}</span>
           </span>
         </div>
       </div>

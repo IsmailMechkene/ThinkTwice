@@ -4,6 +4,7 @@ import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
 import { Button, Card, Chip, PageHeader, Toggle } from '../components/ui'
 import { useMistakes } from '../hooks/useMistakes'
 import { useProgress } from '../hooks/useProgress'
+import { useI18n } from '../i18n/I18nContext'
 import { matchesFilter, questions, subjectById } from '../lib/content'
 import { pickQuestions } from '../lib/quiz'
 
@@ -25,6 +26,7 @@ export default function QuizSetup() {
   const [params] = useSearchParams()
   const navigate = useNavigate()
   const { progress } = useProgress()
+  const { t } = useI18n()
   const [filter, setFilter] = useState(() => filterFromParams(params))
   const [count, setCount] = useState(() => Number(params.get('count')) || 10)
   const [prioritize, setPrioritize] = useState(true)
@@ -45,12 +47,12 @@ export default function QuizSetup() {
   return (
     <div>
       <PageHeader
-        title="Set up a quiz"
-        subtitle="Pick what to revise. Select several subjects for a mixed exam."
+        title={t('setup.title')}
+        subtitle={t('setup.subtitle')}
         actions={
           mistakeCount > 0 && (
             <Button variant="secondary" onClick={() => navigate('/quiz/play', { state: { mode: 'revise', filter: { subjectIds: filter.subjectIds } } })}>
-              Revise my {mistakeCount} mistake{mistakeCount === 1 ? '' : 's'}
+              {t('setup.reviseMistakes', { count: mistakeCount })}
             </Button>
           )
         }
@@ -63,7 +65,7 @@ export default function QuizSetup() {
         <div className="space-y-4">
           <Card className="space-y-5">
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Questions</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('setup.questions')}</p>
               <div className="flex flex-wrap gap-2">
                 {COUNTS.map((n) => (
                   <Chip key={n} active={count === n} onClick={() => setCount(n)}>
@@ -71,20 +73,20 @@ export default function QuizSetup() {
                   </Chip>
                 ))}
                 <Chip active={count === 0} onClick={() => setCount(0)}>
-                  All
+                  {t('setup.all')}
                 </Chip>
               </div>
             </div>
-            <Toggle checked={prioritize} onChange={setPrioritize} label="Prioritize weak spots" hint="Unseen and often-missed questions first." />
+            <Toggle checked={prioritize} onChange={setPrioritize} label={t('setup.prioritize')} hint={t('setup.prioritizeHint')} />
             <Toggle
               checked={exam}
               onChange={setExam}
-              label="Timed exam mode"
-              hint="A countdown, and answers are revealed only at the end."
+              label={t('setup.exam')}
+              hint={t('setup.examHint')}
             />
             {exam && (
               <label className="block text-sm">
-                <span className="font-medium">Time limit (minutes)</span>
+                <span className="font-medium">{t('setup.timeLimit')}</span>
                 <input
                   type="number"
                   min={1}
@@ -98,11 +100,10 @@ export default function QuizSetup() {
           </Card>
           <Card>
             <p className="text-sm text-slate-600 dark:text-slate-400">
-              <span className="text-2xl font-bold text-slate-900 tabular-nums dark:text-slate-100">{effective}</span> question
-              {effective === 1 ? '' : 's'} · {available} match your filters
+              <span className="text-2xl font-bold text-slate-900 tabular-nums dark:text-slate-100">{effective}</span> {t('setup.match', { count: effective })} · {t('setup.available', { count: available })}
             </p>
             <Button className="mt-4 w-full" disabled={!available} onClick={start}>
-              Start {exam ? 'exam' : 'quiz'}
+              {exam ? t('setup.startExam') : t('setup.start')}
             </Button>
           </Card>
         </div>

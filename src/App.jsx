@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import Layout from './components/Layout'
+import { useI18n } from './i18n/I18nContext'
 import Flashcards from './pages/Flashcards'
 import Home from './pages/Home'
 import Mistakes from './pages/Mistakes'
@@ -12,6 +13,11 @@ import Subject from './pages/Subject'
 
 // Stats pulls in Recharts; load it only when the page is opened.
 const Stats = lazy(() => import('./pages/Stats'))
+
+function Loading() {
+  const { t } = useI18n()
+  return <p className="text-slate-500">{t('common.loading')}</p>
+}
 
 export default function App() {
   return (
@@ -27,7 +33,7 @@ export default function App() {
         <Route
           path="stats"
           element={
-            <Suspense fallback={<p className="text-slate-500">Loading stats…</p>}>
+            <Suspense fallback={<Loading />}>
               <Stats />
             </Suspense>
           }

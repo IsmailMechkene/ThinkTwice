@@ -11,7 +11,19 @@ export function addDays(key, n) {
   return dayKey(new Date(y, m - 1, d + n))
 }
 
-export function formatDay(key) {
+export function formatDay(key, locale) {
   const [y, m, d] = key.split('-').map(Number)
-  return new Date(y, m - 1, d).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
+  return new Date(y, m - 1, d).toLocaleDateString(locale, { day: 'numeric', month: 'short' })
+}
+
+// Consecutive study days ending today (or yesterday, so the streak survives until you study today).
+export function streakFrom(dayKeys, today = dayKey()) {
+  const days = new Set(dayKeys)
+  let cursor = days.has(today) ? today : addDays(today, -1)
+  let n = 0
+  while (days.has(cursor)) {
+    n++
+    cursor = addDays(cursor, -1)
+  }
+  return n
 }

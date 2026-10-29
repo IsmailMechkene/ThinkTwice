@@ -1,15 +1,15 @@
+import { useI18n } from '../i18n/I18nContext'
 import { chapterLabel } from '../lib/content'
 import Icon from './Icon'
 import RichText, { CodeBlock } from './RichText'
 import { Badge, Card, cx } from './ui'
 
-const DIFFICULTY_LABEL = { easy: 'Easy', medium: 'Medium', hard: 'Hard' }
-
 export function QuestionMeta({ question }) {
+  const { t } = useI18n()
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <Badge tone={question.difficulty}>{DIFFICULTY_LABEL[question.difficulty]}</Badge>
-      <Badge tone={question.tier}>{question.tier === 'core' ? 'Core' : 'Bonus'}</Badge>
+      <Badge tone={question.difficulty}>{t(`difficulty.${question.difficulty}`)}</Badge>
+      <Badge tone={question.tier}>{t(`tier.${question.tier}`)}</Badge>
       <span className="text-xs text-slate-500 dark:text-slate-400">{chapterLabel(question)}</span>
     </div>
   )
@@ -72,17 +72,18 @@ export default function QuestionCard({ question, arranged, chosen, reveal, onCho
 }
 
 export function Explanation({ question, arranged, chosen }) {
+  const { t } = useI18n()
   const correctDisplay = arranged.find((c) => c.orig === question.answer)?.letter
   const right = chosen === question.answer
   return (
     <Card className={cx('border-l-4', right ? 'border-l-emerald-500' : 'border-l-rose-500')}>
       {chosen != null && (
         <p className={cx('font-bold', right ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400')}>
-          {right ? 'Correct!' : `Not quite — the answer is ${correctDisplay}.`}
+          {right ? t('explain.correct') : t('explain.notQuite', { letter: correctDisplay })}
         </p>
       )}
       <p className="mt-2 leading-relaxed">
-        <span className="font-semibold">Why {correctDisplay}: </span>
+        <span className="font-semibold">{t('explain.why', { letter: correctDisplay })}</span>
         <RichText text={question.explanation} />
       </p>
       <ul className="mt-3 space-y-1.5 text-sm text-slate-700 dark:text-slate-300">
@@ -96,7 +97,7 @@ export function Explanation({ question, arranged, chosen }) {
           ))}
       </ul>
       <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-        📖 {question.ref} · Source: {question.sourceLabel}
+        📖 {question.ref} · {t('explain.source')}{question.sourceLabel}
       </p>
     </Card>
   )

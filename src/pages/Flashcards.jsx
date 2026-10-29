@@ -4,6 +4,7 @@ import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
 import Flashcard from '../components/Flashcard'
 import { Button, Card, Chip, EmptyState, PageHeader, ProgressBar } from '../components/ui'
 import { useProgress } from '../hooks/useProgress'
+import { useI18n } from '../i18n/I18nContext'
 import { flashcards, matchesFilter, subjectById } from '../lib/content'
 import { dayKey } from '../lib/date'
 import { shuffle } from '../lib/random'
@@ -13,9 +14,10 @@ import { BOX_INTERVAL_DAYS, boxOf, isDue, MAX_BOX } from '../lib/srs'
 const RELEARN_GAP = 3
 
 function BoxSummary({ cards, states }) {
+  const { t } = useI18n()
   const counts = Array.from({ length: MAX_BOX + 1 }, () => 0)
   for (const c of cards) counts[boxOf(states[c.id])]++
-  const labels = ['New', ...Array.from({ length: MAX_BOX }, (_, i) => `Box ${i + 1}`)]
+  const labels = [t('cards.new'), ...Array.from({ length: MAX_BOX }, (_, i) => t('cards.box', { n: i + 1 }))]
   return (
     <div className="grid grid-cols-6 gap-1.5 text-center">
       {counts.map((n, i) => (
@@ -30,6 +32,7 @@ function BoxSummary({ cards, states }) {
 
 function Session({ deck, onExit }) {
   const { reviewFlashcard } = useProgress()
+  const { t } = useI18n()
   const [queue, setQueue] = useState(deck)
   const [flipped, setFlipped] = useState(false)
   const [done, setDone] = useState({ knew: 0, missed: 0 })
@@ -66,8 +69,8 @@ function Session({ deck, onExit }) {
 
   if (!card) {
     return (
-      <EmptyState title="Session complete 🎉" action={<Button onClick={onExit}>Back to decks</Button>}>
-        {done.knew} known · {done.missed} missed. Missed cards are back in box 1 and will show up again today.
+      <EmptyState title={t('session.complete')} action={<Button onClick={onExit}>{t('session.back')}</Button>}>
+        {t('session.completeText', { knew: done.knew, missed: done.missed })}
       </EmptyState>
     )
   }
@@ -76,24 +79,24 @@ function Session({ deck, onExit }) {
   return (
     <div className="mx-auto max-w-2xl">
       <div className="mb-4 flex items-center gap-3">
-        <span className="shrink-0 text-sm font-semibold tabular-nums">{queue.length} left</span>
+        <span className="shrink-0 text-sm font-semibold tabular-nums">{t('session.left', { count: queue.length })}</span>
         <ProgressBar value={done.knew} max={done.knew + queue.length} label="Session progress" />
         <button type="button" onClick={onExit} className="shrink-0 rounded-lg px-2 py-1 text-sm text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
-          End
+          {t('session.end')}
         </button>
       </div>
       <Flashcard key={`${card.id}-${reviewed}`} card={card} flipped={flipped} onFlip={() => setFlipped((f) => !f)} />
       <div className="mt-5 grid grid-cols-2 gap-3">
         <Button variant="bad" disabled={!flipped} onClick={() => answer(false)} className="py-3.5">
-          I didn't know it
+          {t('session.didntKnow')}
         </Button>
         <Button variant="good" disabled={!flipped} onClick={() => answer(true)} className="py-3.5">
-          I knew it
+          {t('session.knewIt')}
         </Button>
       </div>
       <p className="mt-3 text-center text-xs text-slate-400">
-        {flipped ? 'Be honest — missed cards come back sooner.' : 'Think of the answer first, then flip.'}
-        <span className="hidden sm:inline"> · Keys: Space flip · ← didn't know · → knew it</span>
+        {flipped ? t('session.honest') : t('session.thinkFirst')}
+        <span className="hidden sm:inline"> · {t('session.keys')}</span>
       </p>
     </div>
   )
@@ -102,6 +105,7 @@ function Session({ deck, onExit }) {
 export default function Flashcards() {
   const [params] = useSearchParams()
   const { progress } = useProgress()
+  const { t } = useI18n()
   const [filter, setFilter] = useState(() => {
     const s = params.get('subject')
     const c = params.get('chapter')
@@ -124,7 +128,7 @@ export default function Flashcards() {
 
   return (
     <div>
-      <PageHeader title="Flashcards" subtitle="Leitner spaced repetition: cards you know come back less often, cards you miss come back sooner." />
+      <PageHeader title={t('cards.title')} subtitle={t('cards.subtitle')} />
       <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <Card>
           <FilterPanel value={filter} onChange={setFilter} items={flashcards} />
@@ -133,18 +137,18 @@ export default function Flashcards() {
           <Card className="space-y-4">
             <BoxSummary cards={cards} states={progress.flashcards} />
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Box 1 returns today, then {BOX_INTERVAL_DAYS[2]}, {BOX_INTERVAL_DAYS[3]}, {BOX_INTERVAL_DAYS[4]} and {BOX_INTERVAL_DAYS[5]} days.
+              {t('cards.intervals', { a: BOX_INTERVAL_DAYS[2], b: BOX_INTERVAL_DAYS[3], c: BOX_INTERVAL_DAYS[4], d: BOX_INTERVAL_DAYS[5] })}
             </p>
             <div className="flex flex-wrap gap-2">
               <Chip active={mode === 'due'} onClick={() => setMode('due')}>
-                Due today ({due.length})
+                {t('cards.due', { count: due.length })}
               </Chip>
               <Chip active={mode === 'all'} onClick={() => setMode('all')}>
-                All cards ({cards.length})
+                {t('cards.all', { count: cards.length })}
               </Chip>
             </div>
             <Button className="w-full" disabled={!selection.length} onClick={startDeck}>
-              {selection.length ? `Study ${selection.length} card${selection.length === 1 ? '' : 's'}` : 'Nothing due — come back later'}
+              {selection.length ? t('cards.study', { count: selection.length }) : t('cards.nothingDue')}
             </Button>
           </Card>
         </div>

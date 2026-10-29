@@ -1,5 +1,7 @@
 import { Button, EmptyState } from '../components/ui'
+import { useI18n } from '../i18n/I18nContext'
 
 export default function NotFound() {
-  return <EmptyState title="Page not found" action={<Button to="/">Back home</Button>} />
+  const { t } = useI18n()
+  return <EmptyState title={t('notFound.title')} action={<Button to="/">{t('common.backHome')}</Button>} />
 }

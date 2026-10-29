@@ -1,7 +1,6 @@
+import { useI18n } from '../i18n/I18nContext'
 import { allSourceLabels, DIFFICULTIES, subjects } from '../lib/content'
 import { Chip, Toggle } from './ui'
-
-const DIFF_LABEL = { easy: 'Easy', medium: 'Medium', hard: 'Hard' }
 
 export const EMPTY_FILTER = { subjectIds: [], chapterKeys: [], difficulties: [], sources: [], coreOnly: false }
 
@@ -20,6 +19,7 @@ function Row({ label, children }) {
 
 // Empty selection in a row means "all". `items` is the pool used to list sources.
 export default function FilterPanel({ value, onChange, items, showDifficulty = false }) {
+  const { t } = useI18n()
   const set = (patch) => onChange({ ...value, ...patch })
   const visibleSubjects = subjects.length === 1 ? subjects : subjects.filter((s) => value.subjectIds.includes(s.id))
   const sources = allSourceLabels(items)
@@ -27,9 +27,9 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
   return (
     <div className="space-y-5">
       {subjects.length > 1 && (
-        <Row label="Subjects">
+        <Row label={t('filter.subjects')}>
           <Chip active={!value.subjectIds.length} onClick={() => set({ subjectIds: [], chapterKeys: [] })}>
-            All subjects
+            {t('filter.allSubjects')}
           </Chip>
           {subjects.map((s) => (
             <Chip
@@ -50,9 +50,9 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
       )}
 
       {visibleSubjects.length > 0 && (
-        <Row label="Chapters">
+        <Row label={t('filter.chapters')}>
           <Chip active={!value.chapterKeys.length} onClick={() => set({ chapterKeys: [] })}>
-            All chapters
+            {t('filter.allChapters')}
           </Chip>
           {visibleSubjects.flatMap((s) =>
             s.chapters.map((c) => {
@@ -69,22 +69,22 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
       )}
 
       {showDifficulty && (
-        <Row label="Difficulty">
+        <Row label={t('filter.difficulty')}>
           <Chip active={!value.difficulties.length} onClick={() => set({ difficulties: [] })}>
-            Any
+            {t('filter.any')}
           </Chip>
           {DIFFICULTIES.map((d) => (
             <Chip key={d} active={value.difficulties.includes(d)} onClick={() => set({ difficulties: toggleIn(value.difficulties, d) })}>
-              {DIFF_LABEL[d]}
+              {t(`difficulty.${d}`)}
             </Chip>
           ))}
         </Row>
       )}
 
       {sources.length > 1 && (
-        <Row label="Source">
+        <Row label={t('filter.source')}>
           <Chip active={!value.sources.length} onClick={() => set({ sources: [] })}>
-            All sources
+            {t('filter.allSources')}
           </Chip>
           {sources.map((src) => (
             <Chip key={src} active={value.sources.includes(src)} onClick={() => set({ sources: toggleIn(value.sources, src) })}>
@@ -97,8 +97,8 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
       <Toggle
         checked={value.coreOnly}
         onChange={(coreOnly) => set({ coreOnly })}
-        label="Core only"
-        hint="Must-know material only — for last-minute revision."
+        label={t('filter.coreOnly')}
+        hint={t('filter.coreOnlyHint')}
       />
     </div>
   )

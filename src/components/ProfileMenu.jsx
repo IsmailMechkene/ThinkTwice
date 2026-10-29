@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useProgress } from '../hooks/useProgress'
+import { profileName, useI18n } from '../i18n/I18nContext'
 import Icon from './Icon'
 import { Button } from './ui'
 
@@ -14,11 +15,13 @@ export default function ProfileMenu() {
     importProgress,
     resetProgress,
   } = useProgress()
+  const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
   const [message, setMessage] = useState(null)
   const rootRef = useRef(null)
   const fileRef = useRef(null)
+  const current = profileName(currentProfile, t)
 
   useEffect(() => {
     if (!open) return
@@ -40,11 +43,11 @@ export default function ProfileMenu() {
     if (!file) return
     try {
       const data = JSON.parse(await file.text())
-      if (!confirm(`Replace the progress of "${currentProfile.name}" with this file?`)) return
+      if (!confirm(t('profile.confirmImport', { name: current }))) return
       importProgress(data)
-      setMessage({ ok: true, text: 'Progress imported.' })
+      setMessage({ ok: true, text: t('profile.imported') })
     } catch (err) {
-      setMessage({ ok: false, text: err.message || 'Could not read this file.' })
+      setMessage({ ok: false, text: err.message === 'not-thinktwice-export' ? t('profile.notExport') : t('profile.readError') })
     }
   }
 
@@ -58,15 +61,13 @@ export default function ProfileMenu() {
         className="flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
       >
         <Icon name="user" />
-        <span className="max-w-24 truncate">{currentProfile.name}</span>
+        <span className="hidden max-w-24 truncate sm:inline">{current}</span>
       </button>
 
       {open && (
         <div className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Who is studying?</p>
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-            Progress is saved in this browser, separately for each person.
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t('profile.who')}</p>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t('profile.savedHint')}</p>
           <ul className="mt-3 space-y-1">
             {profiles.map((p) => (
               <li key={p.id} className="flex items-center gap-1">
@@ -79,13 +80,13 @@ export default function ProfileMenu() {
                       : 'hover:bg-slate-100 dark:hover:bg-slate-800'
                   }`}
                 >
-                  {p.name}
+                  {profileName(p, t)}
                 </button>
                 {profiles.length > 1 && (
                   <button
                     type="button"
-                    aria-label={`Delete profile ${p.name}`}
-                    onClick={() => confirm(`Delete "${p.name}" and all their progress on this device?`) && deleteProfile(p.id)}
+                    aria-label={t('profile.delete', { name: profileName(p, t) })}
+                    onClick={() => confirm(t('profile.confirmDelete', { name: profileName(p, t) })) && deleteProfile(p.id)}
                     className="rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950"
                   >
                     <Icon name="x" className="h-4 w-4" />
@@ -105,34 +106,32 @@ export default function ProfileMenu() {
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Add a person…"
-              aria-label="New profile name"
+              placeholder={t('profile.addPlaceholder')}
+              aria-label={t('profile.newName')}
               className="min-w-0 flex-1 rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm dark:border-slate-700"
             />
             <Button type="submit" className="px-3" disabled={!name.trim()}>
-              Add
+              {t('profile.add')}
             </Button>
           </form>
 
           <div className="mt-4 border-t border-slate-200 pt-4 dark:border-slate-800">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Progress of {currentProfile.name}
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t('profile.progressOf', { name: current })}</p>
             <div className="mt-2 grid grid-cols-2 gap-2">
               <Button variant="secondary" onClick={exportProgress}>
-                Export
+                {t('profile.export')}
               </Button>
               <Button variant="secondary" onClick={() => fileRef.current?.click()}>
-                Import
+                {t('profile.import')}
               </Button>
             </div>
             <input ref={fileRef} type="file" accept="application/json,.json" className="hidden" onChange={onImport} />
             <Button
               variant="danger"
               className="mt-2 w-full"
-              onClick={() => confirm(`Erase all progress of "${currentProfile.name}"? This cannot be undone.`) && resetProgress()}
+              onClick={() => confirm(t('profile.confirmReset', { name: current })) && resetProgress()}
             >
-              Reset progress
+              {t('profile.reset')}
             </Button>
             {message && (
               <p className={`mt-2 text-xs ${message.ok ? 'text-emerald-600' : 'text-rose-600'}`} role="status">
