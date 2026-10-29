@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
 import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { Badge, Button, Card, EmptyState, PageHeader, ProgressBar, Stat } from '../components/ui'
+import ActivityHeatmap from '../components/ActivityHeatmap'
+import { Badge, Button, Card, EmptyState, PageHeader, ProgressBar, ProgressRing, scoreColor, SectionTitle, Stat } from '../components/ui'
 import { useMistakes } from '../hooks/useMistakes'
-import { useProgress } from '../hooks/useProgress'
+import { useProgress, useSubjectStats } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
 import { subjects } from '../lib/content'
-import { formatDay } from '../lib/date'
+import { addDays, formatDay, streakFrom } from '../lib/date'
 import { chapterAccuracy, percent } from '../lib/scoring'
 
 const axis = { stroke: 'var(--chart-grid)', tick: { fill: 'var(--chart-axis)', fontSize: 12 }, tickLine: false }
@@ -60,11 +61,23 @@ export default function Stats() {
   )
   const cardsReviewed = Object.values(progress.flashcards).reduce((n, s) => n + (s.reviews || 0), 0)
   const weakest = chapterAccuracy(subjects, progress.questions, 3).slice(0, 6)
+  const subjectStats = useSubjectStats()
+
+  const activeDays = Object.entries(progress.daily)
+    .filter(([, d]) => d.answered || d.cards)
+    .map(([k]) => k)
+    .sort()
+  const streak = streakFrom(activeDays)
+  let best = 0
+  for (let i = 0, run = 0; i < activeDays.length; i++) {
+    run = i > 0 && addDays(activeDays[i - 1], 1) === activeDays[i] ? run + 1 : 1
+    best = Math.max(best, run)
+  }
 
   if (!totals.attempts && !cardsReviewed) {
     return (
       <div>
-        <PageHeader title={t('stats.title')} />
+        <PageHeader icon="📊" title={t('stats.title')} />
         <EmptyState title={t('stats.noActivity')} action={<Button to="/quiz">{t('stats.firstQuiz')}</Button>}>
           {t('stats.noActivityHint')}
         </EmptyState>
@@ -74,23 +87,69 @@ export default function Stats() {
 
   return (
     <div>
-      <PageHeader title={t('stats.title')} subtitle={t('stats.subtitle')} />
+      <PageHeader icon="📊" title={t('stats.title')} subtitle={t('stats.subtitle')} />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
-        <Stat label={t('stats.answers')} value={totals.attempts} />
-        <Stat label={t('stats.accuracy')} value={totals.attempts ? `${percent(totals.correct, totals.attempts)}%` : '—'} />
-        <Stat label={t('stats.inBank')} value={mistakes} />
-        <Stat label={t('stats.mastered')} value={Object.keys(progress.mastered).length} hint={t('stats.masteredHint')} />
-        <Stat label={t('stats.cardsReviewed')} value={cardsReviewed} />
+        <Stat icon="✍️" label={t('stats.answers')} value={totals.attempts} />
+        <Stat icon="🎯" tone="emerald" label={t('stats.accuracy')} value={totals.attempts ? `${percent(totals.correct, totals.attempts)}%` : '—'} />
+        <Stat icon="🧩" tone="rose" label={t('stats.inBank')} value={mistakes} />
+        <Stat icon="🏆" tone="amber" label={t('stats.mastered')} value={Object.keys(progress.mastered).length} hint={t('stats.masteredHint')} />
+        <Stat icon="🃏" tone="violet" label={t('stats.cardsReviewed')} value={cardsReviewed} />
       </div>
 
-      <h2 className="mt-8 mb-3 text-lg font-bold">{t('stats.weakest')}</h2>
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+        <Card className="p-5 sm:p-6">
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h3 className="font-bold">{t('stats.activity')}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t('stats.activityHint')}</p>
+            </div>
+            <div className="flex gap-4 text-center">
+              <div>
+                <p className="text-xl font-extrabold tabular-nums">🔥 {streak}</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('stats.currentStreak')}</p>
+              </div>
+              <div>
+                <p className="text-xl font-extrabold tabular-nums">{best}</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('stats.bestStreak')}</p>
+              </div>
+              <div>
+                <p className="text-xl font-extrabold tabular-nums">{activeDays.length}</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('stats.activeDays')}</p>
+              </div>
+            </div>
+          </div>
+          <ActivityHeatmap daily={progress.daily} />
+        </Card>
+
+        <Card className="p-5 sm:p-6">
+          <h3 className="font-bold">{t('stats.mastery')}</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{t('stats.masteryHint')}</p>
+          <ul className="mt-4 space-y-4">
+            {subjects.map((s) => (
+              <li key={s.id} className="flex items-center gap-4">
+                <ProgressRing value={subjectStats[s.id].mastery} color={s.color} size={52} label={`${s.name} ${subjectStats[s.id].mastery}%`} />
+                <div className="min-w-0">
+                  <p className="truncate font-semibold">
+                    {s.icon} {s.name}
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    {t('subjectCard.done', { done: subjectStats[s.id].done, total: subjectStats[s.id].total })}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </div>
+
+      <SectionTitle>{t('stats.weakest')}</SectionTitle>
       {weakest.length === 0 ? (
         <Card className="text-sm text-slate-500">{t('stats.weakestEmpty')}</Card>
       ) : (
         <Card className="space-y-4">
           {weakest.map((w) => (
-            <div key={w.key} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <div key={w.key} className="flex items-center gap-3 sm:gap-4">
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex justify-between gap-3 text-sm">
                   <span className="min-w-0 truncate">
@@ -103,11 +162,11 @@ export default function Stats() {
                     {w.pct}% <span className="font-normal text-slate-500">({w.attempts})</span>
                   </span>
                 </div>
-                <ProgressBar value={w.pct} color={w.pct < 50 ? '#e11d48' : w.pct < 75 ? '#d97706' : '#059669'} label={`${w.chapter.title} accuracy`} />
+                <ProgressBar value={w.pct} color={scoreColor(w.pct)} label={`${w.chapter.title} ${w.pct}%`} />
               </div>
               <Button
                 variant="secondary"
-                className="shrink-0 py-1.5"
+                className="shrink-0 px-3 py-1.5 text-xs sm:text-sm"
                 to={`/quiz?subject=${encodeURIComponent(w.subject.id)}&chapter=${encodeURIComponent(w.chapter.key)}`}
               >
                 {t('stats.practice')}
@@ -117,7 +176,7 @@ export default function Stats() {
         </Card>
       )}
 
-      <h2 className="mt-8 mb-3 text-lg font-bold">{t('stats.overTime')}</h2>
+      <SectionTitle>{t('stats.overTime')}</SectionTitle>
       <div className="grid gap-4 lg:grid-cols-2">
         <ChartCard title={t('stats.accuracyPerDay')} subtitle={t('stats.accuracyPerDayHint')}>
           <ResponsiveContainer width="100%" height="100%">
@@ -200,7 +259,7 @@ export default function Stats() {
 
       {progress.sessions.length > 0 && (
         <>
-          <h2 className="mt-8 mb-3 text-lg font-bold">{t('stats.recent')}</h2>
+          <SectionTitle>{t('stats.recent')}</SectionTitle>
           <Card className="divide-y divide-slate-100 p-0 dark:divide-slate-800">
             {[...progress.sessions]
               .reverse()
@@ -210,8 +269,16 @@ export default function Stats() {
                   <span>
                     {formatDay(s.day, locale)} <Badge className="ml-2">{t(`mode.${s.mode}`)}</Badge>
                   </span>
-                  <span className="font-semibold tabular-nums">
-                    {s.correct}/{s.total} · {percent(s.correct, s.total)}%
+                  <span className="flex items-center gap-3 tabular-nums">
+                    <span className="text-slate-500 dark:text-slate-400">
+                      {s.correct}/{s.total}
+                    </span>
+                    <span
+                      className="w-14 rounded-full py-0.5 text-center text-xs font-bold text-white"
+                      style={{ background: scoreColor(percent(s.correct, s.total)) }}
+                    >
+                      {percent(s.correct, s.total)}%
+                    </span>
                   </span>
                 </div>
               ))}

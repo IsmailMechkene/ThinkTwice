@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
 import { useLocation } from 'react-router'
-import RichText from '../components/RichText'
+import RichText, { CodeBlock } from '../components/RichText'
 import { Explanation, QuestionMeta } from '../components/QuestionCard'
-import { Button, Card, EmptyState, PageHeader, ProgressBar } from '../components/ui'
+import Icon from '../components/Icon'
+import { Button, Card, EmptyState, ProgressBar, scoreColor, SectionTitle } from '../components/ui'
 import { LETTERS, questionById } from '../lib/content'
 import { percent, summarize, verdictKey } from '../lib/scoring'
 import { useI18n } from '../i18n/I18nContext'
@@ -17,32 +18,40 @@ function loadResult(state) {
   }
 }
 
+// White ring drawn on the gradient banner.
 function ScoreRing({ pct }) {
   const { t } = useI18n()
   const r = 52
   const c = 2 * Math.PI * r
-  const color = pct >= 70 ? '#059669' : pct >= 50 ? '#d97706' : '#e11d48'
   return (
-    <svg viewBox="0 0 120 120" className="h-36 w-36" role="img" aria-label={t('results.score', { pct })}>
-      <circle cx="60" cy="60" r={r} fill="none" strokeWidth="10" className="stroke-slate-200 dark:stroke-slate-800" />
-      <circle
-        cx="60"
-        cy="60"
-        r={r}
-        fill="none"
-        strokeWidth="10"
-        stroke={color}
-        strokeLinecap="round"
-        strokeDasharray={`${(pct / 100) * c} ${c}`}
-        transform="rotate(-90 60 60)"
-      />
-      <text x="60" y="68" textAnchor="middle" className="fill-current text-2xl font-bold">
+    <svg viewBox="0 0 120 120" className="h-36 w-36 shrink-0" role="img" aria-label={t('results.score', { pct })}>
+      <circle cx="60" cy="60" r={r} fill="none" strokeWidth="10" stroke="rgb(255 255 255 / 0.22)" />
+      {pct > 0 && (
+        <circle
+          cx="60"
+          cy="60"
+          r={r}
+          fill="none"
+          strokeWidth="10"
+          stroke="#fff"
+          strokeLinecap="round"
+          strokeDasharray={`${(pct / 100) * c} ${c}`}
+          transform="rotate(-90 60 60)"
+          style={{ transition: 'stroke-dasharray 0.8s ease' }}
+        />
+      )}
+      <text x="60" y="68" textAnchor="middle" fill="#fff" className="text-2xl font-extrabold">
         {pct}%
       </text>
     </svg>
   )
 }
 
+function Chip({ children }) {
+  return <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/25">{children}</span>
+}
+
+// Compact row: question + both answers; the full explanation unfolds on demand.
 function MistakeItem({ answer }) {
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
@@ -51,28 +60,33 @@ function MistakeItem({ answer }) {
   const chosen = arranged.find((c) => c.orig === answer.chosen)
   const right = arranged.find((c) => c.orig === question.answer)
   return (
-    <li>
-      <Card>
-        <QuestionMeta question={question} />
-        <p className="mt-3 font-medium">
-          <RichText text={question.question} />
+    <li className="px-4 py-4 sm:px-5">
+      <QuestionMeta question={question} />
+      <p className="mt-2 font-medium leading-relaxed">
+        <RichText text={question.question} />
+      </p>
+      <CodeBlock code={question.code} />
+      <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+        <p className="rounded-lg bg-rose-50 p-2.5 dark:bg-rose-950/40">
+          <span className="font-semibold text-rose-700 dark:text-rose-300">{t('results.yourAnswer')}</span>
+          {chosen ? <RichText text={`${chosen.letter}. ${chosen.text}`} /> : <em>{t('results.noAnswer')}</em>}
         </p>
-        <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
-          <p className="rounded-lg bg-rose-50 p-2.5 dark:bg-rose-950/40">
-            <span className="font-semibold text-rose-700 dark:text-rose-300">{t('results.yourAnswer')}</span>
-            {chosen ? <RichText text={`${chosen.letter}. ${chosen.text}`} /> : <em>{t('results.noAnswer')}</em>}
-          </p>
-          <p className="rounded-lg bg-emerald-50 p-2.5 dark:bg-emerald-950/40">
-            <span className="font-semibold text-emerald-700 dark:text-emerald-300">{t('results.correct')}</span>
-            <RichText text={`${right.letter}. ${right.text}`} />
-          </p>
-        </div>
-        <button type="button" onClick={() => setOpen((o) => !o)} className="mt-3 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
-          {open ? t('results.hide') : t('results.show')}
-        </button>
-      </Card>
+        <p className="rounded-lg bg-emerald-50 p-2.5 dark:bg-emerald-950/40">
+          <span className="font-semibold text-emerald-700 dark:text-emerald-300">{t('results.correct')}</span>
+          <RichText text={`${right.letter}. ${right.text}`} />
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 dark:text-indigo-400"
+      >
+        {open ? t('results.hide') : t('results.show')}
+        <Icon name="arrow" className={`h-3.5 w-3.5 transition ${open ? '-rotate-90' : 'rotate-90'}`} />
+      </button>
       {open && (
-        <div className="mt-2">
+        <div className="animate-fade-up mt-3">
           <Explanation question={question} arranged={arranged} chosen={answer.chosen} />
         </div>
       )}
@@ -96,28 +110,35 @@ export default function Results() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <PageHeader title={t('results.title')} subtitle={t(`mode.${result.mode}`)} />
-
-      <Card className="flex flex-col items-center gap-6 sm:flex-row">
-        <ScoreRing pct={summary.pct} />
-        <div>
-          <p className="text-2xl font-bold">{t('results.correctOf', { correct: summary.correct, total: summary.total })}</p>
-          <p className="mt-1 text-slate-600 dark:text-slate-400">{t(verdictKey(summary.pct))}</p>
-          <p className="mt-1 text-sm text-slate-500">{t('results.time', { m: minutes, s: result.durationSec % 60 })}</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {wrong.length > 0 && (
-              <Button to="/quiz/play" state={{ mode: 'revise' }}>
-                {t('results.revise')}
+      <section className="brand-gradient animate-pop relative overflow-hidden rounded-3xl p-6 text-white shadow-lg shadow-indigo-500/20 sm:p-8">
+        <div aria-hidden className="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
+        <div className="relative flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
+          <ScoreRing pct={summary.pct} />
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-white/75">
+              {t('results.title')} · {t(`mode.${result.mode}`)}
+            </p>
+            <h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">{t('results.correctOf', { correct: summary.correct, total: summary.total })}</h1>
+            <p className="mt-2 text-white/85">{t(verdictKey(summary.pct))}</p>
+            <div className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
+              <Chip>⏱ {t('results.time', { m: minutes, s: result.durationSec % 60 })}</Chip>
+              {wrong.length > 0 && <Chip>🧩 {t('results.toBank', { count: wrong.length })}</Chip>}
+            </div>
+            <div className="mt-5 flex flex-wrap justify-center gap-2 sm:justify-start">
+              {wrong.length > 0 && (
+                <Button to="/quiz/play" state={{ mode: 'revise' }} variant="light">
+                  {t('results.revise')} <Icon name="arrow" className="h-4 w-4" />
+                </Button>
+              )}
+              <Button to="/quiz" variant="glass">
+                {t('results.newQuiz')}
               </Button>
-            )}
-            <Button to="/quiz" variant="secondary">
-              {t('results.newQuiz')}
-            </Button>
+            </div>
           </div>
         </div>
-      </Card>
+      </section>
 
-      <h2 className="mt-8 mb-3 text-lg font-bold">{t('results.byChapter')}</h2>
+      <SectionTitle>{t('results.byChapter')}</SectionTitle>
       <Card className="space-y-4">
         {summary.chapters.map((c) => (
           <div key={c.key}>
@@ -130,20 +151,22 @@ export default function Results() {
                 {c.correct}/{c.total} · {percent(c.correct, c.total)}%
               </span>
             </div>
-            <ProgressBar value={c.correct} max={c.total} label={`${c.chapter} score`} />
+            <ProgressBar value={c.correct} max={c.total} color={scoreColor(percent(c.correct, c.total))} label={`${c.chapter} ${percent(c.correct, c.total)}%`} />
           </div>
         ))}
       </Card>
 
-      <h2 className="mt-8 mb-3 text-lg font-bold">{t('results.mistakes', { count: wrong.length })}</h2>
+      <SectionTitle>{t('results.mistakes', { count: wrong.length })}</SectionTitle>
       {wrong.length === 0 ? (
         <Card className="text-center">{t('results.perfect')}</Card>
       ) : (
-        <ul className="space-y-3">
-          {wrong.map((a) => (
-            <MistakeItem key={a.qid} answer={a} />
-          ))}
-        </ul>
+        <Card className="overflow-hidden p-0">
+          <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+            {wrong.map((a) => (
+              <MistakeItem key={a.qid} answer={a} />
+            ))}
+          </ul>
+        </Card>
       )}
     </div>
   )

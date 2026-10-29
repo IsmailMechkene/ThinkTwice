@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
 import Flashcard from '../components/Flashcard'
-import { Button, Card, Chip, EmptyState, PageHeader, ProgressBar } from '../components/ui'
+import { Button, Card, EmptyState, PageHeader, ProgressBar, Segmented } from '../components/ui'
 import { useProgress } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
 import { flashcards, matchesFilter, subjectById } from '../lib/content'
@@ -14,17 +14,32 @@ import { BOX_INTERVAL_DAYS, boxOf, isDue, MAX_BOX } from '../lib/srs'
 const RELEARN_GAP = 3
 const SWIPE_THRESHOLD = 90
 
+// Leitner shelf: one column per box, bar height = share of cards; darker = better known.
+const BOX_SHADES = ['#cbd5e1', '#c7d2fe', '#a5b4fc', '#818cf8', '#6366f1', '#4338ca']
+
 function BoxSummary({ cards, states }) {
   const { t } = useI18n()
   const counts = Array.from({ length: MAX_BOX + 1 }, () => 0)
   for (const c of cards) counts[boxOf(states[c.id])]++
-  const labels = [t('cards.new'), ...Array.from({ length: MAX_BOX }, (_, i) => t('cards.box', { n: i + 1 }))]
+  const max = Math.max(1, ...counts)
   return (
-    <div className="grid grid-cols-6 gap-1.5 text-center">
+    <div className="grid grid-cols-6 items-end gap-2 sm:gap-3">
       {counts.map((n, i) => (
-        <div key={i} className="rounded-lg bg-slate-100 px-1 py-2 dark:bg-slate-800">
-          <p className="text-lg font-bold tabular-nums">{n}</p>
-          <p className="text-[11px] text-slate-500 dark:text-slate-400">{labels[i]}</p>
+        <div key={i} className="flex flex-col items-center gap-1.5">
+          <span className="text-sm font-bold tabular-nums">{n}</span>
+          <div className="flex h-24 w-full items-end overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+            <div
+              className="w-full rounded-lg transition-all duration-500"
+              style={{ height: `${Math.max(n ? 6 : 0, (n / max) * 100)}%`, background: BOX_SHADES[i] }}
+              title={`${i === 0 ? t('cards.new') : t('cards.box', { n: i })}: ${n}`}
+            />
+          </div>
+          <span className="text-center text-[11px] leading-tight font-semibold text-slate-600 dark:text-slate-300">
+            {i === 0 ? t('cards.new') : t('cards.box', { n: i })}
+          </span>
+          <span className="text-[10px] text-slate-400">
+            {i === 0 ? '—' : BOX_INTERVAL_DAYS[i] === 0 ? t('cards.today') : t('cards.inDays', { n: BOX_INTERVAL_DAYS[i] })}
+          </span>
         </div>
       ))}
     </div>
@@ -184,28 +199,44 @@ export default function Flashcards() {
 
   return (
     <div>
-      <PageHeader title={t('cards.title')} subtitle={t('cards.subtitle')} />
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
-        <Card>
+      <PageHeader icon="🃏" title={t('cards.title')} subtitle={t('cards.subtitle')} />
+
+      <Card className="p-5 sm:p-6">
+        <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-bold">{t('cards.boxesTitle')}</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{t('cards.boxesHint')}</p>
+        </div>
+        <BoxSummary cards={cards} states={progress.flashcards} />
+      </Card>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_340px]">
+        <Card className="self-start p-5 sm:p-6">
           <FilterPanel value={filter} onChange={setFilter} items={flashcards} />
         </Card>
-        <div className="space-y-4">
-          <Card className="space-y-4">
-            <BoxSummary cards={cards} states={progress.flashcards} />
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              {t('cards.intervals', { a: BOX_INTERVAL_DAYS[2], b: BOX_INTERVAL_DAYS[3], c: BOX_INTERVAL_DAYS[4], d: BOX_INTERVAL_DAYS[5] })}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Chip active={mode === 'due'} onClick={() => setMode('due')}>
-                {t('cards.due', { count: due.length })}
-              </Chip>
-              <Chip active={mode === 'all'} onClick={() => setMode('all')}>
-                {t('cards.all', { count: cards.length })}
-              </Chip>
+        <div className="lg:sticky lg:top-20 lg:self-start">
+          <Card className="space-y-5 p-5 sm:p-6">
+            <div>
+              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('cards.mode')}</p>
+              <Segmented
+                label={t('cards.mode')}
+                value={mode}
+                onChange={setMode}
+                options={[
+                  { value: 'due', label: t('cards.due', { count: due.length }) },
+                  { value: 'all', label: t('cards.all', { count: cards.length }) },
+                ]}
+              />
             </div>
-            <Button className="w-full" disabled={!selection.length} onClick={startDeck}>
+            <div className="rounded-xl bg-slate-50 p-4 text-center dark:bg-slate-800/60">
+              <p className="text-4xl font-extrabold tabular-nums">{selection.length}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{t('cards.inSession')}</p>
+            </div>
+            <Button className="w-full py-3" disabled={!selection.length} onClick={startDeck}>
               {selection.length ? t('cards.study', { count: selection.length }) : t('cards.nothingDue')}
             </Button>
+            <p className="text-center text-xs text-slate-500 dark:text-slate-400">
+              {t('cards.intervals', { a: BOX_INTERVAL_DAYS[2], b: BOX_INTERVAL_DAYS[3], c: BOX_INTERVAL_DAYS[4], d: BOX_INTERVAL_DAYS[5] })}
+            </p>
           </Card>
         </div>
       </div>

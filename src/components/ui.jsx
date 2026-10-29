@@ -23,6 +23,9 @@ const VARIANTS = {
   ghost: 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800',
   danger: 'border border-rose-300 text-rose-700 hover:bg-rose-50 dark:border-rose-800 dark:text-rose-300 dark:hover:bg-rose-950',
   good: 'bg-emerald-600 text-white hover:bg-emerald-500',
+  // For use on the brand gradient
+  light: 'bg-white text-indigo-700 shadow-sm hover:bg-indigo-50',
+  glass: 'bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25',
   bad: 'bg-rose-600 text-white hover:bg-rose-500',
 }
 
@@ -87,16 +90,68 @@ export function ProgressBar({ value, max = 100, color = '#4f46e5', className, la
   )
 }
 
-export function PageHeader({ title, subtitle, actions }) {
+export function PageHeader({ title, subtitle, actions, icon }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
-        {subtitle && <p className="mt-1 text-slate-600 dark:text-slate-400">{subtitle}</p>}
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <div className="flex min-w-0 items-start gap-4">
+        {icon && (
+          <span
+            aria-hidden
+            className="brand-gradient grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl shadow-lg shadow-indigo-500/25"
+          >
+            {icon}
+          </span>
+        )}
+        <div className="min-w-0">
+          <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h1>
+          {subtitle && <p className="mt-1 max-w-3xl text-slate-600 dark:text-slate-400">{subtitle}</p>}
+        </div>
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
   )
+}
+
+export function SectionTitle({ children, hint, action }) {
+  return (
+    <div className="mt-10 mb-3 flex flex-wrap items-end justify-between gap-2">
+      <div>
+        <h2 className="text-lg font-bold">{children}</h2>
+        {hint && <p className="text-sm text-slate-500 dark:text-slate-400">{hint}</p>}
+      </div>
+      {action}
+    </div>
+  )
+}
+
+// Two-or-more option switch (e.g. "Due today | All cards").
+export function Segmented({ options, value, onChange, label }) {
+  return (
+    <div role="radiogroup" aria-label={label} className="inline-flex w-full rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
+      {options.map((o) => (
+        <button
+          key={o.value}
+          type="button"
+          role="radio"
+          aria-checked={value === o.value}
+          onClick={() => onChange(o.value)}
+          className={cx(
+            'flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition',
+            value === o.value
+              ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-950 dark:text-white'
+              : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200',
+          )}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+// Accuracy-to-status colour (always shown next to the number, never alone).
+export function scoreColor(pct) {
+  return pct >= 75 ? '#059669' : pct >= 50 ? '#d97706' : '#e11d48'
 }
 
 export function EmptyState({ title, children, action }) {
