@@ -6,6 +6,11 @@
   "language": "fr",
   "contributors": [],
   "sources": {
+    "cours-programmation": {
+      "label": "Cours — Fondements de la programmation parallèle",
+      "file": "courses/calcul parallele/cours_programmation_parallele.pdf",
+      "author": ""
+    },
     "resume-parallelisme": {
       "label": "Résumé — Parallélisme & performances",
       "file": "courses/calcul parallele/resume_parallelisme.pdf",

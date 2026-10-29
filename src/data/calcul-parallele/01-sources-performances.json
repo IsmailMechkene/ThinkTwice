@@ -381,6 +381,239 @@
       },
       "ref": "Résumé parallélisme §8 — Loi d'Amdahl",
       "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le compilateur voit ce code comme une chaîne S1 → S2 → S3 → S4 et ne le parallélise pas. Quelle réécriture fait apparaître le parallélisme ?",
+      "code": "S1 : x := f()\nS2 : y := x + 1\nS3 : x := g()\nS4 : z := x * 2",
+      "choices": {
+        "A": "Fusionner S2 et S3 en une seule instruction pour raccourcir la chaîne",
+        "B": "Lancer S1 ∥ S3 sans rien changer : le compilateur gérera le conflit",
+        "C": "Écrire S3 : t := g() et S4 : z := t * 2, d'où (S1 → S2) ∥ (S3 → S4)",
+        "D": "Échanger S1 et S3, puisque deux écritures sur x peuvent commuter"
+      },
+      "answer": "C",
+      "explanation": "La seule chose qui lie S1–S2 à S3–S4 est la réutilisation du nom x. En renommant (variable t), on obtient deux chaînes indépendantes. D'où l'intérêt que le programmeur connaisse les capacités du compilateur.",
+      "why": {
+        "A": "Fusionner des instructions ne supprime pas la dépendance due au nom x ; la chaîne reste séquentielle.",
+        "B": "S1 et S3 écrivent toutes deux x (écriture/écriture) : les lancer en parallèle sans renommer donne un résultat imprévisible.",
+        "D": "L'ordre compte : S2 doit lire le x de S1, et S4 celui de S3. Échanger S1 et S3 change le résultat."
+      },
+      "ref": "Cours prog. §1.1 — Parallélisme implicite (exemple)",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est l'inconvénient principal du parallélisme implicite, selon le cours ?",
+      "choices": {
+        "A": "Un problème très parallélisable peut ne pas être détecté par le paralléliseur",
+        "B": "Le programmeur doit écrire lui-même les threads et les communications",
+        "C": "Il oblige à envoyer des messages explicites entre tous les processeurs",
+        "D": "Il ne fonctionne que sur les machines à mémoire distribuée"
+      },
+      "answer": "A",
+      "explanation": "En implicite, une couche ajoutée au compilateur parallélise à la place du programmeur. Mais un paralléliseur automatique peut rater un parallélisme bien réel.",
+      "why": {
+        "B": "C'est le principe du parallélisme explicite, pas un inconvénient de l'implicite.",
+        "C": "Les messages explicites relèvent de la programmation explicite (par exemple MPI).",
+        "D": "Le cours ne lie pas le parallélisme implicite à un type de mémoire."
+      },
+      "ref": "Cours prog. §1.1 — Parallélisme implicite",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "On remplace chaque « Bnj » par « Bonsoir » dans un énorme fichier, sur une machine à mémoire distribuée. Le calcul est du parallélisme de données. D'où vient le principal coût lié au parallélisme ?",
+      "choices": {
+        "A": "Des dépendances entre les lignes, qui doivent être traitées dans l'ordre",
+        "B": "Du partage initial des données entre processeurs, qui exige des communications",
+        "C": "Du pipeline, car chaque mot passe successivement par plusieurs processeurs",
+        "D": "D'une synchronisation à chaque remplacement, car les données sont liées"
+      },
+      "answer": "B",
+      "explanation": "En parallélisme de données, il n'y a pas de dépendance entre les données. La dépendance apparaît quand on les divise au début : en mémoire distribuée, ce partage passe par des communications.",
+      "why": {
+        "A": "Chaque remplacement est indépendant des autres : aucun ordre n'est imposé.",
+        "C": "Il n'y a qu'un traitement, appliqué partout : ce n'est pas du parallélisme de flux.",
+        "D": "Les données sont indépendantes ; aucune synchronisation n'est nécessaire à chaque remplacement."
+      },
+      "ref": "Cours prog. §2.1 — Parallélisme de données",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-022",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "On a t1 : a ← a + 2, t2 : b ← b − 4, t3 : d ← d + 9 et t4 : c ← a ∗ b. Pourquoi peut-on exécuter (t1 ∥ t2) → (t3 ∥ t4) sur 2 processeurs ?",
+      "choices": {
+        "A": "Parce que t4 ne lit pas d : elle ne dépend que de t1 et t2",
+        "B": "Parce que t3 et t4 écrivent la même variable, ce qui est permis",
+        "C": "Parce que t3 est plus courte que les autres tâches",
+        "D": "Parce que 2 processeurs accélèrent toujours plus que 3"
+      },
+      "answer": "A",
+      "explanation": "Avec t4 : c ← a ∗ b, t4 ne lit plus d (contrairement à c ← a ∗ (b − d)). t3 peut donc s'exécuter en même temps que t4, après t1 et t2.",
+      "why": {
+        "B": "t3 écrit d et t4 écrit c : ce ne sont pas les mêmes variables. Une écriture/écriture commune serait d'ailleurs une dépendance.",
+        "C": "Toutes les tâches durent 1 u.t. ; ce n'est pas une question de durée.",
+        "D": "Les deux versions ont la même accélération (2). C'est l'efficacité qui change."
+      },
+      "ref": "Cours prog. §3.2 — Parallélisme de tâches",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quatre tâches de 1 u.t. (t4 dépend de t1 et t2) : la version V1 utilise 3 processeurs (t1 ∥ t2 ∥ t3 → t4), la version V2 en utilise 2 ((t1 ∥ t2) → (t3 ∥ t4)). Comment se comparent-elles ?",
+      "choices": {
+        "A": "L'accélération passe de 2 à 3, l'efficacité reste à 1",
+        "B": "L'efficacité passe de 1 à 2/3, l'accélération reste à 2",
+        "C": "Même accélération 2, mais l'efficacité passe de 2/3 à 1",
+        "D": "L'accélération double, de 2 à 4, grâce au regroupement"
+      },
+      "answer": "C",
+      "explanation": "Les deux versions durent 2 u.t. : S = 4/2 = 2. V1 : E = 2/3 (6 cases processeur × temps, 4 remplies). V2 : E = 2/2 = 1 (4 cases, 4 remplies).",
+      "why": {
+        "A": "Les deux versions durent 2 u.t. : l'accélération reste 2.",
+        "B": "C'est l'inverse : V1 (3 processeurs) a E = 2/3, V2 (2 processeurs) a E = 1.",
+        "D": "S = T₁/Tp = 4/2 = 2 dans les deux cas."
+      },
+      "ref": "Cours prog. §3.2 — Efficacité",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Deux tâches : u : x ← y + 1 et v : y ← 5. Peut-on les exécuter en parallèle ?",
+      "choices": {
+        "A": "Oui, car elles n'écrivent pas la même variable",
+        "B": "Oui, car affecter une constante ne crée aucune dépendance",
+        "C": "Non, car deux tâches qui lisent une même variable sont dépendantes",
+        "D": "Non : u lit y pendant que v écrit y (dépendance lecture/écriture)"
+      },
+      "answer": "D",
+      "explanation": "Deux tâches sont dépendantes s'il y a une lecture/écriture ou une écriture/écriture sur une variable commune. Ici u lit y et v écrit y : le résultat de u dépend de l'ordre.",
+      "why": {
+        "A": "L'absence d'écriture commune ne suffit pas : une lecture/écriture crée aussi une dépendance.",
+        "B": "Peu importe ce que v écrit : elle modifie y, que u lit.",
+        "C": "Deux lectures d'une même variable ne créent pas de dépendance ; ici le problème est une lecture face à une écriture."
+      },
+      "ref": "Cours prog. §3.2 — Dépendances",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Tâches de 1 u.t. : t1, t2, t3 et t5 sont indépendantes ; t4 dépend de t1, t2 et t3. Ainsi Dmax = 4 et Topt = 2. Que vaut Popt ?",
+      "choices": {
+        "A": "4, car Popt est toujours égal à Dmax",
+        "B": "3 : t1, t2, t3 puis t4 ∥ t5 tiennent en 2 u.t.",
+        "C": "2, car Popt est égal à Topt",
+        "D": "5, une tâche par processeur"
+      },
+      "answer": "B",
+      "explanation": "t5 ne dépend de rien : on peut la décaler à la 2e u.t., à côté de t4. Avec 3 processeurs, on garde Topt = 2. Donc Popt = 3 < Dmax = 4.",
+      "why": {
+        "A": "Dmax donne Topt, mais pas toujours Popt : ici 3 processeurs suffisent pour le même temps.",
+        "C": "Popt est un nombre de processeurs et Topt un temps ; leur égalité n'a rien d'une règle.",
+        "D": "Les tâches n'ont pas besoin de s'exécuter toutes en même temps pour atteindre Topt."
+      },
+      "ref": "Cours prog. §4.3 — Exercice 1 (ajout de t5)",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-026",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Voici un graphe de dépendance avec la durée de chaque tâche. Que vaut Topt ?",
+      "code": "Durées : A=3  B=1  C=1  D=2  E=8  F=1  G=1\nArcs   : A→C  A→D  B→D  C→F  D→F  D→E  F→G  E→G",
+      "choices": {
+        "A": "4",
+        "B": "17",
+        "C": "14",
+        "D": "6"
+      },
+      "answer": "C",
+      "explanation": "Topt = somme des durées du chemin le plus long : A → D → E → G = 3 + 2 + 8 + 1 = 14.",
+      "why": {
+        "A": "4 compte les sommets de la plus longue chaîne : ce n'est valable que si toutes les tâches ont la même durée.",
+        "B": "17 est la somme de TOUTES les durées, c'est-à-dire T₁ (exécution séquentielle).",
+        "D": "6 correspond au chemin A → C → F → G, qui n'est pas le plus long en durée."
+      },
+      "ref": "Cours prog. §5 — Exemple 2 (graphe pondéré)",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-027",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un camarade affirme : « Si j'ajoute des processeurs au-delà de Dmax, Topt va encore diminuer. » Qu'en dire ?",
+      "choices": {
+        "A": "Faux : Topt dépend du graphe de dépendance, pas du nombre de processeurs",
+        "B": "Vrai : chaque processeur ajouté raccourcit le chemin critique",
+        "C": "Vrai, mais seulement si toutes les tâches ont la même durée",
+        "D": "Faux : ajouter des processeurs fait toujours augmenter Topt"
+      },
+      "answer": "A",
+      "explanation": "Topt est le temps du chemin le plus long du graphe : il est indépendant du nombre de processeurs. Au-delà de Dmax, les processeurs en plus restent inactifs.",
+      "why": {
+        "B": "Le chemin critique est fixé par les dépendances ; des processeurs supplémentaires ne le raccourcissent pas.",
+        "C": "Même avec des durées égales, Topt reste la longueur de la plus longue chaîne.",
+        "D": "Topt est une borne théorique qui ne change pas avec p ; il n'augmente pas non plus."
+      },
+      "ref": "Cours prog. §4.2 — Remarques",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-028",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "La boucle « pour i de 1 à n : A[i] ← A[i] + 4 » est exécutée sur n cœurs. Que valent l'accélération et l'efficacité, dans le cas idéal ?",
+      "choices": {
+        "A": "S = 1 et E = 1/n",
+        "B": "S = n et E = n",
+        "C": "S = n/2 et E = 1/2",
+        "D": "S = n et E = 1"
+      },
+      "answer": "D",
+      "explanation": "T₁ = n et Tn = 1 (chaque cœur fait une itération). S = n/1 = n et E = S/p = n/n = 1.",
+      "why": {
+        "A": "S = 1 signifierait aucun gain ; ici les n itérations se font en même temps.",
+        "B": "E = S/p = n/n = 1 ; l'efficacité ne dépasse pas 1 dans le cas idéal.",
+        "C": "Rien ne divise le gain par 2 : il n'y a aucune dépendance entre les itérations."
+      },
+      "ref": "Cours prog. §3.1 — Parallélisme de données (exemple)",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-029",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un logiciel compresse l'audio dans un thread, pendant qu'un autre groupe de threads applique le même filtre à toutes les images d'une vidéo, réparties sur 4 cœurs. Comment qualifier ce parallélisme ?",
+      "choices": {
+        "A": "Parallélisme de données seulement",
+        "B": "Parallélisme mixte",
+        "C": "Parallélisme de tâches seulement",
+        "D": "Parallélisme de flux"
+      },
+      "answer": "B",
+      "explanation": "Mixte : on combine plus d'un mode. Ici, des tâches différentes en parallèle (audio / vidéo), dont l'une est elle-même parallèle sur ses données (le filtre).",
+      "why": {
+        "A": "La compression audio est un calcul différent, en parallèle du filtre : il y a aussi du parallélisme de tâches.",
+        "C": "Le filtre appliqué à toutes les images, réparties sur 4 cœurs, est du parallélisme de données.",
+        "D": "Rien n'est organisé en chaîne d'étapes successives."
+      },
+      "ref": "Cours prog. §2.3 — Parallélisme mixte",
+      "source": "cours-programmation"
     }
   ],
   "flashcards": [
@@ -434,9 +667,9 @@
       "kind": "why",
       "tier": "core",
       "front": "Pourquoi une accélération super-linéaire est-elle possible ?",
-      "back": "En séquentiel, les données ne tiennent pas en cache, d'où beaucoup de swaps. En parallèle, chaque part tient en cache : plus de swap, donc Tp < T₁/p.",
-      "ref": "§7.1",
-      "source": "resume-parallelisme"
+      "back": "En séquentiel, un seul processeur n'a pas assez de mémoire pour toutes les données : il utilise le swap disque (lent). En parallèle, chaque processeur garde sa part en mémoire : plus de swap, donc Tp < T₁/p.",
+      "ref": "Cours prog. §6",
+      "source": "cours-programmation"
     },
     {
       "id": "calcul-parallele-perf-f007",
@@ -509,6 +742,69 @@
       "back": "Quand la charge est équilibrée : tous les processeurs ont la même quantité de travail.",
       "ref": "§8",
       "source": "resume-parallelisme"
+    },
+    {
+      "id": "calcul-parallele-perf-f015",
+      "kind": "why",
+      "tier": "core",
+      "front": "Inconvénient du parallélisme implicite, et conséquence pour le programmeur ?",
+      "back": "Un paralléliseur automatique peut rater un parallélisme réel, par exemple quand une variable réutilisée crée une fausse chaîne. Le programmeur doit connaître les capacités du compilateur (et renommer si besoin).",
+      "ref": "Cours prog. §1.1",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-f016",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Quand deux tâches sont-elles dépendantes ?",
+      "back": "Quand il y a une lecture/écriture ou une écriture/écriture sur une variable commune. Deux lectures seules ne créent pas de dépendance.",
+      "ref": "Cours prog. §3.2",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-f017",
+      "kind": "why",
+      "tier": "core",
+      "front": "Parallélisme de données en mémoire distribuée : d'où vient le coût ?",
+      "back": "Les données n'ont pas de dépendances entre elles. Le coût apparaît au découpage initial : les répartir entre processeurs demande des communications.",
+      "ref": "Cours prog. §2.1",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-f018",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Parallélisme de tâches : comment choisir la parallélisation ?",
+      "back": "On étudie les dépendances, puis on choisit la meilleure version en temps et en processeurs : c'est le compromis ressources–temps.",
+      "ref": "Cours prog. §2.2",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-f019",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Dmax, Topt et Popt : quels liens ?",
+      "back": "Dmax donne Topt, mais pas toujours Popt : on a souvent Popt ≤ Dmax. Topt est indépendant du nombre de processeurs.",
+      "ref": "Cours prog. §4.2–4.3",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-f020",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Calculer Topt sur un graphe de dépendance ?",
+      "back": "Tâches de même durée : longueur de la plus longue chaîne, comptée en sommets. Durées différentes : Topt = somme des durées des tâches du chemin le plus long.",
+      "ref": "Cours prog. §5",
+      "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-f021",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Parallélisme mixte : exemple type ?",
+      "back": "Plusieurs tâches en parallèle, dont l'une traite elle-même ses données en parallèle (tâches + données).",
+      "ref": "Cours prog. §2.3",
+      "source": "cours-programmation"
     }
   ]
 }
