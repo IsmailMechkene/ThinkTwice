@@ -1,0 +1,15 @@
+{
+  "name": "AWS Cloud Foundations",
+  "description": "Concepts du cloud, facturation, infrastructure mondiale, sécurité, réseau, calcul et stockage sur AWS.",
+  "icon": "☁️",
+  "color": "#ea580c",
+  "language": "fr",
+  "contributors": [],
+  "sources": {
+    "fiche-aws": {
+      "label": "Fiche de révision — AWS Cloud Foundations, modules 1 à 7",
+      "file": "courses/aws cloud foundations/AWS_Resume_Modules_1-7.pdf",
+      "author": ""
+    }
+  }
+}
