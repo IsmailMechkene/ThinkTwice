@@ -155,18 +155,18 @@
       "id": "aws-cloud-foundations-infrastructure-008",
       "difficulty": "medium",
       "tier": "core",
-      "question": "Qu'est-ce qui rend deux AZ indépendantes l'une de l'autre ?",
+      "question": "Comment le cours définit-il une zone de disponibilité ?",
       "choices": {
-        "A": "Elles sont dans deux Régions différentes",
-        "B": "Elles partagent un seul datacenter",
-        "C": "Elles ont leur électricité et leur réseau propres",
-        "D": "Elles appartiennent à deux comptes AWS"
+        "A": "Une Région de secours dans un autre pays",
+        "B": "Un seul serveur physique dédié",
+        "C": "Une partition isolée, faite de datacenters reliés",
+        "D": "Un groupe de comptes AWS"
       },
       "answer": "C",
-      "explanation": "Une AZ regroupe des datacenters séparés, avec électricité et réseau propres.",
+      "explanation": "Une AZ est une partition isolée de l'infrastructure, faite de datacenters reliés par un réseau privé très rapide.",
       "why": {
-        "A": "Les AZ d'une Région sont dans la même Région.",
-        "B": "Une AZ a ses propres datacenters.",
+        "A": "Une AZ est à l'intérieur d'une Région.",
+        "B": "Une AZ regroupe des datacenters, soit des dizaines de milliers de serveurs.",
         "D": "Les AZ ne dépendent pas des comptes."
       },
       "ref": "Module 3 — Vocabulaire",
@@ -176,19 +176,19 @@
       "id": "aws-cloud-foundations-infrastructure-009",
       "difficulty": "hard",
       "tier": "core",
-      "question": "Pourquoi les AZ d'une Région sont-elles éloignées entre elles ?",
+      "question": "AWS recommande de répliquer ses données entre AZ. Qu'est-ce que cela apporte ?",
       "choices": {
-        "A": "Pour réduire le prix du transfert",
-        "B": "Pour limiter les pannes communes",
-        "C": "Pour séparer les comptes AWS",
-        "D": "Pour héberger plus de Local Zones"
+        "A": "Une baisse du prix du transfert",
+        "B": "Des données disponibles si une AZ tombe",
+        "C": "Une séparation des comptes AWS",
+        "D": "Un cache plus proche des utilisateurs"
       },
       "answer": "B",
-      "explanation": "Les AZ sont éloignées pour limiter les pannes communes. Des liens rapides à faible latence les relient.",
+      "explanation": "Les AZ sont des partitions isolées : les données répliquées restent disponibles dans une autre AZ si l'une tombe.",
       "why": {
         "A": "Le cours ne donne pas cette raison.",
-        "C": "L'éloignement n'a pas de lien avec les comptes.",
-        "D": "Les Local Zones sont une extension de Région, sans lien avec cet éloignement."
+        "C": "La réplication n'a pas de lien avec les comptes.",
+        "D": "Le cache près des utilisateurs est le rôle des edge locations."
       },
       "ref": "Module 3 — Vocabulaire",
       "source": "fiche-aws"
@@ -346,15 +346,15 @@
       "tier": "core",
       "question": "Combien de zones de disponibilité une Région contient-elle au minimum selon le cours ?",
       "choices": {
-        "A": "1",
-        "B": "2",
+        "A": "2",
+        "B": "3",
         "C": "5",
         "D": "6"
       },
       "answer": "B",
-      "explanation": "Une Région contient au moins 2 AZ, souvent 3.",
+      "explanation": "Une Région contient au moins 3 AZ.",
       "why": {
-        "A": "Une seule AZ ne permettrait pas la haute disponibilité.",
+        "A": "Le minimum donné par le cours est plus élevé : au moins 3 AZ.",
         "C": "5 est le nombre d'IP réservées par sous-réseau.",
         "D": "6 est le nombre d'avantages du cloud et de perspectives du CAF."
       },
@@ -381,6 +381,90 @@
       },
       "ref": "Module 3 — Vocabulaire",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une équipe met ses données dans une Région et veut une copie dans une autre. Que se passe-t-il par défaut ?",
+      "choices": {
+        "A": "AWS copie tout automatiquement",
+        "B": "La copie est interdite entre Régions",
+        "C": "Rien : la réplication doit être configurée",
+        "D": "La copie passe par une edge location"
+      },
+      "answer": "C",
+      "explanation": "Entre Régions, la réplication des données est manuelle : il faut la configurer.",
+      "why": {
+        "A": "C'est le piège : la réplication entre Régions n'est pas automatique.",
+        "B": "Elle est possible, à condition de la configurer.",
+        "D": "Elle passe par le réseau privé d'AWS."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Par quel réseau passe la réplication de données entre deux Régions ?",
+      "choices": {
+        "A": "Le réseau privé d'AWS (backbone)",
+        "B": "L'Internet public",
+        "C": "Le réseau d'une Local Zone",
+        "D": "Une NAT Gateway"
+      },
+      "answer": "A",
+      "explanation": "La réplication entre Régions passe par le réseau privé d'AWS, appelé backbone.",
+      "why": {
+        "B": "Elle ne passe pas par l'Internet public.",
+        "C": "Une Local Zone étend une Région, elle ne relie pas les Régions.",
+        "D": "Une NAT Gateway fait sortir des instances privées vers Internet."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Au moment de déployer une ressource, que choisit le client ?",
+      "choices": {
+        "A": "Le datacenter précis",
+        "B": "Le pays, puis AWS décide du reste",
+        "C": "Le serveur physique exact",
+        "D": "La Région et l'AZ"
+      },
+      "answer": "D",
+      "explanation": "Le client choisit la Région et l'AZ.",
+      "why": {
+        "A": "Le choix se fait au niveau de la Région et de l'AZ.",
+        "B": "Le choix porte sur la Région et l'AZ, pas simplement sur un pays.",
+        "C": "Le choix se fait au niveau de la Région et de l'AZ."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-022",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Combien de serveurs un datacenter AWS contient-il environ selon le cours ?",
+      "choices": {
+        "A": "500 à 800",
+        "B": "50 000 à 80 000",
+        "C": "5 à 8 millions",
+        "D": "5 000 à 8 000"
+      },
+      "answer": "B",
+      "explanation": "Un datacenter contient environ 50 000 à 80 000 serveurs.",
+      "why": {
+        "A": "C'est très en dessous de l'ordre de grandeur du cours.",
+        "C": "C'est très au-dessus de l'ordre de grandeur du cours.",
+        "D": "C'est dix fois moins que l'ordre de grandeur du cours."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [
@@ -389,7 +473,7 @@
       "kind": "definition",
       "tier": "core",
       "front": "Région ?",
-      "back": "Zone géographique isolée des autres Régions, qui contient au moins 2 AZ (souvent 3).",
+      "back": "Zone géographique isolée des autres, avec au moins 3 AZ et ses propres services.",
       "ref": "Module 3 — Vocabulaire",
       "source": "fiche-aws"
     },
@@ -398,7 +482,7 @@
       "kind": "definition",
       "tier": "core",
       "front": "Zone de disponibilité (AZ) ?",
-      "back": "Un ou plusieurs datacenters séparés, avec électricité et réseau propres, éloignés pour limiter les pannes communes.",
+      "back": "Partition isolée de l'infrastructure, faite de datacenters reliés par un réseau privé très rapide.",
       "ref": "Module 3 — Vocabulaire",
       "source": "fiche-aws"
     },
@@ -463,6 +547,24 @@
       "front": "Élastique, tolérante aux pannes, hautement disponible ?",
       "back": "Élastique : s'adapte à la charge. Tolérante aux pannes : continue si un composant tombe. Hautement disponible : peu d'interruptions.",
       "ref": "Module 3 — Qualités de l'infrastructure",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f010",
+      "kind": "why",
+      "tier": "core",
+      "front": "La réplication entre Régions est-elle automatique ?",
+      "back": "Non : elle se fait manuellement, à configurer, et passe par le réseau privé d'AWS (backbone).",
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f011",
+      "kind": "definition",
+      "tier": "bonus",
+      "front": "Datacenter ?",
+      "back": "Bâtiment où les données sont stockées et traitées (environ 50 000 à 80 000 serveurs).",
+      "ref": "Module 3 — Vocabulaire",
       "source": "fiche-aws"
     }
   ]

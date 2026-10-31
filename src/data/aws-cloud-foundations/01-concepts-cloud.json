@@ -92,18 +92,18 @@
       "id": "aws-cloud-foundations-concepts-005",
       "difficulty": "medium",
       "tier": "core",
-      "question": "Une banque garde ses données clients dans son datacenter et fait tourner son site dans AWS, les deux étant reliés. Quel modèle de déploiement est-ce ?",
+      "question": "Une banque garde ses données clients dans son datacenter et fait tourner son site dans AWS. Quel modèle de déploiement est-ce ?",
       "choices": {
         "A": "Cloud public",
         "B": "Hybride",
-        "C": "On-premises",
+        "C": "Cloud privé",
         "D": "SaaS"
       },
       "answer": "B",
-      "explanation": "Le modèle hybride mélange une partie dans le cloud et une partie dans son datacenter, reliées entre elles.",
+      "explanation": "Le modèle hybride combine les deux : certaines applis ou données dans le privé, d'autres dans le public.",
       "why": {
-        "A": "En cloud public, tout tourne chez le fournisseur.",
-        "C": "En on-premises, tout reste dans son propre datacenter.",
+        "A": "Le cloud public seul ne garderait rien dans le datacenter de la banque.",
+        "C": "Le cloud privé seul n'utiliserait pas AWS.",
         "D": "SaaS est un modèle de service."
       },
       "ref": "Module 1 — 3 modèles de déploiement",
@@ -113,18 +113,18 @@
       "id": "aws-cloud-foundations-concepts-006",
       "difficulty": "easy",
       "tier": "core",
-      "question": "Une société fait tout tourner dans son propre datacenter, avec des outils de virtualisation. Quel modèle de déploiement utilise-t-elle ?",
+      "question": "Une société dédie toute son infrastructure à sa seule organisation, dans ses propres locaux. Quel modèle de déploiement utilise-t-elle ?",
       "choices": {
         "A": "Cloud public",
         "B": "Hybride",
         "C": "IaaS",
-        "D": "On-premises"
+        "D": "Cloud privé (on-premises)"
       },
       "answer": "D",
-      "explanation": "On-premises (privé) : tout est dans son propre datacenter, avec des outils de virtualisation.",
+      "explanation": "Le cloud privé (on-premises) est une infrastructure dédiée à une seule organisation.",
       "why": {
-        "A": "Rien ne tourne chez un fournisseur.",
-        "B": "Aucune partie n'est dans le cloud.",
+        "A": "Le cloud public est ouvert à tous et appartient à un fournisseur externe.",
+        "B": "Aucune partie n'est dans le cloud public.",
         "C": "IaaS est un modèle de service loué à un fournisseur."
       },
       "ref": "Module 1 — 3 modèles de déploiement",
@@ -304,15 +304,15 @@
       "tier": "bonus",
       "question": "Selon le cours, qu'est-ce qu'un service web ?",
       "choices": {
-        "A": "Un logiciel accessible via le réseau par une API",
+        "A": "Un logiciel réseau qui fait communiquer des applis",
         "B": "Un site vitrine hébergé dans une Région",
         "C": "Un serveur physique loué chez AWS",
         "D": "Un navigateur relié à un datacenter"
       },
       "answer": "A",
-      "explanation": "Un service web est un logiciel accessible via le réseau par une interface standard (API).",
+      "explanation": "Un service web est un logiciel disponible via Internet ou un réseau interne, qui permet aux applis de communiquer avec des formats standard.",
       "why": {
-        "B": "Un site n'est qu'un usage possible : la définition porte sur l'interface.",
+        "B": "Un site n'est qu'un usage possible : la définition porte sur la communication entre applis.",
         "C": "Un service web est un logiciel, pas du matériel.",
         "D": "Le navigateur n'est qu'un client possible."
       },
@@ -423,6 +423,279 @@
       },
       "ref": "Module 1 — CAF",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un développeur crée un serveur depuis la console, sans contacter personne chez le fournisseur. Quelle caractéristique du cloud est illustrée ?",
+      "choices": {
+        "A": "Service mesuré",
+        "B": "Libre-service à la demande",
+        "C": "Mutualisation des ressources",
+        "D": "Accès réseau étendu"
+      },
+      "answer": "B",
+      "explanation": "Libre-service à la demande : créer des ressources sans attendre le fournisseur.",
+      "why": {
+        "A": "Le service mesuré concerne le comptage de l'usage.",
+        "C": "La mutualisation concerne le pool partagé entre clients.",
+        "D": "L'accès réseau étendu concerne l'accès depuis n'importe quel appareil."
+      },
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "La facture d'une équipe suit exactement le calcul et le stockage consommés. Quelle caractéristique du cloud l'explique ?",
+      "choices": {
+        "A": "Élasticité rapide",
+        "B": "Libre-service à la demande",
+        "C": "Accès réseau étendu",
+        "D": "Service mesuré"
+      },
+      "answer": "D",
+      "explanation": "Service mesuré : l'usage est compté, donc on paie ce qu'on consomme.",
+      "why": {
+        "A": "L'élasticité concerne l'ajout et le retrait de capacité.",
+        "B": "Le libre-service concerne la création sans attendre le fournisseur.",
+        "C": "L'accès réseau étendu concerne l'accès depuis tout appareil."
+      },
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Plusieurs clients utilisent le même pool de matériel, tout en restant isolés les uns des autres. Quelle caractéristique est-ce ?",
+      "choices": {
+        "A": "Mutualisation des ressources",
+        "B": "Élasticité rapide",
+        "C": "Service mesuré",
+        "D": "Scalabilité"
+      },
+      "answer": "A",
+      "explanation": "Mutualisation des ressources : un pool partagé, mais chaque client est isolé.",
+      "why": {
+        "B": "L'élasticité adapte la capacité au besoin.",
+        "C": "Le service mesuré compte l'usage.",
+        "D": "La scalabilité est la capacité à supporter une charge plus grande."
+      },
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-024",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un site ajoute des serveurs à 18 h et les libère à minuit, selon la demande. Quelle notion décrit le mieux ce comportement ?",
+      "choices": {
+        "A": "La scalabilité seule",
+        "B": "Le provisioning unique",
+        "C": "L'élasticité",
+        "D": "La mutualisation"
+      },
+      "answer": "C",
+      "explanation": "L'élasticité adapte la capacité à la demande dans les deux sens (+ et −).",
+      "why": {
+        "A": "La scalabilité parle de supporter une charge plus grande, pas de redescendre.",
+        "B": "Le provisioning met des ressources à disposition, sans notion d'aller-retour.",
+        "D": "La mutualisation concerne le partage entre clients."
+      },
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-025",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application doit pouvoir passer de 1 000 à 1 million d'utilisateurs. Quelle propriété recherche-t-on ?",
+      "choices": {
+        "A": "La mutualisation",
+        "B": "La scalabilité",
+        "C": "Le service mesuré",
+        "D": "L'accès réseau étendu"
+      },
+      "answer": "B",
+      "explanation": "La scalabilité consiste à supporter une charge plus grande (matériel, logiciel, utilisateurs).",
+      "why": {
+        "A": "La mutualisation concerne le partage entre clients.",
+        "C": "Le service mesuré compte l'usage.",
+        "D": "L'accès réseau étendu ne dit rien de la charge supportée."
+      },
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment appelle-t-on le fait de mettre à disposition les ressources nécessaires à un système, une appli ou un utilisateur ?",
+      "choices": {
+        "A": "La mutualisation",
+        "B": "La virtualisation",
+        "C": "La facturation",
+        "D": "L'approvisionnement (provisioning)"
+      },
+      "answer": "D",
+      "explanation": "L'approvisionnement (provisioning) met à disposition les ressources nécessaires pour qu'un système, une appli ou un utilisateur fonctionne.",
+      "why": {
+        "A": "La mutualisation est le partage d'un pool entre clients.",
+        "B": "La virtualisation simule des machines par logiciel.",
+        "C": "La facturation concerne le paiement de l'usage."
+      },
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-027",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise achète assez de serveurs pour un pic théorique, et ils restent le plus souvent inutilisés. De quoi s'agit-il ?",
+      "choices": {
+        "A": "Un problème du modèle traditionnel",
+        "B": "Un effet de l'élasticité",
+        "C": "Un avantage du service mesuré",
+        "D": "Une limite du cloud public"
+      },
+      "answer": "A",
+      "explanation": "Dans le modèle traditionnel, on achète pour les pics de charge théoriques : le matériel reste souvent inutilisé.",
+      "why": {
+        "B": "L'élasticité évite justement ce surdimensionnement.",
+        "C": "Le service mesuré fait payer l'usage réel.",
+        "D": "Le cloud public évite cet achat à l'avance."
+      },
+      "ref": "Module 1 — Problèmes du modèle traditionnel",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-028",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel est le rôle de l'hyperviseur (VMM) ?",
+      "choices": {
+        "A": "Stocker les images de conteneurs",
+        "B": "Facturer chaque machine virtuelle",
+        "C": "Partager le matériel entre les VM",
+        "D": "Remplacer le système de chaque VM"
+      },
+      "answer": "C",
+      "explanation": "L'hyperviseur se place entre le matériel et les VM, et partage CPU, RAM, disque et réseau entre elles.",
+      "why": {
+        "A": "C'est le rôle d'un registre comme ECR.",
+        "B": "La facturation est sans rapport avec l'hyperviseur.",
+        "D": "Chaque VM garde son propre OS."
+      },
+      "ref": "Module 1 — Machine virtuelle & hyperviseur",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-029",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un étudiant installe VirtualBox sur son PC Windows pour tester Linux. Quel type d'hyperviseur utilise-t-il ?",
+      "choices": {
+        "A": "Type 1 (bare-metal)",
+        "B": "Type 2 (hébergé)",
+        "C": "Un hyperviseur de conteneurs",
+        "D": "Un hyperviseur serverless"
+      },
+      "answer": "B",
+      "explanation": "Le type 2 est une appli sur un OS existant, comme VirtualBox, pour un usage personnel.",
+      "why": {
+        "A": "Le type 1 s'installe directement sur le matériel.",
+        "C": "Le cours ne décrit que les types 1 et 2.",
+        "D": "Le cours ne décrit que les types 1 et 2."
+      },
+      "ref": "Module 1 — Machine virtuelle & hyperviseur",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-030",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans un datacenter, un hyperviseur est installé directement sur le matériel, sans OS en dessous. Quel type est-ce ?",
+      "choices": {
+        "A": "Type 2, car il héberge des VM",
+        "B": "Type 2, car il partage le CPU",
+        "C": "Type 1, comme VirtualBox",
+        "D": "Type 1 (bare-metal)"
+      },
+      "answer": "D",
+      "explanation": "Le type 1 (bare-metal) est installé directement sur le matériel. On le trouve dans les datacenters et les entreprises.",
+      "why": {
+        "A": "Les deux types hébergent des VM : le type 2 tourne sur un OS existant.",
+        "B": "Les deux types partagent le CPU.",
+        "C": "VirtualBox est un hyperviseur de type 2."
+      },
+      "ref": "Module 1 — Machine virtuelle & hyperviseur",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-031",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "De quoi dispose chaque machine virtuelle ?",
+      "choices": {
+        "A": "Son OS, sa mémoire, son stockage et un CPU virtuel",
+        "B": "Du seul OS de l'hôte, partagé avec les autres",
+        "C": "D'un serveur physique entier réservé",
+        "D": "D'aucun système, seulement d'une application"
+      },
+      "answer": "A",
+      "explanation": "Une VM est un ordinateur simulé par logiciel, avec son propre OS, sa mémoire, son stockage et son CPU virtuel.",
+      "why": {
+        "B": "Partager l'OS de l'hôte caractérise le conteneur.",
+        "C": "La VM tourne sur une machine hôte partagée.",
+        "D": "Une VM a son propre OS."
+      },
+      "ref": "Module 1 — Machine virtuelle & hyperviseur",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-032",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Parmi les modèles de service, lequel laisse le plus de contrôle sur l'IT au client ?",
+      "choices": {
+        "A": "SaaS",
+        "B": "PaaS",
+        "C": "IaaS",
+        "D": "Ils se valent tous"
+      },
+      "answer": "C",
+      "explanation": "De IaaS à SaaS, on passe de plus de contrôle à moins de contrôle sur l'IT.",
+      "why": {
+        "A": "Le SaaS laisse le moins de contrôle.",
+        "B": "Le PaaS laisse l'OS au fournisseur.",
+        "D": "Ils se distinguent justement par le partage des responsabilités."
+      },
+      "ref": "Module 1 — 3 modèles de service",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-033",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'ont en commun la console, la CLI et les SDK ?",
+      "choices": {
+        "A": "Ils exigent tous le plan Enterprise",
+        "B": "Ils passent tous par l'API du fournisseur",
+        "C": "Ils ne fonctionnent que depuis une instance",
+        "D": "Ils utilisent tous une interface graphique"
+      },
+      "answer": "B",
+      "explanation": "Les 3 façons d'accéder à AWS passent toutes par l'API (REST) du fournisseur.",
+      "why": {
+        "A": "Aucun plan de support particulier n'est requis.",
+        "C": "Ils fonctionnent aussi hors d'une instance.",
+        "D": "Seule la console est graphique."
+      },
+      "ref": "Module 1 — AWS, c'est quoi ?",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [
@@ -449,7 +722,7 @@
       "kind": "distinction",
       "tier": "core",
       "front": "Les 3 modèles de déploiement ?",
-      "back": "Cloud : tout chez le fournisseur. Hybride : cloud et datacenter reliés. On-premises : tout dans son datacenter.",
+      "back": "Public : ouvert à tous, chez un fournisseur. Privé (on-premises) : dédié à une organisation. Hybride : combine les deux.",
       "ref": "Module 1 — 3 modèles de déploiement",
       "source": "fiche-aws"
     },
@@ -496,6 +769,60 @@
       "front": "Les 6 perspectives du CAF ?",
       "back": "Métier : Business, People, Governance. Technique : Platform, Security, Operations.",
       "ref": "Module 1 — CAF",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 5 caractéristiques du cloud ?",
+      "back": "Libre-service à la demande, accès réseau étendu, mutualisation des ressources, élasticité rapide, service mesuré.",
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Scalabilité vs élasticité ?",
+      "back": "Scalabilité : supporter une charge plus grande. Élasticité : adapter la capacité à la demande, dans les deux sens.",
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Approvisionnement (provisioning) ?",
+      "back": "Mettre à disposition les ressources nécessaires pour qu'un système, une appli ou un utilisateur fonctionne.",
+      "ref": "Module 1 — Les 5 caractéristiques du cloud",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Problèmes du modèle traditionnel ?",
+      "back": "Il faut une équipe, de la planification et de la place ; le matériel arrive tard ; on achète pour les pics, donc il reste souvent inutilisé.",
+      "ref": "Module 1 — Problèmes du modèle traditionnel",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f013",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Machine virtuelle et hyperviseur ?",
+      "back": "VM : ordinateur simulé par logiciel, avec son OS, sa mémoire, son stockage et son CPU virtuel. Hyperviseur : partage le matériel entre les VM.",
+      "ref": "Module 1 — Machine virtuelle & hyperviseur",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f014",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Hyperviseur type 1 vs type 2 ?",
+      "back": "Type 1 (bare-metal) : directement sur le matériel, en datacenter. Type 2 (hébergé) : appli sur un OS existant, comme VirtualBox.",
+      "ref": "Module 1 — Machine virtuelle & hyperviseur",
       "source": "fiche-aws"
     }
   ]

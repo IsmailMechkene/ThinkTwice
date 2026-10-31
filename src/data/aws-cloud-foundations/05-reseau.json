@@ -528,6 +528,363 @@
       },
       "ref": "Module 5 — Amazon CloudFront",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Six mois après sa création, un VPC en /24 manque d'adresses. Peut-on modifier son CIDR ?",
+      "choices": {
+        "A": "Oui, à tout moment",
+        "B": "Oui, après avoir arrêté les instances",
+        "C": "Non : le CIDR est fixé à la création",
+        "D": "Non : il faut changer de Région"
+      },
+      "answer": "C",
+      "explanation": "Le CIDR d'un VPC est fixé à la création : il n'est pas modifiable.",
+      "why": {
+        "A": "Il n'est pas modifiable.",
+        "B": "Arrêter les instances n'y change rien.",
+        "D": "La Région n'a aucun rapport avec cette règle."
+      },
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-027",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un compte vient d'être ouvert et l'équipe n'a créé aucun réseau. Quel VPC existe déjà ?",
+      "choices": {
+        "A": "Un VPC par défaut",
+        "B": "Aucun VPC",
+        "C": "Un VPC partagé entre clients",
+        "D": "Un VPC par AZ"
+      },
+      "answer": "A",
+      "explanation": "Un VPC par défaut est créé automatiquement.",
+      "why": {
+        "B": "Un VPC par défaut est créé automatiquement.",
+        "C": "Un VPC est dédié au compte et isolé des autres.",
+        "D": "Un VPC peut couvrir plusieurs AZ."
+      },
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-028",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un VPC contient déjà le sous-réseau 10.0.1.0/24. Peut-on y ajouter 10.0.1.0/25 ?",
+      "choices": {
+        "A": "Oui, s'il est dans une autre AZ",
+        "B": "Oui, car /25 est plus petit",
+        "C": "Oui, avec une table de routage dédiée",
+        "D": "Non : les blocs ne doivent pas se chevaucher"
+      },
+      "answer": "D",
+      "explanation": "Les blocs des sous-réseaux ne doivent pas se chevaucher, et 10.0.1.0/25 est inclus dans 10.0.1.0/24.",
+      "why": {
+        "A": "L'AZ ne change rien au chevauchement.",
+        "B": "Être plus petit ne l'empêche pas d'être inclus dans l'autre.",
+        "C": "Une table de routage ne résout pas le chevauchement."
+      },
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-029",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'est-ce qui définit si un sous-réseau est public ou privé ?",
+      "choices": {
+        "A": "Son numéro de CIDR",
+        "B": "Sa table de routage",
+        "C": "Sa zone de disponibilité",
+        "D": "Le type des instances"
+      },
+      "answer": "B",
+      "explanation": "C'est la table de routage qui définit le type du sous-réseau.",
+      "why": {
+        "A": "Un même CIDR peut être public ou privé.",
+        "C": "L'AZ ne donne pas le type.",
+        "D": "Le type d'instance n'a aucun rapport."
+      },
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-030",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans le sous-réseau 10.0.0.0/24, à quoi sert l'adresse réservée 10.0.0.1 ?",
+      "choices": {
+        "A": "Au broadcast",
+        "B": "Au DNS",
+        "C": "À un usage futur",
+        "D": "Au routeur du VPC"
+      },
+      "answer": "D",
+      "explanation": "10.0.0.1 est réservée au routeur du VPC, pour la communication interne.",
+      "why": {
+        "A": "Le broadcast correspond à 10.0.0.255.",
+        "B": "Le DNS correspond à 10.0.0.2.",
+        "C": "L'usage futur correspond à 10.0.0.3."
+      },
+      "ref": "Module 5 — Les 5 IP réservées",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-031",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans le sous-réseau 10.0.0.0/24, quelle adresse est réservée au DNS ?",
+      "choices": {
+        "A": "10.0.0.2",
+        "B": "10.0.0.0",
+        "C": "10.0.0.1",
+        "D": "10.0.0.255"
+      },
+      "answer": "A",
+      "explanation": "Les adresses réservées sont .0 (réseau), .1 (routeur), .2 (DNS), .3 (usage futur) et .255 (broadcast).",
+      "why": {
+        "B": "10.0.0.0 est l'adresse du réseau.",
+        "C": "10.0.0.1 est le routeur du VPC.",
+        "D": "10.0.0.255 est le broadcast, non supporté."
+      },
+      "ref": "Module 5 — Les 5 IP réservées",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-032",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi l'adresse 10.0.0.255 d'un sous-réseau /24 est-elle réservée ?",
+      "choices": {
+        "A": "C'est la passerelle Internet",
+        "B": "C'est le DNS",
+        "C": "C'est le broadcast, non supporté",
+        "D": "C'est l'adresse du réseau"
+      },
+      "answer": "C",
+      "explanation": "La dernière adresse est celle du broadcast, qui n'est pas supporté.",
+      "why": {
+        "A": "La passerelle n'est pas une de ces adresses réservées.",
+        "B": "Le DNS correspond à 10.0.0.2.",
+        "D": "L'adresse du réseau est 10.0.0.0."
+      },
+      "ref": "Module 5 — Les 5 IP réservées",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-033",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Combien d'adresses IP sont utilisables dans un sous-réseau AWS en /28 ?",
+      "choices": {
+        "A": "16",
+        "B": "11",
+        "C": "14",
+        "D": "5"
+      },
+      "answer": "B",
+      "explanation": "Un /28 contient 16 adresses, moins les 5 réservées : 16 − 5 = 11.",
+      "why": {
+        "A": "Cela oublie les 5 adresses réservées.",
+        "C": "AWS réserve 5 adresses, pas 2.",
+        "D": "5 est le nombre d'adresses réservées."
+      },
+      "ref": "Module 5 — Les 5 IP réservées",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-034",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une table de routage contient la ligne `0.0.0.0/0 → igw-id`. Quel type de sous-réseau décrit-elle ?",
+      "choices": {
+        "A": "Un sous-réseau privé avec sortie NAT",
+        "B": "Un sous-réseau sans trafic interne",
+        "C": "Un VPC Peering",
+        "D": "Un sous-réseau public"
+      },
+      "answer": "D",
+      "explanation": "La route 0.0.0.0/0 vers une Internet Gateway caractérise un sous-réseau public.",
+      "why": {
+        "A": "Un sous-réseau privé pointerait vers nat-gw-id.",
+        "B": "La ligne local reste présente pour le trafic interne.",
+        "C": "Le Peering ne se reconnaît pas à cette route."
+      },
+      "ref": "Module 5 — Tables de routage",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-035",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans la table d'un sous-réseau privé, vers quoi pointe `0.0.0.0/0` pour permettre les mises à jour ?",
+      "choices": {
+        "A": "nat-gw-id",
+        "B": "igw-id",
+        "C": "local",
+        "D": "eni-id"
+      },
+      "answer": "A",
+      "explanation": "En sous-réseau privé, 0.0.0.0/0 pointe vers la NAT Gateway : une sortie seule, par exemple pour les mises à jour.",
+      "why": {
+        "B": "Une route vers l'IGW rendrait le sous-réseau public.",
+        "C": "local concerne le trafic interne au VPC.",
+        "D": "Une ENI est une carte réseau virtuelle, pas la sortie décrite par le cours."
+      },
+      "ref": "Module 5 — Tables de routage",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-036",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une table de routage, à quoi sert la ligne `10.0.0.0/16 → local` ?",
+      "choices": {
+        "A": "À sortir vers Internet",
+        "B": "À joindre un autre VPC",
+        "C": "Au trafic interne au VPC",
+        "D": "À bloquer le trafic interne"
+      },
+      "answer": "C",
+      "explanation": "La ligne local, présente par défaut, gère le trafic interne au VPC.",
+      "why": {
+        "A": "La sortie vers Internet utilise 0.0.0.0/0.",
+        "B": "Joindre un autre VPC demande un Peering.",
+        "D": "Une table de routage dirige le trafic, cette ligne ne bloque rien."
+      },
+      "ref": "Module 5 — Tables de routage",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-037",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Combien d'Internet Gateways un VPC peut-il avoir ?",
+      "choices": {
+        "A": "Une par sous-réseau",
+        "B": "Une seule par VPC",
+        "C": "Une par AZ",
+        "D": "Une par instance"
+      },
+      "answer": "B",
+      "explanation": "Il y a 1 seule Internet Gateway par VPC.",
+      "why": {
+        "A": "L'IGW est au niveau du VPC, pas du sous-réseau.",
+        "C": "L'IGW ne dépend pas d'une AZ.",
+        "D": "L'IGW ne dépend pas d'une instance."
+      },
+      "ref": "Module 5 — Tables de routage",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-038",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance avec une IP publique auto-assignée est arrêtée, puis redémarrée. Que devient son IP publique ?",
+      "choices": {
+        "A": "Elle reste identique",
+        "B": "Elle devient une Elastic IP",
+        "C": "Elle devient privée",
+        "D": "Elle change"
+      },
+      "answer": "D",
+      "explanation": "L'IP publique change à chaque arrêt/redémarrage. Pour la garder, il faut une Elastic IP.",
+      "why": {
+        "A": "C'est le comportement d'une Elastic IP.",
+        "B": "Aucune conversion automatique n'a lieu.",
+        "C": "L'instance garde son IP privée, en plus d'une nouvelle IP publique."
+      },
+      "ref": "Module 5 — Adresses IP publiques & ENI",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-039",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "À quoi une Elastic IP est-elle liée, et que coûte-t-elle ?",
+      "choices": {
+        "A": "Au compte, avec un coût supplémentaire",
+        "B": "À une instance, sans aucun coût",
+        "C": "À une AZ, avec un forfait annuel",
+        "D": "À un sous-réseau, sans aucun coût"
+      },
+      "answer": "A",
+      "explanation": "Une Elastic IP est une IP publique permanente, liée au compte, qu'on attache ou détache librement. Elle a un coût supplémentaire.",
+      "why": {
+        "B": "Elle se détache d'une instance, et le cours indique un coût.",
+        "C": "Elle est liée au compte, et le cours ne parle pas de forfait.",
+        "D": "Elle est liée au compte, et elle a un coût."
+      },
+      "ref": "Module 5 — Adresses IP publiques & ENI",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-040",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Combien d'ENI une instance possède-t-elle sans configuration particulière ?",
+      "choices": {
+        "A": "Aucune",
+        "B": "Deux",
+        "C": "Une par défaut",
+        "D": "Une par sous-réseau du VPC"
+      },
+      "answer": "C",
+      "explanation": "Chaque instance a une ENI par défaut, et on peut en attacher ou en détacher d'autres.",
+      "why": {
+        "A": "Chaque instance a une carte réseau virtuelle.",
+        "B": "Le cours en indique une par défaut.",
+        "D": "Le nombre ne dépend pas des sous-réseaux du VPC."
+      },
+      "ref": "Module 5 — Adresses IP publiques & ENI",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-041",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel champ existe dans une règle de NACL, mais pas dans une règle de Security Group ?",
+      "choices": {
+        "A": "Le protocole",
+        "B": "Le numéro de règle",
+        "C": "La source",
+        "D": "Le port"
+      },
+      "answer": "B",
+      "explanation": "Une règle de NACL a un numéro, un type, un protocole, une plage de ports, une source et Allow/Deny. Un Security Group n'a que source, protocole et port.",
+      "why": {
+        "A": "Le protocole existe dans les deux.",
+        "C": "La source existe dans les deux.",
+        "D": "Le port existe dans les deux."
+      },
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-042",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une requête correspond à la règle 110 d'une NACL. Que deviennent les règles 120 et suivantes ?",
+      "choices": {
+        "A": "Elles sont ignorées",
+        "B": "Elles sont évaluées ensuite",
+        "C": "Elles priment sur la règle 110",
+        "D": "Elles deviennent des règles Deny"
+      },
+      "answer": "A",
+      "explanation": "Dès qu'une règle de NACL correspond, on s'arrête : les suivantes sont ignorées.",
+      "why": {
+        "B": "L'évaluation s'arrête à la première correspondance.",
+        "C": "L'ordre va du plus petit au plus grand numéro.",
+        "D": "Une règle ne change pas de nature."
+      },
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [
@@ -637,6 +994,78 @@
       "front": "Origine et TTL ?",
       "back": "Origine : source du contenu (S3, EC2, load balancer). TTL : durée de vie d'un objet en cache.",
       "ref": "Module 5 — Amazon CloudFront",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f013",
+      "kind": "definition",
+      "tier": "core",
+      "front": "VPC : règles de création ?",
+      "back": "Isolé et dédié au compte, un VPC par défaut existe, et le CIDR est fixé à la création, de /16 (max) à /28 (min).",
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f014",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Sous-réseau public ou privé : qui décide ?",
+      "back": "La table de routage. Public : joignable depuis l'extérieur. Les blocs des sous-réseaux ne doivent pas se chevaucher.",
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f015",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 5 IP réservées de 10.0.0.0/24 ?",
+      "back": ".0 réseau, .1 routeur du VPC, .2 DNS, .3 usage futur, .255 broadcast (non supporté).",
+      "ref": "Module 5 — Les 5 IP réservées",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f016",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Adresses utilisables dans un sous-réseau ?",
+      "back": "Total − 5. Exemple : /24 = 256 − 5 = 251.",
+      "ref": "Module 5 — Les 5 IP réservées",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f017",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Table de routage : public vs privé ?",
+      "back": "Les deux : 10.0.0.0/16 → local. Public : 0.0.0.0/0 → igw-id. Privé : 0.0.0.0/0 → nat-gw-id.",
+      "ref": "Module 5 — Tables de routage",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f018",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "IP publique vs Elastic IP ?",
+      "back": "IP publique : change à chaque arrêt/redémarrage. Elastic IP : permanente, liée au compte, avec un coût supplémentaire.",
+      "ref": "Module 5 — Adresses IP publiques & ENI",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f019",
+      "kind": "definition",
+      "tier": "core",
+      "front": "ENI ?",
+      "back": "Carte réseau virtuelle : chaque instance en a une par défaut, on peut en attacher ou en détacher, et sa configuration suit l'instance.",
+      "ref": "Module 5 — Adresses IP publiques & ENI",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f020",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Champs d'une règle SG vs NACL ?",
+      "back": "SG : source, protocole, port. NACL : numéro, type, protocole, ports, source, Allow/Deny ; on s'arrête à la première règle qui correspond.",
+      "ref": "Module 5 — Security Group vs NACL",
       "source": "fiche-aws"
     }
   ]

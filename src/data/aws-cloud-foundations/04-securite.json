@@ -507,6 +507,153 @@
       },
       "ref": "Module 4 — IAM",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-025",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un utilisateur se connecte avec le bon mot de passe, mais AWS refuse sa lecture d'un bucket. Quelle étape a échoué ?",
+      "choices": {
+        "A": "L'authentification",
+        "B": "L'autorisation",
+        "C": "Le chiffrement",
+        "D": "La réplication"
+      },
+      "answer": "B",
+      "explanation": "L'authentification vérifie qui il est : elle a réussi. L'autorisation vérifie ce qu'il a le droit de faire : elle a échoué.",
+      "why": {
+        "A": "Le bon mot de passe a prouvé son identité.",
+        "C": "Le chiffrement n'entre pas dans cette décision.",
+        "D": "La réplication n'a pas de lien avec cette décision."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une personne doit avoir les droits de deux équipes. Peut-elle appartenir à deux groupes IAM ?",
+      "choices": {
+        "A": "Non : un seul groupe par utilisateur",
+        "B": "Non : il faut créer un troisième groupe",
+        "C": "Oui, si les groupes sont imbriqués",
+        "D": "Oui : un utilisateur peut être dans plusieurs groupes"
+      },
+      "answer": "D",
+      "explanation": "Un utilisateur peut être dans plusieurs groupes.",
+      "why": {
+        "A": "Le cours autorise plusieurs groupes.",
+        "B": "Aucun groupe supplémentaire n'est nécessaire.",
+        "C": "Les groupes ne s'imbriquent pas."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-027",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans quel groupe IAM un nouvel utilisateur est-il placé automatiquement ?",
+      "choices": {
+        "A": "Aucun : il n'y a pas de groupe par défaut",
+        "B": "Le groupe Administrators",
+        "C": "Le groupe de son créateur",
+        "D": "Le groupe Everyone"
+      },
+      "answer": "A",
+      "explanation": "Il n'y a aucun groupe par défaut.",
+      "why": {
+        "B": "Il aurait alors des droits étendus : il n'a au contraire aucune permission.",
+        "C": "Rien de tel n'a lieu.",
+        "D": "Il n'existe pas de groupe automatique."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Qu'utilise un rôle IAM pour s'identifier ?",
+      "choices": {
+        "A": "Un mot de passe fixe et un MFA",
+        "B": "Une clé d'accès permanente",
+        "C": "Des identifiants temporaires renouvelés",
+        "D": "La clé d'accès du root"
+      },
+      "answer": "C",
+      "explanation": "Un rôle n'a ni mot de passe ni clé fixe : il utilise des identifiants temporaires (Access Key ID, Secret Key, session token), renouvelés à l'expiration.",
+      "why": {
+        "A": "Un rôle n'a pas de mot de passe.",
+        "B": "Un rôle n'a pas de clé fixe.",
+        "D": "Les clés du root doivent être supprimées."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-029",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Que faut-il pour se connecter à la console en tant qu'utilisateur IAM ?",
+      "choices": {
+        "A": "Une Access Key et une Secret Access Key",
+        "B": "L'ID de compte, le nom d'utilisateur et le mot de passe",
+        "C": "Une paire de clés SSH",
+        "D": "Un rôle IAM et un session token"
+      },
+      "answer": "B",
+      "explanation": "Accès console : ID de compte (ou alias), nom d'utilisateur et mot de passe, avec MFA conseillé.",
+      "why": {
+        "A": "Ces clés servent à l'accès programmatique.",
+        "C": "Une paire de clés sert à se connecter à une instance.",
+        "D": "Ces éléments sont ceux d'un rôle, pas d'une connexion à la console."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-030",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un utilisateur IAM a besoin à la fois de la console et de la CLI. Que faire ?",
+      "choices": {
+        "A": "Créer deux utilisateurs différents",
+        "B": "Lui donner les identifiants du root",
+        "C": "Lui attacher une SCP",
+        "D": "Combiner les deux types d'accès"
+      },
+      "answer": "D",
+      "explanation": "On peut combiner l'accès console et l'accès programmatique.",
+      "why": {
+        "A": "Le même utilisateur peut avoir les deux.",
+        "B": "Le root ne doit pas servir au quotidien.",
+        "C": "Une SCP limite des permissions, elle ne donne aucun accès."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-031",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Une équipe veut attacher une politique directement à une ressource AWS. Est-ce toujours possible ?",
+      "choices": {
+        "A": "Non : toutes les ressources ne la supportent pas",
+        "B": "Oui : toute ressource la supporte",
+        "C": "Oui, avec le plan Enterprise",
+        "D": "Non : seules les instances EC2 le permettent"
+      },
+      "answer": "A",
+      "explanation": "Toutes les ressources ne supportent pas les politiques basées sur la ressource. S3 les supporte.",
+      "why": {
+        "B": "Le cours précise que certaines ressources ne les supportent pas.",
+        "C": "Le plan de support ne change rien à cela.",
+        "D": "L'exemple du cours est justement un bucket S3."
+      },
+      "ref": "Module 4 — Comment AWS décide",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [
@@ -607,6 +754,42 @@
       "front": "Utilisateur IAM vs rôle IAM ?",
       "back": "Utilisateur : identifiants permanents. Rôle : identifiants temporaires, empruntés.",
       "ref": "Mémo final — Les paires à ne pas confondre",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f012",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Authentification vs autorisation ?",
+      "back": "Authentification : vérifier qui tu es. Autorisation : vérifier ce que tu as le droit de faire.",
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f013",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Identifiants d'un rôle IAM ?",
+      "back": "Pas de mot de passe ni de clé fixe : Access Key ID, Secret Key et session token temporaires, renouvelés à l'expiration.",
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f014",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Groupes IAM : les règles ?",
+      "back": "Un utilisateur peut être dans plusieurs groupes, aucun groupe n'existe par défaut, et un groupe ne contient pas d'autres groupes.",
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f015",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Connexion à la console IAM ?",
+      "back": "ID de compte ou alias, nom d'utilisateur et mot de passe, avec MFA conseillé.",
+      "ref": "Module 4 — IAM",
       "source": "fiche-aws"
     }
   ]
