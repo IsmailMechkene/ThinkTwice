@@ -1,0 +1,724 @@
+{
+  "id": "calcul",
+  "title": "Calcul (Compute)",
+  "order": 6,
+  "description": "EC2, cycle de vie et modèles de prix, conteneurs, Lambda et Elastic Beanstalk.",
+  "questions": [
+    {
+      "id": "aws-cloud-foundations-calcul-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Lors du lancement d'une instance, quel élément fournit l'OS et les logiciels de départ ?",
+      "choices": {
+        "A": "Le type d'instance",
+        "B": "L'AMI",
+        "C": "Le Security Group",
+        "D": "La paire de clés"
+      },
+      "answer": "B",
+      "explanation": "L'AMI (Amazon Machine Image) est le modèle de départ : OS + logiciels.",
+      "why": {
+        "A": "Le type d'instance définit CPU, mémoire et réseau.",
+        "C": "Le Security Group est le pare-feu de l'instance.",
+        "D": "La paire de clés sert à se connecter."
+      },
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un script doit installer un serveur web automatiquement au premier démarrage d'une instance. Où le mettre ?",
+      "choices": {
+        "A": "Dans les tags",
+        "B": "Dans le type d'instance",
+        "C": "Dans le rôle IAM",
+        "D": "Dans le user data"
+      },
+      "answer": "D",
+      "explanation": "Le user data est un script exécuté au premier démarrage.",
+      "why": {
+        "A": "Les tags sont des étiquettes pour organiser.",
+        "B": "Le type d'instance ne contient pas de script.",
+        "C": "Le rôle IAM donne des droits."
+      },
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Que signifie le nom de type d'instance t3.micro ?",
+      "choices": {
+        "A": "Famille t, génération 3, taille micro",
+        "B": "Taille t, famille 3, génération micro",
+        "C": "Trois CPU, de taille micro",
+        "D": "Type 3, dans la Région micro"
+      },
+      "answer": "A",
+      "explanation": "t3.micro : famille t, génération 3, taille micro.",
+      "why": {
+        "B": "L'ordre des éléments est faux.",
+        "C": "3 désigne la génération, pas le nombre de CPU.",
+        "D": "Le nom ne contient aucune Région."
+      },
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe entraîne des modèles de machine learning sur GPU. Quelle famille d'instances choisir ?",
+      "choices": {
+        "A": "Usage général (T, M)",
+        "B": "Mémoire optimisée (R, X)",
+        "C": "Calcul accéléré (P, G)",
+        "D": "Stockage optimisé (I, D)"
+      },
+      "answer": "C",
+      "explanation": "Le calcul accéléré (P, G) fournit des GPU pour le machine learning et le graphisme.",
+      "why": {
+        "A": "L'usage général convient aux sites web et au dev.",
+        "B": "La mémoire optimisée vise les bases en mémoire.",
+        "D": "Le stockage optimisé vise les lectures et écritures disque."
+      },
+      "ref": "Module 6 — Familles de types d'instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une base de données doit garder toutes ses données en mémoire. Quelle famille d'instances convient ?",
+      "choices": {
+        "A": "Calcul optimisé (C)",
+        "B": "Mémoire optimisée (R, X)",
+        "C": "Usage général (T, M)",
+        "D": "Calcul accéléré (P, G)"
+      },
+      "answer": "B",
+      "explanation": "La mémoire optimisée (R, X) convient aux bases de données en mémoire.",
+      "why": {
+        "A": "Le calcul optimisé vise les gros calculs, les jeux et les batchs.",
+        "C": "L'usage général est équilibré.",
+        "D": "Le calcul accéléré vise les GPU."
+      },
+      "ref": "Module 6 — Familles de types d'instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un studio héberge des serveurs de jeux et des traitements batch très gourmands en CPU. Quelle famille d'instances choisir ?",
+      "choices": {
+        "A": "Stockage optimisé (I, D)",
+        "B": "Mémoire optimisée (R, X)",
+        "C": "Usage général (T, M)",
+        "D": "Calcul optimisé (C)"
+      },
+      "answer": "D",
+      "explanation": "Le calcul optimisé (C) convient aux gros calculs, aux jeux et aux batchs.",
+      "why": {
+        "A": "Le stockage optimisé vise les accès disque.",
+        "B": "La mémoire optimisée vise les bases en mémoire.",
+        "C": "L'usage général est équilibré, pas spécialisé."
+      },
+      "ref": "Module 6 — Familles de types d'instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance avec un instance store est arrêtée, puis redémarrée. Que deviennent les données de ce stockage ?",
+      "choices": {
+        "A": "Elles sont perdues",
+        "B": "Elles sont intactes",
+        "C": "Elles passent dans EBS",
+        "D": "Elles partent dans S3"
+      },
+      "answer": "A",
+      "explanation": "L'instance store est temporaire : les données sont perdues si l'instance s'arrête.",
+      "why": {
+        "B": "C'est le comportement d'un volume EBS, qui est persistant.",
+        "C": "Aucun transfert automatique n'a lieu.",
+        "D": "Aucune copie automatique vers S3 n'a lieu."
+      },
+      "ref": "Module 6 — Pièges",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance EC2 avec un volume EBS est dans l'état stopped. Que paie-t-on ?",
+      "choices": {
+        "A": "Le calcul et le stockage",
+        "B": "Le calcul seulement",
+        "C": "Le stockage EBS seulement",
+        "D": "Rien du tout"
+      },
+      "answer": "C",
+      "explanation": "Stopped : on ne paie plus le calcul, mais le stockage EBS oui.",
+      "why": {
+        "A": "Le calcul n'est plus facturé.",
+        "B": "C'est l'inverse.",
+        "D": "Le volume EBS existe toujours et reste facturé."
+      },
+      "ref": "Module 6 — Cycle de vie",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance a été terminée par erreur. Peut-on la relancer avec start ?",
+      "choices": {
+        "A": "Oui, comme une instance stopped",
+        "B": "Non : elle est supprimée définitivement",
+        "C": "Oui, sous 24 heures",
+        "D": "Oui, avec une Elastic IP"
+      },
+      "answer": "B",
+      "explanation": "Terminated signifie supprimée définitivement.",
+      "why": {
+        "A": "Seule une instance stopped peut revenir avec start.",
+        "C": "Le cours ne décrit aucun délai de récupération.",
+        "D": "Une Elastic IP est une adresse, elle ne restaure rien."
+      },
+      "ref": "Module 6 — Cycle de vie",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Depuis une instance, à quelle adresse peut-on lire ses métadonnées ?",
+      "choices": {
+        "A": "10.0.0.1",
+        "B": "127.0.0.1",
+        "C": "192.0.2.10",
+        "D": "169.254.169.254"
+      },
+      "answer": "D",
+      "explanation": "Les métadonnées d'instance sont lisibles depuis celle-ci à l'adresse 169.254.169.254.",
+      "why": {
+        "A": "Ce n'est pas l'adresse citée par le cours.",
+        "B": "C'est une adresse locale classique, pas celle des métadonnées.",
+        "C": "C'est l'exemple d'adresse IPv4 du module 5."
+      },
+      "ref": "Module 6 — Autres notions EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut des métriques EC2 toutes les minutes plutôt que toutes les cinq. Que doit-elle activer ?",
+      "choices": {
+        "A": "Le monitoring détaillé de CloudWatch",
+        "B": "CloudTrail",
+        "C": "Le monitoring de base de CloudWatch",
+        "D": "Trusted Advisor"
+      },
+      "answer": "A",
+      "explanation": "CloudWatch : monitoring de base toutes les 5 minutes, détaillé toutes les 1 minute.",
+      "why": {
+        "B": "CloudTrail journalise les actions, pas les métriques.",
+        "C": "Le monitoring de base est celui des 5 minutes.",
+        "D": "Trusted Advisor donne des conseils."
+      },
+      "ref": "Module 6 — Autres notions EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance doit redémarrer rapidement en retrouvant sa mémoire. Quelle option EC2 répond à ce besoin ?",
+      "choices": {
+        "A": "Le user data",
+        "B": "Le monitoring détaillé",
+        "C": "L'hibernation",
+        "D": "Une Elastic IP"
+      },
+      "answer": "C",
+      "explanation": "L'hibernation met la RAM sur disque pour redémarrer plus vite.",
+      "why": {
+        "A": "Le user data s'exécute au premier démarrage.",
+        "B": "Le monitoring ne touche pas à la mémoire.",
+        "D": "Une Elastic IP conserve l'adresse publique."
+      },
+      "ref": "Module 6 — Autres notions EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-013",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Comment se connecte-t-on à une instance Windows avec sa paire de clés ?",
+      "choices": {
+        "A": "Par SSH",
+        "B": "Par RDP",
+        "C": "Par FTP",
+        "D": "Par HTTPS"
+      },
+      "answer": "B",
+      "explanation": "La paire de clés sert à se connecter : SSH sous Linux, RDP sous Windows.",
+      "why": {
+        "A": "SSH est utilisé sous Linux.",
+        "C": "Le cours ne cite pas FTP pour se connecter à une instance.",
+        "D": "Le cours ne cite pas HTTPS pour se connecter à une instance."
+      },
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un traitement de rendu d'images peut être interrompu et repris. Quel modèle de prix est le moins cher ?",
+      "choices": {
+        "A": "On-Demand",
+        "B": "Dedicated Hosts",
+        "C": "Reserved Instances",
+        "D": "Spot Instances"
+      },
+      "answer": "D",
+      "explanation": "Spot utilise la capacité inutilisée, jusqu'à ~90 % moins cher, mais peut être interrompu.",
+      "why": {
+        "A": "On-Demand n'offre pas cette remise.",
+        "B": "Un serveur physique entier est l'option la plus éloignée de ce besoin.",
+        "C": "Les RI demandent un engagement et conviennent aux charges stables."
+      },
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un serveur de production tournera en continu pendant 3 ans, avec une charge stable. Quel modèle convient ?",
+      "choices": {
+        "A": "Reserved Instances",
+        "B": "Spot Instances",
+        "C": "On-Demand",
+        "D": "Dedicated Hosts"
+      },
+      "answer": "A",
+      "explanation": "Les Reserved Instances (1 ou 3 ans, jusqu'à ~72 % moins cher) visent les charges stables et prévisibles.",
+      "why": {
+        "B": "Une instance Spot peut être interrompue.",
+        "C": "On-Demand reste plus cher sur une telle durée.",
+        "D": "Aucun besoin de serveur physique dédié n'est évoqué."
+      },
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-016",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise veut s'engager sur un montant horaire pendant 1 an, tout en gardant plus de flexibilité qu'avec des RI. Que choisir ?",
+      "choices": {
+        "A": "Spot Instances",
+        "B": "On-Demand",
+        "C": "Savings Plans",
+        "D": "Dedicated Instances"
+      },
+      "answer": "C",
+      "explanation": "Les Savings Plans sont un engagement sur un montant en $/h pendant 1 ou 3 ans, plus flexible que les RI.",
+      "why": {
+        "A": "Spot n'implique aucun engagement et peut être interrompu.",
+        "B": "On-Demand se fait sans engagement.",
+        "D": "Ce modèle répond à une exigence d'isolation."
+      },
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une licence logicielle est liée au serveur physique utilisé. Quel modèle choisir ?",
+      "choices": {
+        "A": "On-Demand",
+        "B": "Dedicated Hosts",
+        "C": "Spot Instances",
+        "D": "Savings Plans"
+      },
+      "answer": "B",
+      "explanation": "Dedicated Hosts donne un serveur physique entier : idéal pour les licences liées au serveur et la conformité.",
+      "why": {
+        "A": "On-Demand ne garantit pas un serveur physique précis.",
+        "C": "Spot est interruptible et sans serveur attitré.",
+        "D": "Savings Plans est un engagement financier."
+      },
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-018",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une équipe lance un test imprévisible de quelques heures, sans vouloir s'engager. Quel modèle convient ?",
+      "choices": {
+        "A": "Reserved Instances",
+        "B": "Savings Plans",
+        "C": "Dedicated Hosts",
+        "D": "On-Demand"
+      },
+      "answer": "D",
+      "explanation": "On-Demand se paie à la seconde ou à l'heure, sans engagement : idéal pour les tests et le court terme.",
+      "why": {
+        "A": "Les RI demandent 1 ou 3 ans d'engagement.",
+        "B": "Savings Plans demande aussi 1 ou 3 ans.",
+        "C": "Un serveur physique entier est inutile ici."
+      },
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-019",
+      "difficulty": "hard",
+      "tier": "bonus",
+      "question": "Quelle différence le cours fait-il entre Dedicated Hosts et Dedicated Instances ?",
+      "choices": {
+        "A": "Hosts : un serveur physique entier. Instances : matériel non partagé",
+        "B": "Hosts : matériel partagé. Instances : serveur entier",
+        "C": "Hosts : sans engagement. Instances : 3 ans",
+        "D": "Hosts : conteneurs. Instances : machines virtuelles"
+      },
+      "answer": "A",
+      "explanation": "Dedicated Hosts donne un serveur physique entier ; Dedicated Instances place des instances sur du matériel non partagé avec d'autres clients.",
+      "why": {
+        "B": "Les deux définitions sont inversées, et rien n'est partagé.",
+        "C": "Le cours ne les distingue pas par la durée.",
+        "D": "Les deux concernent des instances EC2."
+      },
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance très puissante tourne à 5 % de CPU en permanence. Quel pilier d'optimisation des coûts s'applique ?",
+      "choices": {
+        "A": "Bon choix de stockage",
+        "B": "Élasticité",
+        "C": "Bonne taille (right-size)",
+        "D": "Bon modèle de prix"
+      },
+      "answer": "C",
+      "explanation": "Bonne taille : pas de machine trop grosse.",
+      "why": {
+        "A": "Le problème n'est pas le stockage.",
+        "B": "L'élasticité vise à éteindre quand c'est inutile ; ici, la machine est surdimensionnée.",
+        "D": "Le problème n'est pas le mode de paiement."
+      },
+      "ref": "Module 6 — Optimiser les coûts EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une tâche de nettoyage dure 40 minutes. Peut-on l'exécuter telle quelle dans Lambda ?",
+      "choices": {
+        "A": "Oui, Lambda n'a pas de limite",
+        "B": "Non : 15 minutes maximum par exécution",
+        "C": "Oui, avec 10 Go de mémoire",
+        "D": "Non : Lambda ne dépasse pas 1 minute"
+      },
+      "answer": "B",
+      "explanation": "Lambda est limité à 15 minutes par exécution.",
+      "why": {
+        "A": "Lambda a bien une limite de durée.",
+        "C": "La mémoire ne change pas la limite de durée.",
+        "D": "La limite est de 15 minutes."
+      },
+      "ref": "Module 6 — AWS Lambda",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment Lambda est-il facturé ?",
+      "choices": {
+        "A": "À l'heure, tant que la fonction existe",
+        "B": "Selon le nombre de serveurs choisis",
+        "C": "Selon un forfait de 1 ou 3 ans",
+        "D": "Au nombre de requêtes et à la durée"
+      },
+      "answer": "D",
+      "explanation": "Lambda est facturé au nombre de requêtes et à la durée d'exécution, à la milliseconde.",
+      "why": {
+        "A": "Une fonction qui ne s'exécute pas ne génère ni requête ni durée.",
+        "B": "Il n'y a aucun serveur à choisir.",
+        "C": "Lambda n'impose pas d'engagement."
+      },
+      "ref": "Module 6 — AWS Lambda",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut lancer des conteneurs sans gérer aucun serveur. Quel service utilise-t-elle ?",
+      "choices": {
+        "A": "AWS Fargate",
+        "B": "Amazon ECR",
+        "C": "Amazon EC2",
+        "D": "Elastic Load Balancing"
+      },
+      "answer": "A",
+      "explanation": "Fargate fait tourner des conteneurs sans gérer de serveurs, avec ECS ou EKS.",
+      "why": {
+        "B": "ECR stocke des images de conteneurs.",
+        "C": "EC2 suppose de gérer des machines.",
+        "D": "ELB répartit le trafic."
+      },
+      "ref": "Module 6 — Conteneurs",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise utilise déjà Kubernetes et veut un service géré par AWS. Que choisir ?",
+      "choices": {
+        "A": "Amazon ECS",
+        "B": "Amazon ECR",
+        "C": "Amazon EKS",
+        "D": "AWS Lambda"
+      },
+      "answer": "C",
+      "explanation": "EKS est Kubernetes géré par AWS.",
+      "why": {
+        "A": "ECS est le service AWS pour conteneurs Docker, sans Kubernetes.",
+        "B": "ECR est un registre d'images.",
+        "D": "Lambda exécute des fonctions, pas Kubernetes."
+      },
+      "ref": "Module 6 — Conteneurs",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-025",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Où stocker les images de conteneurs d'une application ?",
+      "choices": {
+        "A": "Amazon ECS",
+        "B": "Amazon ECR",
+        "C": "AWS Fargate",
+        "D": "Amazon EFS"
+      },
+      "answer": "B",
+      "explanation": "ECR est le registre qui stocke les images de conteneurs.",
+      "why": {
+        "A": "ECS lance et gère les conteneurs.",
+        "C": "Fargate les fait tourner.",
+        "D": "EFS est un système de fichiers partagé."
+      },
+      "ref": "Module 6 — Conteneurs",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi un conteneur est-il plus léger qu'une machine virtuelle ?",
+      "choices": {
+        "A": "Il ne contient aucune dépendance",
+        "B": "Il tourne uniquement sur Lambda",
+        "C": "Il utilise un stockage instance store",
+        "D": "Il partage l'OS de la machine hôte"
+      },
+      "answer": "D",
+      "explanation": "Un conteneur emballe l'application avec ce qu'il lui faut, et partage l'OS de la machine hôte.",
+      "why": {
+        "A": "Il emballe justement tout ce dont l'application a besoin.",
+        "B": "Un conteneur n'a pas de lien exclusif avec Lambda.",
+        "C": "Le type de stockage n'explique pas cette légèreté."
+      },
+      "ref": "Module 6 — Conteneurs",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-027",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Que gère Elastic Beanstalk pour une application déposée ?",
+      "choices": {
+        "A": "Le déploiement, la capacité et l'auto scaling",
+        "B": "Uniquement le stockage des images",
+        "C": "Uniquement le DNS du domaine",
+        "D": "La rédaction du code applicatif"
+      },
+      "answer": "A",
+      "explanation": "Beanstalk gère le déploiement, la capacité, le load balancing, l'auto scaling et le monitoring.",
+      "why": {
+        "B": "C'est le rôle d'ECR.",
+        "C": "C'est le rôle de Route 53.",
+        "D": "Le code reste à la charge du client."
+      },
+      "ref": "Module 6 — AWS Elastic Beanstalk",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application PHP est déployée sur Elastic Beanstalk. Que garde l'équipe et que paie-t-elle ?",
+      "choices": {
+        "A": "Aucun accès, et un forfait Beanstalk",
+        "B": "Aucun accès, et rien du tout",
+        "C": "L'accès aux ressources, et les ressources créées",
+        "D": "L'accès au matériel physique, et un forfait"
+      },
+      "answer": "C",
+      "explanation": "Le service est gratuit : on paie les ressources créées, et on garde l'accès aux ressources sous-jacentes.",
+      "why": {
+        "A": "Beanstalk n'a pas de forfait, et l'accès est conservé.",
+        "B": "Les ressources créées sont facturées.",
+        "D": "Le matériel physique reste géré par AWS."
+      },
+      "ref": "Module 6 — AWS Elastic Beanstalk",
+      "source": "fiche-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-cloud-foundations-calcul-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "AMI ?",
+      "back": "Amazon Machine Image : le modèle de départ d'une instance, OS + logiciels.",
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "User data ?",
+      "back": "Script exécuté au premier démarrage de l'instance.",
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "EBS vs instance store ?",
+      "back": "EBS : persistant. Instance store : temporaire, données perdues si l'instance s'arrête.",
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f004",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Familles d'instances ?",
+      "back": "T, M : usage général. C : calcul. R, X : mémoire. P, G : GPU. I, D : stockage.",
+      "ref": "Module 6 — Familles de types d'instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Stopped vs terminated ?",
+      "back": "Stopped : on ne paie plus le calcul, mais EBS oui. Terminated : instance supprimée définitivement.",
+      "ref": "Module 6 — Cycle de vie",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Adresse des métadonnées d'instance ?",
+      "back": "169.254.169.254, lisible depuis l'instance.",
+      "ref": "Module 6 — Autres notions EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Monitoring CloudWatch de base vs détaillé ?",
+      "back": "Base : toutes les 5 minutes. Détaillé : toutes les 1 minute.",
+      "ref": "Module 6 — Autres notions EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f008",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 piliers d'optimisation des coûts EC2 ?",
+      "back": "Bonne taille, élasticité, bon modèle de prix, bon choix de stockage.",
+      "ref": "Module 6 — Optimiser les coûts EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "On-Demand, Reserved, Spot ?",
+      "back": "On-Demand : sans engagement. Reserved : 1 ou 3 ans, jusqu'à ~72 % de moins. Spot : jusqu'à ~90 % de moins, mais interruptible.",
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Savings Plans vs Reserved Instances ?",
+      "back": "Savings Plans : engagement sur un montant en $/h, plus flexible. RI : engagement de 1 ou 3 ans pour charges stables.",
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f011",
+      "kind": "distinction",
+      "tier": "bonus",
+      "front": "Dedicated Hosts vs Dedicated Instances ?",
+      "back": "Hosts : un serveur physique entier. Instances : matériel non partagé avec d'autres clients.",
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f012",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "ECS, EKS, Fargate, ECR ?",
+      "back": "ECS : conteneurs Docker. EKS : Kubernetes géré. Fargate : conteneurs sans serveurs. ECR : registre d'images.",
+      "ref": "Module 6 — Conteneurs",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f013",
+      "kind": "definition",
+      "tier": "core",
+      "front": "AWS Lambda : limites et facturation ?",
+      "back": "15 minutes max, mémoire jusqu'à 10 Go. Facturé au nombre de requêtes et à la durée, à la milliseconde.",
+      "ref": "Module 6 — AWS Lambda",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-f014",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Elastic Beanstalk ?",
+      "back": "PaaS : on dépose le code, il gère déploiement, capacité, load balancing, auto scaling et monitoring. Gratuit : on paie les ressources.",
+      "ref": "Module 6 — AWS Elastic Beanstalk",
+      "source": "fiche-aws"
+    }
+  ]
+}

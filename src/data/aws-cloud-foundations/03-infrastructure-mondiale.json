@@ -1,0 +1,469 @@
+{
+  "id": "infrastructure",
+  "title": "Infrastructure mondiale",
+  "order": 3,
+  "description": "Régions, zones de disponibilité, edge locations, choix d'une Région et grandes catégories de services.",
+  "questions": [
+    {
+      "id": "aws-cloud-foundations-infrastructure-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle hiérarchie décrit correctement l'infrastructure AWS, du plus grand au plus petit ?",
+      "choices": {
+        "A": "AZ → Région → datacenter",
+        "B": "Région → AZ → datacenter",
+        "C": "Datacenter → AZ → Région",
+        "D": "Région → datacenter → AZ"
+      },
+      "answer": "B",
+      "explanation": "Une Région contient plusieurs AZ, chacune composée d'un ou plusieurs datacenters.",
+      "why": {
+        "A": "La Région est le niveau au-dessus de l'AZ.",
+        "C": "C'est l'ordre inverse.",
+        "D": "Une AZ contient des datacenters, pas l'inverse."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application doit rester en ligne si un datacenter entier tombe. Quel déploiement le cours recommande-t-il ?",
+      "choices": {
+        "A": "Deux instances dans la même AZ",
+        "B": "Une grosse instance dans une AZ",
+        "C": "Une instance dans une Local Zone",
+        "D": "Plusieurs instances sur plusieurs AZ"
+      },
+      "answer": "D",
+      "explanation": "Déployer sur plusieurs AZ donne la haute disponibilité.",
+      "why": {
+        "A": "Une même AZ peut tomber entièrement.",
+        "B": "Une seule instance reste un point de panne unique.",
+        "C": "Une Local Zone sert la latence, pas la redondance."
+      },
+      "ref": "Module 3 — Piège",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une vidéo est mise en cache près des spectateurs pour être servie plus vite. Où cette copie se trouve-t-elle ?",
+      "choices": {
+        "A": "Dans une edge location",
+        "B": "Dans une Local Zone",
+        "C": "Dans un sous-réseau privé",
+        "D": "Dans une AZ de secours"
+      },
+      "answer": "A",
+      "explanation": "Les edge locations sont de petits sites proches des utilisateurs qui mettent le contenu en cache avec CloudFront.",
+      "why": {
+        "B": "Une Local Zone étend une Région, sans rôle de cache CloudFront.",
+        "C": "Un sous-réseau privé n'est pas lié à la diffusion de contenu.",
+        "D": "Le cache se fait au plus près des utilisateurs, pas dans une AZ."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une loi impose que des données de santé restent en Europe. Quel critère domine le choix de la Région ?",
+      "choices": {
+        "A": "Le coût",
+        "B": "La proximité des clients",
+        "C": "Les lois et la gouvernance des données",
+        "D": "Les services disponibles"
+      },
+      "answer": "C",
+      "explanation": "Lois et gouvernance des données : c'est le premier critère de choix cité.",
+      "why": {
+        "A": "Une Région moins chère hors d'Europe resterait interdite.",
+        "B": "Les clients pourraient être ailleurs : c'est la loi qui décide.",
+        "D": "Le texte évoque une contrainte légale, pas un service manquant."
+      },
+      "ref": "Module 3 — Comment choisir une Région ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "La plupart des clients d'une application sont à Tokyo et se plaignent de lenteurs. Quel critère justifie une Région proche ?",
+      "choices": {
+        "A": "Le coût",
+        "B": "La proximité, pour réduire la latence",
+        "C": "La durabilité des données",
+        "D": "La facturation consolidée"
+      },
+      "answer": "B",
+      "explanation": "La proximité des clients réduit la latence.",
+      "why": {
+        "A": "Le problème décrit est la lenteur, pas le prix.",
+        "C": "La durabilité ne concerne pas le temps de réponse.",
+        "D": "La facturation est sans rapport avec la latence."
+      },
+      "ref": "Module 3 — Comment choisir une Région ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un service dont une équipe a besoin n'existe pas dans sa Région préférée. Quel critère entre en jeu ?",
+      "choices": {
+        "A": "Les lois",
+        "B": "La proximité",
+        "C": "Le coût",
+        "D": "Les services disponibles"
+      },
+      "answer": "D",
+      "explanation": "Tous les services ne sont pas disponibles partout : c'est un critère de choix.",
+      "why": {
+        "A": "Le cas ne parle pas d'une contrainte légale.",
+        "B": "Le cas ne parle pas de la position des clients.",
+        "C": "Le cas ne parle pas de prix."
+      },
+      "ref": "Module 3 — Comment choisir une Région ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-007",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Une application de jeu vidéo a besoin d'une latence très faible près d'une grande ville, loin de sa Région. Que propose AWS ?",
+      "choices": {
+        "A": "Local Zones",
+        "B": "Une AZ supplémentaire",
+        "C": "Facturation consolidée",
+        "D": "AWS Organizations"
+      },
+      "answer": "A",
+      "explanation": "Une Local Zone est une extension d'une Région très près d'une grande ville, avec une latence très faible.",
+      "why": {
+        "B": "Les AZ d'une Région ne se rapprochent pas d'une ville choisie.",
+        "C": "La facturation consolidée n'a pas de lien avec la latence.",
+        "D": "Organizations gère des comptes."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'est-ce qui rend deux AZ indépendantes l'une de l'autre ?",
+      "choices": {
+        "A": "Elles sont dans deux Régions différentes",
+        "B": "Elles partagent un seul datacenter",
+        "C": "Elles ont leur électricité et leur réseau propres",
+        "D": "Elles appartiennent à deux comptes AWS"
+      },
+      "answer": "C",
+      "explanation": "Une AZ regroupe des datacenters séparés, avec électricité et réseau propres.",
+      "why": {
+        "A": "Les AZ d'une Région sont dans la même Région.",
+        "B": "Une AZ a ses propres datacenters.",
+        "D": "Les AZ ne dépendent pas des comptes."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-009",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Pourquoi les AZ d'une Région sont-elles éloignées entre elles ?",
+      "choices": {
+        "A": "Pour réduire le prix du transfert",
+        "B": "Pour limiter les pannes communes",
+        "C": "Pour séparer les comptes AWS",
+        "D": "Pour héberger plus de Local Zones"
+      },
+      "answer": "B",
+      "explanation": "Les AZ sont éloignées pour limiter les pannes communes. Des liens rapides à faible latence les relient.",
+      "why": {
+        "A": "Le cours ne donne pas cette raison.",
+        "C": "L'éloignement n'a pas de lien avec les comptes.",
+        "D": "Les Local Zones sont une extension de Région, sans lien avec cet éloignement."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application ajoute des serveurs le matin et en retire la nuit, selon la charge. Quelle qualité est illustrée ?",
+      "choices": {
+        "A": "Tolérante aux pannes",
+        "B": "Hautement disponible",
+        "C": "Durable",
+        "D": "Élastique et scalable"
+      },
+      "answer": "D",
+      "explanation": "Élastique et scalable : l'infrastructure s'adapte à la charge.",
+      "why": {
+        "A": "La tolérance aux pannes concerne la perte d'un composant.",
+        "B": "La haute disponibilité vise peu d'interruptions.",
+        "C": "La durabilité concerne la conservation des données."
+      },
+      "ref": "Module 3 — Qualités de l'infrastructure",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un composant tombe en panne et le système continue de fonctionner. Quelle qualité est illustrée ?",
+      "choices": {
+        "A": "Tolérance aux pannes",
+        "B": "Élasticité",
+        "C": "Scalabilité",
+        "D": "Faible latence"
+      },
+      "answer": "A",
+      "explanation": "Tolérante aux pannes : le système continue même si un composant tombe.",
+      "why": {
+        "B": "L'élasticité concerne l'adaptation à la charge.",
+        "C": "La scalabilité concerne aussi la charge.",
+        "D": "La latence concerne le temps de réponse."
+      },
+      "ref": "Module 3 — Qualités de l'infrastructure",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un auditeur veut savoir qui a supprimé un bucket, et un administrateur veut suivre le CPU d'un serveur. Quels services utilisent-ils, dans cet ordre ?",
+      "choices": {
+        "A": "CloudWatch, puis CloudTrail",
+        "B": "CloudFormation, puis CloudWatch",
+        "C": "CloudTrail, puis CloudWatch",
+        "D": "CloudTrail, puis Trusted Advisor"
+      },
+      "answer": "C",
+      "explanation": "CloudTrail est le journal des actions ; CloudWatch suit les métriques.",
+      "why": {
+        "A": "L'ordre est inversé.",
+        "B": "CloudFormation décrit l'infrastructure en code.",
+        "D": "Trusted Advisor donne des conseils, il ne suit pas le CPU."
+      },
+      "ref": "Module 3 — Grandes catégories de services",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-013",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une équipe veut décrire toute son infrastructure dans un fichier pour la recréer à l'identique. Quel service utilise-t-elle ?",
+      "choices": {
+        "A": "CloudTrail",
+        "B": "CloudFormation",
+        "C": "CloudFront",
+        "D": "CloudWatch"
+      },
+      "answer": "B",
+      "explanation": "CloudFormation permet de gérer l'infrastructure en code.",
+      "why": {
+        "A": "CloudTrail journalise les actions.",
+        "C": "CloudFront est un CDN.",
+        "D": "CloudWatch suit les métriques."
+      },
+      "ref": "Module 3 — Grandes catégories de services",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-014",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans quelle catégorie de services se trouvent RDS, Aurora et DynamoDB ?",
+      "choices": {
+        "A": "Calcul",
+        "B": "Stockage",
+        "C": "Réseau et diffusion",
+        "D": "Bases de données"
+      },
+      "answer": "D",
+      "explanation": "RDS, Aurora, DynamoDB et Redshift sont des services de bases de données.",
+      "why": {
+        "A": "Le calcul regroupe EC2, Lambda et ECS, par exemple.",
+        "B": "Le stockage regroupe S3, EBS et EFS.",
+        "C": "Le réseau regroupe VPC, Route 53 et CloudFront."
+      },
+      "ref": "Module 3 — Grandes catégories de services",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Lequel de ces services appartient à la catégorie Calcul ?",
+      "choices": {
+        "A": "Fargate",
+        "B": "Redshift",
+        "C": "Route 53",
+        "D": "KMS"
+      },
+      "answer": "A",
+      "explanation": "Fargate fait partie du calcul, avec EC2, Lambda, Elastic Beanstalk, ECS et EKS.",
+      "why": {
+        "B": "Redshift est une base de données.",
+        "C": "Route 53 relève du réseau et de la diffusion.",
+        "D": "KMS relève de la sécurité."
+      },
+      "ref": "Module 3 — Grandes catégories de services",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-016",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Dans quelle catégorie le cours classe-t-il Direct Connect et Elastic Load Balancing ?",
+      "choices": {
+        "A": "Sécurité",
+        "B": "Gestion et supervision",
+        "C": "Réseau et diffusion",
+        "D": "Stockage"
+      },
+      "answer": "C",
+      "explanation": "VPC, Route 53, CloudFront, Direct Connect et Elastic Load Balancing relèvent du réseau et de la diffusion.",
+      "why": {
+        "A": "La sécurité regroupe IAM, KMS, Shield, Artifact et Cognito.",
+        "B": "Cette catégorie regroupe CloudWatch, CloudTrail, CloudFormation, Trusted Advisor et Auto Scaling.",
+        "D": "Le stockage regroupe S3, EBS, EFS et Glacier."
+      },
+      "ref": "Module 3 — Grandes catégories de services",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-017",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Combien de zones de disponibilité une Région contient-elle au minimum selon le cours ?",
+      "choices": {
+        "A": "1",
+        "B": "2",
+        "C": "5",
+        "D": "6"
+      },
+      "answer": "B",
+      "explanation": "Une Région contient au moins 2 AZ, souvent 3.",
+      "why": {
+        "A": "Une seule AZ ne permettrait pas la haute disponibilité.",
+        "C": "5 est le nombre d'IP réservées par sous-réseau.",
+        "D": "6 est le nombre d'avantages du cloud et de perspectives du CAF."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Outre le cache CloudFront, quel service utilise aussi les edge locations ?",
+      "choices": {
+        "A": "Amazon EC2",
+        "B": "Amazon RDS",
+        "C": "AWS Lambda",
+        "D": "Amazon Route 53"
+      },
+      "answer": "D",
+      "explanation": "Les edge locations mettent du contenu en cache (CloudFront) et répondent au DNS (Route 53).",
+      "why": {
+        "A": "EC2 tourne dans les AZ.",
+        "B": "RDS est une base de données, pas un service d'edge.",
+        "C": "Le cours n'associe pas Lambda aux edge locations."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-cloud-foundations-infrastructure-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Région ?",
+      "back": "Zone géographique isolée des autres Régions, qui contient au moins 2 AZ (souvent 3).",
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Zone de disponibilité (AZ) ?",
+      "back": "Un ou plusieurs datacenters séparés, avec électricité et réseau propres, éloignés pour limiter les pannes communes.",
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Edge location ?",
+      "back": "Petit site proche des utilisateurs : cache de contenu (CloudFront) et réponses DNS (Route 53).",
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f004",
+      "kind": "definition",
+      "tier": "bonus",
+      "front": "Local Zone ?",
+      "back": "Extension d'une Région très près d'une grande ville, pour une latence très faible.",
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 critères de choix d'une Région ?",
+      "back": "Lois et gouvernance des données, proximité des clients, services disponibles, coût.",
+      "ref": "Module 3 — Comment choisir une Région ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Région vs AZ ?",
+      "back": "La Région est une zone géographique ; l'AZ est un groupe de datacenters à l'intérieur de celle-ci.",
+      "ref": "Module 3 — Piège",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f007",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi déployer sur plusieurs AZ ?",
+      "back": "Pour la haute disponibilité : si une AZ tombe, l'application continue dans les autres.",
+      "ref": "Module 3 — Piège",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f008",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "CloudWatch vs CloudTrail ?",
+      "back": "CloudWatch : métriques et performances. CloudTrail : journal des actions, qui a fait quoi.",
+      "ref": "Module 3 — Grandes catégories ; Mémo final",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Élastique, tolérante aux pannes, hautement disponible ?",
+      "back": "Élastique : s'adapte à la charge. Tolérante aux pannes : continue si un composant tombe. Hautement disponible : peu d'interruptions.",
+      "ref": "Module 3 — Qualités de l'infrastructure",
+      "source": "fiche-aws"
+    }
+  ]
+}

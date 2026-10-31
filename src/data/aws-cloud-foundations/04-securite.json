@@ -1,0 +1,613 @@
+{
+  "id": "securite",
+  "title": "Sécurité dans AWS",
+  "order": 4,
+  "description": "Responsabilité partagée, IAM, sécurisation du compte, chiffrement et services de sécurité.",
+  "questions": [
+    {
+      "id": "aws-cloud-foundations-securite-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Qui doit appliquer les correctifs de l'OS d'une instance EC2 ?",
+      "choices": {
+        "A": "AWS",
+        "B": "Le client",
+        "C": "Le fabricant du serveur",
+        "D": "AWS et le client à tour de rôle"
+      },
+      "answer": "B",
+      "explanation": "Sur EC2, service IaaS, patcher l'OS invité est la responsabilité du client.",
+      "why": {
+        "A": "AWS gère la couche de virtualisation, pas l'OS invité.",
+        "C": "Le fabricant n'entre pas dans le modèle de responsabilité partagée.",
+        "D": "Cette tâche n'est pas partagée : elle revient au client."
+      },
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Qui protège physiquement les datacenters et le matériel d'AWS ?",
+      "choices": {
+        "A": "Le client",
+        "B": "Le responsable IAM du compte",
+        "C": "Une équipe du plan Enterprise",
+        "D": "AWS"
+      },
+      "answer": "D",
+      "explanation": "La sécurité DU cloud (datacenters, matériel, réseau mondial, hyperviseur) revient à AWS.",
+      "why": {
+        "A": "Le client gère la sécurité DANS le cloud.",
+        "B": "IAM gère des accès logiques, pas des bâtiments.",
+        "C": "Cette responsabilité d'AWS ne dépend pas du plan de support."
+      },
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe utilise Amazon RDS à la place d'une base installée sur EC2. Qui gère l'OS du serveur de base de données ?",
+      "choices": {
+        "A": "AWS",
+        "B": "L'équipe, comme sur EC2",
+        "C": "Personne : RDS fonctionne sans OS",
+        "D": "L'équipe, mais seulement pour les patchs"
+      },
+      "answer": "A",
+      "explanation": "Plus le service est géré, plus AWS en prend en charge : avec RDS, AWS gère l'OS.",
+      "why": {
+        "B": "C'est vrai sur EC2, mais RDS est un service géré.",
+        "C": "Un OS existe bien, mais AWS le gère.",
+        "D": "Les patchs de l'OS sont aussi pris en charge par AWS."
+      },
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un Security Group laisse le port 22 ouvert à tout Internet. Qui en est responsable ?",
+      "choices": {
+        "A": "AWS, qui gère le réseau",
+        "B": "AWS, qui gère la virtualisation",
+        "C": "Le client, qui configure ce pare-feu",
+        "D": "Le client et AWS à parts égales"
+      },
+      "answer": "C",
+      "explanation": "La configuration des Security Groups fait partie de la sécurité DANS le cloud, donc du client.",
+      "why": {
+        "A": "AWS gère le réseau mondial, pas les règles du client.",
+        "B": "L'hyperviseur n'a pas de rapport avec cette règle.",
+        "D": "Cette configuration revient au client seul."
+      },
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Laquelle de ces tâches fait partie de la sécurité DU cloud ?",
+      "choices": {
+        "A": "Chiffrer ses données",
+        "B": "Maintenir l'hyperviseur",
+        "C": "Gérer les permissions IAM",
+        "D": "Configurer les Security Groups"
+      },
+      "answer": "B",
+      "explanation": "La sécurité DU cloud couvre les datacenters, le matériel, le réseau mondial et l'hyperviseur.",
+      "why": {
+        "A": "Le chiffrement est du côté client.",
+        "C": "Les permissions IAM sont du côté client.",
+        "D": "Les Security Groups sont du côté client."
+      },
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un nouvel utilisateur IAM vient d'être créé, sans aucune politique. Que peut-il faire ?",
+      "choices": {
+        "A": "Tout, comme le root",
+        "B": "Lire toutes les ressources",
+        "C": "Utiliser seulement la console",
+        "D": "Rien : il n'a aucune permission"
+      },
+      "answer": "D",
+      "explanation": "Par défaut, un nouvel utilisateur IAM n'a aucune permission.",
+      "why": {
+        "A": "Seul le root a un accès total.",
+        "B": "Même la lecture doit être accordée.",
+        "C": "La console elle-même ne donne aucun droit sur les ressources."
+      },
+      "ref": "Module 4 — Pièges",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une politique autorise un utilisateur à supprimer un bucket, une autre le lui refuse explicitement. Que décide AWS ?",
+      "choices": {
+        "A": "Refus : un Deny explicite gagne toujours",
+        "B": "Autorisation : un Allow suffit",
+        "C": "La politique la plus récente gagne",
+        "D": "La politique la plus précise gagne"
+      },
+      "answer": "A",
+      "explanation": "AWS cherche d'abord un Deny explicite : s'il existe, la requête est refusée.",
+      "why": {
+        "B": "Un Allow ne peut pas annuler un Deny explicite.",
+        "C": "La date n'entre pas dans la décision.",
+        "D": "La précision n'entre pas dans la décision."
+      },
+      "ref": "Module 4 — Comment AWS décide",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Aucune politique ne mentionne une action demandée par un utilisateur. Que se passe-t-il ?",
+      "choices": {
+        "A": "Elle est autorisée, faute de refus",
+        "B": "Elle est mise en attente du root",
+        "C": "Elle est refusée de façon implicite",
+        "D": "Elle est autorisée pendant une heure"
+      },
+      "answer": "C",
+      "explanation": "Sans Deny ni Allow, c'est le refus implicite par défaut.",
+      "why": {
+        "A": "L'absence de refus ne vaut pas autorisation.",
+        "B": "Aucun mécanisme de ce type n'existe dans ce processus.",
+        "D": "Aucune autorisation temporaire n'est accordée par défaut."
+      },
+      "ref": "Module 4 — Comment AWS décide",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un administrateur veut placer le groupe « Stagiaires » à l'intérieur du groupe « Développeurs ». Est-ce possible ?",
+      "choices": {
+        "A": "Oui, sans limite de niveaux",
+        "B": "Non : un groupe ne contient que des utilisateurs",
+        "C": "Oui, si les deux ont la même politique",
+        "D": "Oui, mais seulement avec un rôle IAM"
+      },
+      "answer": "B",
+      "explanation": "Un groupe IAM est un ensemble d'utilisateurs : il ne contient pas d'autres groupes.",
+      "why": {
+        "A": "Les groupes ne s'imbriquent pas.",
+        "C": "Avoir la même politique ne change rien.",
+        "D": "Un rôle ne permet pas d'imbriquer des groupes."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance EC2 doit lire un bucket S3. Quelle solution suit le cours ?",
+      "choices": {
+        "A": "Stocker une clé d'accès dans le code",
+        "B": "Utiliser les identifiants du root",
+        "C": "Ouvrir le bucket à tout le monde",
+        "D": "Attacher un rôle IAM à l'instance"
+      },
+      "answer": "D",
+      "explanation": "Le rôle IAM est une identité empruntée, avec des identifiants temporaires : c'est l'exemple du cours.",
+      "why": {
+        "A": "Une clé stockée dans le code est un identifiant permanent, moins sûr qu'un rôle.",
+        "B": "Le root ne doit pas servir au quotidien.",
+        "C": "Cela donne bien plus que les droits nécessaires."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un script utilise la CLI pour accéder à AWS. Quel type d'accès et quels identifiants lui faut-il ?",
+      "choices": {
+        "A": "Programmatique : clé d'accès + clé secrète",
+        "B": "Console : mot de passe + MFA",
+        "C": "Console : clé d'accès + mot de passe",
+        "D": "Programmatique : mot de passe + MFA"
+      },
+      "answer": "A",
+      "explanation": "L'accès programmatique (CLI, SDK) utilise une clé d'accès et une clé secrète.",
+      "why": {
+        "B": "Cet accès sert à se connecter à la console.",
+        "C": "La clé d'accès ne sert pas à la console.",
+        "D": "Le mot de passe sert à la console."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une règle est attachée directement à un bucket S3 pour dire qui peut le lire. De quel type de politique s'agit-il ?",
+      "choices": {
+        "A": "Une SCP",
+        "B": "Une politique basée sur l'identité",
+        "C": "Une politique basée sur la ressource",
+        "D": "Une règle de Security Group"
+      },
+      "answer": "C",
+      "explanation": "Une politique basée sur la ressource est attachée à la ressource, comme une politique de bucket S3.",
+      "why": {
+        "A": "Une SCP s'applique à un compte.",
+        "B": "Celle-ci s'attache à un utilisateur, un groupe ou un rôle.",
+        "D": "Un Security Group filtre le trafic d'une instance."
+      },
+      "ref": "Module 4 — Comment AWS décide",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un stagiaire doit seulement lire un bucket. On lui donne le droit de lecture sur ce bucket, rien de plus. Quel principe est appliqué ?",
+      "choices": {
+        "A": "La séparation des Régions",
+        "B": "Le moindre privilège",
+        "C": "La responsabilité partagée",
+        "D": "Le refus implicite"
+      },
+      "answer": "B",
+      "explanation": "Moindre privilège : donner seulement les droits nécessaires.",
+      "why": {
+        "A": "Le cas ne parle pas de Régions.",
+        "C": "Ce modèle répartit les rôles entre AWS et le client.",
+        "D": "Le refus implicite s'applique sans intervention : ici, on accorde un droit choisi."
+      },
+      "ref": "Module 4 — Comment AWS décide",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-014",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Que faut-il faire en premier avec l'utilisateur root d'un nouveau compte ?",
+      "choices": {
+        "A": "Lui créer des clés d'accès",
+        "B": "L'utiliser pour les tâches courantes",
+        "C": "Lui attacher un rôle IAM",
+        "D": "Activer le MFA"
+      },
+      "answer": "D",
+      "explanation": "Il faut activer le MFA et ne pas utiliser le root au quotidien.",
+      "why": {
+        "A": "Il faut au contraire supprimer ses clés d'accès.",
+        "B": "Le root ne doit pas servir au quotidien.",
+        "C": "Ce n'est pas une mesure citée pour sécuriser le root."
+      },
+      "ref": "Module 4 — Sécuriser un nouveau compte AWS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un audit découvre des clés d'accès actives sur l'utilisateur root. Que recommande le cours ?",
+      "choices": {
+        "A": "Les supprimer",
+        "B": "Les changer une fois par an",
+        "C": "Les réserver aux scripts",
+        "D": "Les partager via un groupe IAM"
+      },
+      "answer": "A",
+      "explanation": "Parmi les bonnes pratiques pour le root : supprimer ses clés d'accès et créer des utilisateurs IAM à la place.",
+      "why": {
+        "B": "Elles ne doivent pas exister du tout sur le root.",
+        "C": "Les scripts doivent passer par des identités IAM.",
+        "D": "Un secret du root ne doit jamais être partagé."
+      },
+      "ref": "Module 4 — Sécuriser un nouveau compte AWS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application doit créer et gérer des clés de chiffrement pour ses données stockées. Quel service utilise-t-elle ?",
+      "choices": {
+        "A": "Cognito",
+        "B": "Shield",
+        "C": "AWS KMS",
+        "D": "AWS Artifact"
+      },
+      "answer": "C",
+      "explanation": "AWS KMS crée et gère les clés de chiffrement.",
+      "why": {
+        "A": "Cognito gère l'inscription et la connexion des utilisateurs.",
+        "B": "Shield protège contre les attaques DDoS.",
+        "D": "Artifact fournit des rapports de conformité."
+      },
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application mobile doit proposer l'inscription et la connexion à ses utilisateurs. Quel service convient ?",
+      "choices": {
+        "A": "AWS IAM",
+        "B": "Amazon Cognito",
+        "C": "AWS KMS",
+        "D": "AWS Config"
+      },
+      "answer": "B",
+      "explanation": "Amazon Cognito gère l'inscription et la connexion dans les applis web et mobiles.",
+      "why": {
+        "A": "IAM contrôle l'accès aux ressources AWS, pas les clients d'une appli.",
+        "C": "KMS gère des clés.",
+        "D": "Config suit la configuration des ressources."
+      },
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-018",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un site subit une attaque DDoS. Quel service AWS est conçu pour s'en protéger ?",
+      "choices": {
+        "A": "AWS Artifact",
+        "B": "AWS KMS",
+        "C": "Amazon Cognito",
+        "D": "AWS Shield"
+      },
+      "answer": "D",
+      "explanation": "AWS Shield protège contre les DDoS (Standard gratuit, Advanced payant).",
+      "why": {
+        "A": "Artifact fournit des rapports de conformité.",
+        "B": "KMS gère des clés de chiffrement.",
+        "C": "Cognito gère la connexion des utilisateurs."
+      },
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-019",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un auditeur demande les rapports ISO et PCI DSS d'AWS. Où les télécharger ?",
+      "choices": {
+        "A": "AWS Artifact",
+        "B": "AWS CloudTrail",
+        "C": "Trusted Advisor",
+        "D": "AWS Config"
+      },
+      "answer": "A",
+      "explanation": "AWS Artifact permet de télécharger les rapports de conformité d'AWS.",
+      "why": {
+        "B": "CloudTrail journalise les actions de votre compte.",
+        "C": "Trusted Advisor donne des conseils.",
+        "D": "Config suit vos ressources, pas la conformité d'AWS."
+      },
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut vérifier en continu que ses ressources respectent des règles de configuration. Quel service répond à ce besoin ?",
+      "choices": {
+        "A": "CloudWatch",
+        "B": "AWS KMS",
+        "C": "AWS Config",
+        "D": "AWS Shield"
+      },
+      "answer": "C",
+      "explanation": "AWS Config suit la configuration des ressources et vérifie qu'elles respectent des règles.",
+      "why": {
+        "A": "CloudWatch suit des métriques.",
+        "B": "KMS gère des clés.",
+        "D": "Shield protège contre les DDoS."
+      },
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des données voyagent entre un navigateur et un site. Quelle protection assure le chiffrement en transit ?",
+      "choices": {
+        "A": "Un chiffrement du volume EBS",
+        "B": "TLS/HTTPS",
+        "C": "Une clé d'accès IAM",
+        "D": "Une politique de bucket"
+      },
+      "answer": "B",
+      "explanation": "Le chiffrement en transit protège les données qui voyagent, avec TLS/HTTPS.",
+      "why": {
+        "A": "Le chiffrement de EBS protège les données au repos.",
+        "C": "Une clé d'accès identifie un appelant, elle ne chiffre pas ce trafic.",
+        "D": "Une politique contrôle les accès, elle ne chiffre pas."
+      },
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Après un incident, une équipe veut la liste des appels API effectués sur le compte. Quel service aurait dû être activé ?",
+      "choices": {
+        "A": "AWS Budgets",
+        "B": "AWS Shield",
+        "C": "Amazon Cognito",
+        "D": "AWS CloudTrail"
+      },
+      "answer": "D",
+      "explanation": "CloudTrail est le journal de toutes les actions API.",
+      "why": {
+        "A": "Budgets surveille des dépenses.",
+        "B": "Shield protège contre les DDoS.",
+        "C": "Cognito gère la connexion des utilisateurs d'une appli."
+      },
+      "ref": "Module 4 — Sécuriser un nouveau compte AWS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Classez ces services du plus de responsabilité pour le client au moins de responsabilité.",
+      "choices": {
+        "A": "EC2 → Elastic Beanstalk → SaaS",
+        "B": "SaaS → EC2 → Elastic Beanstalk",
+        "C": "Elastic Beanstalk → EC2 → SaaS",
+        "D": "SaaS → Elastic Beanstalk → EC2"
+      },
+      "answer": "A",
+      "explanation": "Plus le service est géré, plus AWS en prend en charge : IaaS (EC2), puis PaaS (Beanstalk), puis SaaS.",
+      "why": {
+        "B": "En SaaS, le client gère surtout ses données et ses accès : il a le moins à faire.",
+        "C": "EC2 laisse plus à gérer que Beanstalk, puisque l'OS reste au client.",
+        "D": "C'est l'ordre inverse."
+      },
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-024",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Une entreprise ajoute un nouveau collègue dans sa filiale européenne. Faut-il choisir une Région pour son utilisateur IAM ?",
+      "choices": {
+        "A": "Oui, celle où il travaille",
+        "B": "Oui, la Région du root",
+        "C": "Non : IAM est un service global",
+        "D": "Non : il faut plutôt choisir une AZ"
+      },
+      "answer": "C",
+      "explanation": "IAM est un service gratuit et global.",
+      "why": {
+        "A": "IAM n'est pas lié à une Région.",
+        "B": "Le root n'est pas lié à une Région non plus.",
+        "D": "IAM n'est pas lié à une AZ."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-cloud-foundations-securite-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Sécurité DU cloud vs DANS le cloud ?",
+      "back": "DU cloud : AWS (datacenters, matériel, réseau mondial, hyperviseur). DANS le cloud : le client (données, IAM, OS invité, pare-feux, chiffrement).",
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f002",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi le client patche-t-il EC2 mais pas RDS ?",
+      "back": "EC2 est de l'IaaS : l'OS reste au client. RDS est un service géré : AWS s'occupe de l'OS.",
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Utilisateur, groupe, politique, rôle IAM ?",
+      "back": "Utilisateur : une identité. Groupe : un ensemble d'utilisateurs. Politique : un document JSON. Rôle : une identité empruntée, temporaire.",
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Comment AWS décide-t-il d'une requête ?",
+      "back": "Un Deny explicite refuse. Sinon, un Allow autorise. Sinon, c'est le refus implicite par défaut.",
+      "ref": "Module 4 — Comment AWS décide",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Politique basée sur l'identité vs sur la ressource ?",
+      "back": "Identité : attachée à un utilisateur, un groupe ou un rôle. Ressource : attachée à la ressource, comme une politique de bucket S3.",
+      "ref": "Module 4 — Comment AWS décide",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Accès programmatique vs console ?",
+      "back": "Programmatique : clé d'accès + clé secrète, pour CLI et SDK. Console : mot de passe + MFA.",
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f007",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Moindre privilège ?",
+      "back": "Donner seulement les droits nécessaires.",
+      "ref": "Module 4 — Comment AWS décide",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f008",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Sécuriser l'utilisateur root ?",
+      "back": "Ne pas l'utiliser au quotidien, activer le MFA, supprimer ses clés d'accès, créer des utilisateurs IAM à la place.",
+      "ref": "Module 4 — Sécuriser un nouveau compte AWS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "KMS, Cognito, Shield, Artifact, Config ?",
+      "back": "KMS : clés de chiffrement. Cognito : connexion des utilisateurs d'appli. Shield : DDoS. Artifact : rapports de conformité. Config : suivi de configuration.",
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Chiffrement au repos vs en transit ?",
+      "back": "Au repos : données stockées (S3, EBS…), souvent via KMS. En transit : données qui voyagent, avec TLS/HTTPS.",
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-f011",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Utilisateur IAM vs rôle IAM ?",
+      "back": "Utilisateur : identifiants permanents. Rôle : identifiants temporaires, empruntés.",
+      "ref": "Mémo final — Les paires à ne pas confondre",
+      "source": "fiche-aws"
+    }
+  ]
+}

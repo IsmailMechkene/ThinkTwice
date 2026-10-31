@@ -97,7 +97,7 @@ export function PageHeader({ title, subtitle, actions, icon }) {
         {icon && (
           <span
             aria-hidden
-            className="brand-gradient grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl shadow-lg shadow-indigo-500/25"
+            className="brand-fill grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl"
           >
             {icon}
           </span>

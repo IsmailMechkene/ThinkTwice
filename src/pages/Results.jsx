@@ -112,9 +112,8 @@ export default function Results() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <section className="brand-gradient animate-pop relative overflow-hidden rounded-3xl p-6 text-white shadow-lg shadow-indigo-500/20 sm:p-8">
-        <div aria-hidden className="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
-        <div className="relative flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
+      <section className="brand-fill animate-pop rounded-3xl p-6 text-white sm:p-8">
+        <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
           <ScoreRing pct={summary.pct} />
           <div className="min-w-0">
             <p className="text-sm font-semibold text-white/75">

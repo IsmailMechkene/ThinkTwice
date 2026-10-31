@@ -1,0 +1,643 @@
+{
+  "id": "reseau",
+  "title": "Réseau et diffusion de contenu",
+  "order": 5,
+  "description": "CIDR, VPC et composants, Security Groups et NACL, Route 53 et CloudFront.",
+  "questions": [
+    {
+      "id": "aws-cloud-foundations-reseau-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Combien d'adresses IP une plage /24 contient-elle ?",
+      "choices": {
+        "A": "16",
+        "B": "256",
+        "C": "65 536",
+        "D": "24"
+      },
+      "answer": "B",
+      "explanation": "/24 = 256 adresses, /16 = 65 536 et /28 = 16.",
+      "why": {
+        "A": "16 adresses correspondent à /28.",
+        "C": "65 536 adresses correspondent à /16.",
+        "D": "24 est le nombre après le « / », pas le nombre d'adresses."
+      },
+      "ref": "Module 5 — Bases du réseau",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-002",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Combien d'adresses IP sont réellement disponibles dans un sous-réseau AWS en /24 ?",
+      "choices": {
+        "A": "256",
+        "B": "255",
+        "C": "254",
+        "D": "251"
+      },
+      "answer": "D",
+      "explanation": "Un /24 contient 256 adresses et AWS en réserve 5 par sous-réseau : 256 − 5 = 251.",
+      "why": {
+        "A": "Cela oublie les 5 adresses réservées.",
+        "B": "AWS réserve 5 adresses, pas 1.",
+        "C": "AWS réserve 5 adresses, pas 2."
+      },
+      "ref": "Module 5 — Bases du réseau ; Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Laquelle de ces plages CIDR contient le moins d'adresses ?",
+      "choices": {
+        "A": "/28",
+        "B": "/24",
+        "C": "/20",
+        "D": "/16"
+      },
+      "answer": "A",
+      "explanation": "Plus le nombre après « / » est grand, plus la plage est petite.",
+      "why": {
+        "B": "/24 contient 256 adresses, contre 16 pour /28.",
+        "C": "/20 est plus grande que /24.",
+        "D": "/16 est la plus grande des quatre."
+      },
+      "ref": "Module 5 — Bases du réseau",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut qu'un même sous-réseau s'étende sur deux AZ. Est-ce possible ?",
+      "choices": {
+        "A": "Oui, si le VPC couvre les deux AZ",
+        "B": "Oui, avec une NAT Gateway",
+        "C": "Non : un sous-réseau est dans une seule AZ",
+        "D": "Non : un VPC est lui-même dans une seule AZ"
+      },
+      "answer": "C",
+      "explanation": "Un sous-réseau est dans une seule AZ. Pour deux AZ, il faut deux sous-réseaux.",
+      "why": {
+        "A": "Le VPC peut couvrir plusieurs AZ, pas le sous-réseau.",
+        "B": "La NAT Gateway ne change pas la portée d'un sous-réseau.",
+        "D": "Le VPC peut couvrir plusieurs AZ."
+      },
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle est la portée d'un VPC ?",
+      "choices": {
+        "A": "Une AZ",
+        "B": "Une Région, sur plusieurs AZ",
+        "C": "Tout AWS, dans le monde entier",
+        "D": "Un seul sous-réseau"
+      },
+      "answer": "B",
+      "explanation": "Un VPC appartient à une Région et peut couvrir plusieurs AZ.",
+      "why": {
+        "A": "C'est la portée d'un sous-réseau.",
+        "C": "Un VPC appartient à une seule Région.",
+        "D": "Un VPC contient des sous-réseaux, pas l'inverse."
+      },
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Que faut-il pour qu'un sous-réseau soit public ?",
+      "choices": {
+        "A": "Une NAT Gateway dans ce sous-réseau",
+        "B": "Un Security Group ouvert à tous",
+        "C": "Une NACL par défaut",
+        "D": "Une route vers une Internet Gateway"
+      },
+      "answer": "D",
+      "explanation": "Pour qu'un sous-réseau soit « public », il faut une route vers une Internet Gateway.",
+      "why": {
+        "A": "La NAT Gateway sert les instances privées.",
+        "B": "Un Security Group filtre, il ne crée pas de route.",
+        "C": "Une NACL filtre aussi : c'est la route qui compte."
+      },
+      "ref": "Module 5 — Pièges",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une base de données en sous-réseau privé doit télécharger des mises à jour, sans être joignable depuis Internet. Que faut-il utiliser ?",
+      "choices": {
+        "A": "Une NAT Gateway",
+        "B": "Une Internet Gateway directe",
+        "C": "Une Elastic IP sur la base",
+        "D": "Le VPC Peering"
+      },
+      "answer": "A",
+      "explanation": "La NAT Gateway permet aux instances privées de sortir vers Internet, sans être joignables depuis Internet.",
+      "why": {
+        "B": "L'Internet Gateway ouvre les deux sens : la base deviendrait joignable.",
+        "C": "Une IP publique exposerait la base.",
+        "D": "Le Peering relie deux VPC, pas Internet."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans quel type de sous-réseau place-t-on une NAT Gateway ?",
+      "choices": {
+        "A": "Un sous-réseau privé",
+        "B": "Le sous-réseau de la base de données",
+        "C": "Un sous-réseau public",
+        "D": "Un sous-réseau sans table de routage"
+      },
+      "answer": "C",
+      "explanation": "La NAT Gateway est placée dans un sous-réseau public.",
+      "why": {
+        "A": "Elle a besoin d'une route vers Internet.",
+        "B": "C'est ce sous-réseau privé qu'elle dessert, sans y être placée.",
+        "D": "Chaque sous-réseau a une table de routage."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un serveur doit garder la même IP publique, même si on le remplace par une autre instance. Que faut-il ?",
+      "choices": {
+        "A": "Un ENI secondaire",
+        "B": "Une Elastic IP",
+        "C": "Un VPC Endpoint",
+        "D": "Une table de routage"
+      },
+      "answer": "B",
+      "explanation": "Une Elastic IP est une adresse publique fixe, déplaçable d'une instance à l'autre.",
+      "why": {
+        "A": "Un ENI est une carte réseau virtuelle, pas une adresse publique fixe.",
+        "C": "Un VPC Endpoint sert à joindre un service AWS en privé.",
+        "D": "Une table de routage décide où envoyer le trafic."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-010",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Les VPC A et B sont reliés par Peering, ainsi que B et C. A peut-il joindre C ?",
+      "choices": {
+        "A": "Oui : le Peering est transitif",
+        "B": "Oui, si les trois sont dans la même Région",
+        "C": "Non : il faut passer par une NAT Gateway",
+        "D": "Non : il faut relier A et C directement"
+      },
+      "answer": "D",
+      "explanation": "Le Peering n'est pas transitif : A↔B et B↔C ne donne pas A↔C.",
+      "why": {
+        "A": "C'est le piège : le Peering n'est pas transitif.",
+        "B": "La Région ne change pas cette règle.",
+        "C": "Une NAT Gateway sert la sortie vers Internet."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise doit relier cinquante VPC et plusieurs réseaux sur site. Quelle solution centralise ces liaisons ?",
+      "choices": {
+        "A": "Transit Gateway",
+        "B": "Internet Gateway",
+        "C": "VPC Endpoint",
+        "D": "NAT Gateway"
+      },
+      "answer": "A",
+      "explanation": "Transit Gateway est un hub central pour relier de nombreux VPC et réseaux sur site.",
+      "why": {
+        "B": "L'Internet Gateway relie un VPC à Internet.",
+        "C": "Un VPC Endpoint joint un service AWS en privé.",
+        "D": "La NAT Gateway sert la sortie des instances privées."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise veut une liaison plus stable que son tunnel via Internet, sur une ligne privée dédiée. Que choisir ?",
+      "choices": {
+        "A": "Site-to-Site VPN",
+        "B": "VPC Peering",
+        "C": "Direct Connect",
+        "D": "Internet Gateway"
+      },
+      "answer": "C",
+      "explanation": "Direct Connect est une ligne privée dédiée, sans Internet, plus stable et rapide.",
+      "why": {
+        "A": "Le VPN est justement un tunnel chiffré via Internet.",
+        "B": "Le Peering relie deux VPC.",
+        "D": "L'Internet Gateway passe par Internet."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance privée doit lire S3 sans que son trafic passe par Internet. Quel composant répond à ce besoin ?",
+      "choices": {
+        "A": "Une Internet Gateway",
+        "B": "Un VPC Endpoint",
+        "C": "Une Elastic IP",
+        "D": "Une NAT Gateway"
+      },
+      "answer": "B",
+      "explanation": "Un VPC Endpoint permet d'accéder à un service AWS en privé, sans passer par Internet.",
+      "why": {
+        "A": "L'Internet Gateway passe par Internet.",
+        "C": "Une Elastic IP est une adresse publique.",
+        "D": "La NAT Gateway fait sortir vers Internet."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un Security Group autorise le port 443 en entrée, sans règle de sortie particulière pour la réponse. La réponse du serveur passe-t-elle ?",
+      "choices": {
+        "A": "Non : il faut une règle de retour",
+        "B": "Non : les Security Groups bloquent le sortant",
+        "C": "Oui, si une NACL personnalisée existe",
+        "D": "Oui : le Security Group est stateful"
+      },
+      "answer": "D",
+      "explanation": "Un Security Group est stateful : la réponse est autorisée automatiquement.",
+      "why": {
+        "A": "Cette règle de retour concerne la NACL, qui est stateless.",
+        "B": "Par défaut, tout le sortant est autorisé.",
+        "C": "La réponse passe grâce à l'état du Security Group, pas grâce à une NACL."
+      },
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-015",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une NACL personnalisée autorise le port 443 en entrée, mais les clients ne reçoivent aucune réponse. Quelle est la cause probable ?",
+      "choices": {
+        "A": "Le retour n'est pas autorisé : la NACL est stateless",
+        "B": "La NACL ne peut pas filtrer le port 443",
+        "C": "Il manque une Elastic IP sur la NACL",
+        "D": "Une NACL ne fonctionne que par instance"
+      },
+      "answer": "A",
+      "explanation": "Une NACL est stateless : il faut autoriser l'aller ET le retour.",
+      "why": {
+        "B": "Une NACL peut filtrer ce trafic.",
+        "C": "Une NACL n'a pas d'adresse IP.",
+        "D": "Une NACL agit au niveau du sous-réseau."
+      },
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut bloquer une adresse IP précise. Pourquoi un Security Group ne suffit-il pas ?",
+      "choices": {
+        "A": "Il ne connaît pas les adresses IP",
+        "B": "Il agit sur une Région entière",
+        "C": "Il n'accepte que des règles Allow",
+        "D": "Il évalue seulement la première règle"
+      },
+      "answer": "C",
+      "explanation": "Un Security Group n'a que des règles Allow. Pour un refus explicite, il faut une NACL, qui accepte Allow et Deny.",
+      "why": {
+        "A": "Le problème n'est pas là : il ne peut simplement pas refuser.",
+        "B": "Un Security Group agit au niveau de l'instance.",
+        "D": "Toutes ses règles sont évaluées."
+      },
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le comportement par défaut d'un Security Group ?",
+      "choices": {
+        "A": "Tout autorisé dans les deux sens",
+        "B": "Entrant refusé, sortant autorisé",
+        "C": "Entrant autorisé, sortant refusé",
+        "D": "Tout refusé dans les deux sens"
+      },
+      "answer": "B",
+      "explanation": "Un Security Group refuse tout l'entrant et autorise tout le sortant par défaut.",
+      "why": {
+        "A": "C'est le comportement de la NACL par défaut.",
+        "C": "C'est l'inverse.",
+        "D": "Le sortant est autorisé par défaut."
+      },
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une NACL contient la règle 100 (Allow, port 80) et la règle 200 (Deny, port 80). Que devient une requête sur le port 80 ?",
+      "choices": {
+        "A": "Refusée : un Deny gagne toujours",
+        "B": "Refusée : la dernière règle gagne",
+        "C": "Évaluée par chaque instance",
+        "D": "Autorisée : la règle 100 passe en premier"
+      },
+      "answer": "D",
+      "explanation": "Les règles d'une NACL sont évaluées par numéro, de la plus petite à la plus grande : la règle 100 s'applique d'abord.",
+      "why": {
+        "A": "C'est la logique d'IAM : une NACL suit l'ordre des numéros.",
+        "B": "L'ordre va du plus petit au plus grand numéro.",
+        "C": "Une NACL agit au niveau du sous-réseau."
+      },
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut envoyer 80 % du trafic vers l'ancienne version d'un site et 20 % vers la nouvelle. Quelle politique Route 53 choisir ?",
+      "choices": {
+        "A": "Pondérée",
+        "B": "Simple",
+        "C": "Basculement",
+        "D": "Multivaleur"
+      },
+      "answer": "A",
+      "explanation": "La politique pondérée répartit le trafic en pourcentages, par exemple 80/20.",
+      "why": {
+        "B": "Simple ne vise qu'une seule ressource.",
+        "C": "Le basculement n'utilise le secours qu'en cas de panne.",
+        "D": "Multivaleur renvoie plusieurs IP saines au hasard, sans pourcentage."
+      },
+      "ref": "Module 5 — Amazon Route 53",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Si le site principal tombe, les utilisateurs doivent arriver sur un site de secours. Quelle politique Route 53 choisir ?",
+      "choices": {
+        "A": "Pondérée",
+        "B": "Géolocalisation",
+        "C": "Basculement",
+        "D": "Simple"
+      },
+      "answer": "C",
+      "explanation": "Le basculement (failover) envoie vers un site de secours en cas de panne.",
+      "why": {
+        "A": "La pondérée répartit en permanence selon des pourcentages.",
+        "B": "La géolocalisation dépend du pays de l'utilisateur.",
+        "D": "Simple ne vise qu'une seule ressource."
+      },
+      "ref": "Module 5 — Amazon Route 53",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une boutique doit afficher un site différent selon le pays de l'utilisateur, pour des raisons légales. Quelle politique choisir ?",
+      "choices": {
+        "A": "Latence",
+        "B": "Géolocalisation",
+        "C": "Pondérée",
+        "D": "Multivaleur"
+      },
+      "answer": "B",
+      "explanation": "La géolocalisation route selon le pays de l'utilisateur.",
+      "why": {
+        "A": "La latence choisit la Région la plus rapide, quel que soit le pays.",
+        "C": "La pondérée répartit par pourcentages.",
+        "D": "Multivaleur renvoie plusieurs IP au hasard."
+      },
+      "ref": "Module 5 — Amazon Route 53",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un utilisateur demande une image déjà présente dans l'edge location la plus proche. Que fait CloudFront ?",
+      "choices": {
+        "A": "Il renvoie d'abord la requête à l'origine",
+        "B": "Il copie l'image dans une autre Région",
+        "C": "Il redirige l'utilisateur vers S3",
+        "D": "Il sert directement la copie en cache"
+      },
+      "answer": "D",
+      "explanation": "Le contenu en cache est servi depuis l'edge. On ne remonte à l'origine que s'il est absent.",
+      "why": {
+        "A": "L'origine n'est sollicitée que si l'objet est absent du cache.",
+        "B": "CloudFront garde une copie dans les edge locations, pas dans d'autres Régions.",
+        "C": "Le but est justement d'éviter de solliciter l'origine."
+      },
+      "ref": "Module 5 — Amazon CloudFront",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans CloudFront, que contrôle le TTL ?",
+      "choices": {
+        "A": "La durée de vie d'un objet en cache",
+        "B": "La taille maximale d'un objet",
+        "C": "Le nombre d'edge locations",
+        "D": "La vitesse de l'origine"
+      },
+      "answer": "A",
+      "explanation": "Le TTL est la durée de vie d'un objet en cache.",
+      "why": {
+        "B": "Le TTL mesure un temps, pas une taille.",
+        "C": "Le TTL ne décide pas du nombre de sites.",
+        "D": "Le TTL ne concerne pas la performance de l'origine."
+      },
+      "ref": "Module 5 — Amazon CloudFront",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe prévoit un VPC en /12 pour avoir beaucoup d'adresses. Est-ce possible selon le cours ?",
+      "choices": {
+        "A": "Oui : il n'y a aucune limite",
+        "B": "Oui, avec une Transit Gateway",
+        "C": "Non : la taille va de /16 à /28",
+        "D": "Non : un VPC doit être en /24"
+      },
+      "answer": "C",
+      "explanation": "La taille d'un VPC va de /16 à /28 : /12 est trop grand.",
+      "why": {
+        "A": "La taille d'un VPC est limitée.",
+        "B": "Une Transit Gateway relie des VPC, sans changer leur taille.",
+        "D": "/24 est possible, mais ce n'est pas la seule taille autorisée."
+      },
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-025",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Dans CloudFront, quel élément peut jouer le rôle d'origine ?",
+      "choices": {
+        "A": "Une table de routage",
+        "B": "Un bucket S3",
+        "C": "Un Security Group",
+        "D": "Une edge location"
+      },
+      "answer": "B",
+      "explanation": "L'origine est la source du contenu : bucket S3, EC2 ou load balancer.",
+      "why": {
+        "A": "Une table de routage ne contient pas de contenu.",
+        "C": "Un Security Group filtre le trafic.",
+        "D": "L'edge location est le cache, pas la source."
+      },
+      "ref": "Module 5 — Amazon CloudFront",
+      "source": "fiche-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-cloud-foundations-reseau-f001",
+      "kind": "formula",
+      "tier": "core",
+      "front": "CIDR : combien d'adresses ?",
+      "back": "/16 = 65 536, /24 = 256, /28 = 16. Plus le nombre est grand, plus la plage est petite.",
+      "ref": "Module 5 — Bases du réseau",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Taille d'un VPC et adresses réservées ?",
+      "back": "De /16 à /28. AWS réserve 5 adresses IP par sous-réseau.",
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "VPC vs sous-réseau ?",
+      "back": "Le VPC appartient à une Région et peut couvrir plusieurs AZ. Le sous-réseau est dans une seule AZ.",
+      "ref": "Module 5 — Amazon VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f004",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Internet Gateway vs NAT Gateway ?",
+      "back": "IGW : porte entre le VPC et Internet, dans les deux sens. NAT Gateway : sortie vers Internet des instances privées, sans entrée possible.",
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "VPC Peering vs Transit Gateway ?",
+      "back": "Peering : relie 2 VPC, non transitif. Transit Gateway : hub central pour de nombreux VPC et réseaux sur site.",
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Site-to-Site VPN vs Direct Connect ?",
+      "back": "VPN : tunnel chiffré via Internet. Direct Connect : ligne privée dédiée, sans Internet, plus stable et rapide.",
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f007",
+      "kind": "definition",
+      "tier": "core",
+      "front": "VPC Endpoint ?",
+      "back": "Accéder à un service AWS, comme S3, en privé, sans passer par Internet.",
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f008",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Security Group vs NACL ?",
+      "back": "SG : instance, stateful, Allow seulement. NACL : sous-réseau, stateless, Allow et Deny, règles évaluées par numéro.",
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Comportement par défaut SG vs NACL ?",
+      "back": "Security Group : entrant refusé, sortant autorisé. NACL par défaut : tout autorisé.",
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f010",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les politiques de routage Route 53 ?",
+      "back": "Simple, pondérée, latence, géolocalisation, géoproximité, basculement, multivaleur.",
+      "ref": "Module 5 — Amazon Route 53",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "CloudFront ?",
+      "back": "CDN qui garde une copie du contenu dans les edge locations : moins de latence, moins de charge sur l'origine, protection avec Shield.",
+      "ref": "Module 5 — Amazon CloudFront",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Origine et TTL ?",
+      "back": "Origine : source du contenu (S3, EC2, load balancer). TTL : durée de vie d'un objet en cache.",
+      "ref": "Module 5 — Amazon CloudFront",
+      "source": "fiche-aws"
+    }
+  ]
+}

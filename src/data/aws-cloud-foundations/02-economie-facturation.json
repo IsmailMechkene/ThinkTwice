@@ -1,0 +1,520 @@
+{
+  "id": "economie",
+  "title": "Économie du cloud et facturation",
+  "order": 2,
+  "description": "Éléments de coût, principes de tarification, TCO, Organizations, outils de facturation et plans de support.",
+  "questions": [
+    {
+      "id": "aws-cloud-foundations-economie-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une application reçoit 2 To de données et en envoie 2 To vers Internet. Quel transfert AWS facture-t-il ?",
+      "choices": {
+        "A": "Les données entrantes",
+        "B": "Les données sortantes",
+        "C": "Les deux sens",
+        "D": "Aucun des deux sens"
+      },
+      "answer": "B",
+      "explanation": "Le transfert sortant est payant, par Go. Les données entrantes sont gratuites.",
+      "why": {
+        "A": "Les données entrantes sont gratuites.",
+        "C": "Seul le sortant est facturé.",
+        "D": "Le transfert sortant fait partie des trois éléments de coût."
+      },
+      "ref": "Module 2 — 3 éléments qui coûtent de l'argent",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quels sont les trois éléments qui coûtent de l'argent sur AWS ?",
+      "choices": {
+        "A": "Calcul, stockage, transfert entrant",
+        "B": "Calcul, IAM, transfert sortant",
+        "C": "Stockage, VPC, transfert sortant",
+        "D": "Calcul, stockage, transfert sortant"
+      },
+      "answer": "D",
+      "explanation": "Le calcul (à l'heure ou à la seconde), le stockage et le transfert sortant (par Go).",
+      "why": {
+        "A": "Le transfert entrant est gratuit.",
+        "B": "IAM est un service gratuit.",
+        "C": "VPC est un service gratuit."
+      },
+      "ref": "Module 2 — 3 éléments qui coûtent de l'argent",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Plus une entreprise stocke de données dans S3, plus le prix par Go baisse. Quel principe de tarification est illustré ?",
+      "choices": {
+        "A": "Payer moins en utilisant plus",
+        "B": "Payer moins en réservant",
+        "C": "Payer à l'usage",
+        "D": "Payer moins quand AWS grandit"
+      },
+      "answer": "A",
+      "explanation": "Payer moins en utilisant plus : ce sont les remises sur volume, par exemple sur S3.",
+      "why": {
+        "B": "Réserver suppose un engagement de 1 ou 3 ans.",
+        "C": "Le paiement à l'usage ne décrit pas une baisse du prix unitaire.",
+        "D": "Ce principe parle des baisses de prix générales d'AWS."
+      },
+      "ref": "Module 2 — 4 principes de tarification",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise s'engage sur 3 ans pour obtenir un meilleur tarif. Quel principe applique-t-elle ?",
+      "choices": {
+        "A": "Payer à l'usage",
+        "B": "Payer moins en utilisant plus",
+        "C": "Payer moins en réservant",
+        "D": "Payer encore moins quand AWS grandit"
+      },
+      "answer": "C",
+      "explanation": "Payer moins en réservant : un engagement de 1 ou 3 ans.",
+      "why": {
+        "A": "Le paiement à l'usage n'implique aucun engagement.",
+        "B": "Ce principe repose sur le volume, pas sur la durée.",
+        "D": "Ce principe ne demande aucune action au client."
+      },
+      "ref": "Module 2 — 4 principes de tarification",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Elastic Beanstalk est gratuit. Pourtant, une équipe qui l'utilise reçoit une facture. Pourquoi ?",
+      "choices": {
+        "A": "Le service devient payant après un an",
+        "B": "Elle paie les ressources créées, comme EC2",
+        "C": "Elle paie un accès obligatoire à IAM",
+        "D": "Elle paie chaque ligne de code déposée"
+      },
+      "answer": "B",
+      "explanation": "Les services gratuits (VPC, IAM, Elastic Beanstalk, CloudFormation, Auto Scaling…) ne facturent que les ressources créées.",
+      "why": {
+        "A": "Le cours ne décrit aucune limite d'un an.",
+        "C": "IAM est gratuit.",
+        "D": "Beanstalk ne facture pas le code déposé."
+      },
+      "ref": "Module 2 — Services gratuits",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un comparatif TCO ne retient que le prix d'achat des serveurs. Que lui manque-t-il ?",
+      "choices": {
+        "A": "Le prix des plans de support AWS",
+        "B": "Le nombre de Régions disponibles",
+        "C": "Le nombre de comptes AWS à créer",
+        "D": "La main-d'œuvre, l'électricité et les locaux"
+      },
+      "answer": "D",
+      "explanation": "Le TCO compare tous les coûts : serveurs, stockage, réseau, main-d'œuvre IT, électricité, refroidissement, locaux.",
+      "why": {
+        "A": "Ce coût n'existe pas du côté du datacenter sur site.",
+        "B": "Les Régions ne sont pas un coût de possession.",
+        "C": "Le TCO compare des coûts d'infrastructure, pas un nombre de comptes."
+      },
+      "ref": "Module 2 — TCO",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Avant tout déploiement, un architecte veut estimer le coût mensuel de son architecture. Quel outil utilise-t-il ?",
+      "choices": {
+        "A": "AWS Pricing Calculator",
+        "B": "Cost Explorer",
+        "C": "Cost & Usage Report",
+        "D": "Billing Dashboard"
+      },
+      "answer": "A",
+      "explanation": "AWS Pricing Calculator estime le coût mensuel d'une architecture AWS à l'avance.",
+      "why": {
+        "B": "Cost Explorer analyse des coûts déjà engagés.",
+        "C": "Ce rapport détaille une consommation réelle.",
+        "D": "Ce tableau de bord montre les dépenses du mois."
+      },
+      "ref": "Module 2 — TCO",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une équipe veut recevoir une alerte si ses dépenses vont dépasser 1 000 € ce mois-ci. Quel outil choisir ?",
+      "choices": {
+        "A": "Cost Explorer",
+        "B": "Trusted Advisor",
+        "C": "AWS Budgets",
+        "D": "Pricing Calculator"
+      },
+      "answer": "C",
+      "explanation": "AWS Budgets fixe un budget et alerte si on dépasse, ou si on va dépasser.",
+      "why": {
+        "A": "Cost Explorer analyse avec des graphiques.",
+        "B": "Trusted Advisor donne des conseils généraux.",
+        "D": "Pricing Calculator estime à l'avance, sans suivre les dépenses réelles."
+      },
+      "ref": "Module 2 — Outils de facturation",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un responsable veut des graphiques de l'évolution des coûts sur les derniers mois. Quel outil convient ?",
+      "choices": {
+        "A": "AWS Budgets",
+        "B": "Cost Explorer",
+        "C": "AWS Artifact",
+        "D": "Pricing Calculator"
+      },
+      "answer": "B",
+      "explanation": "Cost Explorer propose des graphiques pour analyser les coûts passés (jusqu'à 12 mois) et prévoir.",
+      "why": {
+        "A": "Budgets sert d'abord à alerter.",
+        "C": "Artifact fournit des rapports de conformité.",
+        "D": "Pricing Calculator estime un coût futur."
+      },
+      "ref": "Module 2 — Outils de facturation",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe finance veut le rapport le plus détaillé possible, exporté dans un fichier. Que lui faut-il ?",
+      "choices": {
+        "A": "Billing Dashboard",
+        "B": "AWS Budgets",
+        "C": "Cost Explorer",
+        "D": "Cost & Usage Report"
+      },
+      "answer": "D",
+      "explanation": "Le Cost & Usage Report est le rapport le plus détaillé, exporté vers S3.",
+      "why": {
+        "A": "Le tableau de bord donne une vue du mois.",
+        "B": "Budgets envoie des alertes.",
+        "C": "Cost Explorer donne des graphiques, pas le rapport le plus détaillé."
+      },
+      "ref": "Module 2 — Outils de facturation",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un utilisateur a une politique IAM qui autorise EC2, mais la SCP de son compte interdit EC2. Peut-il lancer une instance ?",
+      "choices": {
+        "A": "Non : la SCP fixe le maximum de permissions",
+        "B": "Oui : la politique IAM est prioritaire",
+        "C": "Oui, seulement depuis la console",
+        "D": "Oui, si son groupe a le même droit"
+      },
+      "answer": "A",
+      "explanation": "La SCP fixe le maximum possible dans un compte : ce qu'elle bloque ne peut pas être accordé.",
+      "why": {
+        "B": "La politique IAM ne peut pas dépasser le maximum de la SCP.",
+        "C": "Le mode d'accès ne change pas la limite.",
+        "D": "Un groupe IAM reste lui aussi soumis à la SCP."
+      },
+      "ref": "Module 2 — AWS Organizations",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-012",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "La SCP d'un compte permet S3, mais un utilisateur n'a aucune politique IAM. Peut-il lire un bucket ?",
+      "choices": {
+        "A": "Oui : la SCP lui accorde ce droit",
+        "B": "Oui, si le compte est un membre",
+        "C": "Non : une SCP limite, mais n'accorde rien",
+        "D": "Non : les SCP interdisent toujours S3"
+      },
+      "answer": "C",
+      "explanation": "Une SCP n'accorde rien, elle limite : il faut encore une autorisation IAM.",
+      "why": {
+        "A": "C'est le piège : la SCP n'accorde aucun droit.",
+        "B": "L'appartenance à l'organisation n'accorde aucun droit.",
+        "D": "Ici, la SCP permet S3 : elle n'est pas la cause du refus."
+      },
+      "ref": "Module 2 — AWS Organizations",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une société a dix comptes AWS et veut une seule facture et des remises de volume partagées. Quelle fonction utilise-t-elle ?",
+      "choices": {
+        "A": "Les SCP",
+        "B": "La facturation consolidée",
+        "C": "Les unités d'organisation",
+        "D": "Trusted Advisor"
+      },
+      "answer": "B",
+      "explanation": "La facturation consolidée d'AWS Organizations donne une seule facture et des remises partagées.",
+      "why": {
+        "A": "Les SCP limitent des permissions.",
+        "C": "Les OU regroupent des comptes, sans gérer la facture.",
+        "D": "Trusted Advisor donne des conseils."
+      },
+      "ref": "Module 2 — AWS Organizations",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-014",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une entreprise veut regrouper ses comptes Dev d'un côté et Prod de l'autre. Que crée-t-elle dans Organizations ?",
+      "choices": {
+        "A": "Des groupes IAM",
+        "B": "Des budgets",
+        "C": "Des Régions",
+        "D": "Des unités d'organisation (OU)"
+      },
+      "answer": "D",
+      "explanation": "Les OU regroupent les comptes, par exemple Dev et Prod.",
+      "why": {
+        "A": "Un groupe IAM regroupe des utilisateurs, pas des comptes.",
+        "B": "Un budget surveille une dépense.",
+        "C": "Une Région est une zone géographique."
+      },
+      "ref": "Module 2 — AWS Organizations",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise fait tourner sa production. Elle veut un support 24/7 et une réponse en moins d'une heure en cas de panne. Quel plan suffit ?",
+      "choices": {
+        "A": "Business",
+        "B": "Developer",
+        "C": "Basic",
+        "D": "Enterprise On-Ramp"
+      },
+      "answer": "A",
+      "explanation": "Business : support 24/7 et moins d'une heure si un système de production est en panne.",
+      "why": {
+        "B": "Developer offre un support par e-mail aux heures de bureau.",
+        "C": "Basic n'a pas de support technique.",
+        "D": "Ce plan répond au besoin, mais il vise les systèmes critiques : Business suffit ici."
+      },
+      "ref": "Module 2 — Plans de support",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel plan de support offre un TAM dédié et une réponse en moins de 15 minutes ?",
+      "choices": {
+        "A": "Business",
+        "B": "Enterprise On-Ramp",
+        "C": "Enterprise",
+        "D": "Developer"
+      },
+      "answer": "C",
+      "explanation": "Le TAM dédié et les 15 minutes sont réservés au plan Enterprise.",
+      "why": {
+        "A": "Business répond en moins d'une heure, sans TAM.",
+        "B": "On-Ramp offre un pool de TAM et moins de 30 minutes.",
+        "D": "Developer offre un support par e-mail aux heures de bureau."
+      },
+      "ref": "Module 2 — Plans de support",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un développeur fait des tests et veut pouvoir écrire au support pendant les heures de bureau. Quel plan convient ?",
+      "choices": {
+        "A": "Basic",
+        "B": "Developer",
+        "C": "Business",
+        "D": "Enterprise"
+      },
+      "answer": "B",
+      "explanation": "Le plan Developer vise les tests et l'expérimentation, avec un support par e-mail aux heures de bureau.",
+      "why": {
+        "A": "Basic n'offre pas de support technique.",
+        "C": "Business vise les charges de production.",
+        "D": "Enterprise vise les applications critiques."
+      },
+      "ref": "Module 2 — Plans de support",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel outil donne des conseils sur les coûts, la sécurité, la performance, la tolérance aux pannes et les limites de service ?",
+      "choices": {
+        "A": "AWS Config",
+        "B": "CloudTrail",
+        "C": "Cost Explorer",
+        "D": "Trusted Advisor"
+      },
+      "answer": "D",
+      "explanation": "Trusted Advisor donne des conseils sur ces cinq domaines.",
+      "why": {
+        "A": "AWS Config suit la configuration des ressources.",
+        "B": "CloudTrail journalise les actions.",
+        "C": "Cost Explorer ne traite que des coûts."
+      },
+      "ref": "Module 2 — Piège",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un système critique doit obtenir une réponse en moins de 30 minutes, et un pool de TAM suffit. Quel plan choisir au plus juste ?",
+      "choices": {
+        "A": "Enterprise On-Ramp",
+        "B": "Enterprise",
+        "C": "Business",
+        "D": "Developer"
+      },
+      "answer": "A",
+      "explanation": "Enterprise On-Ramp : moins de 30 minutes si un système critique est en panne, avec un pool de TAM.",
+      "why": {
+        "B": "Enterprise convient aussi, mais il va au-delà du besoin avec son TAM dédié.",
+        "C": "Business répond en moins d'une heure.",
+        "D": "Developer n'offre qu'un support par e-mail aux heures de bureau."
+      },
+      "ref": "Module 2 — Plans de support",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-020",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Que comprend le plan de support Basic ?",
+      "choices": {
+        "A": "Un support par e-mail 24/7",
+        "B": "Un pool de TAM partagé",
+        "C": "Docs, forums et contrôles Trusted Advisor de base",
+        "D": "Trusted Advisor complet et support 24/7"
+      },
+      "answer": "C",
+      "explanation": "Basic est gratuit : docs, forums et contrôles Trusted Advisor de base, sans support technique.",
+      "why": {
+        "A": "Basic n'offre pas de support technique.",
+        "B": "Le pool de TAM arrive avec On-Ramp.",
+        "D": "Trusted Advisor complet arrive avec Business."
+      },
+      "ref": "Module 2 — Plans de support",
+      "source": "fiche-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-cloud-foundations-economie-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 3 éléments de coût sur AWS ?",
+      "back": "Calcul, stockage et transfert sortant. Les données entrantes sont gratuites.",
+      "ref": "Module 2 — 3 éléments qui coûtent de l'argent",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 principes de tarification ?",
+      "back": "Payer à l'usage, payer moins en réservant, payer moins en utilisant plus, payer encore moins quand AWS grandit.",
+      "ref": "Module 2 — 4 principes de tarification",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Services gratuits à retenir ?",
+      "back": "VPC, IAM, Elastic Beanstalk, CloudFormation, Auto Scaling, facturation consolidée. On paie seulement les ressources créées.",
+      "ref": "Module 2 — Services gratuits",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "TCO ?",
+      "back": "Coût total de possession : comparer tous les coûts d'un datacenter sur site à ceux du cloud, main-d'œuvre, électricité et locaux compris.",
+      "ref": "Module 2 — TCO",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f005",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi une SCP ne suffit-elle pas à donner un droit ?",
+      "back": "Parce qu'une SCP fixe le maximum des permissions d'un compte : elle limite, elle n'accorde rien.",
+      "ref": "Module 2 — AWS Organizations",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Budgets, Cost Explorer, Cost & Usage Report ?",
+      "back": "Budgets : alerte de dépassement. Cost Explorer : graphiques des coûts passés. CUR : rapport le plus détaillé, exporté vers S3.",
+      "ref": "Module 2 — Outils de facturation",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Pricing Calculator vs Cost Explorer ?",
+      "back": "Pricing Calculator estime à l'avance ; Cost Explorer analyse les coûts déjà passés.",
+      "ref": "Module 2 — TCO ; outils de facturation",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f008",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Délais des plans de support ?",
+      "back": "Business : moins de 1 h (prod en panne). Enterprise On-Ramp : moins de 30 min. Enterprise : moins de 15 min.",
+      "ref": "Module 2 — Plans de support",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "TAM : quel plan ?",
+      "back": "Pool de TAM : Enterprise On-Ramp. TAM dédié : Enterprise seulement.",
+      "ref": "Module 2 — Plans de support",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-f010",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Trusted Advisor ?",
+      "back": "Outil qui conseille sur le coût, la performance, la sécurité, la tolérance aux pannes et les limites de service.",
+      "ref": "Module 2 — Piège",
+      "source": "fiche-aws"
+    }
+  ]
+}

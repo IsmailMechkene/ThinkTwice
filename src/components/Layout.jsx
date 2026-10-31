@@ -37,8 +37,8 @@ export default function Layout() {
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
           <NavLink to="/" className="flex items-center gap-2 font-bold tracking-tight">
-            <span className="brand-gradient grid h-8 w-8 place-items-center rounded-lg text-sm font-extrabold text-white shadow-sm shadow-indigo-500/30">T²</span>
-            <span className="text-lg">Think<span className="brand-text">Twice</span></span>
+            <span className="brand-fill grid h-8 w-8 place-items-center rounded-lg text-sm font-extrabold text-white">T²</span>
+            <span className="text-lg">Think<span className="brand-ink">Twice</span></span>
           </NavLink>
           <nav className="ml-4 hidden items-center gap-1 md:flex" aria-label={t('nav.main')}>
             {NAV.map((n) => (

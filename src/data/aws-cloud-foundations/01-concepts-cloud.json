@@ -1,0 +1,502 @@
+{
+  "id": "concepts",
+  "title": "Concepts du cloud",
+  "order": 1,
+  "description": "Définition du cloud, modèles de service et de déploiement, les 6 avantages, accès à AWS et CAF.",
+  "questions": [
+    {
+      "id": "aws-cloud-foundations-concepts-001",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe loue des machines virtuelles, y installe son OS et applique elle-même les correctifs. Quel modèle de service utilise-t-elle ?",
+      "choices": {
+        "A": "PaaS",
+        "B": "IaaS",
+        "C": "SaaS",
+        "D": "On-premises"
+      },
+      "answer": "B",
+      "explanation": "En IaaS, on loue des machines virtuelles et on gère l'OS, les données et l'application. EC2 en est l'exemple.",
+      "why": {
+        "A": "En PaaS, le fournisseur gère l'OS : on dépose seulement son code.",
+        "C": "En SaaS, on utilise une application finie, sans gérer d'OS.",
+        "D": "On-premises est un modèle de déploiement, pas un modèle de service : ici, les machines sont louées."
+      },
+      "ref": "Module 1 — 3 modèles de service",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un développeur veut déposer son code et laisser AWS gérer le reste. Quel service correspond à ce besoin ?",
+      "choices": {
+        "A": "Amazon EC2",
+        "B": "Gmail",
+        "C": "Dropbox",
+        "D": "Elastic Beanstalk"
+      },
+      "answer": "D",
+      "explanation": "Elastic Beanstalk est l'exemple de PaaS du cours : on dépose le code, AWS gère le reste.",
+      "why": {
+        "A": "EC2 est de l'IaaS : il faudrait gérer l'OS.",
+        "B": "Gmail est un SaaS : une application finie, pas un lieu où déposer son code.",
+        "C": "Dropbox est aussi un SaaS."
+      },
+      "ref": "Module 1 — 3 modèles de service",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "En PaaS, que reste-t-il à la charge du client ?",
+      "choices": {
+        "A": "L'application et les données",
+        "B": "L'OS et les serveurs",
+        "C": "Les données et l'OS",
+        "D": "Le réseau et les serveurs"
+      },
+      "answer": "A",
+      "explanation": "En PaaS, le client garde l'application et les données ; l'OS, les serveurs et le réseau sont gérés par le fournisseur.",
+      "why": {
+        "B": "Ces deux couches sont gérées par le fournisseur en PaaS.",
+        "C": "L'OS reste à la charge du client en IaaS, pas en PaaS.",
+        "D": "Ces couches sont gérées par le fournisseur dans les trois modèles."
+      },
+      "ref": "Module 1 — 3 modèles de service",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une entreprise utilise Gmail pour ses mails, sans rien installer ni administrer. De quel modèle s'agit-il ?",
+      "choices": {
+        "A": "IaaS",
+        "B": "PaaS",
+        "C": "SaaS",
+        "D": "Hybride"
+      },
+      "answer": "C",
+      "explanation": "En SaaS, on utilise une application finie, comme Gmail ou Dropbox.",
+      "why": {
+        "A": "L'IaaS suppose de gérer des machines virtuelles.",
+        "B": "Le PaaS suppose de déployer son propre code.",
+        "D": "Hybride est un modèle de déploiement, pas un modèle de service."
+      },
+      "ref": "Module 1 — 3 modèles de service",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une banque garde ses données clients dans son datacenter et fait tourner son site dans AWS, les deux étant reliés. Quel modèle de déploiement est-ce ?",
+      "choices": {
+        "A": "Cloud public",
+        "B": "Hybride",
+        "C": "On-premises",
+        "D": "SaaS"
+      },
+      "answer": "B",
+      "explanation": "Le modèle hybride mélange une partie dans le cloud et une partie dans son datacenter, reliées entre elles.",
+      "why": {
+        "A": "En cloud public, tout tourne chez le fournisseur.",
+        "C": "En on-premises, tout reste dans son propre datacenter.",
+        "D": "SaaS est un modèle de service."
+      },
+      "ref": "Module 1 — 3 modèles de déploiement",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une société fait tout tourner dans son propre datacenter, avec des outils de virtualisation. Quel modèle de déploiement utilise-t-elle ?",
+      "choices": {
+        "A": "Cloud public",
+        "B": "Hybride",
+        "C": "IaaS",
+        "D": "On-premises"
+      },
+      "answer": "D",
+      "explanation": "On-premises (privé) : tout est dans son propre datacenter, avec des outils de virtualisation.",
+      "why": {
+        "A": "Rien ne tourne chez un fournisseur.",
+        "B": "Aucune partie n'est dans le cloud.",
+        "C": "IaaS est un modèle de service loué à un fournisseur."
+      },
+      "ref": "Module 1 — 3 modèles de déploiement",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Au lieu d'acheter 500 000 € de serveurs, une entreprise paie AWS chaque mois selon son usage. Que change-t-elle ?",
+      "choices": {
+        "A": "Du CapEx vers de l'OpEx",
+        "B": "De l'OpEx vers du CapEx",
+        "C": "Du SaaS vers de l'IaaS",
+        "D": "Du cloud vers l'on-premises"
+      },
+      "answer": "A",
+      "explanation": "Un datacenter acheté est du CapEx ; payer à l'usage est de l'OpEx. C'est le premier avantage cité.",
+      "why": {
+        "B": "C'est le sens inverse : payer à l'usage est de l'OpEx.",
+        "C": "Le texte parle du mode de dépense, pas du modèle de service.",
+        "D": "L'entreprise quitte l'achat de serveurs pour le cloud, pas l'inverse."
+      },
+      "ref": "Module 1 — Les 6 avantages",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un site marchand ne sait pas quel trafic il aura au Black Friday. Il ajuste ses serveurs selon le besoin réel. Quel avantage du cloud est illustré ?",
+      "choices": {
+        "A": "Économies d'échelle massives",
+        "B": "Devenir mondial en quelques minutes",
+        "C": "Arrêter de deviner la capacité",
+        "D": "Dépense variable au lieu d'investissement"
+      },
+      "answer": "C",
+      "explanation": "Arrêter de deviner la capacité : on augmente ou diminue selon le besoin réel.",
+      "why": {
+        "A": "Les économies d'échelle viennent des achats en volume d'AWS.",
+        "B": "Aucun déploiement dans d'autres Régions n'est évoqué.",
+        "D": "Le cas porte sur le dimensionnement, pas sur le mode de paiement."
+      },
+      "ref": "Module 1 — Les 6 avantages",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "AWS achète du matériel en énorme volume, ce qui fait baisser les prix pour ses clients. Quel avantage est-ce ?",
+      "choices": {
+        "A": "La vitesse et l'agilité",
+        "B": "Les économies d'échelle",
+        "C": "La dépense variable",
+        "D": "La fin de la gestion des datacenters"
+      },
+      "answer": "B",
+      "explanation": "Les économies d'échelle massives : AWS achète en énorme volume, donc les prix baissent.",
+      "why": {
+        "A": "La vitesse concerne le temps pour obtenir une ressource.",
+        "C": "La dépense variable concerne la façon de payer, pas le niveau des prix.",
+        "D": "Cet avantage porte sur le temps libéré pour se concentrer sur ses clients."
+      },
+      "ref": "Module 1 — Les 6 avantages",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une start-up française déploie son application en Asie en un après-midi. Quel avantage du cloud en profite ?",
+      "choices": {
+        "A": "Arrêter de deviner la capacité",
+        "B": "Les économies d'échelle",
+        "C": "La dépense variable",
+        "D": "Devenir mondial en quelques minutes"
+      },
+      "answer": "D",
+      "explanation": "Devenir mondial en quelques minutes : on déploie dans plusieurs Régions.",
+      "why": {
+        "A": "Il s'agit d'aller vers de nouveaux pays, pas d'ajuster une capacité.",
+        "B": "Rien n'évoque le prix d'achat du matériel.",
+        "C": "Rien n'évoque ici le mode de paiement."
+      },
+      "ref": "Module 1 — Les 6 avantages",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un serveur était livré en trois semaines ; il est désormais disponible en cinq minutes. Quel avantage est illustré ?",
+      "choices": {
+        "A": "Vitesse et agilité",
+        "B": "Économies d'échelle",
+        "C": "Dépense variable",
+        "D": "Devenir mondial"
+      },
+      "answer": "A",
+      "explanation": "Plus de vitesse et d'agilité : un serveur en minutes, pas en semaines.",
+      "why": {
+        "B": "Le gain porte sur le délai, pas sur le prix.",
+        "C": "Le gain porte sur le délai, pas sur le mode de paiement.",
+        "D": "Aucun déploiement à l'international n'est évoqué."
+      },
+      "ref": "Module 1 — Les 6 avantages",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle situation correspond à la définition du cloud computing ?",
+      "choices": {
+        "A": "Acheter un serveur et le placer dans ses locaux",
+        "B": "Louer un serveur physique avec un contrat fixe de 5 ans",
+        "C": "Utiliser des ressources à la demande et payer sa consommation",
+        "D": "Installer un logiciel sur les postes de ses employés"
+      },
+      "answer": "C",
+      "explanation": "Le cloud, c'est utiliser des ressources à la demande, via Internet, en payant seulement ce qu'on consomme.",
+      "why": {
+        "A": "Il s'agit d'un achat de matériel sur site.",
+        "B": "Un contrat fixe n'est ni à la demande ni payé à la consommation.",
+        "D": "Une installation locale ne passe pas par des ressources à la demande."
+      },
+      "ref": "Module 1 — C'est quoi le cloud computing ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-013",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un administrateur veut automatiser des tâches AWS avec des scripts dans son terminal. Quel outil choisit-il ?",
+      "choices": {
+        "A": "La console de gestion",
+        "B": "AWS CLI",
+        "C": "Le CAF",
+        "D": "Trusted Advisor"
+      },
+      "answer": "B",
+      "explanation": "AWS CLI permet d'utiliser AWS en lignes de commande dans un terminal, et donc dans des scripts.",
+      "why": {
+        "A": "La console est une interface graphique dans le navigateur.",
+        "C": "Le CAF est un guide de migration.",
+        "D": "Trusted Advisor donne des conseils, il n'exécute pas de commandes."
+      },
+      "ref": "Module 1 — AWS, c'est quoi ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application Python doit créer des ressources AWS depuis son propre code. Que faut-il utiliser ?",
+      "choices": {
+        "A": "La console de gestion",
+        "B": "AWS CLI",
+        "C": "Le Cloud Adoption Framework",
+        "D": "Un SDK"
+      },
+      "answer": "D",
+      "explanation": "Les SDK sont des bibliothèques pour appeler AWS depuis son code (Python, Java…).",
+      "why": {
+        "A": "La console s'utilise à la main dans le navigateur.",
+        "B": "La CLI s'utilise dans un terminal, le SDK dans le code.",
+        "C": "Le CAF guide une migration, il ne fournit aucune bibliothèque."
+      },
+      "ref": "Module 1 — AWS, c'est quoi ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-015",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Selon le cours, qu'est-ce qu'un service web ?",
+      "choices": {
+        "A": "Un logiciel accessible via le réseau par une API",
+        "B": "Un site vitrine hébergé dans une Région",
+        "C": "Un serveur physique loué chez AWS",
+        "D": "Un navigateur relié à un datacenter"
+      },
+      "answer": "A",
+      "explanation": "Un service web est un logiciel accessible via le réseau par une interface standard (API).",
+      "why": {
+        "B": "Un site n'est qu'un usage possible : la définition porte sur l'interface.",
+        "C": "Un service web est un logiciel, pas du matériel.",
+        "D": "Le navigateur n'est qu'un client possible."
+      },
+      "ref": "Module 1 — AWS, c'est quoi ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pendant une migration, une entreprise forme ses équipes et adapte leurs rôles. Quelle perspective du CAF est concernée ?",
+      "choices": {
+        "A": "Governance",
+        "B": "Operations",
+        "C": "People",
+        "D": "Platform"
+      },
+      "answer": "C",
+      "explanation": "La perspective People consiste à former et à adapter les rôles.",
+      "why": {
+        "A": "Governance gère les risques et les coûts.",
+        "B": "Operations fait tourner le système au quotidien.",
+        "D": "Platform concerne l'architecture et la conception."
+      },
+      "ref": "Module 1 — CAF",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un comité suit les risques et les coûts de la migration vers AWS. Quelle perspective du CAF applique-t-il ?",
+      "choices": {
+        "A": "Business",
+        "B": "Governance",
+        "C": "Security",
+        "D": "People"
+      },
+      "answer": "B",
+      "explanation": "La perspective Governance consiste à gérer les risques et les coûts.",
+      "why": {
+        "A": "Business aligne l'IT et les objectifs de l'entreprise.",
+        "C": "Security protège les données.",
+        "D": "People forme les équipes et adapte les rôles."
+      },
+      "ref": "Module 1 — CAF",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Laquelle de ces perspectives du CAF appartient au côté technique ?",
+      "choices": {
+        "A": "Business",
+        "B": "People",
+        "C": "Governance",
+        "D": "Security"
+      },
+      "answer": "D",
+      "explanation": "Côté technique : Platform, Security et Operations. Côté métier : Business, People et Governance.",
+      "why": {
+        "A": "Business est du côté métier.",
+        "B": "People est du côté métier.",
+        "C": "Governance est du côté métier."
+      },
+      "ref": "Module 1 — CAF",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un environnement de test est créé par quelques lignes de code, puis supprimé le soir même. Quelle idée du cours cela illustre-t-il ?",
+      "choices": {
+        "A": "L'infrastructure est du logiciel",
+        "B": "Le matériel est un objet qu'on achète",
+        "C": "Le SaaS remplace le code",
+        "D": "Le CapEx augmente avec le test"
+      },
+      "answer": "A",
+      "explanation": "On passe du matériel qu'on achète à une infrastructure logicielle, créée et supprimée en quelques clics ou lignes de code.",
+      "why": {
+        "B": "C'est l'ancienne logique, que le cloud remplace.",
+        "C": "Le SaaS est une application finie, sans rapport avec la création d'environnements.",
+        "D": "Rien n'est acheté d'avance : il n'y a pas de CapEx."
+      },
+      "ref": "Module 1 — C'est quoi le cloud computing ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-020",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Après la migration, une équipe s'occupe de faire tourner les systèmes au jour le jour. Quelle perspective du CAF est-ce ?",
+      "choices": {
+        "A": "Platform",
+        "B": "Business",
+        "C": "Operations",
+        "D": "Governance"
+      },
+      "answer": "C",
+      "explanation": "La perspective Operations consiste à faire tourner les systèmes au quotidien.",
+      "why": {
+        "A": "Platform concerne l'architecture et la conception.",
+        "B": "Business aligne l'IT et les objectifs.",
+        "D": "Governance gère les risques et les coûts."
+      },
+      "ref": "Module 1 — CAF",
+      "source": "fiche-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-cloud-foundations-concepts-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Cloud computing ?",
+      "back": "Utiliser des ressources informatiques à la demande, via Internet, en payant seulement ce qu'on consomme.",
+      "ref": "Module 1 — C'est quoi le cloud computing ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f002",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "IaaS, PaaS, SaaS : qui gère quoi ?",
+      "back": "IaaS : l'application, les données et l'OS (EC2). PaaS : l'application et les données (Elastic Beanstalk). SaaS : l'appli est finie (Gmail).",
+      "ref": "Module 1 — 3 modèles de service",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Les 3 modèles de déploiement ?",
+      "back": "Cloud : tout chez le fournisseur. Hybride : cloud et datacenter reliés. On-premises : tout dans son datacenter.",
+      "ref": "Module 1 — 3 modèles de déploiement",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 6 avantages du cloud ?",
+      "back": "Dépense variable, économies d'échelle, ne plus deviner la capacité, vitesse et agilité, moins de gestion de datacenters, mondial en minutes.",
+      "ref": "Module 1 — Les 6 avantages",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "CapEx vs OpEx ?",
+      "back": "CapEx : investissement, comme un datacenter acheté. OpEx : dépense variable, comme le paiement à l'usage.",
+      "ref": "Module 1 — Piège",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Console, CLI, SDK ?",
+      "back": "Console : interface graphique. CLI : lignes de commande et scripts. SDK : bibliothèques à appeler depuis son code.",
+      "ref": "Module 1 — AWS, c'est quoi ?",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f007",
+      "kind": "definition",
+      "tier": "core",
+      "front": "CAF ?",
+      "back": "Cloud Adoption Framework : guide d'AWS pour réussir une migration, organisé en 6 perspectives.",
+      "ref": "Module 1 — CAF",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-f008",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Les 6 perspectives du CAF ?",
+      "back": "Métier : Business, People, Governance. Technique : Platform, Security, Operations.",
+      "ref": "Module 1 — CAF",
+      "source": "fiche-aws"
+    }
+  ]
+}

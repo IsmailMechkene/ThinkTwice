@@ -1,0 +1,643 @@
+{
+  "id": "stockage",
+  "title": "Stockage",
+  "order": 7,
+  "description": "Stockage bloc, fichier et objet : EBS, EFS, S3, classes de stockage et Glacier.",
+  "questions": [
+    {
+      "id": "aws-cloud-foundations-stockage-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Associez chaque type de stockage à son service.",
+      "choices": {
+        "A": "Bloc : S3 ; fichier : EFS ; objet : EBS",
+        "B": "Bloc : EBS ; fichier : EFS ; objet : S3",
+        "C": "Bloc : EFS ; fichier : EBS ; objet : S3",
+        "D": "Bloc : EBS ; fichier : S3 ; objet : EFS"
+      },
+      "answer": "B",
+      "explanation": "Bloc → EBS, fichier → EFS, objet → S3.",
+      "why": {
+        "A": "S3 est un stockage objet et EBS un stockage bloc.",
+        "C": "EBS est le stockage bloc et EFS le stockage fichier.",
+        "D": "S3 est le stockage objet et EFS le stockage fichier."
+      },
+      "ref": "Module 7 — Bloc, fichier, objet",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance est dans l'AZ A, et un volume EBS dans l'AZ B. Que se passe-t-il si on veut l'attacher directement ?",
+      "choices": {
+        "A": "Il s'attache, avec plus de latence",
+        "B": "Il s'attache via une NAT Gateway",
+        "C": "Il se déplace tout seul dans l'AZ A",
+        "D": "C'est impossible : il doit être dans la même AZ"
+      },
+      "answer": "D",
+      "explanation": "Un volume EBS doit être dans la même AZ que l'instance.",
+      "why": {
+        "A": "EBS ne s'attache pas d'une AZ à l'autre.",
+        "B": "Une NAT Gateway sert la sortie vers Internet.",
+        "C": "Aucun déplacement automatique n'a lieu."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment déplacer le contenu d'un volume EBS vers une autre AZ ?",
+      "choices": {
+        "A": "Par un snapshot, puis un nouveau volume",
+        "B": "Avec Elastic Volumes",
+        "C": "Avec une règle Lifecycle",
+        "D": "Par un changement de type"
+      },
+      "answer": "A",
+      "explanation": "Les snapshots permettent de recréer le volume dans une autre AZ.",
+      "why": {
+        "B": "Elastic Volumes change la taille ou le type, pas l'AZ.",
+        "C": "Lifecycle concerne les objets S3.",
+        "D": "Le type du volume n'a aucun rapport avec son AZ."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une dizaine de serveurs web Linux répartis sur plusieurs AZ doivent lire le même dossier. Quel service choisir ?",
+      "choices": {
+        "A": "Amazon EBS",
+        "B": "Instance store",
+        "C": "Amazon EFS",
+        "D": "S3 Glacier"
+      },
+      "answer": "C",
+      "explanation": "EFS est un système de fichiers partagé (NFS), accessible par des milliers d'instances depuis plusieurs AZ.",
+      "why": {
+        "A": "EBS est lié à une AZ et attaché en général à une instance.",
+        "B": "L'instance store est temporaire et propre à une instance.",
+        "D": "Glacier sert à l'archivage."
+      },
+      "ref": "Module 7 — Amazon EFS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un fichier de 2 Go stocké dans S3 change d'un seul octet. Comment S3 met-il à jour le contenu ?",
+      "choices": {
+        "A": "Il modifie seulement le bloc changé",
+        "B": "Il remplace l'objet entier",
+        "C": "Il ajoute le changement à la fin",
+        "D": "Il ne permet pas de changement"
+      },
+      "answer": "B",
+      "explanation": "En stockage objet, on remplace l'objet entier.",
+      "why": {
+        "A": "C'est le fonctionnement du stockage bloc, comme EBS.",
+        "C": "Il n'y a pas d'ajout partiel dans ce modèle.",
+        "D": "On peut remplacer l'objet."
+      },
+      "ref": "Module 7 — Bloc, fichier, objet",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces volumes EBS ne peut pas servir de disque de démarrage ?",
+      "choices": {
+        "A": "gp2",
+        "B": "gp3",
+        "C": "io2",
+        "D": "st1"
+      },
+      "answer": "D",
+      "explanation": "Les volumes HDD (st1, sc1) ne peuvent pas être disques de démarrage.",
+      "why": {
+        "A": "gp2 est un SSD adapté au démarrage.",
+        "B": "gp3 est un SSD adapté au démarrage.",
+        "C": "io2 est un SSD, pas un HDD."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une base de données très exigeante a besoin d'IOPS garantis. Quel volume EBS choisir ?",
+      "choices": {
+        "A": "SSD io1/io2",
+        "B": "SSD gp2",
+        "C": "HDD st1",
+        "D": "HDD sc1"
+      },
+      "answer": "A",
+      "explanation": "Les SSD io1/io2 (IOPS provisionnés) visent les bases de données exigeantes.",
+      "why": {
+        "B": "gp2 convient à la plupart des cas, mais pas aux bases les plus exigeantes.",
+        "C": "st1 vise le big data et les logs.",
+        "D": "sc1 vise les données rarement lues."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une plateforme lit de gros fichiers de logs en séquence, au meilleur coût. Quel volume EBS choisir ?",
+      "choices": {
+        "A": "SSD io2",
+        "B": "SSD gp3",
+        "C": "HDD st1",
+        "D": "Instance store"
+      },
+      "answer": "C",
+      "explanation": "HDD st1 (débit optimisé) convient au big data et aux logs, de gros fichiers lus en séquence.",
+      "why": {
+        "A": "io2 vise les bases exigeantes, à un coût plus élevé.",
+        "B": "gp3 est un SSD d'usage général.",
+        "D": "L'instance store n'est pas un type de volume EBS."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel volume EBS est le moins cher, pour des données rarement lues ?",
+      "choices": {
+        "A": "HDD st1",
+        "B": "HDD sc1",
+        "C": "SSD gp3",
+        "D": "SSD io1"
+      },
+      "answer": "B",
+      "explanation": "HDD sc1 (cold) : données rarement lues, le moins cher.",
+      "why": {
+        "A": "st1 vise un bon débit pour des données lues en séquence.",
+        "C": "gp3 est un SSD d'usage général.",
+        "D": "io1 est un SSD à IOPS provisionnés."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe tente de créer un bucket S3 nommé « photos », et AWS refuse. Quelle est la cause probable ?",
+      "choices": {
+        "A": "Ce nom doit contenir une Région",
+        "B": "Un compte ne peut avoir qu'un seul bucket",
+        "C": "Un bucket doit être chiffré à sa création",
+        "D": "Le nom est déjà pris : il est unique au monde"
+      },
+      "answer": "D",
+      "explanation": "Un nom de bucket est unique au monde.",
+      "why": {
+        "A": "Le cours n'impose pas cela dans le nom.",
+        "B": "Le cours n'indique aucune limite de ce genre.",
+        "C": "Le chiffrement n'est pas lié au nom."
+      },
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-011",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un bucket S3 vient d'être créé, sans autre réglage. Qui peut lire ses objets ?",
+      "choices": {
+        "A": "Personne d'autre que ceux autorisés : il est privé",
+        "B": "Tout Internet, via son URL",
+        "C": "Tous les comptes AWS",
+        "D": "Tous les utilisateurs de la Région"
+      },
+      "answer": "A",
+      "explanation": "S3 est privé par défaut. L'accès passe par des politiques de bucket, IAM ou des URL.",
+      "why": {
+        "B": "Le bucket n'est pas public par défaut.",
+        "C": "Les autres comptes n'ont aucun accès par défaut.",
+        "D": "La Région ne donne aucun droit."
+      },
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut stocker dans S3 un fichier de 8 To en un seul objet. Est-ce possible selon le cours ?",
+      "choices": {
+        "A": "Oui : un objet n'a pas de limite",
+        "B": "Oui, avec un bucket Standard-IA",
+        "C": "Non : un objet va jusqu'à 5 To",
+        "D": "Non : un objet va jusqu'à 5 Go"
+      },
+      "answer": "C",
+      "explanation": "Un objet S3 peut aller jusqu'à 5 To ; l'espace total est illimité.",
+      "why": {
+        "A": "C'est l'espace total qui est illimité, pas l'objet.",
+        "B": "La classe de stockage ne change pas cette limite.",
+        "D": "La limite est de 5 To, pas de 5 Go."
+      },
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un employé écrase un fichier important dans S3. Quelle fonction aurait permis de retrouver l'ancienne version ?",
+      "choices": {
+        "A": "Lifecycle",
+        "B": "Versioning",
+        "C": "Vault Lock",
+        "D": "Intelligent-Tiering"
+      },
+      "answer": "B",
+      "explanation": "Le Versioning garde les anciennes versions d'un objet.",
+      "why": {
+        "A": "Lifecycle déplace ou supprime des objets.",
+        "C": "Vault Lock verrouille des règles dans Glacier.",
+        "D": "Intelligent-Tiering déplace entre niveaux, sans garder les versions."
+      },
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Après 90 jours, des logs doivent passer automatiquement vers une classe moins chère. Quelle fonction S3 utiliser ?",
+      "choices": {
+        "A": "Versioning",
+        "B": "Snapshot",
+        "C": "Elastic Volumes",
+        "D": "Lifecycle"
+      },
+      "answer": "D",
+      "explanation": "Lifecycle déplace automatiquement les objets vers une classe moins chère, ou les supprime.",
+      "why": {
+        "A": "Le Versioning garde des versions.",
+        "B": "Les snapshots concernent EBS.",
+        "C": "Elastic Volumes concerne EBS."
+      },
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "On ignore à quelle fréquence des données seront lues. Quelle classe S3 choisir ?",
+      "choices": {
+        "A": "Intelligent-Tiering",
+        "B": "One Zone-IA",
+        "C": "S3 Standard",
+        "D": "Glacier Deep Archive"
+      },
+      "answer": "A",
+      "explanation": "Intelligent-Tiering convient à un accès imprévisible : S3 déplace tout seul entre niveaux.",
+      "why": {
+        "B": "One Zone-IA vise des données peu consultées et recréables.",
+        "C": "Standard vise des données utilisées souvent.",
+        "D": "Deep Archive vise la conservation longue."
+      },
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des miniatures peuvent être régénérées à tout moment et sont rarement lues. Quelle classe réduit le coût ?",
+      "choices": {
+        "A": "S3 Standard",
+        "B": "Standard-IA",
+        "C": "One Zone-IA",
+        "D": "Intelligent-Tiering"
+      },
+      "answer": "C",
+      "explanation": "One Zone-IA utilise une seule AZ : moins cher, moins résilient, adapté aux données recréables.",
+      "why": {
+        "A": "Standard vise les données souvent utilisées.",
+        "B": "Standard-IA convient, mais One Zone-IA est moins cher pour des données recréables.",
+        "D": "L'accès n'est pas imprévisible ici."
+      },
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des sauvegardes sont peu consultées, mais doivent être accessibles rapidement et ne sont pas recréables. Quelle classe choisir ?",
+      "choices": {
+        "A": "One Zone-IA",
+        "B": "Standard-IA",
+        "C": "Glacier Deep Archive",
+        "D": "Glacier Flexible Retrieval"
+      },
+      "answer": "B",
+      "explanation": "Standard-IA : peu consulté, mais avec un accès rapide, par exemple des sauvegardes.",
+      "why": {
+        "A": "Une seule AZ est trop risquée pour des données non recréables.",
+        "C": "Deep Archive se récupère sous 12 h, pas rapidement.",
+        "D": "La récupération prend de quelques minutes à quelques heures."
+      },
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des documents doivent être conservés 10 ans au plus bas prix, et un délai de 12 h est acceptable. Quelle classe choisir ?",
+      "choices": {
+        "A": "Standard-IA",
+        "B": "Glacier Instant Retrieval",
+        "C": "Intelligent-Tiering",
+        "D": "Glacier Deep Archive"
+      },
+      "answer": "D",
+      "explanation": "Glacier Deep Archive est le moins cher : conservation longue (7–10 ans), récupération sous 12 h.",
+      "why": {
+        "A": "Standard-IA coûte plus cher pour une telle conservation.",
+        "B": "L'accès en millisecondes n'est pas nécessaire ici.",
+        "C": "L'accès n'est pas imprévisible : il est très rare."
+      },
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des archives médicales sont consultées rarement, mais doivent s'ouvrir en millisecondes. Quelle classe choisir ?",
+      "choices": {
+        "A": "Glacier Instant Retrieval",
+        "B": "Glacier Flexible Retrieval",
+        "C": "Glacier Deep Archive",
+        "D": "S3 Standard"
+      },
+      "answer": "A",
+      "explanation": "Glacier Instant Retrieval : archives consultées rarement, mais en millisecondes.",
+      "why": {
+        "B": "La récupération prend de quelques minutes à quelques heures.",
+        "C": "La récupération se fait sous 12 h.",
+        "D": "Standard coûte plus cher pour des données rarement lues."
+      },
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une archive Glacier est nécessaire de toute urgence. Quelle option de récupération choisir, et en combien de temps ?",
+      "choices": {
+        "A": "Bulk : 5–12 h",
+        "B": "Standard : 3–5 h",
+        "C": "Expedited : 1–5 min",
+        "D": "Instant : 12 h"
+      },
+      "answer": "C",
+      "explanation": "Expedited récupère en 1 à 5 minutes.",
+      "why": {
+        "A": "Bulk est le moins cher, mais le plus lent.",
+        "B": "Standard prend plusieurs heures.",
+        "D": "Cette option de récupération n'existe pas dans le cours."
+      },
+      "ref": "Module 7 — Amazon S3 Glacier",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise doit garantir que ses archives ne seront jamais supprimées, pour la conformité. Quelle fonction utiliser ?",
+      "choices": {
+        "A": "Elastic Volumes",
+        "B": "Vault Lock",
+        "C": "Versioning",
+        "D": "Lifecycle"
+      },
+      "answer": "B",
+      "explanation": "Vault Lock verrouille des règles, par exemple « ne jamais supprimer », pour la conformité.",
+      "why": {
+        "A": "Elastic Volumes concerne EBS.",
+        "C": "Le Versioning garde des versions, sans interdire les suppressions.",
+        "D": "Lifecycle peut justement supprimer ou déplacer des objets."
+      },
+      "ref": "Module 7 — Amazon S3 Glacier",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment EFS est-il facturé ?",
+      "choices": {
+        "A": "Selon le volume provisionné à l'avance",
+        "B": "Par instance connectée",
+        "C": "Par fichier stocké",
+        "D": "Selon l'espace utilisé"
+      },
+      "answer": "D",
+      "explanation": "EFS s'agrandit et rétrécit automatiquement : on paie seulement l'espace utilisé.",
+      "why": {
+        "A": "C'est le cas d'EBS, pas d'EFS.",
+        "B": "Le cours ne décrit pas de prix par instance.",
+        "C": "Le cours ne décrit pas de prix par fichier."
+      },
+      "ref": "Module 7 — Amazon EFS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut héberger un site web statique sans gérer de serveur. Quel service utilise-t-elle ?",
+      "choices": {
+        "A": "Amazon S3",
+        "B": "Amazon EBS",
+        "C": "Instance store",
+        "D": "S3 Glacier"
+      },
+      "answer": "A",
+      "explanation": "Le site web statique est un cas d'usage de S3.",
+      "why": {
+        "B": "EBS doit être attaché à une instance.",
+        "C": "L'instance store est lié à une instance et temporaire.",
+        "D": "Glacier sert à l'archivage."
+      },
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quels éléments font partie du prix de S3 ?",
+      "choices": {
+        "A": "Go stockés, requêtes et transfert entrant",
+        "B": "Nombre de buckets et volume provisionné",
+        "C": "Go stockés, requêtes et transfert sortant",
+        "D": "Requêtes et transfert sortant seulement"
+      },
+      "answer": "C",
+      "explanation": "Le prix de S3 comprend les Go stockés, les requêtes (PUT, GET…) et le transfert sortant. L'entrée est gratuite.",
+      "why": {
+        "A": "Le transfert entrant est gratuit.",
+        "B": "Le volume provisionné concerne EBS.",
+        "D": "Les Go stockés sont aussi facturés."
+      },
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un volume de 100 Go a déjà un premier snapshot, puis 2 Go changent. Que contient le deuxième snapshot ?",
+      "choices": {
+        "A": "Une copie complète de 100 Go",
+        "B": "Les 2 Go qui ont changé",
+        "C": "Seulement les métadonnées",
+        "D": "Rien, car il faut changer d'AZ"
+      },
+      "answer": "B",
+      "explanation": "Les snapshots sont des sauvegardes incrémentielles stockées dans S3.",
+      "why": {
+        "A": "Les snapshots sont incrémentiels, pas complets à chaque fois.",
+        "C": "Les données changées sont bien sauvegardées.",
+        "D": "Un snapshot ne dépend pas d'un changement d'AZ."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-cloud-foundations-stockage-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "EBS, EFS, S3 ?",
+      "back": "EBS : bloc, 1 AZ, attaché en général à une instance. EFS : fichiers partagés, plusieurs AZ. S3 : objets accessibles via le web.",
+      "ref": "Module 7 — Pièges",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Volume EBS : règles clés ?",
+      "back": "Persistant, dans la même AZ que l'instance, répliqué dans cette AZ. Payé selon le volume provisionné, les IOPS et les snapshots.",
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Snapshot EBS ?",
+      "back": "Sauvegarde incrémentielle stockée dans S3, qui permet de recréer le volume dans une autre AZ.",
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f004",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Types de volumes EBS ?",
+      "back": "gp2/gp3 : usage général. io1/io2 : bases exigeantes. st1 : big data, logs. sc1 : données rarement lues, le moins cher.",
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "S3 : chiffres et règles ?",
+      "back": "Nom de bucket unique au monde, objet jusqu'à 5 To, espace illimité, durabilité 11 neuf, privé par défaut.",
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Versioning vs Lifecycle ?",
+      "back": "Versioning : garde les anciennes versions d'un objet. Lifecycle : déplace les objets vers une classe moins chère, ou les supprime.",
+      "ref": "Module 7 — Amazon S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Standard-IA vs One Zone-IA ?",
+      "back": "Les deux pour un accès rare mais rapide. One Zone-IA utilise une seule AZ : moins cher, pour des données recréables.",
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f008",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Les 3 classes Glacier ?",
+      "back": "Instant Retrieval : millisecondes. Flexible Retrieval : minutes à heures. Deep Archive : le moins cher, sous 12 h.",
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Intelligent-Tiering ?",
+      "back": "Pour un accès imprévisible : S3 déplace tout seul les objets entre niveaux.",
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f010",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Amazon EFS ?",
+      "back": "Système de fichiers partagé (NFS) pour Linux, accessible depuis plusieurs AZ, qui s'ajuste seul. On paie l'espace utilisé.",
+      "ref": "Module 7 — Amazon EFS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f011",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Options de récupération Glacier ?",
+      "back": "Expedited : 1–5 min. Standard : 3–5 h. Bulk : 5–12 h, le moins cher.",
+      "ref": "Module 7 — Amazon S3 Glacier",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Vault Lock ?",
+      "back": "Verrouille les règles d'un coffre Glacier, comme « ne jamais supprimer », pour la conformité.",
+      "ref": "Module 7 — Amazon S3 Glacier",
+      "source": "fiche-aws"
+    }
+  ]
+}
