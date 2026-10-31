@@ -75,8 +75,7 @@ export default function Home() {
     <div>
       <ResumeBanner />
       <section className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-        <div className="brand-gradient relative overflow-hidden rounded-3xl p-6 text-white shadow-lg shadow-indigo-500/20 sm:p-8">
-          <div aria-hidden className="pointer-events-none absolute -top-16 -right-10 h-56 w-56 rounded-full bg-white/10 blur-2xl" />
+        <div className="brand-fill rounded-3xl p-6 text-white sm:p-8">
           <p className="text-sm font-semibold text-white/80">{t('home.hi', { name: profileName(currentProfile, t) })}</p>
           <h1 className="mt-2 text-3xl leading-tight font-extrabold tracking-tight sm:text-4xl">{t('home.title')}</h1>
           <p className="mt-3 max-w-xl text-white/85">{t('home.lead')}</p>
