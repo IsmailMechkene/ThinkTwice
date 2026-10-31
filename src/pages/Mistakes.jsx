@@ -121,7 +121,7 @@ export default function Mistakes() {
       />
 
       {all.length === 0 ? (
-        <EmptyState title={`🎉 ${t('mistakes.empty')}`} action={<Button to="/quiz">{t('mistakes.takeQuiz')}</Button>}>
+        <EmptyState title={t('mistakes.empty')} action={<Button to="/quiz">{t('mistakes.takeQuiz')}</Button>}>
           {t('mistakes.emptyHint')}
         </EmptyState>
       ) : (
