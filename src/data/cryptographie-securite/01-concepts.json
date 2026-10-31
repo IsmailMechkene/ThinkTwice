@@ -1,0 +1,580 @@
+{
+  "id": "concepts",
+  "title": "Concepts de base et besoins de sécurité",
+  "order": 1,
+  "description": "Actif, vulnérabilité, menace, risque et attaque ; démarche de sécurisation ; hackers et phases du piratage ; besoins DICP.",
+  "questions": [
+    {
+      "id": "cryptographie-securite-concepts-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un PC n'a aucun antivirus, et un virus circule sur Internet sans l'avoir encore touché. Que représentent, dans cet ordre, l'absence d'antivirus et le virus ?",
+      "choices": {
+        "A": "Une vulnérabilité, puis une menace",
+        "B": "Une menace, puis une vulnérabilité",
+        "C": "Un risque, puis une attaque",
+        "D": "Un incident, puis un risque"
+      },
+      "answer": "A",
+      "explanation": "La vulnérabilité est une faiblesse de l'actif (pas d'antivirus) ; la menace est ce qui pourrait l'exploiter (le virus).",
+      "why": {
+        "B": "C'est l'inverse : la faiblesse est la vulnérabilité, sa cause potentielle d'exploitation est la menace.",
+        "C": "Le risque est une probabilité, et il n'y a pas d'attaque tant que la menace ne s'est pas réalisée.",
+        "D": "Rien n'a encore dysfonctionné : il n'y a pas d'incident, et le virus n'est pas une probabilité."
+      },
+      "ref": "§1 — Concepts de base",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une employée signale que son poste plante sans arrêt. Rien n'indique un acte malveillant. De quoi s'agit-il ?",
+      "choices": {
+        "A": "Une attaque",
+        "B": "Un incident",
+        "C": "Une menace",
+        "D": "Une contre-mesure"
+      },
+      "answer": "B",
+      "explanation": "Un incident est un dysfonctionnement signalé par un utilisateur ; le cours donne justement l'exemple du poste qui plante.",
+      "why": {
+        "A": "Une attaque est un acte intentionnel et malveillant, ce que rien n'indique ici.",
+        "C": "Une menace est une cause potentielle ; ici, le dysfonctionnement a déjà lieu.",
+        "D": "Une contre-mesure sert à contrer un incident, elle n'en est pas un."
+      },
+      "ref": "§1 — Concepts de base",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un pirate profite d'un mot de passe faible pour chiffrer la base clients d'une société. Quelle lecture applique correctement la formule du cours ?",
+      "choices": {
+        "A": "Un risque a exploité une attaque sur un actif, créant une vulnérabilité",
+        "B": "Une vulnérabilité a exploité une menace visant le mot de passe",
+        "C": "Une menace a exploité une vulnérabilité d'un actif : c'est une attaque",
+        "D": "Un actif a exploité une menace, ce qui définit le risque subi"
+      },
+      "answer": "C",
+      "explanation": "Attaque = menace qui exploite une vulnérabilité d'un actif. Ici : le pirate (menace), le mot de passe faible (vulnérabilité), la base clients (actif).",
+      "why": {
+        "A": "Le risque est une probabilité : il n'exploite rien.",
+        "B": "Les rôles sont inversés : c'est la menace qui exploite la vulnérabilité.",
+        "D": "L'actif est ce qu'on protège, il ne joue aucun rôle actif dans l'attaque."
+      },
+      "ref": "§1 — À retenir",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Après un sinistre, une société restaure ses données depuis une sauvegarde. De quel type de contre-mesure s'agit-il ?",
+      "choices": {
+        "A": "Préventive, car la sauvegarde a été faite avant",
+        "B": "Une vulnérabilité, car les données ont été perdues",
+        "C": "Préventive, comme un pare-feu",
+        "D": "Corrective, car elle agit après l'incident"
+      },
+      "answer": "D",
+      "explanation": "Une contre-mesure est préventive ou corrective ; sauvegarde et restauration sont l'exemple de mesure corrective du cours.",
+      "why": {
+        "A": "Le cours classe la sauvegarde/restauration comme corrective : elle répare les effets de l'incident.",
+        "B": "Une restauration est un moyen de défense, pas une faiblesse.",
+        "C": "Le pare-feu est bien préventif, mais il empêche l'incident alors que la restauration le répare."
+      },
+      "ref": "§1 — Contre-mesure",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe vient d'inventorier ses actifs et ses menaces, et d'estimer leurs probabilités et leurs coûts. Quelle étape vient ensuite ?",
+      "choices": {
+        "A": "Installer directement un pare-feu et un antivirus",
+        "B": "Rédiger la politique de sécurité",
+        "C": "Lancer des tests d'intrusion de validation",
+        "D": "Revenir à l'analyse de la situation"
+      },
+      "answer": "B",
+      "explanation": "La politique de sécurité est élaborée après l'analyse des risques et avant les mesures : elle décrit comment le risque sera diminué.",
+      "why": {
+        "A": "L'implémentation ne vient qu'après la politique et le choix des mesures.",
+        "C": "La validation est la dernière étape : il faut d'abord avoir quelque chose à valider.",
+        "D": "L'analyse de la situation est la toute première étape, déjà passée."
+      },
+      "ref": "§1 — Démarche pour sécuriser un SI",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Le pare-feu vient d'être installé. L'équipe lance alors des scans de vulnérabilités pour vérifier la protection obtenue. Dans quelle étape est-elle ?",
+      "choices": {
+        "A": "Analyse des risques",
+        "B": "Implémentation",
+        "C": "Validation",
+        "D": "Mesures de sécurité"
+      },
+      "answer": "C",
+      "explanation": "La validation, sixième et dernière étape, vérifie la protection obtenue par des audits, des scans de vulnérabilités et des tests d'intrusion.",
+      "why": {
+        "A": "L'analyse des risques précède toute mesure et vise à diminuer le risque global.",
+        "B": "L'implémentation est l'installation des mesures, qui est déjà terminée.",
+        "D": "Cette étape choisit les mesures techniques et organisationnelles, elle ne les vérifie pas."
+      },
+      "ref": "§1 — Démarche pour sécuriser un SI",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un incendie du datacenter serait rare mais très coûteux. Quel traitement du risque la matrice fréquence × coût recommande-t-elle ?",
+      "choices": {
+        "A": "Accepter le risque",
+        "B": "Recruter et former du personnel",
+        "C": "Assurer la disponibilité par des serveurs miroirs",
+        "D": "S'assurer auprès d'une assurance"
+      },
+      "answer": "D",
+      "explanation": "Incident rare + coût élevé : on s'assure.",
+      "why": {
+        "A": "Accepter convient à un incident rare de coût faible.",
+        "B": "Mettre en place des mécanismes, recruter et former concerne l'incident fréquent de coût élevé.",
+        "C": "Les serveurs miroirs correspondent à l'incident fréquent de coût faible."
+      },
+      "ref": "§1 — Matrice fréquence × coût",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "De petites pannes de serveur surviennent chaque semaine, chacune coûtant peu. Quel traitement convient selon la matrice du cours ?",
+      "choices": {
+        "A": "Assurer la disponibilité, par exemple avec des serveurs miroirs",
+        "B": "Souscrire une assurance contre ces pannes",
+        "C": "Accepter ces pannes sans rien changer",
+        "D": "Recruter et former une équipe dédiée"
+      },
+      "answer": "A",
+      "explanation": "Incident fréquent + coût faible : on assure la disponibilité (serveurs miroirs…).",
+      "why": {
+        "B": "L'assurance est réservée à l'incident rare et coûteux.",
+        "C": "On n'accepte que l'incident rare de coût faible ; ici il est fréquent.",
+        "D": "Mécanismes, recrutement et formation répondent à l'incident fréquent de coût élevé."
+      },
+      "ref": "§1 — Matrice fréquence × coût",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des fuites de données se produisent souvent et coûtent cher à chaque fois. Quelle réponse donne la matrice ?",
+      "choices": {
+        "A": "S'assurer, puis accepter le reste du risque",
+        "B": "Mettre en place des mécanismes, recruter et former",
+        "C": "Accepter, car le risque zéro n'existe pas",
+        "D": "Assurer seulement la disponibilité des serveurs"
+      },
+      "answer": "B",
+      "explanation": "Incident fréquent + coût élevé : mettre en place des mécanismes, recruter, former.",
+      "why": {
+        "A": "L'assurance convient aux incidents rares, pas à ceux qui se répètent.",
+        "C": "L'absence de risque zéro justifie un risque résiduel, pas l'inaction face à un risque élevé et fréquent.",
+        "D": "Cette réponse vise les incidents fréquents mais peu coûteux."
+      },
+      "ref": "§1 — Matrice fréquence × coût",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un directeur demande une sécurité garantissant un risque nul. Que répondre d'après le cours ?",
+      "choices": {
+        "A": "C'est possible si toutes les mesures techniques sont installées",
+        "B": "C'est possible, mais seulement après un audit complet",
+        "C": "C'est impossible : on définit plutôt un risque résiduel acceptable",
+        "D": "C'est impossible : seule une assurance supprime le risque"
+      },
+      "answer": "C",
+      "explanation": "Le risque « zéro » n'existe pas : on définit le risque résiduel acceptable.",
+      "why": {
+        "A": "Même avec toutes les mesures, un risque subsiste ; les risques banals (panne de courant, crash disque) restent.",
+        "B": "Un audit évalue la sécurité, il ne peut pas annuler le risque.",
+        "D": "L'assurance couvre le coût d'un incident rare, elle ne supprime pas le risque."
+      },
+      "ref": "§1 — Matrice fréquence × coût",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-011",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Sans autorisation, une personne s'introduit dans un site marchand, sans rien voler, pour exposer une faille dans l'intérêt des clients. Quel type de hacker est-ce ?",
+      "choices": {
+        "A": "White Hat",
+        "B": "Black Hat",
+        "C": "Script-kiddie",
+        "D": "Grey Hat"
+      },
+      "answer": "D",
+      "explanation": "Le Grey Hat mélange les deux : il entre sans autorisation, mais pour exposer une faille dans l'intérêt des clients.",
+      "why": {
+        "A": "Le White Hat intervient légalement pour aider l'entreprise, avec son accord.",
+        "B": "Le Black Hat agit pour le gain : vol de données, virus, intrusions.",
+        "C": "Le script-kiddie se définit par son faible niveau et ses outils écrits par d'autres, pas par son intention."
+      },
+      "ref": "§2 — Classes de hackers",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un adolescent lance un outil trouvé sur un forum, sans comprendre son fonctionnement, et met un site hors service. Que retenir de son profil ?",
+      "choices": {
+        "A": "Script-kiddie : peu compétent, mais capable d'autant de dégâts",
+        "B": "Script-kiddie : peu compétent, donc forcément inoffensif",
+        "C": "Hacktiviste : il attaque des entreprises pour une cause",
+        "D": "Black Hat : il dépend d'outils écrits par d'autres"
+      },
+      "answer": "A",
+      "explanation": "Le script-kiddie utilise des outils écrits par d'autres ; peu compétent, il peut quand même faire autant de dégâts.",
+      "why": {
+        "B": "Le piège : un faible niveau n'empêche pas de causer de gros dégâts.",
+        "C": "Aucune cause sociale, politique ou religieuse n'est évoquée ici.",
+        "D": "L'utilisation d'outils tout faits caractérise le script-kiddie, pas le Black Hat."
+      },
+      "ref": "§2 — Classes de hackers",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-013",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Un groupe attaque le site d'une entreprise pour dénoncer son impact sur l'environnement, sans chercher à gagner d'argent. Quel profil correspond ?",
+      "choices": {
+        "A": "Grey Hat",
+        "B": "Hacktiviste",
+        "C": "Black Hat",
+        "D": "Hacker éthique"
+      },
+      "answer": "B",
+      "explanation": "L'hacktiviste vise un changement social ou une cause politique ou religieuse, et attaque plutôt des entreprises.",
+      "why": {
+        "A": "Le Grey Hat cherche à exposer une faille, pas à défendre une cause.",
+        "C": "Le Black Hat est motivé par l'appât du gain.",
+        "D": "Le hacker éthique aide l'entreprise à trouver ses failles, il ne l'attaque pas."
+      },
+      "ref": "§2 — Classes de hackers",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un pirate lit des offres d'emploi et des publications sur la cible, sans lui envoyer le moindre paquet. Où en est-il ?",
+      "choices": {
+        "A": "Scanning : il explore le réseau de la cible",
+        "B": "Reconnaissance active : il collecte des informations",
+        "C": "Reconnaissance passive : il n'interagit pas avec la cible",
+        "D": "Gaining access : il exploite déjà une faille"
+      },
+      "answer": "C",
+      "explanation": "La reconnaissance collecte de l'information sur la cible ; elle est passive quand il n'y a aucune interaction avec elle.",
+      "why": {
+        "A": "Le scanning utilise des scanners de ports et de vulnérabilités contre le réseau de la cible.",
+        "B": "La reconnaissance active suppose une interaction directe avec la cible.",
+        "D": "Aucune faille n'a été exploitée à ce stade."
+      },
+      "ref": "§2 — Les 5 phases du piratage",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un pirate vient d'entrer dans un serveur. Il y installe un accès pour pouvoir revenir plus tard, avant de s'occuper des journaux. Quelle phase est décrite par l'installation de cet accès ?",
+      "choices": {
+        "A": "Gaining access",
+        "B": "Clearing tracks",
+        "C": "Scanning",
+        "D": "Maintaining access"
+      },
+      "answer": "D",
+      "explanation": "Maintaining access consiste à installer un accès persistant pour revenir plus tard.",
+      "why": {
+        "A": "Gaining access est l'entrée elle-même, déjà réussie ici.",
+        "B": "Clearing tracks efface les traces (journaux, alertes IDS) ; c'est l'étape suivante.",
+        "C": "Le scanning précède l'intrusion."
+      },
+      "ref": "§2 — Les 5 phases du piratage",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-016",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel est l'ordre des 5 phases du piratage ?",
+      "choices": {
+        "A": "Reconnaissance → Scanning → Gaining access → Maintaining access → Clearing tracks",
+        "B": "Scanning → Reconnaissance → Gaining access → Maintaining access → Clearing tracks",
+        "C": "Reconnaissance → Scanning → Maintaining access → Gaining access → Clearing tracks",
+        "D": "Reconnaissance → Gaining access → Scanning → Clearing tracks → Maintaining access"
+      },
+      "answer": "A",
+      "explanation": "On collecte l'information, on explore le réseau, on entre, on garde l'accès, puis on efface les traces.",
+      "why": {
+        "B": "On collecte d'abord l'information sur la cible, avant de scanner son réseau.",
+        "C": "On ne peut pas maintenir un accès avant de l'avoir obtenu.",
+        "D": "Le scanning prépare l'exploitation, et on maintient l'accès avant d'effacer les traces."
+      },
+      "ref": "§2 — Les 5 phases du piratage",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-017",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une société publie un site vitrine statique, sans formulaire ni compte client. Quelle évaluation DICP est la bonne ?",
+      "choices": {
+        "A": "D faible, I faible, C très forte, P très forte",
+        "B": "D très forte, I très forte, C faible, P faible",
+        "C": "D très forte, I faible, C faible, P très forte",
+        "D": "D faible, I très forte, C très forte, P faible"
+      },
+      "answer": "B",
+      "explanation": "Le site doit rester accessible (D) et son contenu non modifié par un concurrent (I) ; les informations sont publiques (C faible) et il n'y a aucune interaction à prouver (P faible).",
+      "why": {
+        "A": "C'est le profil inverse : un contenu public n'a pas de besoin fort de confidentialité.",
+        "C": "Un concurrent ne doit pas pouvoir modifier le contenu (I forte) et, sans interaction, la preuve compte peu.",
+        "D": "Une vitrine indisponible perd sa raison d'être, et ses informations sont publiques."
+      },
+      "ref": "§2 — Exemple d'évaluation DICP",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lors d'un transfert, le montant d'un virement passe de 100 € à 1 000 € à l'insu de tous. Quel besoin de sécurité est atteint ?",
+      "choices": {
+        "A": "La confidentialité",
+        "B": "La disponibilité",
+        "C": "L'intégrité",
+        "D": "La non-répudiation"
+      },
+      "answer": "C",
+      "explanation": "L'intégrité garantit que les données n'ont pas été modifiées entre leur création et leur transfert.",
+      "why": {
+        "A": "La confidentialité concerne qui accède aux données, pas leur modification.",
+        "B": "La donnée reste accessible : c'est sa valeur qui a changé.",
+        "D": "La non-répudiation empêche de nier une transaction, pas de la modifier."
+      },
+      "ref": "§2 — Besoins de sécurité",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un client affirme n'avoir jamais passé une commande qu'il a pourtant validée. Quel besoin aurait évité ce litige ?",
+      "choices": {
+        "A": "La disponibilité",
+        "B": "La confidentialité",
+        "C": "L'intégrité",
+        "D": "La non-répudiation"
+      },
+      "answer": "D",
+      "explanation": "Avec la non-répudiation, une transaction ne peut pas être niée.",
+      "why": {
+        "A": "Le service était accessible ; le litige porte sur ce qui a été fait.",
+        "B": "Le problème n'est pas un accès non autorisé à la commande.",
+        "C": "La commande n'a pas été modifiée : elle est niée."
+      },
+      "ref": "§2 — Besoins de sécurité",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une banque ajoute de la redondance, des sauvegardes et une protection anti-DDoS. Quel besoin DICP vise-t-elle ?",
+      "choices": {
+        "A": "Disponibilité",
+        "B": "Intégrité",
+        "C": "Confidentialité",
+        "D": "Preuve"
+      },
+      "answer": "A",
+      "explanation": "Sauvegardes, redondance et anti-DDoS sont les mécanismes typiques de la disponibilité.",
+      "why": {
+        "B": "L'intégrité repose plutôt sur le hachage et la signature.",
+        "C": "La confidentialité repose sur le chiffrement et le contrôle d'accès.",
+        "D": "La preuve repose sur les journaux, la signature et les certificats."
+      },
+      "ref": "§2 — Mécanismes typiques",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Après un incident, un auditeur doit retrouver qui a fait quoi et dans quelles circonstances. Quel mécanisme répond à ce besoin de preuve ?",
+      "choices": {
+        "A": "La redondance des serveurs",
+        "B": "Les journaux d'événements",
+        "C": "Le chiffrement des disques",
+        "D": "La protection anti-DDoS"
+      },
+      "answer": "B",
+      "explanation": "La preuve vise à retrouver les circonstances d'évolution du bien (traçabilité, imputabilité) ; elle s'appuie sur les journaux, la signature et les certificats.",
+      "why": {
+        "A": "La redondance sert la disponibilité.",
+        "C": "Le chiffrement sert la confidentialité.",
+        "D": "L'anti-DDoS sert la disponibilité."
+      },
+      "ref": "§2 — Mécanismes typiques",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-022",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une coupure de courant efface des données sans qu'aucun pirate ne soit impliqué. Cela relève-t-il de la sécurité informatique ?",
+      "choices": {
+        "A": "Non : la sécurité ne traite que des attaques intentionnelles",
+        "B": "Non : c'est un simple incident, sans menace associée",
+        "C": "Oui : elle couvre les menaces accidentelles ou intentionnelles",
+        "D": "Oui, mais seulement si la coupure a été provoquée"
+      },
+      "answer": "C",
+      "explanation": "La sécurité informatique réduit la vulnérabilité d'un système face aux menaces accidentelles ou intentionnelles ; les principaux risques restent banals (panne de courant, crash disque…).",
+      "why": {
+        "A": "La définition du cours inclut explicitement les menaces accidentelles.",
+        "B": "Une panne de courant est une menace, même sans personne derrière.",
+        "D": "L'intention n'est pas une condition : le cours cite la panne de courant parmi les risques principaux."
+      },
+      "ref": "§1 — Sécurité informatique ; matrice fréquence × coût",
+      "source": "resume-crypto"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "cryptographie-securite-concepts-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Formule qui relie attaque, menace, vulnérabilité et actif ?",
+      "back": "Une attaque est une menace qui exploite une vulnérabilité d'un actif.",
+      "ref": "§1 — À retenir",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Risque ?",
+      "back": "Probabilité qu'une menace se transforme en événement réel entraînant un dommage.",
+      "ref": "§1 — Concepts de base",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Menace vs attaque ?",
+      "back": "La menace est une cause potentielle ; l'attaque est l'acte intentionnel qui la réalise en exploitant une vulnérabilité.",
+      "ref": "§1 — Concepts de base",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f004",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Contre-mesure préventive vs corrective ?",
+      "back": "Préventive : empêche l'incident (pare-feu). Corrective : répare après coup (sauvegarde/restauration).",
+      "ref": "§1 — Contre-mesure",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 6 étapes pour sécuriser un SI, dans l'ordre ?",
+      "back": "Analyse de la situation → analyse des risques → politique de sécurité → mesures → implémentation → validation.",
+      "ref": "§1 — Démarche pour sécuriser un SI",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 cases de la matrice fréquence × coût ?",
+      "back": "Fréquent + cher : mécanismes, recruter, former. Fréquent + faible : disponibilité. Rare + cher : assurance. Rare + faible : accepter.",
+      "ref": "§1 — Matrice fréquence × coût",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f007",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi parle-t-on de risque résiduel ?",
+      "back": "Parce que le risque zéro n'existe pas : on définit le niveau de risque restant jugé acceptable.",
+      "ref": "§1 — Matrice fréquence × coût",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f008",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "White Hat, Black Hat, Grey Hat ?",
+      "back": "White : éthique, aide les entreprises. Black : illégal, appât du gain. Grey : entre sans autorisation pour exposer une faille.",
+      "ref": "§2 — Classes de hackers",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 5 phases du piratage ?",
+      "back": "Reconnaissance → Scanning → Gaining access → Maintaining access → Clearing tracks.",
+      "ref": "§2 — Les 5 phases du piratage",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Reconnaissance passive vs active ?",
+      "back": "Passive : sans interagir avec la cible. Active : avec une interaction directe.",
+      "ref": "§2 — Les 5 phases du piratage",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "DICP ?",
+      "back": "Disponibilité, Intégrité, Confidentialité, Preuve (traçabilité, authentification, imputabilité).",
+      "ref": "§2 — Besoins de sécurité",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-concepts-f012",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Mécanismes typiques de chaque besoin DICP ?",
+      "back": "D : sauvegardes, redondance, anti-DDoS. I : hachage, signature. C : chiffrement, contrôle d'accès. P : journaux, signature, certificats.",
+      "ref": "§2 — Mécanismes typiques",
+      "source": "resume-crypto"
+    }
+  ]
+}

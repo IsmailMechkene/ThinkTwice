@@ -1,0 +1,1144 @@
+{
+  "id": "cryptographie",
+  "title": "Cryptographie classique et moderne",
+  "order": 3,
+  "description": "César, Vigenère, transposition ; DES, AES et modes opératoires ; RSA, chiffrement hybride, signature numérique, certificats et PKI.",
+  "questions": [
+    {
+      "id": "cryptographie-securite-cryptographie-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un message secret est dissimulé dans les pixels d'une photo de vacances anodine. Quelle technique est utilisée ?",
+      "choices": {
+        "A": "La transposition",
+        "B": "La substitution",
+        "C": "La stéganographie",
+        "D": "La cryptanalyse"
+      },
+      "answer": "C",
+      "explanation": "La stéganographie cache l'information dans une autre ; la cryptographie la rend incompréhensible.",
+      "why": {
+        "A": "La transposition change l'ordre des éléments d'un message visible.",
+        "B": "La substitution remplace les éléments d'un message visible.",
+        "D": "La cryptanalyse étudie les messages chiffrés pour en découvrir le secret."
+      },
+      "ref": "§4 — Vocabulaire",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Sans connaître la clé, un analyste étudie un message chiffré pour en découvrir le secret. Quelle discipline pratique-t-il ?",
+      "choices": {
+        "A": "La cryptanalyse",
+        "B": "La cryptographie",
+        "C": "La stéganographie",
+        "D": "Le chiffrement"
+      },
+      "answer": "A",
+      "explanation": "La cryptanalyse étudie les messages chiffrés pour en découvrir le secret ; la cryptologie regroupe cryptographie et cryptanalyse.",
+      "why": {
+        "B": "La cryptographie est la science du chiffrement, pas de son attaque.",
+        "C": "La stéganographie cache un message, elle ne l'analyse pas.",
+        "D": "Le chiffrement produit le message C à partir du clair M, avec la clé."
+      },
+      "ref": "§4 — Vocabulaire",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Le chiffré contient exactement les mêmes lettres que le clair, mais dans un autre ordre. Quelle famille de chiffrement est utilisée ?",
+      "choices": {
+        "A": "La substitution",
+        "B": "Le chiffre de César",
+        "C": "Le chiffre de Vigenère",
+        "D": "La transposition"
+      },
+      "answer": "D",
+      "explanation": "La transposition change l'ordre des éléments, sans les remplacer.",
+      "why": {
+        "A": "La substitution remplace les lettres : elles ne seraient plus les mêmes.",
+        "B": "César est une substitution : chaque lettre est décalée.",
+        "C": "Vigenère est aussi une substitution, avec une clé répétée."
+      },
+      "ref": "§4 — Vocabulaire",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel est le chiffré de SECRET avec César et k = 3 ?",
+      "choices": {
+        "A": "VHFUHW",
+        "B": "UGETGV",
+        "C": "PBZOBQ",
+        "D": "VHFUIX"
+      },
+      "answer": "A",
+      "explanation": "C = (M + k) mod 26 : S→V, E→H, C→F, R→U, E→H, T→W.",
+      "why": {
+        "B": "Ce résultat correspond à k = 2.",
+        "C": "Ce résultat correspond à un décalage de 3 vers l'arrière, soit un déchiffrement.",
+        "D": "Avec César, une même lettre donne toujours le même chiffré : les deux E doivent donner H."
+      },
+      "ref": "§4 — Chiffre de César",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un message a été chiffré avec César et k = 3 : KDFNHU. Quel est le clair ?",
+      "choices": {
+        "A": "NGIQKX",
+        "B": "HACKER",
+        "C": "HACHER",
+        "D": "JCEMGT"
+      },
+      "answer": "B",
+      "explanation": "M = (C − k) mod 26 : K→H, D→A, F→C, N→K, H→E, U→R.",
+      "why": {
+        "A": "Ce résultat ajoute k au lieu de le soustraire.",
+        "C": "La quatrième lettre est fausse : N − 3 donne K, pas H.",
+        "D": "Ce résultat correspond à k = 1."
+      },
+      "ref": "§4 — Chiffre de César",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le chiffré de ZOO avec César et k = 5 ?",
+      "choices": {
+        "A": "UJJ",
+        "B": "FTT",
+        "C": "ETT",
+        "D": "EUU"
+      },
+      "answer": "C",
+      "explanation": "Z = 25 : (25 + 5) mod 26 = 4, soit E. O = 14 : 14 + 5 = 19, soit T.",
+      "why": {
+        "A": "Ce résultat décale vers l'arrière au lieu de l'avant.",
+        "B": "Erreur de un sur Z : avec A = 0, le résultat 4 correspond à E.",
+        "D": "Erreur de un sur O : le résultat 19 correspond à T."
+      },
+      "ref": "§4 — Chiffre de César",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi le chiffre de César est-il considéré comme faible ?",
+      "choices": {
+        "A": "Sa clé doit être aussi longue que le message",
+        "B": "Il change l'ordre des lettres sans les remplacer",
+        "C": "Une même lettre claire a plusieurs chiffrés",
+        "D": "Il n'a que 26 clés et reste sensible aux fréquences"
+      },
+      "answer": "D",
+      "explanation": "Seulement 26 clés (force brute en quelques minutes), et l'analyse fréquentielle d'Al-Kindi s'applique.",
+      "why": {
+        "A": "Sa clé est un simple décalage, très court.",
+        "B": "César remplace les lettres : c'est une substitution.",
+        "C": "C'est le contraire : chaque lettre a toujours le même chiffré, d'où sa faiblesse."
+      },
+      "ref": "§4 — Chiffre de César",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-008",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans un long texte français chiffré par César, la lettre la plus fréquente est K. Quelle clé peut-on déduire ?",
+      "choices": {
+        "A": "k = 6",
+        "B": "k = 7",
+        "C": "k = 10",
+        "D": "k = 4"
+      },
+      "answer": "A",
+      "explanation": "En français, E est la plus fréquente : K devrait donc être E. k = 10 − 4 = 6.",
+      "why": {
+        "B": "Erreur de un : le décalage entre E (4) et K (10) vaut 6.",
+        "C": "10 est la position de K, pas le décalage depuis E.",
+        "D": "4 est la position de E, pas le décalage."
+      },
+      "ref": "§4 — Analyse fréquentielle",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'est-ce qui permet à Vigenère de résister à l'analyse fréquentielle simple ?",
+      "choices": {
+        "A": "Il mélange l'ordre des lettres à l'aide de la clé",
+        "B": "Une même lettre claire est chiffrée différemment",
+        "C": "Il dispose d'exactement 26 clés possibles",
+        "D": "Il n'utilise aucune clé secrète"
+      },
+      "answer": "B",
+      "explanation": "La clé est un mot répété : selon sa position, une même lettre claire donne des chiffrés différents, ce qui brouille les fréquences.",
+      "why": {
+        "A": "Vigenère est une substitution : l'ordre des lettres ne change pas.",
+        "C": "Les 26 clés sont une limite de César.",
+        "D": "Sa force vient justement de la clé, un mot répété sous le texte."
+      },
+      "ref": "§4 — Chiffre de Vigenère",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le chiffré Vigenère de CODE avec la clé CLE (A = 0 … Z = 25) ?",
+      "choices": {
+        "A": "ADZC",
+        "B": "FAIH",
+        "C": "EZHG",
+        "D": "EZHI"
+      },
+      "answer": "C",
+      "explanation": "La clé répétée est CLEC : C+C = 4 → E ; O+L = 25 → Z ; D+E = 7 → H ; E+C = 6 → G.",
+      "why": {
+        "A": "Ce résultat soustrait la clé au lieu de l'ajouter.",
+        "B": "Ce résultat a un décalage de un, comme si A valait 1.",
+        "D": "La clé doit reprendre au début : la quatrième lettre utilise C, pas E."
+      },
+      "ref": "§4 — Chiffre de Vigenère",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Avec la clé BAC, quel clair donne le chiffré UEUU par Vigenère (A = 0 … Z = 25) ?",
+      "choices": {
+        "A": "VEWV",
+        "B": "TESS",
+        "C": "TDST",
+        "D": "TEST"
+      },
+      "answer": "D",
+      "explanation": "La clé répétée est BACB, à soustraire : U−B = T ; E−A = E ; U−C = S ; U−B = T. Les U ne donnent pas tous la même lettre : c'est la force de Vigenère.",
+      "why": {
+        "A": "Ce résultat ajoute la clé au lieu de la soustraire.",
+        "B": "La quatrième lettre doit utiliser B, car la clé reprend au début.",
+        "C": "La deuxième lettre de clé est A : E reste donc E."
+      },
+      "ref": "§4 — Chiffre de Vigenère",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-012",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Par Vigenère, que donne la lettre claire R avec la lettre de clé K (A = 0 … Z = 25) ?",
+      "choices": {
+        "A": "B",
+        "B": "H",
+        "C": "C",
+        "D": "A"
+      },
+      "answer": "A",
+      "explanation": "R = 17 et K = 10 : (17 + 10) mod 26 = 1, soit B.",
+      "why": {
+        "B": "H vient de 17 − 10 : c'est une soustraction.",
+        "C": "C vient d'une numérotation qui commence à A = 1.",
+        "D": "A correspondrait à un total de 26, or le total vaut 27."
+      },
+      "ref": "§4 — Chiffre de Vigenère",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-013",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "On chiffre PARTIRDEMAIN par transposition matricielle avec la clé CHAT. Quel est le chiffré ?",
+      "choices": {
+        "A": "PARTIRDEMAIN",
+        "B": "PIMARARDITEN",
+        "C": "RDIPIMARATEN",
+        "D": "TENARAPIMRDI"
+      },
+      "answer": "C",
+      "explanation": "Lignes PART / IRDE / MAIN. Ordre alphabétique de la clé : A=1, C=2, H=3, T=4. On lit donc RDI (sous A), PIM (sous C), ARA (sous H), TEN (sous T).",
+      "why": {
+        "A": "C'est le clair, lu en lignes, sans aucune transposition.",
+        "B": "Les colonnes sont lues de gauche à droite, sans tenir compte de la clé.",
+        "D": "Les colonnes sont lues dans l'ordre alphabétique inversé."
+      },
+      "ref": "§4 — Transposition",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Par transposition par blocs 3×3, on écrit SECRETMSG en lignes puis on lit par colonnes. Quel est le résultat ?",
+      "choices": {
+        "A": "SECRETMSG",
+        "B": "CTGEESSRM",
+        "C": "MSGRETSEC",
+        "D": "SRMEESCTG"
+      },
+      "answer": "D",
+      "explanation": "Lignes SEC / RET / MSG. Colonnes de gauche à droite : SRM, EES, CTG.",
+      "why": {
+        "A": "C'est le clair : il faut lire par colonnes, pas par lignes.",
+        "B": "Les colonnes sont prises de droite à gauche.",
+        "C": "Ce résultat inverse l'ordre des lignes au lieu de lire les colonnes."
+      },
+      "ref": "§4 — Transposition",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Pour une transposition avec la clé PONT, comment numérote-t-on les colonnes ?",
+      "choices": {
+        "A": "P=3, O=2, N=1, T=4",
+        "B": "P=1, O=2, N=3, T=4",
+        "C": "P=4, O=3, N=2, T=1",
+        "D": "P=2, O=3, N=1, T=4"
+      },
+      "answer": "A",
+      "explanation": "On numérote selon l'ordre alphabétique des lettres de la clé : N, O, P, T.",
+      "why": {
+        "B": "Ce résultat suit la position dans le mot, pas l'ordre alphabétique.",
+        "C": "Ce résultat suit l'ordre inverse de la position dans le mot.",
+        "D": "O vient avant P dans l'alphabet : O doit recevoir le numéro 2."
+      },
+      "ref": "§4 — Transposition",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel problème de la cryptographie symétrique l'asymétrique vient-elle résoudre ?",
+      "choices": {
+        "A": "Sa lenteur de chiffrement",
+        "B": "L'échange de la clé",
+        "C": "La taille des blocs",
+        "D": "L'absence de hachage"
+      },
+      "answer": "B",
+      "explanation": "Le symétrique est rapide mais exige un canal sécurisé pour échanger la clé ; l'asymétrique résout ce problème.",
+      "why": {
+        "A": "Le symétrique est très rapide ; c'est l'asymétrique qui est lent.",
+        "C": "La taille des blocs n'est pas la limite mise en avant par le cours.",
+        "D": "Le hachage relève de la signature, pas du passage à l'asymétrique."
+      },
+      "ref": "§5 — La logique du cours",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une clé DES occupe 64 bits en mémoire. Quelle est sa longueur utile ?",
+      "choices": {
+        "A": "48 bits",
+        "B": "64 bits",
+        "C": "56 bits",
+        "D": "128 bits"
+      },
+      "answer": "C",
+      "explanation": "Clé DES : 56 bits + 8 bits de parité, soit 64 bits au total.",
+      "why": {
+        "A": "48 bits est la taille des sous-clés de tour.",
+        "B": "64 bits inclut les 8 bits de parité.",
+        "D": "128 bits est une taille de clé d'AES."
+      },
+      "ref": "§5.1 — DES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment déchiffre-t-on un bloc avec DES ?",
+      "choices": {
+        "A": "Avec des opérations inverses propres au déchiffrement",
+        "B": "Avec la clé publique du destinataire",
+        "C": "Avec le même algorithme, sans sous-clés",
+        "D": "Avec le même algorithme, sous-clés en ordre inverse"
+      },
+      "answer": "D",
+      "explanation": "Le déchiffrement DES est identique au chiffrement, avec les sous-clés en ordre inverse.",
+      "why": {
+        "A": "Ce sont les opérations inverses qui caractérisent AES.",
+        "B": "DES est symétrique : il n'a pas de clé publique.",
+        "C": "Les sous-clés sont nécessaires, simplement utilisées dans l'autre sens."
+      },
+      "ref": "§5.1 — DES vs AES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans un tour de DES, pourquoi la moitié de 32 bits passe-t-elle d'abord par une expansion à 48 bits ?",
+      "choices": {
+        "A": "Pour pouvoir faire le XOR avec la sous-clé de 48 bits",
+        "B": "Pour ajouter les 8 bits de parité de la clé",
+        "C": "Pour obtenir le bloc final de 64 bits de sortie",
+        "D": "Pour réduire le nombre de tours à effectuer"
+      },
+      "answer": "A",
+      "explanation": "La fonction de tour fait expansion 32 → 48 bits, XOR avec la sous-clé de 48 bits, S-box (48 → 32), puis permutation.",
+      "why": {
+        "B": "Les bits de parité concernent la clé, pas la moitié de bloc.",
+        "C": "Les S-box ramènent ensuite à 32 bits : l'expansion ne produit pas le bloc final.",
+        "D": "DES fait toujours 16 tours."
+      },
+      "ref": "§5.1 — Étapes DES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-020",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Combien de tours AES effectue-t-il avec une clé de 192 bits ?",
+      "choices": {
+        "A": "10",
+        "B": "12",
+        "C": "14",
+        "D": "16"
+      },
+      "answer": "B",
+      "explanation": "AES fait 10 / 12 / 14 tours selon la clé de 128 / 192 / 256 bits.",
+      "why": {
+        "A": "10 tours correspondent à une clé de 128 bits.",
+        "C": "14 tours correspondent à une clé de 256 bits.",
+        "D": "16 tours, c'est DES."
+      },
+      "ref": "§5.1 — DES vs AES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans un tour AES, quelles opérations apportent respectivement la confusion et la diffusion ?",
+      "choices": {
+        "A": "AddRoundKey, puis SubBytes",
+        "B": "MixColumns, puis SubBytes",
+        "C": "SubBytes, puis MixColumns",
+        "D": "ShiftRows, puis AddRoundKey"
+      },
+      "answer": "C",
+      "explanation": "SubBytes substitue chaque octet (confusion) ; MixColumns multiplie les colonnes polynomialement (diffusion).",
+      "why": {
+        "A": "AddRoundKey est un XOR avec la sous-clé, et SubBytes apporte la confusion.",
+        "B": "L'ordre est inversé.",
+        "D": "ShiftRows décale des lignes et AddRoundKey ajoute la sous-clé : aucune des deux n'est désignée ainsi par le cours."
+      },
+      "ref": "§5.1 — Étapes AES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans quel ordre s'enchaînent les opérations d'un tour AES ?",
+      "choices": {
+        "A": "ShiftRows → SubBytes → AddRoundKey → MixColumns",
+        "B": "AddRoundKey → MixColumns → ShiftRows → SubBytes",
+        "C": "MixColumns → ShiftRows → SubBytes → AddRoundKey",
+        "D": "SubBytes → ShiftRows → MixColumns → AddRoundKey"
+      },
+      "answer": "D",
+      "explanation": "Chaque tour enchaîne SubBytes, ShiftRows, MixColumns, puis AddRoundKey avec la sous-clé i.",
+      "why": {
+        "A": "Le tour commence par SubBytes, et AddRoundKey vient en dernier.",
+        "B": "C'est l'ordre inverse.",
+        "C": "MixColumns vient après SubBytes et ShiftRows."
+      },
+      "ref": "§5.1 — Étapes AES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle comparaison entre DES et AES est exacte ?",
+      "choices": {
+        "A": "DES : schéma de Feistel. AES : substitution-permutation",
+        "B": "DES : substitution-permutation. AES : schéma de Feistel",
+        "C": "DES : blocs de 128 bits. AES : blocs de 64 bits",
+        "D": "DES : 16 tours et clé publique. AES : 16 tours et clé privée"
+      },
+      "answer": "A",
+      "explanation": "DES repose sur un schéma de Feistel (blocs de 64 bits) ; AES sur un réseau de substitution-permutation (blocs de 128 bits).",
+      "why": {
+        "B": "Les deux structures sont inversées.",
+        "C": "Les deux tailles sont inversées.",
+        "D": "Les deux sont symétriques, et AES fait 10, 12 ou 14 tours."
+      },
+      "ref": "§5.1 — DES vs AES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "En observant un fichier chiffré, on repère plusieurs blocs identiques aux endroits où le clair se répète. Quel mode a probablement été utilisé ?",
+      "choices": {
+        "A": "CBC, car les blocs sont chaînés",
+        "B": "ECB, car chaque bloc est chiffré indépendamment",
+        "C": "CBC, car l'IV est fixe pour tout le fichier",
+        "D": "ECB, car il utilise un vecteur d'initialisation"
+      },
+      "answer": "B",
+      "explanation": "En ECB, Ci = Ek(Mi) : deux blocs clairs identiques donnent deux chiffrés identiques.",
+      "why": {
+        "A": "Le chaînage de CBC fait justement dépendre chaque bloc de tous les précédents.",
+        "C": "En CBC, seul C0 vaut l'IV ; les blocs suivants dépendent du chiffré précédent.",
+        "D": "ECB n'utilise pas d'IV : c'est CBC qui en a un."
+      },
+      "ref": "§5.1 — Modes opératoires",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "En mode CBC, comment calcule-t-on le premier bloc chiffré C1 ?",
+      "choices": {
+        "A": "C1 = Ek(M1)",
+        "B": "C1 = Ek(M1) ⊕ M2",
+        "C": "C1 = Ek(M1 ⊕ IV)",
+        "D": "C1 = M1 ⊕ IV"
+      },
+      "answer": "C",
+      "explanation": "Ci = Ek(Mi ⊕ Ci−1) avec C0 = IV, donc C1 = Ek(M1 ⊕ IV).",
+      "why": {
+        "A": "C'est la formule d'ECB.",
+        "B": "Le chaînage utilise le chiffré précédent, pas le clair suivant.",
+        "D": "Il manque le chiffrement Ek : le XOR seul ne chiffre pas."
+      },
+      "ref": "§5.1 — Modes opératoires",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "20 personnes veulent toutes pouvoir communiquer deux à deux avec une clé symétrique propre à chaque paire. Combien de clés faut-il ?",
+      "choices": {
+        "A": "20",
+        "B": "40",
+        "C": "380",
+        "D": "190"
+      },
+      "answer": "D",
+      "explanation": "N(N−1)/2 = 20 × 19 / 2 = 190.",
+      "why": {
+        "A": "Une clé par personne ne permet pas de garder chaque paire séparée.",
+        "B": "2N n'est pas la formule du cours.",
+        "C": "C'est N(N−1), sans division par 2 : chaque paire serait comptée deux fois."
+      },
+      "ref": "§5.1 — Avantages / limites du symétrique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-027",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Selon Shannon, à quelle condition un chiffrement symétrique atteint-il la sécurité parfaite ?",
+      "choices": {
+        "A": "La clé est au moins aussi longue que le message",
+        "B": "La clé est un nombre premier d'au moins 128 bits",
+        "C": "Le message est découpé en blocs de 128 bits",
+        "D": "Le chiffrement comporte au moins 16 tours"
+      },
+      "answer": "A",
+      "explanation": "Shannon : sécurité parfaite si la clé est au moins aussi longue que le message.",
+      "why": {
+        "B": "Les nombres premiers concernent RSA, et le critère porte sur la longueur.",
+        "C": "La taille des blocs n'est pas le critère de Shannon.",
+        "D": "Le nombre de tours n'est pas le critère de Shannon."
+      },
+      "ref": "§5.1 — Avantages / limites du symétrique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans le protocole du double cadenas, après le surchiffrement de Bob, que fait Alice ?",
+      "choices": {
+        "A": "Elle envoie sa clé CA à Bob sur un canal sûr",
+        "B": "Elle retire son chiffrement CA et renvoie le message",
+        "C": "Elle ajoute un troisième chiffrement avec CB",
+        "D": "Elle déchiffre entièrement le message avec CB"
+      },
+      "answer": "B",
+      "explanation": "(1) Alice chiffre avec CA ; (2) Bob surchiffre avec CB ; (3) Alice retire CA et renvoie ; (4) Bob déchiffre avec CB.",
+      "why": {
+        "A": "Le protocole sert justement à échanger sans clé commune.",
+        "C": "Alice ne connaît pas CB, et aucun troisième chiffrement n'est prévu.",
+        "D": "Seul Bob possède CB, et c'est lui qui finit le déchiffrement."
+      },
+      "ref": "§5.1 — Protocole du double cadenas",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-029",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Alice veut envoyer à Bob un message que lui seul pourra lire. Avec quelle clé le chiffre-t-elle ?",
+      "choices": {
+        "A": "La clé publique d'Alice",
+        "B": "La clé privée d'Alice",
+        "C": "La clé publique de Bob",
+        "D": "La clé privée de Bob"
+      },
+      "answer": "C",
+      "explanation": "Pour la confidentialité, on chiffre avec la clé publique du destinataire ; lui seul déchiffre avec sa clé privée.",
+      "why": {
+        "A": "Seule la clé privée d'Alice pourrait déchiffrer : Bob ne pourrait pas lire.",
+        "B": "Tout le monde pourrait déchiffrer avec la clé publique d'Alice : c'est le principe de la signature.",
+        "D": "Alice ne connaît pas la clé privée de Bob."
+      },
+      "ref": "§5.2 — Cryptographie asymétrique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-030",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Alice veut prouver qu'elle est bien l'auteure d'un document. Avec quelle clé chiffre-t-elle l'empreinte ?",
+      "choices": {
+        "A": "La clé publique d'Alice",
+        "B": "La clé publique du destinataire",
+        "C": "La clé privée du destinataire",
+        "D": "La clé privée d'Alice"
+      },
+      "answer": "D",
+      "explanation": "L'émetteur signe avec sa clé privée ; tout le monde vérifie avec sa clé publique.",
+      "why": {
+        "A": "Tout le monde possède cette clé : elle ne prouverait rien, et elle sert à vérifier.",
+        "B": "Cette clé assure la confidentialité, pas l'origine.",
+        "C": "Alice ne connaît pas la clé privée du destinataire."
+      },
+      "ref": "§5.4 — Signature numérique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-031",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "En RSA, avec p = 5 et q = 11, que valent n et φ(n) ?",
+      "choices": {
+        "A": "n = 55 et φ(n) = 40",
+        "B": "n = 16 et φ(n) = 40",
+        "C": "n = 55 et φ(n) = 54",
+        "D": "n = 55 et φ(n) = 44"
+      },
+      "answer": "A",
+      "explanation": "n = p × q = 55 et φ(n) = (p − 1)(q − 1) = 4 × 10 = 40.",
+      "why": {
+        "B": "n est un produit, pas la somme de p et q.",
+        "C": "54 vaut n − 1 : cette formule ne s'applique pas à un n composé de deux premiers.",
+        "D": "44 vaut 4 × 11 : il faut aussi retirer 1 à q."
+      },
+      "ref": "§5.2 — RSA",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-032",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "En RSA, avec p = 7, q = 11 et e = 7, quelle est la valeur de d ?",
+      "choices": {
+        "A": "7",
+        "B": "43",
+        "C": "17",
+        "D": "23"
+      },
+      "answer": "B",
+      "explanation": "φ(n) = 6 × 10 = 60. On cherche e × d ≡ 1 (mod 60) : 7 × 43 = 301 = 5 × 60 + 1, donc d = 43.",
+      "why": {
+        "A": "7 × 7 = 49, qui vaut 49 modulo 60, et non 1.",
+        "C": "7 × 17 = 119, qui vaut 59 modulo 60, et non 1.",
+        "D": "7 × 23 = 161, qui vaut 41 modulo 60, et non 1."
+      },
+      "ref": "§5.2 — RSA ; §9 — Méthode pour trouver d",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-033",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "En RSA, avec φ(n) = 20, quelle valeur ne peut pas être choisie pour e ?",
+      "choices": {
+        "A": "3",
+        "B": "7",
+        "C": "5",
+        "D": "9"
+      },
+      "answer": "C",
+      "explanation": "e doit être premier avec φ(n). Or pgcd(5, 20) = 5, donc 5 ne convient pas.",
+      "why": {
+        "A": "pgcd(3, 20) = 1 : 3 convient.",
+        "B": "pgcd(7, 20) = 1 : 7 convient.",
+        "D": "pgcd(9, 20) = 1 : 9 convient, même s'il n'est pas lui-même premier."
+      },
+      "ref": "§5.2 — RSA",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-034",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Avec la clé publique RSA (e, n) = (3, 55), que devient le message m = 4 ?",
+      "choices": {
+        "A": "64",
+        "B": "12",
+        "C": "7",
+        "D": "9"
+      },
+      "answer": "D",
+      "explanation": "c = m^e mod n = 4³ mod 55 = 64 mod 55 = 9.",
+      "why": {
+        "A": "64 est 4³, mais il manque la réduction modulo 55.",
+        "B": "12 vaut m × e : il faut élever à la puissance e.",
+        "C": "7 vaut m + e : il faut élever à la puissance e."
+      },
+      "ref": "§5.2 — RSA",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Avec la clé privée RSA (d, n) = (3, 15), quel message correspond au chiffré c = 8 ?",
+      "choices": {
+        "A": "2",
+        "B": "8",
+        "C": "5",
+        "D": "512"
+      },
+      "answer": "A",
+      "explanation": "m = c^d mod n = 8³ mod 15 = 512 mod 15 = 2, car 512 = 34 × 15 + 2.",
+      "why": {
+        "B": "8 est le chiffré : il faut encore lui appliquer la clé privée.",
+        "C": "5 vaut c − d : il faut élever à la puissance d.",
+        "D": "512 est 8³, mais il manque la réduction modulo 15."
+      },
+      "ref": "§5.2 — RSA",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-036",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "En chiffrement hybride, comment protège-t-on le message et la clé de session ?",
+      "choices": {
+        "A": "Message avec la clé publique, clé de session avec la clé privée",
+        "B": "Message avec la clé de session, clé de session avec la clé publique du destinataire",
+        "C": "Message avec la clé privée de l'émetteur, clé de session en clair",
+        "D": "Message et clé de session avec la même clé publique du destinataire"
+      },
+      "answer": "B",
+      "explanation": "La clé de session symétrique, rapide, chiffre le message ; la clé publique du destinataire chiffre cette clé.",
+      "why": {
+        "A": "Chiffrer tout le message en asymétrique serait trop lent, et la clé privée n'est pas partagée.",
+        "C": "Une clé de session en clair annulerait toute la confidentialité.",
+        "D": "Chiffrer le message en asymétrique perd l'intérêt de l'hybride : RSA est environ 1000 fois plus lent qu'AES."
+      },
+      "ref": "§5.3 — Cryptographie hybride",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-037",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi signe-t-on l'empreinte d'un document plutôt que le document entier ?",
+      "choices": {
+        "A": "Pour que le document reste confidentiel",
+        "B": "Pour éviter d'utiliser une clé privée",
+        "C": "Car signer tout le message est lent et volumineux",
+        "D": "Car l'empreinte peut redonner le document original"
+      },
+      "answer": "C",
+      "explanation": "Signer tout le message est lent et volumineux ; l'empreinte a une taille fixe et change à la moindre modification.",
+      "why": {
+        "A": "La signature n'assure pas la confidentialité : le message M est envoyé avec elle.",
+        "B": "L'empreinte est justement chiffrée avec la clé privée.",
+        "D": "Le hachage est à sens unique : il ne permet pas de retrouver le document."
+      },
+      "ref": "§5.4 — Signature numérique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-038",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Bob reçoit M et une signature d'Alice. Comment la vérifie-t-il ?",
+      "choices": {
+        "A": "Il déchiffre M avec sa clé privée et le compare à la signature",
+        "B": "Il rechiffre M avec la clé privée d'Alice et compare",
+        "C": "Il déchiffre la signature avec sa clé privée et lit M",
+        "D": "Il déchiffre la signature avec la clé publique d'Alice et compare à H(M)"
+      },
+      "answer": "D",
+      "explanation": "Bob déchiffre la signature avec la clé publique de l'émetteur, recalcule H(M) et compare : l'égalité prouve l'intégrité et l'authenticité.",
+      "why": {
+        "A": "M n'est pas chiffré par la signature, et la signature ne contient que l'empreinte.",
+        "B": "Bob ne possède pas la clé privée d'Alice.",
+        "C": "La signature a été faite avec la clé privée d'Alice : elle se vérifie avec la clé publique d'Alice."
+      },
+      "ref": "§5.4 — Signature numérique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-039",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un attaquant modifie une seule lettre du message signé, sans toucher à la signature. Que constate le destinataire ?",
+      "choices": {
+        "A": "Le H(M) recalculé diffère de l'empreinte issue de la signature",
+        "B": "Rien, car une seule lettre ne change pas l'empreinte",
+        "C": "La clé publique de l'émetteur ne fonctionne plus du tout",
+        "D": "Le message devient impossible à lire"
+      },
+      "answer": "A",
+      "explanation": "La moindre modification change l'empreinte : la comparaison échoue et l'intégrité n'est plus prouvée.",
+      "why": {
+        "B": "La moindre modification change l'empreinte.",
+        "C": "La clé fonctionne toujours : c'est la comparaison des empreintes qui échoue.",
+        "D": "La signature ne chiffre pas le message : il reste lisible."
+      },
+      "ref": "§5.4 — Signature numérique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-040",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle est la taille des empreintes produites par SHA-1 et par MD5 ?",
+      "choices": {
+        "A": "SHA-1 : 128 bits ; MD5 : 160 bits",
+        "B": "SHA-1 : 160 bits ; MD5 : 128 bits",
+        "C": "SHA-1 : 256 bits ; MD5 : 128 bits",
+        "D": "SHA-1 : 160 bits ; MD5 : 64 bits"
+      },
+      "answer": "B",
+      "explanation": "MD5 produit 128 bits et SHA-1 160 bits. La taille est fixe, quelle que soit celle de l'entrée.",
+      "why": {
+        "A": "Les deux valeurs sont inversées.",
+        "C": "SHA-1 produit 160 bits.",
+        "D": "MD5 produit 128 bits ; 64 bits est la taille d'un bloc DES."
+      },
+      "ref": "§5.4 — Signature numérique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-041",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un pirate publie une fausse clé publique au nom de Bob. Quel mécanisme répond à ce problème ?",
+      "choices": {
+        "A": "Le mode CBC, car il chaîne les blocs",
+        "B": "La fonction de hachage seule, car elle est à sens unique",
+        "C": "Le certificat, qui lie une clé publique à une identité",
+        "D": "Le chiffrement hybride, car il utilise une clé de session"
+      },
+      "answer": "C",
+      "explanation": "Le certificat, émis par une CA, prouve qu'une clé publique appartient bien à son détenteur.",
+      "why": {
+        "A": "CBC est un mode de chiffrement par blocs, sans rapport avec l'identité.",
+        "B": "Un hash seul ne dit pas à qui appartient une clé.",
+        "D": "L'hybride a besoin d'une clé publique de confiance : il ne la garantit pas."
+      },
+      "ref": "§5.5 — Certificats numériques et PKI",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-042",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Bob récupère le certificat d'Alice et le certificat auto-signé de la CA. Comment vérifie-t-il le certificat d'Alice ?",
+      "choices": {
+        "A": "Avec la clé privée de la CA, qu'il reçoit dans le certificat",
+        "B": "Avec la clé privée d'Alice, contenue dans le certificat",
+        "C": "En envoyant son propre mot de passe à la CA",
+        "D": "En vérifiant la signature de la CA qu'il contient"
+      },
+      "answer": "D",
+      "explanation": "La CA atteste les informations par sa signature : Bob vérifie l'intégrité du certificat grâce à celle-ci.",
+      "why": {
+        "A": "La clé privée de la CA reste secrète : la vérification passe par sa clé publique.",
+        "B": "Un certificat contient la clé publique, jamais la clé privée.",
+        "C": "Aucun mot de passe n'intervient dans ce principe."
+      },
+      "ref": "§5.5 — Certificats numériques et PKI",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-043",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "La clé privée d'un employé a été volée, et son certificat doit cesser d'être valable. Quelle fonction de la PKI intervient ?",
+      "choices": {
+        "A": "La révocation",
+        "B": "L'auto-signature",
+        "C": "L'enregistrement",
+        "D": "Le chiffrement hybride"
+      },
+      "answer": "A",
+      "explanation": "La PKI gère enregistrement, émission, stockage, distribution, révocation et vérification de statut des certificats.",
+      "why": {
+        "B": "L'auto-signature concerne le certificat de la CA.",
+        "C": "L'enregistrement intervient au début de la vie du certificat, pas à sa fin.",
+        "D": "L'hybride est une méthode de chiffrement, pas une fonction de gestion des certificats."
+      },
+      "ref": "§5.5 — PKI",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-044",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Quel algorithme asymétrique repose sur le logarithme discret ?",
+      "choices": {
+        "A": "RSA",
+        "B": "ElGamal",
+        "C": "Merkle-Hellman",
+        "D": "AES"
+      },
+      "answer": "B",
+      "explanation": "ElGamal repose sur le logarithme discret, RSA sur la factorisation et l'exponentiation de grands premiers, Merkle-Hellman sur le sac à dos.",
+      "why": {
+        "A": "RSA repose sur la factorisation et l'exponentiation de grands premiers.",
+        "C": "Merkle-Hellman repose sur le problème du sac à dos.",
+        "D": "AES est un algorithme symétrique."
+      },
+      "ref": "§5.2 — Cryptographie asymétrique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-045",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application veut garantir la confidentialité, l'intégrité et la non-répudiation d'un message. Quelle combinaison le cours recommande-t-il ?",
+      "choices": {
+        "A": "AES seul, avec une clé plus longue que le message",
+        "B": "RSA seul, en chiffrant le message avec la clé publique",
+        "C": "Chiffrement hybride, hachage et signature, avec certificats",
+        "D": "Chiffrement en mode CBC et un IV par message"
+      },
+      "answer": "C",
+      "explanation": "Confidentialité = chiffrement hybride. Intégrité, authentification, non-répudiation = hachage + signature, avec des certificats pour authentifier les clés publiques.",
+      "why": {
+        "A": "Le chiffrement symétrique seul n'apporte ni signature ni non-répudiation.",
+        "B": "RSA seul est lent et ce chiffrement n'assure que la confidentialité.",
+        "D": "CBC est un mode de chiffrement : il n'apporte pas de preuve d'origine."
+      },
+      "ref": "§5.5 — Résumé à connaître par cœur",
+      "source": "resume-crypto"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "cryptographie-securite-cryptographie-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Stéganographie vs cryptographie ?",
+      "back": "La stéganographie cache l'information ; la cryptographie la rend incompréhensible.",
+      "ref": "§4 — Vocabulaire",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f002",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Cryptographie, cryptanalyse, cryptologie ?",
+      "back": "Science du chiffrement ; étude des messages chiffrés pour en découvrir le secret ; les deux réunies.",
+      "ref": "§4 — Vocabulaire",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f003",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Chiffre de César : formules ?",
+      "back": "C = (M + k) mod 26 et M = (C − k) mod 26.",
+      "ref": "§4 — Chiffre de César",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f004",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi César est-il faible ?",
+      "back": "26 clés seulement (force brute) et analyse fréquentielle d'Al-Kindi : en français, E est la lettre la plus fréquente.",
+      "ref": "§4 — Chiffre de César",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f005",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Chiffre de Vigenère : formule ?",
+      "back": "Cᵢ = (Lᵢ + kᵢ) mod 26, avec A = 0 … Z = 25 et la clé répétée sous le texte.",
+      "ref": "§4 — Chiffre de Vigenère",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Méthode de la transposition matricielle avec clé ?",
+      "back": "Écrire le clair en lignes sous la clé, numéroter les colonnes par ordre alphabétique des lettres, lire chaque colonne dans l'ordre des numéros.",
+      "ref": "§4 — Transposition",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f007",
+      "kind": "definition",
+      "tier": "core",
+      "front": "DES : bloc, clé, tours ?",
+      "back": "Blocs de 64 bits, clé de 56 bits + 8 de parité, sous-clés de 48 bits, 16 tours de Feistel.",
+      "ref": "§5.1 — DES vs AES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f008",
+      "kind": "definition",
+      "tier": "core",
+      "front": "AES : bloc, clé, tours ?",
+      "back": "Blocs de 128 bits, clés de 128/192/256 bits, 10/12/14 tours.",
+      "ref": "§5.1 — DES vs AES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 4 opérations d'un tour AES ?",
+      "back": "SubBytes (confusion), ShiftRows, MixColumns (diffusion), AddRoundKey.",
+      "ref": "§5.1 — Étapes AES",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "ECB vs CBC ?",
+      "back": "ECB : Cᵢ = Ek(Mᵢ), blocs indépendants. CBC : Cᵢ = Ek(Mᵢ ⊕ Cᵢ₋₁), avec C₀ = IV.",
+      "ref": "§5.1 — Modes opératoires",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f011",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Nombre de clés symétriques pour N personnes ?",
+      "back": "N(N−1)/2. Exemple : 10 personnes → 45 clés ; 100 personnes → 4 950 clés.",
+      "ref": "§5.1 — Avantages / limites du symétrique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Double cadenas : étapes et limites ?",
+      "back": "Alice chiffre avec CA, Bob surchiffre avec CB, Alice retire CA, Bob déchiffre avec CB. Limites : ordre à respecter, les deux doivent être présents.",
+      "ref": "§5.1 — Protocole du double cadenas",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f013",
+      "kind": "formula",
+      "tier": "core",
+      "front": "RSA : génération des clés ?",
+      "back": "n = p × q ; φ(n) = (p−1)(q−1) ; e premier avec φ(n) ; e × d ≡ 1 (mod φ(n)). PK = (e, n), SK = (d, n).",
+      "ref": "§5.2 — RSA",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f014",
+      "kind": "formula",
+      "tier": "core",
+      "front": "RSA : chiffrer et déchiffrer ?",
+      "back": "c = mᵉ mod n et m = cᵈ mod n.",
+      "ref": "§5.2 — RSA",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f015",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Méthode pour trouver d en RSA ?",
+      "back": "Essayer k = 1, 2, 3… jusqu'à ce que k × φ(n) + 1 soit divisible par e ; alors d = (k × φ(n) + 1) / e.",
+      "ref": "§9 — Exercice RSA résolu",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f016",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi le chiffrement hybride ?",
+      "back": "RSA est environ 1000 fois plus lent qu'AES : la clé de session rapide chiffre le message, l'asymétrique ne chiffre que cette clé.",
+      "ref": "§5.2 et §5.3",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f017",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Clé pour chiffrer vs clé pour signer ?",
+      "back": "Confidentialité : clé publique du destinataire. Signature : clé privée de l'émetteur, sur le hash du message.",
+      "ref": "§5.2 et §5.4",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f018",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Schéma de signature numérique ?",
+      "back": "L'émetteur chiffre H(M) avec sa clé privée et envoie M + signature. Le récepteur la déchiffre avec la clé publique, recalcule H(M) et compare.",
+      "ref": "§5.4 — Signature numérique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f019",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Propriétés d'une fonction de hachage ?",
+      "back": "À sens unique, entrée de taille variable, sortie de taille fixe ; la moindre modification change l'empreinte. MD5 : 128 bits, SHA-1 : 160 bits.",
+      "ref": "§5.4 — Signature numérique",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f020",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Certificat numérique ?",
+      "back": "Clé publique + informations d'identité + signature(s) numérique(s) ; émis par une CA, il lie une clé publique à une identité. Formats : PGP, X.509.",
+      "ref": "§5.5 — Certificats numériques et PKI",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-cryptographie-f021",
+      "kind": "definition",
+      "tier": "core",
+      "front": "PKI ?",
+      "back": "Éléments, protocoles et services pour gérer les clés publiques à grande échelle : enregistrement, émission, stockage, distribution, révocation, vérification de statut.",
+      "ref": "§5.5 — PKI",
+      "source": "resume-crypto"
+    }
+  ]
+}

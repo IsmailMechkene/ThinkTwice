@@ -1,0 +1,15 @@
+{
+  "name": "Cryptographie et sécurité informatique",
+  "description": "Concepts de base, hackers et besoins de sécurité, méthodes d'attaques, cryptographie classique et moderne.",
+  "icon": "🔐",
+  "color": "#059669",
+  "language": "fr",
+  "contributors": [],
+  "sources": {
+    "resume-crypto": {
+      "label": "Résumé d'examen — Cryptographie et sécurité informatique",
+      "file": "courses/cryptography/Résumé d'examen – Cryptographie et Sécurité Informatique fedi.pdf",
+      "author": "Firas"
+    }
+  }
+}

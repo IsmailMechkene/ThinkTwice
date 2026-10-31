@@ -1,0 +1,786 @@
+{
+  "id": "attaques",
+  "title": "Les méthodes d'attaques",
+  "order": 2,
+  "description": "Malwares, attaques par messagerie, attaques réseau et attaques web, avec leurs protections.",
+  "questions": [
+    {
+      "id": "cryptographie-securite-attaques-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un programme malveillant se propage seul de machine en machine via le réseau, sans s'attacher à aucun fichier. De quoi s'agit-il ?",
+      "choices": {
+        "A": "Un virus",
+        "B": "Un ver",
+        "C": "Un cheval de Troie",
+        "D": "Un keylogger"
+      },
+      "answer": "B",
+      "explanation": "Le ver n'a pas besoin d'hôte et se propage seul via le réseau.",
+      "why": {
+        "A": "Le virus a besoin d'un hôte (exécutable, document, macro, secteur de démarrage).",
+        "C": "Le cheval de Troie se présente comme un programme utile, il ne se propage pas seul.",
+        "D": "Le keylogger enregistre les frappes au clavier, sa propagation n'est pas ce qui le définit."
+      },
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une macro malveillante cachée dans un document se copie dans d'autres fichiers quand on l'ouvre. Fermé, le document reste inoffensif. Quel malware est décrit ?",
+      "choices": {
+        "A": "Un virus, car il a besoin d'un hôte",
+        "B": "Un ver, car il se copie tout seul",
+        "C": "Une porte dérobée, car il reste caché",
+        "D": "Un ransomware, car il modifie des fichiers"
+      },
+      "answer": "A",
+      "explanation": "Le virus a besoin d'un hôte, se copie dans d'autres fichiers et connaît un état actif ou passif.",
+      "why": {
+        "B": "Le ver n'a pas besoin d'hôte : or ici tout dépend du document.",
+        "C": "La porte dérobée laisse un accès distant, elle ne se copie pas dans des fichiers.",
+        "D": "Le ransomware chiffre les données et exige une rançon."
+      },
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un étudiant télécharge un jeu piraté en P2P. Le jeu fonctionne, mais il installe un malware en arrière-plan. Quel nom donner à ce jeu ?",
+      "choices": {
+        "A": "Un ver, car il vient du réseau",
+        "B": "Un hoax, car il trompe l'utilisateur",
+        "C": "Un cheval de Troie : il se présente comme utile",
+        "D": "Un virus, car un logiciel a été téléchargé"
+      },
+      "answer": "C",
+      "explanation": "Le cheval de Troie se présente comme un programme utile et peut contenir tout autre malware ; logiciels piratés et P2P sont des vecteurs cités par le cours.",
+      "why": {
+        "A": "Venir du réseau ne suffit pas : le ver se propage seul, alors qu'ici l'utilisateur lance lui-même le jeu.",
+        "B": "Un hoax est un message incitant à être retransmis, pas un programme.",
+        "D": "Le virus se définit par son hôte et sa copie dans d'autres fichiers, pas par un téléchargement."
+      },
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lors d'un audit, on découvre un port ouvert laissé par un logiciel, permettant de revenir à distance sur le serveur sans se connecter normalement. Que suspecter ?",
+      "choices": {
+        "A": "Un keylogger",
+        "B": "Un spam",
+        "C": "Un ransomware",
+        "D": "Une porte dérobée"
+      },
+      "answer": "D",
+      "explanation": "La porte dérobée (backdoor) est un accès distant caché, qui laisse un port ouvert pour une intrusion future.",
+      "why": {
+        "A": "Le keylogger enregistre les frappes clavier.",
+        "B": "Le spam est une communication non sollicitée, pas un accès au serveur.",
+        "C": "Le ransomware chiffre les données et exige une rançon."
+      },
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous devez taper un mot de passe sur un ordinateur public que vous soupçonnez d'enregistrer les touches. Quelle protection cite le cours contre cette menace ?",
+      "choices": {
+        "A": "Le clavier virtuel",
+        "B": "Le filtrage d'URL",
+        "C": "Les requêtes préparées",
+        "D": "Le jeton aléatoire par requête"
+      },
+      "answer": "A",
+      "explanation": "Contre le keylogger, le cours cite l'antivirus, Spybot, le clavier virtuel et le changement des mots de passe.",
+      "why": {
+        "B": "Le filtrage d'URL protège contre le phishing.",
+        "C": "Les requêtes préparées protègent contre l'injection SQL.",
+        "D": "Le jeton aléatoire protège contre le CSRF."
+      },
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un ransomware est actif sur le réseau d'une société. Quel est le bon ordre de réaction ?",
+      "choices": {
+        "A": "Récupérer → Isoler → Enquêter → Évaluer → Renforcer",
+        "B": "Isoler → Enquêter → Récupérer → Renforcer → Évaluer",
+        "C": "Enquêter → Récupérer → Isoler → Renforcer → Évaluer",
+        "D": "Isoler → Récupérer → Évaluer → Enquêter → Renforcer"
+      },
+      "answer": "B",
+      "explanation": "On isole d'abord, on enquête (souche, décrypteur ?), on récupère (sauvegarde ; payer est déconseillé), on renforce, puis on évalue.",
+      "why": {
+        "A": "Récupérer avant d'isoler laisse le malware actif sur le réseau.",
+        "C": "L'isolement doit précéder l'enquête pour stopper la propagation.",
+        "D": "Il faut enquêter avant de récupérer : la souche détermine s'il existe un décrypteur."
+      },
+      "ref": "§3.1 — Réagir à un ransomware actif",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-007",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "L'antivirus trouve un keylogger dans un faux utilitaire de nettoyage installé par l'utilisateur. Comment l'expliquer ?",
+      "choices": {
+        "A": "C'est impossible : un malware n'a qu'une seule fonction",
+        "B": "C'est un ver, car deux malwares se sont combinés",
+        "C": "Un cheval de Troie peut contenir tout autre malware",
+        "D": "Un keylogger se déguise toujours en utilitaire"
+      },
+      "answer": "C",
+      "explanation": "Le cheval de Troie se présente comme un programme utile et peut contenir tout autre malware, ici un keylogger.",
+      "why": {
+        "A": "Le cours dit le contraire : un trojan peut embarquer n'importe quel autre malware.",
+        "B": "Un ver se définit par sa propagation autonome, pas par une combinaison.",
+        "D": "Le déguisement caractérise le cheval de Troie, pas le keylogger."
+      },
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un mail cite le nom de votre chef et un projet en cours, et n'a été envoyé qu'à trois personnes de votre service. Il vous demande vos identifiants. Quel type de phishing est-ce ?",
+      "choices": {
+        "A": "Traditionnel, car il imite une source fiable",
+        "B": "Hoax, car il incite à répondre au message",
+        "C": "Avec trojan downloader, car il cible vos identifiants",
+        "D": "Spear phishing, car il est ciblé et personnalisé"
+      },
+      "answer": "D",
+      "explanation": "Le spear phishing est ciblé, personnalisé et vise un groupe restreint.",
+      "why": {
+        "A": "Le phishing traditionnel est impersonnel et massif, avec un message urgent et un hyperlien.",
+        "B": "Le hoax incite à retransmettre un canular, pas à livrer des identifiants.",
+        "C": "Rien n'est téléchargé ici : le message se contente de réclamer les identifiants."
+      },
+      "ref": "§3.2 — Attaques par messagerie",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un message vous demande de le transférer à tous vos contacts pour prévenir d'un faux danger. Il ne contient ni lien ni pièce jointe. Quelle attaque est-ce ?",
+      "choices": {
+        "A": "Un hoax",
+        "B": "Un spam publicitaire",
+        "C": "Du phishing",
+        "D": "Un ver"
+      },
+      "answer": "A",
+      "explanation": "Le hoax (canular) incite à retransmettre le message ; il encombre le réseau et fait perdre du temps.",
+      "why": {
+        "B": "Le spam est une communication non sollicitée ; il ne cherche pas à se faire retransmettre.",
+        "C": "Le phishing cherche à voler des données ou à installer un malware.",
+        "D": "Un ver est un programme qui se propage seul, pas un message relayé par des humains."
+      },
+      "ref": "§3.2 — Attaques par messagerie",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-010",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "« Votre compte sera fermé dans une heure : cliquez ici. » Sur quoi joue ce message, et quelle est la bonne réaction ?",
+      "choices": {
+        "A": "Sur la cupidité : il faut y répondre pour se désinscrire",
+        "B": "Sur l'urgence : il ne faut pas cliquer sur le lien",
+        "C": "Sur la curiosité : il faut ouvrir le lien avec prudence",
+        "D": "Sur la peur : il faut le transférer pour alerter ses collègues"
+      },
+      "answer": "B",
+      "explanation": "Le phishing joue sur la peur, l'urgence, la curiosité ou la cupidité ; la protection de base est de ne pas cliquer.",
+      "why": {
+        "A": "Aucun gain n'est promis, et répondre à ce type de message reste une mauvaise idée.",
+        "C": "Le message presse plus qu'il n'intrigue, et ouvrir le lien est justement le danger.",
+        "D": "Transférer le message propage le danger au lieu de le contenir."
+      },
+      "ref": "§3.2 — Attaques par messagerie",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-011",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un site tombe sous l'afflux de requêtes provenant de milliers de machines réparties dans le monde. Quelle attaque est décrite ?",
+      "choices": {
+        "A": "Un DoS, car un seul service est visé",
+        "B": "Du sniffing, car le trafic est massif",
+        "C": "Un DDoS, car il y a plusieurs sources",
+        "D": "Du spoofing, car les machines sont distantes"
+      },
+      "answer": "C",
+      "explanation": "Le DDoS rend le service indisponible depuis plusieurs sources.",
+      "why": {
+        "A": "Le DoS part d'une seule connexion ; le critère est le nombre de sources, pas de cibles.",
+        "B": "Le sniffing capture des paquets, il ne sature pas le service.",
+        "D": "Le spoofing est une usurpation d'identité, que rien n'évoque ici."
+      },
+      "ref": "§3.3 — Attaques réseau",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-012",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Pourquoi le SYN flooding sature-t-il un serveur ?",
+      "choices": {
+        "A": "Il casse le chiffrement des connexions TCP déjà établies",
+        "B": "Il remplace l'adresse MAC du serveur dans le réseau",
+        "C": "Il envoie des paquets ACK que le serveur doit tous stocker",
+        "D": "Il laisse des connexions semi-ouvertes qui remplissent le serveur"
+      },
+      "answer": "D",
+      "explanation": "L'attaquant envoie massivement des SYN sans finir la poignée de main TCP : les connexions semi-ouvertes saturent le serveur.",
+      "why": {
+        "A": "Le SYN flooding n'attaque aucun chiffrement ; il agit avant l'établissement de la connexion.",
+        "B": "C'est le principe du spoofing ARP, pas du SYN flooding.",
+        "C": "L'attaque repose sur des SYN, et c'est justement l'ACK final qui manque."
+      },
+      "ref": "§3.3 — DDoS",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un serveur a reçu un SYN et répondu par un SYN-ACK. Lors d'un SYN flooding, quel message n'arrive jamais ?",
+      "choices": {
+        "A": "Le ACK final du client",
+        "B": "Le second SYN du serveur",
+        "C": "Le SYN initial du client",
+        "D": "Le SYN-ACK du client"
+      },
+      "answer": "A",
+      "explanation": "La poignée de main est SYN / SYN-ACK / ACK ; sans le ACK final, la connexion reste semi-ouverte.",
+      "why": {
+        "B": "Le serveur n'envoie pas de second SYN : sa seule réponse est le SYN-ACK.",
+        "C": "Le SYN initial a bien été reçu ; c'est même lui que l'attaquant envoie en masse.",
+        "D": "Le SYN-ACK vient du serveur, pas du client."
+      },
+      "ref": "§3.3 — DDoS",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un réseau local utilise encore un hub, et un employé capture les mots de passe de ses collègues. Quelle modification matérielle rend cette écoute plus difficile ?",
+      "choices": {
+        "A": "Ajouter un second hub pour répartir le trafic",
+        "B": "Remplacer le hub par un switch",
+        "C": "Ouvrir le port 25 sur le pare-feu",
+        "D": "Installer un point d'accès wifi public"
+      },
+      "answer": "B",
+      "explanation": "Le hub envoie chaque trame à tous, tandis que le switch ne l'envoie qu'au seul destinataire.",
+      "why": {
+        "A": "Un autre hub diffuse toujours chaque trame à tous.",
+        "C": "Le port 25 concerne les mails : l'ouvrir ne limite pas la capture.",
+        "D": "Les réseaux publics sont à éviter : ils aggravent l'exposition."
+      },
+      "ref": "§3.3 — Sniffing",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-015",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Un attaquant qui écoute le réseau veut isoler uniquement le trafic FTP dans sa capture. Quel port filtre-t-il ?",
+      "choices": {
+        "A": "Le port 25",
+        "B": "Le port 80",
+        "C": "Le port 21",
+        "D": "Le port 8080"
+      },
+      "answer": "C",
+      "explanation": "Le filtrage par port permet d'isoler un flux : 21 pour FTP, 25 pour les mails, 80/8080 pour le web.",
+      "why": {
+        "A": "Le port 25 correspond aux mails.",
+        "B": "Le port 80 correspond au web.",
+        "D": "Le port 8080 correspond aussi au web."
+      },
+      "ref": "§3.3 — Sniffing",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur un réseau local, un attaquant envoie une fausse réponse associant l'IP de la passerelle à sa propre adresse MAC. Quelle attaque est-ce, et quel outil la détecte ?",
+      "choices": {
+        "A": "Spoofing IP, détecté par le filtre SPF",
+        "B": "Spoofing mail, détecté par arpwatch",
+        "C": "Scanning, détecté par un scanner de ports",
+        "D": "Spoofing ARP, détecté par arpwatch"
+      },
+      "answer": "D",
+      "explanation": "Le spoofing ARP envoie une fausse réponse associant une IP à la MAC de l'attaquant ; arpwatch ou un NIDS permettent de le repérer.",
+      "why": {
+        "A": "Le spoofing IP masque l'adresse source, et SPF concerne le mail.",
+        "B": "Le spoofing mail usurpe un expéditeur (PHPMailer) et se contre par SPF.",
+        "C": "Le scanning balaie des ports, il ne falsifie pas d'association IP/MAC."
+      },
+      "ref": "§3.3 — Spoofing",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Avec PHPMailer, un attaquant envoie des mails semblant venir de votre domaine. Quel mécanisme contre cette usurpation ?",
+      "choices": {
+        "A": "SPF",
+        "B": "SAS",
+        "C": "Le changement de switch",
+        "D": "L'attribut SameSite"
+      },
+      "answer": "A",
+      "explanation": "Le cours indique que le spoofing mail (PHPMailer) est contré par SPF.",
+      "why": {
+        "B": "SAS vérifie l'authenticité d'une clé publique contre le MITM.",
+        "C": "Un switch limite le sniffing sur le réseau local.",
+        "D": "SameSite est un attribut de cookie contre le CSRF."
+      },
+      "ref": "§3.3 — Spoofing",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un attaquant forge l'adresse source de ses paquets pour abuser d'une relation de confiance entre deux serveurs. Quelles protections cite le cours ?",
+      "choices": {
+        "A": "Jetons CSRF et cookies SameSite",
+        "B": "Anti-spoofing du firewall et IPsec",
+        "C": "Clavier virtuel et antivirus",
+        "D": "Encodage des entrées et sorties"
+      },
+      "answer": "B",
+      "explanation": "Contre le spoofing IP, le cours cite l'anti-spoofing du firewall et IPsec.",
+      "why": {
+        "A": "Ces protections concernent le CSRF.",
+        "C": "Ces protections concernent le keylogger.",
+        "D": "Cette protection concerne le XSS."
+      },
+      "ref": "§3.3 — Spoofing",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un administrateur veut savoir ce qu'un attaquant verrait en balayant ses serveurs. Quelle action, recommandée par le cours, répond à ce besoin ?",
+      "choices": {
+        "A": "Remplacer le switch par un hub",
+        "B": "Utiliser un filtre SPF",
+        "C": "Scanner lui-même ses ports",
+        "D": "Laisser tous les ports ouverts"
+      },
+      "answer": "C",
+      "explanation": "Le scanning déduit ports ouverts, OS et applications ; on se protège en scannant soi-même, avec un firewall et un IDS.",
+      "why": {
+        "A": "Un hub aggrave le sniffing et n'apporte rien contre le scanning.",
+        "B": "SPF concerne l'usurpation de mail.",
+        "D": "Il faut au contraire fermer les ports inutiles."
+      },
+      "ref": "§3.3 — Scanning",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-020",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "M s'interpose entre A et B et remplace la clé publique KB par sa clé KM. Que se passe-t-il quand A envoie un message à B ?",
+      "choices": {
+        "A": "A chiffre avec KB, et M ne peut donc rien lire",
+        "B": "A chiffre avec KM, et B déchiffre seul le message",
+        "C": "A chiffre avec KB, puis M rechiffre avec KM",
+        "D": "A chiffre avec KM ; M déchiffre, lit, puis rechiffre avec KB"
+      },
+      "answer": "D",
+      "explanation": "A croit détenir la clé de B : M déchiffre, peut lire ou modifier, puis rechiffre avec KB pour rester invisible.",
+      "why": {
+        "A": "A ne possède pas KB : il a reçu KM à la place.",
+        "B": "B ne peut pas déchiffrer ce qui est chiffré avec KM ; seul M le peut.",
+        "C": "L'ordre est inversé : KB ne sert qu'à la fin, pour faire suivre le message à B."
+      },
+      "ref": "§3.3 — Man in the Middle",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-021",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Avec le SAS, B calcule h = H(KB) et l'envoie à A. Pourquoi cette valeur doit-elle passer par un canal sûr ?",
+      "choices": {
+        "A": "Sinon l'attaquant pourrait aussi substituer le hash",
+        "B": "Sinon B ne pourrait pas retrouver sa clé privée",
+        "C": "Car le hash permet de déchiffrer les messages de B",
+        "D": "Car le hash contient la clé privée de B en clair"
+      },
+      "answer": "A",
+      "explanation": "A compare h à H(KB reçue). Si l'attaquant contrôlait aussi h, il pourrait remplacer les deux valeurs et la comparaison ne prouverait plus rien.",
+      "why": {
+        "B": "Le hash est une fonction à sens unique, sans rapport avec la clé privée de B.",
+        "C": "Un hash ne déchiffre rien : il sert uniquement à comparer.",
+        "D": "Le hash est calculé sur KB, la clé publique, pas sur une clé privée."
+      },
+      "ref": "§3.3 — SAS",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-022",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans un café, un attaquant crée un faux hotspot, puis se connecte lui-même au vrai réseau. Quel type d'attaque met-il en place ?",
+      "choices": {
+        "A": "Un DoS",
+        "B": "Un Man in the Middle",
+        "C": "Une injection SQL",
+        "D": "Un hoax"
+      },
+      "answer": "B",
+      "explanation": "Les clients se connectent au faux hotspot et l'attaquant au vrai réseau : il s'interpose entre les deux.",
+      "why": {
+        "A": "Le but n'est pas de rendre le service indisponible : le trafic continue de passer.",
+        "C": "L'injection SQL vise la base de données d'une application web.",
+        "D": "Le hoax est un canular transmis par message."
+      },
+      "ref": "§3.3 — MITM wifi public",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Ce code construit la requête de connexion d'un site. Qu'obtient-on avec le login `' OR 1=1 --` ?",
+      "code": "SELECT * FROM users WHERE utilisateur='$login' AND motdepasse='$password'",
+      "choices": {
+        "A": "Une erreur, car 1=1 n'est pas une colonne",
+        "B": "Une connexion refusée, faute de mot de passe",
+        "C": "Une condition toujours vraie : connexion sans mot de passe",
+        "D": "La suppression de la table users"
+      },
+      "answer": "C",
+      "explanation": "`OR 1=1` rend la condition toujours vraie et `--` neutralise la vérification du mot de passe : on se connecte sans lui.",
+      "why": {
+        "A": "`1=1` est une condition valide, toujours vraie.",
+        "B": "La vérification du mot de passe est mise en commentaire par `--`.",
+        "D": "Il faudrait pour cela injecter un `DROP TABLE users;`."
+      },
+      "ref": "§3.4 — Injection SQL",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur une requête de connexion `WHERE utilisateur='$login' AND motdepasse='$password'`, à quoi sert le login `admin' --` ?",
+      "choices": {
+        "A": "À afficher tous les comptes de la table",
+        "B": "À changer le mot de passe du compte admin",
+        "C": "À arrêter le serveur de base de données",
+        "D": "À se connecter en admin sans mot de passe"
+      },
+      "answer": "D",
+      "explanation": "L'apostrophe ferme la chaîne et `--` met le reste en commentaire : seul le nom admin est vérifié.",
+      "why": {
+        "A": "Rien ici ne rend la condition vraie pour toutes les lignes : seul admin est visé.",
+        "B": "La requête reste un `SELECT` : aucune donnée n'est modifiée.",
+        "C": "Il faudrait injecter `shutdown with nowait`."
+      },
+      "ref": "§3.4 — Injection SQL",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-025",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle protection traite la cause de l'injection SQL, c'est-à-dire le manque de contrôle des paramètres ?",
+      "choices": {
+        "A": "Les requêtes préparées et la validation des entrées",
+        "B": "Un attribut SameSite sur les cookies",
+        "C": "Un pare-feu qui ferme les ports inutiles",
+        "D": "Le remplacement du hub par un switch"
+      },
+      "answer": "A",
+      "explanation": "Requêtes préparées et validation/échappement des entrées empêchent une entrée de devenir une portion de requête.",
+      "why": {
+        "B": "SameSite protège contre le CSRF.",
+        "C": "Le pare-feu ne contrôle pas le contenu des paramètres envoyés à l'application.",
+        "D": "Le switch limite le sniffing."
+      },
+      "ref": "§3.4 — Injection SQL",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un commentaire contenant le script ci-dessous est enregistré en base, et s'exécute chez chaque visiteur de la page. Quelle attaque est-ce ?",
+      "code": "<script>alert(document.cookie)</script>",
+      "choices": {
+        "A": "XSS réfléchie",
+        "B": "XSS stockée",
+        "C": "CSRF",
+        "D": "Injection SQL"
+      },
+      "answer": "B",
+      "explanation": "La XSS stockée est enregistrée en base et exécutée à chaque affichage.",
+      "why": {
+        "A": "Dans la XSS réfléchie, le script est dans la requête ou l'URL et revient une seule fois.",
+        "C": "Le CSRF fait exécuter une action involontaire à un utilisateur authentifié, sans injecter de script dans la page.",
+        "D": "La cible est le navigateur du visiteur, pas la requête SQL."
+      },
+      "ref": "§3.4 — XSS",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-027",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un site affiche les commentaires tels quels. Quelle correction empêche un `<script>` d'y être exécuté ?",
+      "choices": {
+        "A": "Passer tous les formulaires en requêtes préparées",
+        "B": "Ajouter un jeton aléatoire à chaque requête",
+        "C": "Encoder les entrées et sorties, `<` devenant `&lt;`",
+        "D": "Mettre un filtre sur le port 80 du serveur"
+      },
+      "answer": "C",
+      "explanation": "Contre le XSS : encoder les entrées/sorties (`<` → `&lt;`) et filtrer `<script>`, `onClick`…",
+      "why": {
+        "A": "Les requêtes préparées protègent la base de données, pas l'affichage dans le navigateur.",
+        "B": "Le jeton protège contre le CSRF.",
+        "D": "Le script passe par le trafic web normal : un filtre de port ne le distingue pas."
+      },
+      "ref": "§3.4 — XSS",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Connecté à sa banque, un utilisateur ouvre une page piégée qui déclenche un virement à son insu, sans aucun script injecté dans le site de la banque. Quelle attaque est-ce ?",
+      "choices": {
+        "A": "XSS réfléchie",
+        "B": "Manipulation d'URL",
+        "C": "XSS stockée",
+        "D": "CSRF"
+      },
+      "answer": "D",
+      "explanation": "Le CSRF fait exécuter à un utilisateur authentifié une action involontaire.",
+      "why": {
+        "A": "Le XSS injecte un script dans la page, ce que l'énoncé exclut.",
+        "B": "La manipulation d'URL est faite par l'attaquant pour accéder à des pages non prévues.",
+        "C": "Rien n'a été enregistré sur le site de la banque."
+      },
+      "ref": "§3.4 — CSRF",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-029",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un formulaire de virement inclut désormais un jeton aléatoire, unique par requête. Laquelle des 3 conditions du CSRF ne tient plus ?",
+      "choices": {
+        "A": "Aucun paramètre imprévisible",
+        "B": "Une session gérée par cookies",
+        "C": "Une action pertinente pour l'attaquant",
+        "D": "Un utilisateur non authentifié"
+      },
+      "answer": "A",
+      "explanation": "L'attaquant ne peut plus deviner le jeton : la requête contient désormais un paramètre imprévisible.",
+      "why": {
+        "B": "La session reste gérée par cookies ; le jeton ne change rien à cela.",
+        "C": "Le virement reste une action intéressante pour l'attaquant.",
+        "D": "Ce n'est pas une condition : le CSRF vise au contraire un utilisateur authentifié."
+      },
+      "ref": "§3.4 — CSRF",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-030",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Sur une page de facture, on remplace `?id=12` par `?id=13` dans l'adresse et la facture d'un autre client s'affiche. Quelle attaque est-ce ?",
+      "choices": {
+        "A": "Injection SQL",
+        "B": "Manipulation d'URL",
+        "C": "XSS réfléchie",
+        "D": "Sniffing"
+      },
+      "answer": "B",
+      "explanation": "La manipulation d'URL modifie les paramètres de l'URL pour accéder à des pages non prévues.",
+      "why": {
+        "A": "Aucune portion de requête n'est injectée : seule une valeur légitime a changé.",
+        "C": "Aucun script n'est exécuté dans le navigateur.",
+        "D": "Rien n'est capturé sur le réseau."
+      },
+      "ref": "§3.4 — Manipulation d'URL",
+      "source": "resume-crypto"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "cryptographie-securite-attaques-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Virus vs ver ?",
+      "back": "Le virus a besoin d'un hôte ; le ver se propage seul via le réseau.",
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Cheval de Troie ?",
+      "back": "Programme présenté comme utile, qui peut contenir tout autre malware. Vecteurs : logiciels piratés/P2P, pages web, pièces jointes, clé USB.",
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Porte dérobée (backdoor) ?",
+      "back": "Accès distant caché qui laisse un port ouvert pour une intrusion future.",
+      "ref": "§3.1 — Malwares",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Réaction à un ransomware actif ?",
+      "back": "Isoler → Enquêter → Récupérer (payer est déconseillé) → Renforcer → Évaluer.",
+      "ref": "§3.1 — Réagir à un ransomware actif",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Les 3 types de phishing ?",
+      "back": "Traditionnel : impersonnel et massif. Spear phishing : ciblé et personnalisé. Avec trojan downloaders.",
+      "ref": "§3.2 — Attaques par messagerie",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Phishing, spam, hoax ?",
+      "back": "Phishing : vole des données ou installe un malware. Spam : communication non sollicitée. Hoax : canular qui incite à retransmettre.",
+      "ref": "§3.2 — Attaques par messagerie",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "DoS vs DDoS ?",
+      "back": "DoS : une seule source. DDoS : plusieurs sources.",
+      "ref": "§3.3 — Attaques réseau",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f008",
+      "kind": "definition",
+      "tier": "core",
+      "front": "SYN flooding ?",
+      "back": "Envoi massif de SYN sans finir la poignée de main SYN / SYN-ACK / ACK : les connexions semi-ouvertes saturent le serveur.",
+      "ref": "§3.3 — DDoS",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f009",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi un switch aide-t-il contre le sniffing ?",
+      "back": "Le hub diffuse chaque trame à tous ; le switch l'envoie au seul destinataire.",
+      "ref": "§3.3 — Sniffing",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Spoofing mail, ARP, IP : la parade ?",
+      "back": "Mail : SPF. ARP : arpwatch, NIDS. IP : anti-spoofing du firewall, IPsec.",
+      "ref": "§3.3 — Spoofing",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Man in the Middle sur une clé publique ?",
+      "back": "M substitue sa clé KM à KB. A chiffre avec KM ; M déchiffre, lit ou modifie, puis rechiffre avec KB.",
+      "ref": "§3.3 — Man in the Middle",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "SAS (Short Authenticated Strings) ?",
+      "back": "B envoie h = H(KB) par un canal sûr ; A calcule H(KB reçue). Si les deux sont égaux, la clé est bien celle de B.",
+      "ref": "§3.3 — SAS",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f013",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Injection SQL : principe et parade ?",
+      "back": "Injecter une portion de requête non prévue, faute de contrôle des paramètres. Parade : requêtes préparées, validation et échappement des entrées.",
+      "ref": "§3.4 — Injection SQL",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f014",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "XSS réfléchie vs stockée ?",
+      "back": "Réfléchie : le script est dans la requête ou l'URL et renvoyé dans la page. Stockée : enregistré en base, exécuté à chaque affichage.",
+      "ref": "§3.4 — XSS",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f015",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 3 conditions du CSRF ?",
+      "back": "Une action pertinente, une session gérée par cookies, aucun paramètre imprévisible.",
+      "ref": "§3.4 — CSRF",
+      "source": "resume-crypto"
+    },
+    {
+      "id": "cryptographie-securite-attaques-f016",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Parade au CSRF ?",
+      "back": "Jetons CSRF aléatoires et uniques par requête, et attribut SameSite sur les cookies.",
+      "ref": "§3.4 — CSRF",
+      "source": "resume-crypto"
+    }
+  ]
+}
