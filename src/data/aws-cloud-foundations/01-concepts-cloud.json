@@ -696,6 +696,48 @@
       },
       "ref": "Module 1 — AWS, c'est quoi ?",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-034",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un consultant liste quatre arguments pour passer à AWS. Lequel est faux ?",
+      "choices": {
+        "A": "Remplacer les dépenses variables par des investissements",
+        "B": "Remplacer les investissements par des dépenses variables",
+        "C": "Arrêter de deviner la capacité nécessaire",
+        "D": "Déployer dans plusieurs Régions en quelques minutes"
+      },
+      "answer": "A",
+      "explanation": "C'est l'inverse : le cloud remplace les investissements (CapEx) par des dépenses variables (OpEx).",
+      "why": {
+        "B": "C'est le premier des 6 avantages du cloud.",
+        "C": "C'est un des 6 avantages : on ajuste selon le besoin réel.",
+        "D": "« Devenir mondial en quelques minutes » est un des 6 avantages."
+      },
+      "ref": "Module 1 — Les 6 avantages",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-concepts-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Pendant la migration, une équipe décide comment chiffrer les données et qui pourra y accéder. Quelle perspective du CAF est concernée ?",
+      "choices": {
+        "A": "Governance",
+        "B": "Platform",
+        "C": "Operations",
+        "D": "Security"
+      },
+      "answer": "D",
+      "explanation": "Protéger les données (chiffrement, accès) relève de la perspective Security, côté technique.",
+      "why": {
+        "A": "C'est le piège : Governance gère les risques et les coûts, pas la protection des données.",
+        "B": "Platform porte sur l'architecture et la conception.",
+        "C": "Operations fait tourner les systèmes au quotidien."
+      },
+      "ref": "Module 1 — CAF",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [

@@ -465,6 +465,90 @@
       },
       "ref": "Module 3 — Vocabulaire",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Laquelle de ces affirmations sur l'infrastructure AWS est exacte ?",
+      "choices": {
+        "A": "Une AZ compte au moins deux datacenters",
+        "B": "Une Région compte au moins deux AZ",
+        "C": "Une AZ est faite d'un ou plusieurs datacenters",
+        "D": "Une AZ peut couvrir deux Régions"
+      },
+      "answer": "C",
+      "explanation": "Une AZ est composée d'un ou plusieurs datacenters, et une Région contient au moins 3 AZ.",
+      "why": {
+        "A": "Une AZ peut ne compter qu'un seul datacenter.",
+        "B": "Le minimum est de 3 AZ par Région, pas 2.",
+        "D": "Une AZ appartient à une seule Région."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-024",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une équipe fait tourner la même application dans deux Régions, avec un nombre fixe de serveurs dans chacune. Quelle qualité améliore-t-elle surtout ?",
+      "choices": {
+        "A": "Élasticité",
+        "B": "Scalabilité",
+        "C": "Haute disponibilité",
+        "D": "Agilité"
+      },
+      "answer": "C",
+      "explanation": "Avoir plusieurs copies séparées géographiquement permet de rester en ligne si un site tombe : c'est la haute disponibilité.",
+      "why": {
+        "A": "Le nombre de serveurs est fixe : rien ne s'adapte à la charge.",
+        "B": "Rien n'est ajouté pour supporter plus de charge.",
+        "D": "L'agilité, c'est obtenir des ressources vite, pas les dupliquer."
+      },
+      "ref": "Module 3 — Qualités de l'infrastructure",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Lequel de ces éléments n'est rattaché à aucune Région ?",
+      "choices": {
+        "A": "Un bucket S3",
+        "B": "Un utilisateur IAM",
+        "C": "Un VPC",
+        "D": "Un volume EBS"
+      },
+      "answer": "B",
+      "explanation": "IAM est un service global : un utilisateur IAM n'a pas de Région.",
+      "why": {
+        "A": "C'est le piège : le nom est unique au monde, mais le bucket est créé dans une Région.",
+        "C": "Un VPC appartient à une Région.",
+        "D": "Un volume EBS est dans une AZ, donc dans une Région."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-infrastructure-026",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une équipe veut faire tourner ses serveurs de jeu tout près d'une grande ville, loin de sa Région. Une edge location suffit-elle ?",
+      "choices": {
+        "A": "Non : il faut une Local Zone",
+        "B": "Oui : elle héberge des serveurs",
+        "C": "Oui : c'est une AZ plus petite",
+        "D": "Non : il faut une nouvelle Région"
+      },
+      "answer": "A",
+      "explanation": "Une edge location sert de cache (CloudFront, Route 53). Pour exécuter des serveurs près d'une ville, AWS propose les Local Zones.",
+      "why": {
+        "B": "C'est le piège : une edge location met du contenu en cache, elle n'héberge pas vos serveurs.",
+        "C": "Une edge location n'est pas une AZ.",
+        "D": "La Local Zone étend justement la Région existante, sans en créer une."
+      },
+      "ref": "Module 3 — Vocabulaire",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [

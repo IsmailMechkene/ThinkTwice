@@ -654,6 +654,111 @@
       },
       "ref": "Module 4 — Comment AWS décide",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-032",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une base de données tourne sur Amazon RDS. Laquelle de ces tâches reste à la charge du client ?",
+      "choices": {
+        "A": "Appliquer les patchs de l'OS",
+        "B": "Remplacer les disques défaillants",
+        "C": "Chiffrer les données et gérer les accès",
+        "D": "Maintenir l'hyperviseur"
+      },
+      "answer": "C",
+      "explanation": "Même sur un service géré, les données, leur chiffrement et les accès IAM restent au client.",
+      "why": {
+        "A": "Avec RDS, AWS gère l'OS et ses patchs.",
+        "B": "Le matériel fait partie de la sécurité DU cloud, donc d'AWS.",
+        "D": "L'hyperviseur est géré par AWS."
+      },
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-033",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une fonction AWS Lambda traite des fichiers. Que doit gérer le client ?",
+      "choices": {
+        "A": "Le code de la fonction et ses permissions",
+        "B": "Les patchs de l'OS des serveurs",
+        "C": "Le nombre de serveurs à lancer",
+        "D": "La couche de virtualisation"
+      },
+      "answer": "A",
+      "explanation": "Avec Lambda, aucun serveur à gérer : il reste au client son code, ses données et ses accès.",
+      "why": {
+        "B": "Il n'y a aucun serveur à gérer avec Lambda.",
+        "C": "Lambda gère le scaling automatiquement.",
+        "D": "La virtualisation est toujours gérée par AWS."
+      },
+      "ref": "Module 4 — Responsabilité partagée",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-034",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "À quelle identité IAM des clés d'accès permanentes (Access Key ID et Secret Access Key) sont-elles attachées ?",
+      "choices": {
+        "A": "À un rôle IAM",
+        "B": "À un groupe IAM",
+        "C": "À une politique IAM",
+        "D": "À un utilisateur IAM"
+      },
+      "answer": "D",
+      "explanation": "L'accès programmatique d'un utilisateur IAM passe par une Access Key et une Secret Access Key permanentes.",
+      "why": {
+        "A": "C'est le piège : un rôle reçoit aussi ces clés, mais temporaires, avec un session token.",
+        "B": "Un groupe porte des permissions, pas des identifiants.",
+        "C": "Une politique est un document JSON de permissions, pas une identité."
+      },
+      "ref": "Module 4 — IAM",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un Security Group a été modifié. Le manager veut savoir qui l'a changé, et l'auditeur veut voir sa configuration d'avant. Quels services utilisent-ils, dans cet ordre ?",
+      "choices": {
+        "A": "CloudTrail, puis AWS Config",
+        "B": "AWS Config, puis CloudTrail",
+        "C": "CloudWatch, puis CloudTrail",
+        "D": "CloudTrail, puis CloudWatch"
+      },
+      "answer": "A",
+      "explanation": "CloudTrail journalise qui a fait quoi. AWS Config suit la configuration des ressources dans le temps.",
+      "why": {
+        "B": "L'ordre est inversé.",
+        "C": "CloudWatch suit les performances, pas l'auteur d'un changement.",
+        "D": "CloudWatch ne garde pas la configuration d'une ressource."
+      },
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-securite-036",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une équipe n'a rien activé ni payé côté sécurité. Contre quoi ses applications sont-elles déjà protégées ?",
+      "choices": {
+        "A": "Les accès non autorisés au root",
+        "B": "Toutes les attaques, via Shield Advanced",
+        "C": "Les attaques DDoS courantes, via Shield Standard",
+        "D": "Les erreurs de configuration, via AWS Config"
+      },
+      "answer": "C",
+      "explanation": "Shield Standard est gratuit et protège déjà contre les attaques DDoS courantes.",
+      "why": {
+        "A": "Le MFA du root doit être activé par le client.",
+        "B": "Shield Advanced est payant et doit être souscrit.",
+        "D": "AWS Config doit être activé et configuré avec des règles."
+      },
+      "ref": "Module 4 — Sécuriser comptes et données",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [

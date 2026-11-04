@@ -885,6 +885,111 @@
       },
       "ref": "Module 5 — Security Group vs NACL",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-043",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise doit relier son datacenter à son VPC sans que le trafic passe par Internet. Que choisir ?",
+      "choices": {
+        "A": "Site-to-Site VPN",
+        "B": "Direct Connect",
+        "C": "VPC Endpoint",
+        "D": "VPC Peering"
+      },
+      "answer": "B",
+      "explanation": "Direct Connect est une ligne privée dédiée vers AWS, sans passer par Internet.",
+      "why": {
+        "A": "C'est le piège : le tunnel est chiffré, mais il passe par Internet.",
+        "C": "Il donne un accès privé à un service AWS (ex. S3), pas à un datacenter.",
+        "D": "Le Peering relie deux VPC entre eux."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-044",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Deux VPC, et seulement deux, doivent échanger des données en privé. Quelle solution est la plus simple ?",
+      "choices": {
+        "A": "Transit Gateway",
+        "B": "VPC Endpoint",
+        "C": "Direct Connect",
+        "D": "VPC Peering"
+      },
+      "answer": "D",
+      "explanation": "Le VPC Peering relie deux VPC en privé. C'est suffisant tant qu'on n'en relie pas beaucoup.",
+      "why": {
+        "A": "C'est un hub pour de nombreux VPC : trop lourd pour deux.",
+        "B": "Il sert à joindre un service AWS en privé, pas un autre VPC.",
+        "C": "C'est une ligne entre un datacenter et AWS, pas entre deux VPC."
+      },
+      "ref": "Module 5 — Composants du VPC",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-045",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application tourne dans deux Régions. Chaque utilisateur doit arriver sur celle qui lui répond le plus vite. Quelle politique Route 53 choisir ?",
+      "choices": {
+        "A": "Latence",
+        "B": "Géolocalisation",
+        "C": "Géoproximité",
+        "D": "Pondérée"
+      },
+      "answer": "A",
+      "explanation": "La politique Latence envoie vers la Région la plus rapide pour l'utilisateur.",
+      "why": {
+        "B": "Elle route selon le pays de l'utilisateur, pas selon la vitesse.",
+        "C": "Elle route selon la distance, qui ne garantit pas la réponse la plus rapide.",
+        "D": "Elle répartit le trafic en pourcentages fixes."
+      },
+      "ref": "Module 5 — Amazon Route 53",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-046",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un sous-réseau utilise la NACL par défaut. Une instance y reçoit un nouveau Security Group sans aucune règle ajoutée. Le trafic HTTP entrant passe-t-il ?",
+      "choices": {
+        "A": "Oui, la NACL par défaut autorise tout",
+        "B": "Oui, le Security Group autorise le sortant",
+        "C": "Non, le Security Group refuse l'entrant",
+        "D": "Non, la NACL par défaut refuse l'entrant"
+      },
+      "answer": "C",
+      "explanation": "La NACL par défaut laisse tout passer, mais un Security Group refuse tout l'entrant tant qu'aucune règle ne l'autorise.",
+      "why": {
+        "A": "C'est le piège : la NACL laisse passer, mais le Security Group bloque ensuite.",
+        "B": "Autoriser le sortant ne laisse pas entrer une nouvelle requête.",
+        "D": "La NACL par défaut autorise tout le trafic."
+      },
+      "ref": "Module 5 — Security Group vs NACL",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-reseau-047",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Route 53 doit renvoyer plusieurs adresses IP de serveurs en bonne santé, choisies au hasard. Quelle politique de routage choisir ?",
+      "choices": {
+        "A": "Pondérée",
+        "B": "Simple",
+        "C": "Basculement",
+        "D": "Multivaleur"
+      },
+      "answer": "D",
+      "explanation": "La politique Multivaleur renvoie plusieurs IP saines, au hasard.",
+      "why": {
+        "A": "C'est le piège : Pondérée répartit selon des pourcentages fixés, pas au hasard parmi les IP saines.",
+        "B": "Simple vise une seule ressource.",
+        "C": "Basculement envoie vers un site de secours en cas de panne."
+      },
+      "ref": "Module 5 — Amazon Route 53",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [
