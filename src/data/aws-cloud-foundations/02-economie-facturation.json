@@ -423,6 +423,111 @@
       },
       "ref": "Module 2 — Plans de support",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-021",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une instance EC2 copie 500 Go vers un bucket S3 de la même Région. Que facture AWS pour ce transfert ?",
+      "choices": {
+        "A": "Le transfert sortant de l'instance",
+        "B": "Le transfert entrant dans S3",
+        "C": "Les deux sens du transfert",
+        "D": "Rien, en règle générale"
+      },
+      "answer": "D",
+      "explanation": "Le transfert entre services d'une même Région est généralement gratuit. Le sortant payant, c'est celui qui quitte AWS vers Internet.",
+      "why": {
+        "A": "Les données ne sortent pas vers Internet : elles restent dans la Région.",
+        "B": "Les données entrantes sont gratuites.",
+        "C": "Aucun des deux sens n'est facturé dans la même Région."
+      },
+      "ref": "Module 2 — 3 éléments qui coûtent de l'argent",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-022",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise veut une facture séparée pour son environnement Dev et une autre pour sa Prod. Quelle approche répond à ce besoin ?",
+      "choices": {
+        "A": "Activer la facturation consolidée",
+        "B": "Deux comptes AWS facturés séparément",
+        "C": "Un budget AWS Budgets par environnement",
+        "D": "Un graphique Cost Explorer par environnement"
+      },
+      "answer": "B",
+      "explanation": "Chaque compte AWS reçoit sa propre facture. Deux comptes non consolidés donnent donc deux factures.",
+      "why": {
+        "A": "C'est le piège : la facturation consolidée regroupe tout en une seule facture.",
+        "C": "Budgets envoie des alertes, il ne produit pas de facture.",
+        "D": "Cost Explorer analyse les coûts, il ne produit pas de facture."
+      },
+      "ref": "Module 2 — AWS Organizations",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "À partir des dépenses réelles des derniers mois, une directrice financière veut une projection des coûts à venir. Quel outil utilise-t-elle ?",
+      "choices": {
+        "A": "AWS Pricing Calculator",
+        "B": "Cost & Usage Report",
+        "C": "Cost Explorer",
+        "D": "Trusted Advisor"
+      },
+      "answer": "C",
+      "explanation": "Cost Explorer analyse les coûts passés (jusqu'à 12 mois) et fait des prévisions.",
+      "why": {
+        "A": "Il estime une architecture avant de la déployer, sans partir de l'historique réel.",
+        "B": "C'est le rapport le plus détaillé, exporté vers S3, pas un outil de prévision.",
+        "D": "Il donne des conseils, pas des projections de coûts."
+      },
+      "ref": "Module 2 — Outils de facturation",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-024",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise veut l'ensemble des contrôles Trusted Advisor, au prix le plus bas. Quel plan de support choisit-elle ?",
+      "choices": {
+        "A": "Developer",
+        "B": "Enterprise On-Ramp",
+        "C": "Enterprise",
+        "D": "Business"
+      },
+      "answer": "D",
+      "explanation": "Trusted Advisor complet arrive avec Business. C'est le plan le moins cher qui l'inclut.",
+      "why": {
+        "A": "Developer ajoute le support par e-mail, mais pas Trusted Advisor complet.",
+        "B": "Il l'inclut aussi, mais il coûte plus cher que Business.",
+        "C": "Il l'inclut aussi, mais c'est le plan le plus cher."
+      },
+      "ref": "Module 2 — Plans de support",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-economie-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le prix d'un service baisse alors que le client n'a rien changé à son usage ni signé d'engagement. Quel principe de tarification est illustré ?",
+      "choices": {
+        "A": "Payer encore moins quand AWS grandit",
+        "B": "Payer moins en utilisant plus",
+        "C": "Payer moins en réservant",
+        "D": "Payer à l'usage"
+      },
+      "answer": "A",
+      "explanation": "Quand AWS grandit, ses économies d'échelle se traduisent par des baisses de prix pour tous les clients.",
+      "why": {
+        "B": "C'est le piège : ici l'usage n'a pas augmenté, ce ne sont pas des remises sur volume.",
+        "C": "Aucun engagement de 1 ou 3 ans n'a été pris.",
+        "D": "Payer à l'usage explique la facture, pas une baisse du prix unitaire."
+      },
+      "ref": "Module 2 — 4 principes de tarification",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [

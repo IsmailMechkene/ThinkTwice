@@ -528,6 +528,111 @@
       },
       "ref": "Module 7 — Amazon EBS",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-026",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Laquelle de ces classes S3 est la moins résiliente ?",
+      "choices": {
+        "A": "Glacier Deep Archive",
+        "B": "Standard-IA",
+        "C": "One Zone-IA",
+        "D": "Intelligent-Tiering"
+      },
+      "answer": "C",
+      "explanation": "One Zone-IA garde les données dans une seule AZ : moins cher, mais moins résilient.",
+      "why": {
+        "A": "C'est le piège : c'est la classe la moins chère, pas la moins résiliente.",
+        "B": "Elle n'est pas limitée à une seule AZ.",
+        "D": "Elle déplace les objets entre niveaux, sans les limiter à une AZ."
+      },
+      "ref": "Module 7 — Classes de stockage S3",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-027",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un volume EBS est lié à une AZ. Pourquoi un snapshot permet-il pourtant de le recréer dans une autre AZ ?",
+      "choices": {
+        "A": "Le snapshot est stocké dans S3",
+        "B": "Le snapshot est copié dans chaque AZ",
+        "C": "Le snapshot est stocké dans EFS",
+        "D": "Le snapshot reste attaché à l'instance"
+      },
+      "answer": "A",
+      "explanation": "Les snapshots EBS sont stockés dans S3, hors de l'AZ du volume : on peut en recréer un volume ailleurs.",
+      "why": {
+        "B": "Le snapshot n'est pas recopié dans chaque AZ : il est dans S3.",
+        "C": "EFS est un système de fichiers partagé, il ne stocke pas les snapshots.",
+        "D": "Un snapshot n'est attaché à aucune instance."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un volume EBS de 500 Go ne contient que 50 Go de données. Sur quelle base son stockage est-il facturé ?",
+      "choices": {
+        "A": "Les 50 Go utilisés",
+        "B": "Les 500 Go provisionnés",
+        "C": "Les données lues dans le mois",
+        "D": "Le type de l'instance attachée"
+      },
+      "answer": "B",
+      "explanation": "EBS se paie selon le volume provisionné (Go/mois), qu'il soit rempli ou non.",
+      "why": {
+        "A": "C'est le piège : c'est EFS qui facture seulement l'espace utilisé.",
+        "C": "EBS ne facture pas le stockage selon les lectures.",
+        "D": "Le type d'instance ne change pas le prix du volume."
+      },
+      "ref": "Module 7 — Amazon EBS",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-029",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Des milliers d'archives Glacier doivent être restaurées, sans aucune urgence. Quelle option de récupération coûte le moins cher ?",
+      "choices": {
+        "A": "Expedited, en 1 à 5 minutes",
+        "B": "Standard, en 3 à 5 heures",
+        "C": "Glacier Instant Retrieval",
+        "D": "Bulk, en 5 à 12 heures"
+      },
+      "answer": "D",
+      "explanation": "Bulk est l'option la plus lente (5 à 12 h) et la moins chère : idéale sans urgence.",
+      "why": {
+        "A": "Expedited est la plus rapide, donc la plus chère.",
+        "B": "C'est le piège : Standard est l'option par défaut, mais Bulk coûte moins cher.",
+        "C": "C'est une classe de stockage, pas une option de récupération."
+      },
+      "ref": "Module 7 — Amazon S3 Glacier",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-stockage-030",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Plusieurs serveurs Windows doivent partager le même dossier. Une équipe propose EFS. Est-ce adapté ?",
+      "choices": {
+        "A": "Oui, EFS accepte tous les OS",
+        "B": "Oui, à condition d'être dans une seule AZ",
+        "C": "Non, EFS est conçu pour des instances Linux",
+        "D": "Non, EFS ne se partage pas entre instances"
+      },
+      "answer": "C",
+      "explanation": "EFS est un système de fichiers partagé en NFS, conçu pour des instances Linux.",
+      "why": {
+        "A": "C'est le piège : EFS cible les instances Linux.",
+        "B": "EFS fonctionne sur plusieurs AZ ; l'AZ n'est pas le problème.",
+        "D": "Le partage entre instances est justement le principe d'EFS."
+      },
+      "ref": "Module 7 — Amazon EFS",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [

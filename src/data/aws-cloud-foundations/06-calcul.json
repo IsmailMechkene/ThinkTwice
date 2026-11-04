@@ -591,6 +591,132 @@
       },
       "ref": "Module 6 — AWS Elastic Beanstalk",
       "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-029",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une tâche ne doit jamais être interrompue, et l'équipe refuse tout engagement. Quel modèle de prix est le moins cher qui respecte ces deux contraintes ?",
+      "choices": {
+        "A": "Spot Instances",
+        "B": "On-Demand",
+        "C": "Reserved Instances",
+        "D": "Savings Plans"
+      },
+      "answer": "B",
+      "explanation": "On-Demand est sans engagement et n'est pas interrompu par AWS.",
+      "why": {
+        "A": "C'est le piège : Spot est le moins cher, mais il peut être interrompu.",
+        "C": "Les RI demandent un engagement de 1 ou 3 ans.",
+        "D": "Savings Plans demande aussi un engagement de 1 ou 3 ans."
+      },
+      "ref": "Module 6 — Modèles de prix EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-030",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un calcul scientifique tolère les pannes et a besoin d'un disque très rapide pour des données temporaires. Quel stockage est le plus économique ?",
+      "choices": {
+        "A": "Un volume EBS io2",
+        "B": "Un système de fichiers EFS",
+        "C": "L'instance store",
+        "D": "Un bucket S3"
+      },
+      "answer": "C",
+      "explanation": "L'instance store est un stockage temporaire fourni avec l'instance. Perdre les données à l'arrêt n'est pas un problème ici.",
+      "why": {
+        "A": "Un volume io2 se paie en plus (Go et IOPS) pour une persistance inutile ici.",
+        "B": "EFS est un dossier partagé en réseau, pas un disque local rapide.",
+        "D": "S3 stocke des objets via une API, ce n'est pas un disque."
+      },
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-031",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une équipe veut des conteneurs Docker gérés par AWS, tout en gardant l'accès aux serveurs qui les font tourner. Que choisir ?",
+      "choices": {
+        "A": "Fargate",
+        "B": "Lambda",
+        "C": "ECR",
+        "D": "ECS sur des instances EC2"
+      },
+      "answer": "D",
+      "explanation": "ECS lance et gère les conteneurs. Sur des instances EC2, l'équipe garde la main sur les serveurs.",
+      "why": {
+        "A": "C'est le piège : Fargate fait tourner les conteneurs sans aucun serveur à gérer.",
+        "B": "Lambda exécute du code serverless, sans accès aux serveurs.",
+        "C": "ECR stocke les images, il ne fait rien tourner."
+      },
+      "ref": "Module 6 — Conteneurs",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-032",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "La nuit, la charge d'un site chute fortement. Que fait Auto Scaling pour réduire les coûts ?",
+      "choices": {
+        "A": "Il remplace les instances par un type plus petit",
+        "B": "Il retire des instances du groupe",
+        "C": "Il passe les instances en Spot",
+        "D": "Il met les instances en hibernation"
+      },
+      "answer": "B",
+      "explanation": "Auto Scaling joue sur le nombre d'instances : il en ajoute quand la charge monte et en retire quand elle baisse.",
+      "why": {
+        "A": "Choisir une taille plus petite, c'est le pilier « bonne taille », pas Auto Scaling.",
+        "C": "Le modèle de prix ne change pas avec la charge.",
+        "D": "L'hibernation sert à redémarrer plus vite, pas à suivre la charge."
+      },
+      "ref": "Module 6 — Optimiser les coûts EC2",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-033",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un traitement dure 8 minutes mais a besoin de 16 Go de mémoire. Peut-il tourner dans Lambda ?",
+      "choices": {
+        "A": "Non : la mémoire est limitée à 10 Go",
+        "B": "Oui : il dure moins de 15 minutes",
+        "C": "Oui : Lambda ajuste la mémoire sans limite",
+        "D": "Non : Lambda est limité à 5 minutes"
+      },
+      "answer": "A",
+      "explanation": "Lambda a deux limites : 15 minutes par exécution et 10 Go de mémoire. Ici, c'est la mémoire qui bloque.",
+      "why": {
+        "B": "C'est le piège : la durée convient, mais la mémoire dépasse la limite.",
+        "C": "La mémoire de Lambda est plafonnée à 10 Go.",
+        "D": "La limite de durée est de 15 minutes, pas 5."
+      },
+      "ref": "Module 6 — AWS Lambda",
+      "source": "fiche-aws"
+    },
+    {
+      "id": "aws-cloud-foundations-calcul-034",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le user data d'une instance installe un logiciel. L'équipe le modifie, puis redémarre l'instance. Que se passe-t-il par défaut ?",
+      "choices": {
+        "A": "Le nouveau script s'exécute au redémarrage",
+        "B": "L'ancien script s'exécute de nouveau",
+        "C": "L'instance refuse de redémarrer",
+        "D": "Aucun script ne s'exécute"
+      },
+      "answer": "D",
+      "explanation": "Le user data est un script exécuté au premier démarrage seulement. Un simple redémarrage ne le relance pas.",
+      "why": {
+        "A": "C'est le piège : le user data ne tourne pas à chaque démarrage.",
+        "B": "Il ne s'exécute qu'au premier démarrage.",
+        "C": "Modifier le user data n'empêche pas le redémarrage."
+      },
+      "ref": "Module 6 — Lancer une instance",
+      "source": "fiche-aws"
     }
   ],
   "flashcards": [
