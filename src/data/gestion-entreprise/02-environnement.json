@@ -276,6 +276,174 @@
       },
       "ref": "§2 — Typologie des environnements",
       "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi les dirigeants doivent-ils tenir compte de leur environnement, selon le cours ?",
+      "choices": {
+        "A": "Parce que l'entreprise crée elle-même les contraintes qui la touchent",
+        "B": "Parce qu'une organisation ne peut pas exister comme un système fermé",
+        "C": "Parce que seul le microenvironnement influence vraiment l'activité",
+        "D": "Parce que la loi oblige à publier une analyse de l'environnement"
+      },
+      "answer": "B",
+      "explanation": "L'environnement, ce sont les forces, décisions et contraintes externes, non créées par l'entreprise, qui influencent son activité. Une organisation ne peut pas exister comme un système fermé.",
+      "why": {
+        "A": "Le cours précise au contraire que ces forces ne sont pas créées par l'entreprise.",
+        "C": "Le méso et le macroenvironnement l'influencent aussi, directement ou indirectement.",
+        "D": "Le cours ne parle d'aucune obligation légale de ce type."
+      },
+      "ref": "§2 — Définition",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans le microenvironnement, qui se place en amont et qui en aval de l'activité de l'entreprise ?",
+      "choices": {
+        "A": "En amont les clients, en aval les fournisseurs",
+        "B": "En amont les concurrents, en aval les clients",
+        "C": "En amont les fournisseurs, en aval les clients",
+        "D": "En amont l'État, en aval les banques"
+      },
+      "answer": "C",
+      "explanation": "Le microenvironnement regroupe les acteurs en amont (fournisseurs) et en aval (clients). Ils influencent directement la production et la commercialisation.",
+      "why": {
+        "A": "C'est l'inverse : on achète en amont et on vend en aval.",
+        "B": "Les concurrents appartiennent au mésoenvironnement.",
+        "D": "L'État et les banques sont des acteurs périphériques du mésoenvironnement."
+      },
+      "ref": "§2 — Microenvironnement",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces facteurs touche l'entreprise de façon INDIRECTE ?",
+      "choices": {
+        "A": "Les fournisseurs",
+        "B": "Les organismes financiers",
+        "C": "Les concurrents",
+        "D": "L'évolution technologique"
+      },
+      "answer": "D",
+      "explanation": "Facteurs directs : consommateurs, fournisseurs, concurrents, organismes financiers. Facteurs indirects : économiques, technologiques, sociaux, géographiques, écologiques, internationaux.",
+      "why": {
+        "A": "Les fournisseurs agissent directement sur l'entreprise (microenvironnement).",
+        "B": "Le cours range les organismes financiers parmi les facteurs directs.",
+        "C": "Les concurrents agissent directement sur l'entreprise."
+      },
+      "ref": "§2 — Définition",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "À quel niveau d'environnement appartient la bourse des valeurs mobilières ?",
+      "choices": {
+        "A": "Au microenvironnement, comme un fournisseur de capitaux",
+        "B": "Au mésoenvironnement, comme acteur périphérique financier",
+        "C": "Au macroenvironnement économique",
+        "D": "Au mésoenvironnement, comme concurrent indirect"
+      },
+      "answer": "B",
+      "explanation": "Les acteurs périphériques du méso comprennent l'environnement financier (banques, bourses, assurances), le pouvoir public et le pouvoir syndical.",
+      "why": {
+        "A": "Le microenvironnement se limite aux fournisseurs et aux clients.",
+        "C": "Le macro réunit des facteurs généraux (inflation, taux…), pas des institutions précises comme la bourse.",
+        "D": "Un concurrent s'adresse aux mêmes clients ; la bourse n'est pas un concurrent."
+      },
+      "ref": "§2 — Mésoenvironnement : acteurs périphériques",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Les traditions, les coutumes, le niveau d'instruction et les facteurs religieux d'une population relèvent de quel environnement ?",
+      "choices": {
+        "A": "Social",
+        "B": "International",
+        "C": "Culturel",
+        "D": "Géographique"
+      },
+      "answer": "C",
+      "explanation": "Environnement culturel : modes, styles, traditions, coutumes, degrés d'instruction, systèmes d'évaluation des comportements et facteurs religieux.",
+      "why": {
+        "A": "Le social concerne les changements de comportement des consommateurs et les relations entre groupes de la société.",
+        "B": "L'international regroupe les décisions prises hors du pays de l'entreprise.",
+        "D": "Le géographique concerne le choix de la zone d'implantation."
+      },
+      "ref": "§2 — Macroenvironnement",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-019",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une cimenterie s'installe près d'une carrière et d'une autoroute. Quel environnement guide ce choix ?",
+      "choices": {
+        "A": "Écologique",
+        "B": "Géographique",
+        "C": "Technologique",
+        "D": "Économique"
+      },
+      "answer": "B",
+      "explanation": "Environnement géographique : la zone d'implantation se choisit selon des critères comme la disponibilité des matières premières, la population ou les voies d'accès.",
+      "why": {
+        "A": "L'écologique concerne l'impact de l'activité sur la nature (produits recyclables, biodégradables).",
+        "C": "Le technologique, ce sont les techniques nouvelles de transformation des ressources.",
+        "D": "L'économique, ce sont l'inflation, les taux, le chômage, la politique économique…"
+      },
+      "ref": "§2 — Macroenvironnement",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-020",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Lequel de ces éléments ne relève PAS de l'environnement économique ?",
+      "choices": {
+        "A": "Le recours à des emballages biodégradables",
+        "B": "Le taux de change",
+        "C": "Le taux d'inflation",
+        "D": "Le taux d'intérêt"
+      },
+      "answer": "A",
+      "explanation": "Économique : CA, bénéfices, productivité, chômage, inflation, taux d'intérêt, taux de change, politique économique. Les produits biodégradables relèvent de l'environnement écologique.",
+      "why": {
+        "B": "Le taux de change est cité dans l'environnement économique.",
+        "C": "Le taux d'inflation est cité dans l'environnement économique.",
+        "D": "Le taux d'intérêt est cité dans l'environnement économique."
+      },
+      "ref": "§2 — Macroenvironnement",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-021",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "La banque centrale relève ses taux d'intérêt ; la banque de l'entreprise lui refuse alors un crédit. Comment classer ces deux faits ?",
+      "choices": {
+        "A": "Les deux relèvent du microenvironnement",
+        "B": "Les deux relèvent du macroenvironnement économique",
+        "C": "La hausse des taux : méso ; le refus de crédit : macro",
+        "D": "La hausse des taux : macro ; le refus de crédit : méso"
+      },
+      "answer": "D",
+      "explanation": "Le taux d'intérêt est un facteur économique général (macro). La banque est un acteur précis de l'environnement financier, acteur périphérique du méso.",
+      "why": {
+        "A": "Le micro se limite aux fournisseurs et aux clients.",
+        "B": "La banque de l'entreprise est un acteur précis (méso), pas un facteur général.",
+        "C": "C'est l'inverse."
+      },
+      "ref": "§2 — Méso et macroenvironnement",
+      "source": "cours-gestion"
     }
   ],
   "flashcards": [
@@ -350,6 +518,42 @@
       "back": "De l'état de l'environnement et des ressources de l'entreprise (capital, capacités). Les leaders anticipent ; les suiveurs s'adaptent.",
       "ref": "§2 — À retenir",
       "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Environnement de l'entreprise (cours détaillé) ?",
+      "back": "Le cadre où évolue l'entreprise : les forces, décisions et contraintes externes, non créées par elle, qui influencent son activité. Une organisation ne peut pas exister comme un système fermé.",
+      "ref": "§2 — Définition",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Facteurs directs vs indirects ?",
+      "back": "Directs : consommateurs, fournisseurs, concurrents, organismes financiers. Indirects : facteurs économiques, technologiques, sociaux, géographiques, écologiques, internationaux.",
+      "ref": "§2 — Définition",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Micro et mésoenvironnement en détail ?",
+      "back": "Micro : fournisseurs en amont, clients en aval, d'influence directe. Méso : concurrents (directs ou indirects ; intensité selon la structure du secteur et les barrières à l'entrée) et acteurs périphériques (banques, bourses, assurances, pouvoir public, syndicats).",
+      "ref": "§2 — Micro et méso",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-env-f012",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Les composantes du macroenvironnement ?",
+      "back": "Économique (inflation, taux, chômage, politique économique), technologique, social (comportements, groupes), culturel (traditions, instruction, religion), écologique, géographique (implantation), international (décisions venues de l'étranger).",
+      "ref": "§2 — Macroenvironnement",
+      "source": "cours-gestion"
     }
   ]
 }

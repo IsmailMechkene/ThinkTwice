@@ -2,7 +2,7 @@
   "id": "gestion",
   "title": "La gestion",
   "order": 3,
-  "description": "Définition, les 4 fonctions de la gestion, une science humaine et exacte, rôles et compétences du gestionnaire.",
+  "description": "Définition, les 4 fonctions de la gestion, science ou art, science humaine et exacte, rôles et compétences du gestionnaire.",
   "questions": [
     {
       "id": "gestion-entreprise-gestion-001",
@@ -213,6 +213,195 @@
       },
       "ref": "§3 — Le gestionnaire : compétences",
       "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Selon le cours, que fait fondamentalement la gestion ?",
+      "choices": {
+        "A": "Elle répartit les bénéfices entre les actionnaires",
+        "B": "Elle fixe les lois que l'entreprise doit respecter",
+        "C": "Elle transforme des ressources en produits utiles pour l'environnement",
+        "D": "Elle se limite à la conduite de l'entreprise dans son ensemble"
+      },
+      "answer": "C",
+      "explanation": "La gestion est un processus (planifier, organiser, diriger, contrôler) qui transforme des ressources humaines et matérielles en produits utiles pour l'environnement.",
+      "why": {
+        "A": "Répartir les revenus est un rôle de l'entreprise, pas la définition de la gestion.",
+        "B": "Les lois viennent de l'État ; l'entreprise les respecte.",
+        "D": "On gère aussi, dans l'entreprise, les achats, les stocks, la production, les ventes, les finances, les hommes."
+      },
+      "ref": "§3 — Définition",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Face à une situation inédite, une gestionnaire tranche en s'appuyant sur son expérience et son intuition. Quel aspect de la gestion cela illustre-t-il ?",
+      "choices": {
+        "A": "L'aspect science",
+        "B": "L'aspect art",
+        "C": "La fonction de contrôle",
+        "D": "Le rôle informationnel"
+      },
+      "answer": "B",
+      "explanation": "La gestion est un art quand le gestionnaire utilise son expérience, ses connaissances, ses observations et ses intuitions.",
+      "why": {
+        "A": "L'aspect science repose sur des concepts définis et des théories issues d'hypothèses, d'expériences et d'analyses.",
+        "C": "Le contrôle compare les résultats aux objectifs ; il ne décrit pas cette façon de décider.",
+        "D": "Le rôle informationnel consiste à collecter et transmettre l'information."
+      },
+      "ref": "§3 — Science ou art ?",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-013",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "La gestion est-elle une science ou un art ? Que conclut le cours ?",
+      "choices": {
+        "A": "Une science uniquement, car elle s'appuie sur des théories",
+        "B": "Un art uniquement, car tout repose sur l'intuition",
+        "C": "Ni l'un ni l'autre : c'est une simple technique",
+        "D": "Les deux à la fois : ils se complètent"
+      },
+      "answer": "D",
+      "explanation": "La gestion présente à la fois l'aspect science (concepts, théories) et l'aspect art (expérience, intuition), qui se complètent.",
+      "why": {
+        "A": "Le cours reconnaît aussi l'aspect art : expérience et intuition.",
+        "B": "Le cours reconnaît aussi l'aspect science : concepts et théories.",
+        "C": "Le cours retient les deux aspects."
+      },
+      "ref": "§3 — Science ou art ?",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-014",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Lors d'une conférence de presse, la directrice annonce officiellement les résultats annuels de l'entreprise. Quel rôle du gestionnaire joue-t-elle ?",
+      "choices": {
+        "A": "Interpersonnel : représentant",
+        "B": "Informationnel : porte-parole",
+        "C": "Décisionnel : entrepreneur",
+        "D": "Interpersonnel : leader"
+      },
+      "answer": "B",
+      "explanation": "Le porte-parole transmet les informations officielles à des personnes externes : c'est un rôle lié à l'information.",
+      "why": {
+        "A": "Le représentant exécute des fonctions officielles au nom de l'entreprise ; transmettre une information officielle à l'extérieur, c'est le porte-parole.",
+        "C": "L'entrepreneur met en œuvre de nouvelles idées et conduit des projets.",
+        "D": "Le leader exerce l'autorité et le pouvoir sur ses équipes."
+      },
+      "ref": "§3 — Rôles du gestionnaire",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un directeur entretient des contacts réguliers avec des partenaires extérieurs et fait le lien entre l'intérieur et l'extérieur de l'entreprise. Quel rôle exerce-t-il ?",
+      "choices": {
+        "A": "Agent de liaison (rôle interpersonnel)",
+        "B": "Diffuseur (rôle informationnel)",
+        "C": "Négociateur (rôle décisionnel)",
+        "D": "Répartiteur de ressources (rôle décisionnel)"
+      },
+      "answer": "A",
+      "explanation": "Rôles interpersonnels : représentant, leader et agent de liaison entre l'intérieur et l'extérieur de l'entreprise.",
+      "why": {
+        "B": "Le diffuseur partage en interne les informations collectées.",
+        "C": "Le négociateur mène des négociations sociales ou commerciales ; ici, il entretient des relations.",
+        "D": "Le répartiteur distribue les ressources entre les unités."
+      },
+      "ref": "§3 — Rôles du gestionnaire",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une décision a eu des conséquences mal évaluées ; le dirigeant intervient pour en atténuer les effets. Quel rôle joue-t-il ?",
+      "choices": {
+        "A": "Entrepreneur",
+        "B": "Négociateur",
+        "C": "Régulateur",
+        "D": "Observateur actif"
+      },
+      "answer": "C",
+      "explanation": "Régulateur (rôle décisionnel) : quand une décision a des conséquences mal évaluées, le dirigeant intervient pour en moduler les effets.",
+      "why": {
+        "A": "L'entrepreneur lance de nouvelles idées et conduit des projets.",
+        "B": "Le négociateur négocie avec des partenaires sociaux ou commerciaux.",
+        "D": "L'observateur actif collecte l'information : c'est un rôle informationnel."
+      },
+      "ref": "§3 — Rôles du gestionnaire",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-017",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Le directeur répartit le budget, le personnel et le matériel entre les départements. Quel rôle du gestionnaire exerce-t-il ?",
+      "choices": {
+        "A": "Leader (rôle interpersonnel)",
+        "B": "Répartiteur de ressources (rôle décisionnel)",
+        "C": "Diffuseur (rôle informationnel)",
+        "D": "Régulateur (rôle décisionnel)"
+      },
+      "answer": "B",
+      "explanation": "Il répartit les ressources humaines, financières et matérielles entre les unités organisationnelles : rôle décisionnel de répartiteur.",
+      "why": {
+        "A": "Le leader exerce l'autorité et motive ; il ne distribue pas les ressources.",
+        "C": "Le diffuseur partage l'information avec ses collaborateurs.",
+        "D": "Le régulateur corrige les effets d'une décision mal évaluée."
+      },
+      "ref": "§3 — Rôles du gestionnaire",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-018",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Selon le cours, avec qui le gestionnaire joue-t-il son rôle de négociateur ?",
+      "choices": {
+        "A": "Uniquement avec les syndicats",
+        "B": "Uniquement avec les clients et les fournisseurs",
+        "C": "Uniquement avec ses collaborateurs internes",
+        "D": "Sur le plan social autant que commercial"
+      },
+      "answer": "D",
+      "explanation": "Le gestionnaire est un négociateur autant social que commercial.",
+      "why": {
+        "A": "La négociation sociale n'est qu'une partie : il négocie aussi commercialement.",
+        "B": "La négociation commerciale n'est qu'une partie : il négocie aussi socialement.",
+        "C": "Le cours ne limite pas la négociation à l'interne."
+      },
+      "ref": "§3 — Rôles du gestionnaire",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle conclusion le cours tire-t-il des liens entre l'entreprise, son environnement et la gestion ?",
+      "choices": {
+        "A": "L'entreprise est un système fermé, indépendant de son environnement",
+        "B": "L'entreprise est un sous-système de l'environnement, dont elle tire ses ressources",
+        "C": "L'environnement est un sous-système de l'entreprise",
+        "D": "La gestion ne concerne que les ressources internes de l'entreprise"
+      },
+      "answer": "B",
+      "explanation": "L'entreprise est un sous-système de l'environnement : elle y puise ses ressources, les transforme par la gestion et lui rend un produit. Les trois éléments dépendent l'un de l'autre.",
+      "why": {
+        "A": "Le cours affirme au contraire qu'une organisation ne peut exister comme un système fermé.",
+        "C": "C'est l'inverse : l'entreprise est incluse dans l'environnement.",
+        "D": "La gestion transforme des ressources venues de l'environnement en produits pour l'environnement."
+      },
+      "ref": "§3 — Conclusion",
+      "source": "cours-gestion"
     }
   ],
   "flashcards": [
@@ -287,6 +476,42 @@
       "back": "Non : il y a des gestionnaires à tous les niveaux de la hiérarchie.",
       "ref": "§3",
       "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "La gestion selon la conception rationnelle ?",
+      "back": "Un processus de planification, d'organisation, de direction et de contrôle pour fixer et atteindre des objectifs, grâce à des êtres humains et d'autres ressources. Elle transforme des ressources en produits utiles pour l'environnement.",
+      "ref": "§3 — Définition",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "La gestion : science ou art ?",
+      "back": "Science : concepts définis et théories issues d'hypothèses, d'expériences et d'analyses. Art : expérience, connaissances, observations et intuition du gestionnaire. Les deux se complètent.",
+      "ref": "§3 — Science ou art ?",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 10 rôles du gestionnaire, par catégorie ?",
+      "back": "Interpersonnels : représentant, leader, agent de liaison. Informationnels : observateur actif, diffuseur, porte-parole. Décisionnels : entrepreneur, régulateur, répartiteur de ressources, négociateur (social et commercial).",
+      "ref": "§3 — Rôles du gestionnaire",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-gestion-f012",
+      "kind": "why",
+      "tier": "core",
+      "front": "Conclusion : comment s'articulent entreprise, environnement et gestion ?",
+      "back": "L'entreprise est un sous-système de l'environnement : elle y puise ses ressources, les transforme par la gestion et rend un produit qui satisfait un besoin. Les trois dépendent l'un de l'autre.",
+      "ref": "§3 — Conclusion",
+      "source": "cours-gestion"
     }
   ]
 }

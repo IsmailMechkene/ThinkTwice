@@ -10,6 +10,11 @@
       "label": "Résumé — Gestion d'entreprise",
       "file": "courses/gestion d'entreprises/resume_gestion.pdf",
       "author": ""
+    },
+    "cours-gestion": {
+      "label": "Cours — L'entreprise, son environnement et sa gestion",
+      "file": "courses/gestion d'entreprises/entreprise environnement gestion.pdf",
+      "author": ""
     }
   }
 }

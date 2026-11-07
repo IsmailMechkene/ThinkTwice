@@ -2,7 +2,7 @@
   "id": "entreprise",
   "title": "L'entreprise",
   "order": 1,
-  "description": "Définitions, autonomie, patrimoine, classifications, statuts juridiques, rôles, fonctions et notions financières.",
+  "description": "Définitions, caractéristiques, objectifs, classifications, statuts juridiques, rôles, valeur ajoutée, fonctions et notions financières.",
   "questions": [
     {
       "id": "gestion-entreprise-entreprise-001",
@@ -381,6 +381,237 @@
       },
       "ref": "§1 — Classification selon la taille",
       "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Parmi ces finalités, laquelle ne figure PAS dans la liste des objectifs possibles de l'entreprise donnée par le cours ?",
+      "choices": {
+        "A": "Produire ou distribuer des biens et services pour une demande solvable",
+        "B": "Générer du profit",
+        "C": "Fixer les prix de vente de ses concurrents",
+        "D": "Réinvestir dans le développement de son activité"
+      },
+      "answer": "C",
+      "explanation": "Le cours cite : produire/distribuer pour une demande solvable, générer du profit, réinvestir, et la responsabilité sociale et environnementale. Fixer les prix des concurrents n'en fait pas partie.",
+      "why": {
+        "A": "C'est le premier objectif cité : satisfaire une demande « solvable », c'est-à-dire capable de payer.",
+        "B": "Générer du profit est bien un objectif cité.",
+        "D": "Réinvestir dans l'activité, le produit ou d'autres activités est bien un objectif cité."
+      },
+      "ref": "§1 — Caractéristiques : objectifs",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-020",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un jeune diplômé postule dans une grande entreprise pour les avantages qu'elle offre, et un investisseur achète une part de son capital. Quelle caractéristique de l'entreprise ces deux faits illustrent-ils ?",
+      "choices": {
+        "A": "Son effet d'attraction sur l'environnement",
+        "B": "Son autonomie décisionnelle",
+        "C": "Son rôle d'affectation des revenus",
+        "D": "Sa nature de groupe de production"
+      },
+      "answer": "A",
+      "explanation": "L'entreprise attire des clients, des fournisseurs, des actionnaires et des chercheurs d'emploi : c'est son effet d'attraction sur l'environnement.",
+      "why": {
+        "B": "L'autonomie décisionnelle, c'est fixer librement ses objectifs et sa stratégie, pas attirer des personnes extérieures.",
+        "C": "L'affectation des revenus, c'est la répartition de la valeur ajoutée (salaires, dividendes…), pas le fait d'attirer candidats et actionnaires.",
+        "D": "Être un groupe de production, c'est s'associer pour produire un bien ou un service."
+      },
+      "ref": "§1 — Caractéristiques : effet d'attraction",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise réalise 500 000 DT de ventes. Pour produire, elle a consommé 300 000 DT de matières premières, d'énergie et de services achetés à d'autres entreprises. Quelle est sa valeur ajoutée ?",
+      "choices": {
+        "A": "800 000 DT",
+        "B": "200 000 DT",
+        "C": "300 000 DT",
+        "D": "500 000 DT"
+      },
+      "answer": "B",
+      "explanation": "Valeur ajoutée = ventes − consommations intermédiaires = 500 000 − 300 000 = 200 000 DT. C'est le revenu que l'entreprise peut distribuer.",
+      "why": {
+        "A": "On ne fait pas la somme : on retire les consommations intermédiaires des ventes.",
+        "C": "300 000 DT, ce sont les consommations intermédiaires, pas la valeur créée.",
+        "D": "500 000 DT, ce sont les ventes ; il faut encore retirer les consommations intermédiaires."
+      },
+      "ref": "§1 — Rôles : affectation de revenu",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-022",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans la répartition de la valeur ajoutée, quelle part revient à l'entreprise elle-même ?",
+      "choices": {
+        "A": "Les dividendes",
+        "B": "Les intérêts",
+        "C": "Les cotisations",
+        "D": "L'autofinancement"
+      },
+      "answer": "D",
+      "explanation": "Bénéficiaires : le personnel (salaires), les actionnaires (dividendes), les prêteurs (intérêts), les organismes sociaux (cotisations) et l'entreprise elle-même (autofinancement).",
+      "why": {
+        "A": "Les dividendes vont aux actionnaires.",
+        "B": "Les intérêts vont aux prêteurs de fonds.",
+        "C": "Les cotisations vont aux organismes sociaux."
+      },
+      "ref": "§1 — Rôles : affectation de revenu",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "En respectant les lois en vigueur et en payant ses impôts, qui permettent à l'État de développer les infrastructures du pays, l'entreprise joue quel rôle ?",
+      "choices": {
+        "A": "Le rôle économique",
+        "B": "Le rôle social",
+        "C": "Le rôle politique",
+        "D": "Le rôle décisionnel"
+      },
+      "answer": "C",
+      "explanation": "Rôle politique : obéir aux lois et payer l'impôt dû à l'État. Le cours y rattache aussi l'emploi et la distribution de revenus, qui contribuent à la stabilité politique.",
+      "why": {
+        "A": "Le rôle économique, vu par les actionnaires, c'est maximiser le profit et les dividendes.",
+        "B": "Le rôle social, c'est innover, offrir des produits adaptés aux besoins et mener une bonne politique salariale et sociale.",
+        "D": "Le rôle décisionnel, c'est faire des choix et les transformer en actions."
+      },
+      "ref": "§1 — Rôles : rôle politique",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Selon le cours, de quoi une entreprise doit-elle disposer pour prendre ses décisions ?",
+      "choices": {
+        "A": "D'un conseil d'administration et d'un PDG",
+        "B": "D'un système d'information rapide et fiable et d'un système de décision",
+        "C": "D'un patrimoine financier suffisant pour couvrir tous les risques",
+        "D": "D'un accord préalable des syndicats et de l'État"
+      },
+      "answer": "B",
+      "explanation": "Pour décider, il faut un système d'information rapide et fiable, et un système de décision qui tient compte des éléments de l'entreprise touchés par la décision.",
+      "why": {
+        "A": "Le conseil d'administration et le PDG sont propres à la SA ; dans une petite entreprise, le patron décide seul.",
+        "C": "Le cours ne lie pas la décision au niveau du patrimoine financier.",
+        "D": "L'entreprise dispose de l'autonomie décisionnelle : elle n'a pas besoin de cet accord."
+      },
+      "ref": "§1 — Rôles : rôle décisionnel",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-025",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Laquelle de ces catégories n'appartient PAS à la classification des entreprises par taille ?",
+      "choices": {
+        "A": "L'entreprise individuelle",
+        "B": "La très petite entreprise (micro-entreprise)",
+        "C": "La petite et moyenne entreprise",
+        "D": "L'entreprise étendue"
+      },
+      "answer": "A",
+      "explanation": "Par taille : TPE (micro-entreprises), PME, grandes entreprises et entreprises étendues. L'entreprise individuelle relève du statut juridique.",
+      "why": {
+        "B": "La TPE (micro-entreprise) est la première catégorie de taille.",
+        "C": "La PME est bien une catégorie de taille.",
+        "D": "Le cours cite les entreprises étendues après les grandes entreprises."
+      },
+      "ref": "§1 — Classification par taille",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "« Doter l'entreprise de compétences » : de quelle fonction est-ce la mission ?",
+      "choices": {
+        "A": "La fonction commerciale",
+        "B": "La fonction production",
+        "C": "La fonction finance",
+        "D": "La fonction ressources humaines"
+      },
+      "answer": "D",
+      "explanation": "Missions : vendre et détecter les besoins des clients (commerciale), produire (production), fournir les ressources financières (finance), doter l'entreprise de compétences (RH).",
+      "why": {
+        "A": "La fonction commerciale vend et détecte les besoins des clients.",
+        "B": "La fonction production produit en gérant les ressources physiques.",
+        "C": "La fonction finance fournit les ressources financières."
+      },
+      "ref": "§1 — Fonctions de l'entreprise",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-027",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Laquelle de ces tâches ne relève PAS de la fonction ressources humaines ?",
+      "choices": {
+        "A": "Planifier les besoins en personnel",
+        "B": "Choisir, engager et former le personnel",
+        "C": "Utiliser efficacement matières premières et équipements",
+        "D": "Évaluer la performance des employés"
+      },
+      "answer": "C",
+      "explanation": "RH : planifier les besoins, choisir, engager et former, élaborer la politique de rémunération, évaluer la performance. Utiliser les matières premières et les équipements, c'est la production.",
+      "why": {
+        "A": "Planifier les besoins en ressources humaines est la première tâche RH citée.",
+        "B": "Recruter et former relève bien des RH.",
+        "D": "Évaluer la performance des employés relève bien des RH."
+      },
+      "ref": "§1 — Fonctions : ressources humaines",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-028",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise décide seule d'utiliser sa trésorerie pour acheter une machine plutôt que de rembourser un prêt par anticipation. Quelle autonomie exerce-t-elle ?",
+      "choices": {
+        "A": "L'autonomie juridique",
+        "B": "L'autonomie financière",
+        "C": "L'autonomie patrimoniale",
+        "D": "Aucune : seuls les associés décident de l'argent"
+      },
+      "answer": "B",
+      "explanation": "Autonomie financière : l'entreprise utilise librement ses ressources financières dans le cadre de son activité.",
+      "why": {
+        "A": "L'autonomie juridique, c'est la personnalité morale et la responsabilité de ses actes.",
+        "C": "Le cours ne cite pas d'« autonomie patrimoniale ».",
+        "D": "L'entreprise est autonome vis-à-vis de ses propriétaires dans l'usage de ses ressources."
+      },
+      "ref": "§1 — Caractéristiques : autonomie",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-029",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un cabinet de conseil ne fabrique aucun objet. Est-il un « groupe de production » au sens du cours ?",
+      "choices": {
+        "A": "Non : seule la fabrication de biens matériels compte",
+        "B": "Non : c'est une entreprise de distribution",
+        "C": "Oui, mais seulement s'il emploie plus de 10 personnes",
+        "D": "Oui : un service est un bien immatériel"
+      },
+      "answer": "D",
+      "explanation": "Le produit d'une entreprise peut être un bien matériel ou un bien immatériel, c'est-à-dire un service.",
+      "why": {
+        "A": "Le cours inclut explicitement les biens immatériels (services).",
+        "B": "Le conseil est un service produit par le cabinet, pas de la distribution.",
+        "C": "Le cours ne fixe aucun seuil d'effectif pour cette caractéristique."
+      },
+      "ref": "§1 — Caractéristiques : groupe de production",
+      "source": "cours-gestion"
     }
   ],
   "flashcards": [
@@ -473,6 +704,78 @@
       "back": "De l'existence d'un marché : des clients dont elle satisfait les besoins.",
       "ref": "§1",
       "source": "resume-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 6 caractéristiques de l'entreprise (cours détaillé) ?",
+      "back": "Un groupe humain, un groupe de production (biens ou services), autonome (juridique, financière, décisionnelle), doté d'un patrimoine, qui poursuit des objectifs et exerce un effet d'attraction sur son environnement.",
+      "ref": "§1 — Caractéristiques",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les objectifs possibles de l'entreprise ?",
+      "back": "Produire ou distribuer des biens et services pour une demande solvable, générer du profit, réinvestir (activité, produit ou autres activités), responsabilité sociale, environnementale et développement durable.",
+      "ref": "§1 — Caractéristiques : objectifs",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f013",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Effet d'attraction de l'entreprise ?",
+      "back": "En satisfaisant un besoin, elle attire des clients, des fournisseurs, des actionnaires et des chercheurs d'emploi.",
+      "ref": "§1 — Caractéristiques : effet d'attraction",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f014",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Le patrimoine dans le cours détaillé ?",
+      "back": "Deux types : le patrimoine humain (les membres de l'entreprise) et le patrimoine matériel, c'est-à-dire les moyens corporels ou incorporels qu'elle utilise.",
+      "ref": "§1 — Caractéristiques : patrimoine",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f015",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Valeur ajoutée et sa répartition ?",
+      "back": "VA = ventes − consommations intermédiaires. Elle va au personnel (salaires), aux actionnaires (dividendes), aux prêteurs (intérêts), aux organismes sociaux (cotisations) et à l'entreprise (autofinancement).",
+      "ref": "§1 — Rôles : affectation de revenu",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f016",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Rôle politique et rôle décisionnel de l'entreprise ?",
+      "back": "Politique : obéir aux lois, payer l'impôt (recettes de l'État), créer des emplois et des revenus, d'où une stabilité politique. Décisionnel : faire des choix et les transformer en actions, grâce à un système d'information rapide et fiable et un système de décision.",
+      "ref": "§1 — Rôles",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f017",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Classifications des entreprises (cours détaillé) ?",
+      "back": "Secteur : primaire, secondaire, tertiaire. Taille : TPE, PME, grandes entreprises, entreprises étendues. Statut : individuelle ou société. Autres : publique, à but lucratif ou non lucratif.",
+      "ref": "§1 — Classification",
+      "source": "cours-gestion"
+    },
+    {
+      "id": "gestion-entreprise-entreprise-f018",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 5 missions des fonctions de l'entreprise ?",
+      "back": "Vendre, produire, détecter les besoins des clients, fournir les ressources financières, doter l'entreprise de compétences. La finance vise la rentabilité, la liquidité et la stabilité.",
+      "ref": "§1 — Fonctions de l'entreprise",
+      "source": "cours-gestion"
     }
   ]
 }
