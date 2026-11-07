@@ -1,0 +1,677 @@
+{
+  "id": "widgets",
+  "title": "Projet et widgets de base",
+  "order": 2,
+  "description": "Création et structure d'un projet, main.dart, arbre de widgets, Text, Icon, Container, Row et Column.",
+  "questions": [
+    {
+      "id": "flutter-widgets-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Depuis le terminal, quelle commande crée un nouveau projet nommé mon_premier_projet ?",
+      "choices": {
+        "A": "`flutter doctor mon_premier_projet`",
+        "B": "`flutter create mon_premier_projet`",
+        "C": "`runApp(mon_premier_projet)`",
+        "D": "`flutter new mon_premier_projet`"
+      },
+      "answer": "B",
+      "explanation": "On se place dans le répertoire voulu puis on lance `flutter create mon_premier_projet`.",
+      "why": {
+        "A": "flutter doctor vérifie l'environnement ; il ne crée pas de projet.",
+        "C": "runApp est une fonction Dart qui lance l'application, pas une commande de terminal.",
+        "D": "Ce n'est pas la commande du cours : on utilise flutter create."
+      },
+      "ref": "Chapitre 2 — Création d'un nouveau projet",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans un projet Flutter, quel dossier est le cœur de l'application, là où l'on écrit son code Dart ?",
+      "choices": {
+        "A": "`lib/`",
+        "B": "`android/`",
+        "C": "`test/`",
+        "D": "`web/`"
+      },
+      "answer": "A",
+      "explanation": "lib/ est le cœur de l'application Flutter ; il contient main.dart.",
+      "why": {
+        "B": "android/ contient le projet Android natif.",
+        "C": "test/ contient les fichiers de test.",
+        "D": "web/ contient les fichiers pour le déploiement web."
+      },
+      "ref": "Chapitre 2 — Structure d'un projet Flutter",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un étudiant veut ajouter un package à son projet et déclarer des images. Quel fichier modifie-t-il ?",
+      "choices": {
+        "A": "`pubspec.yaml`",
+        "B": "`pubspec.lock`",
+        "C": "`main.dart`",
+        "D": "`.gitignore`"
+      },
+      "answer": "A",
+      "explanation": "pubspec.yaml contient nom, version et description, gère les dépendances et référence les assets (images, polices).",
+      "why": {
+        "B": "pubspec.lock est généré automatiquement : on ne le modifie pas à la main.",
+        "C": "main.dart contient le code de l'application, pas la liste des dépendances.",
+        "D": ".gitignore liste les fichiers que Git doit ignorer."
+      },
+      "ref": "Chapitre 2 — Structure d'un projet Flutter",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-004",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un étudiant édite à la main `pubspec.lock` pour changer la version d'un package. Pourquoi est-ce une mauvaise idée ?",
+      "choices": {
+        "A": "pubspec.lock ne concerne que les assets",
+        "B": "Les dépendances se déclarent dans main.dart",
+        "C": "Ce fichier est généré : on déclare les dépendances dans pubspec.yaml",
+        "D": "pubspec.lock est un fichier de config de l'IDE"
+      },
+      "answer": "C",
+      "explanation": "pubspec.lock est généré automatiquement et note les versions exactes ; c'est pubspec.yaml qui gère les dépendances.",
+      "why": {
+        "A": "C'est pubspec.yaml qui référence les assets ; pubspec.lock note les versions exactes.",
+        "B": "main.dart contient le code ; les dépendances sont dans pubspec.yaml.",
+        "D": "La configuration de l'IDE est dans .idea/ ou .vscode/."
+      },
+      "ref": "Chapitre 2 — Structure d'un projet Flutter",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un collègue doit ouvrir le projet natif de l'application dans Xcode. Quel dossier lui indiquer ?",
+      "choices": {
+        "A": "`android/`",
+        "B": "`ios/`",
+        "C": "`macos/`",
+        "D": "`lib/`"
+      },
+      "answer": "B",
+      "explanation": "ios/ contient le projet iOS natif (Xcode).",
+      "why": {
+        "A": "android/ contient le projet Android natif, pas le projet Xcode.",
+        "C": "macos/ contient le projet natif de l'application de bureau macOS.",
+        "D": "lib/ contient le code Dart partagé, pas un projet Xcode."
+      },
+      "ref": "Chapitre 2 — Structure d'un projet Flutter",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-006",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "À quoi servent les dossiers `.idea/` ou `.vscode/` d'un projet Flutter ?",
+      "choices": {
+        "A": "Au déploiement web",
+        "B": "Aux fichiers de test",
+        "C": "À la configuration de l'IDE",
+        "D": "Aux versions exactes des dépendances"
+      },
+      "answer": "C",
+      "explanation": ".idea/ ou .vscode/ contiennent les fichiers de configuration de l'IDE.",
+      "why": {
+        "A": "C'est le rôle du dossier web/.",
+        "B": "Les tests sont dans test/.",
+        "D": "C'est le rôle de pubspec.lock."
+      },
+      "ref": "Chapitre 2 — Structure d'un projet Flutter",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Que permet la ligne `import 'package:flutter/material.dart';` en haut de main.dart ?",
+      "choices": {
+        "A": "De lancer l'application",
+        "B": "D'accéder aux widgets Material Design",
+        "C": "De déclarer les dépendances du projet",
+        "D": "De décrire l'interface d'un widget"
+      },
+      "answer": "B",
+      "explanation": "Cet import donne accès aux widgets Material Design (MaterialApp, Scaffold, AppBar…).",
+      "why": {
+        "A": "C'est le rôle de runApp, appelé dans main().",
+        "C": "Les dépendances se déclarent dans pubspec.yaml.",
+        "D": "C'est le rôle de la méthode build."
+      },
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le rôle de `runApp` dans le code ci-dessous ?",
+      "code": "void main() {\n  runApp(const MyApp());\n}",
+      "choices": {
+        "A": "Il importe les widgets Material Design",
+        "B": "Il vérifie l'environnement de développement",
+        "C": "Il lance l'application à partir de MyApp",
+        "D": "Il crée la barre en haut de l'écran"
+      },
+      "answer": "C",
+      "explanation": "main() est le point de départ et runApp lance l'application avec le widget donné.",
+      "why": {
+        "A": "C'est le rôle de l'import package:flutter/material.dart.",
+        "B": "C'est le rôle de la commande flutter doctor.",
+        "D": "C'est le rôle de l'AppBar."
+      },
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans `build(BuildContext context)`, que fait build et que représente context ?",
+      "choices": {
+        "A": "build compile l'app ; context est le dossier du projet",
+        "B": "build décrit l'interface ; context situe le widget dans l'arbre",
+        "C": "build lance l'app ; context est le thème Material",
+        "D": "build crée l'écran ; context est la liste des enfants"
+      },
+      "answer": "B",
+      "explanation": "build est le cœur de tout widget : il décrit son interface. context donne la position du widget dans l'arbre.",
+      "why": {
+        "A": "build ne compile rien : il décrit l'interface du widget.",
+        "C": "C'est runApp qui lance l'application ; context est une position dans l'arbre.",
+        "D": "Les enfants sont passés via children ; context est la position du widget."
+      },
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un écran doit avoir une barre en haut, un contenu principal et un bouton d'action flottant. Quel widget fournit cette structure ?",
+      "choices": {
+        "A": "`MaterialApp`",
+        "B": "`AppBar`",
+        "C": "`Scaffold`",
+        "D": "`Container`"
+      },
+      "answer": "C",
+      "explanation": "Scaffold est la structure visuelle de base d'un écran : barre d'application, corps et bouton d'action flottant.",
+      "why": {
+        "A": "MaterialApp est le widget racine qui configure le style Material Design, pas la structure d'un écran.",
+        "B": "AppBar n'est que la barre du haut, placée dans le Scaffold.",
+        "D": "Container est une boîte polyvalente, sans barre ni bouton flottant prévus."
+      },
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle phrase distingue correctement MaterialApp et Scaffold ?",
+      "choices": {
+        "A": "Scaffold configure le style ; MaterialApp structure un écran",
+        "B": "Les deux sont des barres affichées en haut de l'écran",
+        "C": "MaterialApp est le corps de l'écran ; Scaffold sa barre",
+        "D": "MaterialApp configure le style à la racine ; Scaffold structure un écran"
+      },
+      "answer": "D",
+      "explanation": "MaterialApp est le widget racine qui configure Material Design ; Scaffold donne la structure de base d'un écran.",
+      "why": {
+        "A": "Les rôles sont inversés.",
+        "B": "La barre du haut est l'AppBar.",
+        "C": "Le corps est body et la barre est AppBar, deux propriétés du Scaffold."
+      },
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-012",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans un Scaffold, quelle propriété reçoit le contenu principal de l'écran ?",
+      "choices": {
+        "A": "`appBar`",
+        "B": "`body`",
+        "C": "`children`",
+        "D": "`decoration`"
+      },
+      "answer": "B",
+      "explanation": "AppBar est la barre du haut ; body contient le contenu principal.",
+      "why": {
+        "A": "appBar reçoit la barre du haut, pas le contenu principal.",
+        "C": "children est la liste des enfants d'une Row ou d'une Column.",
+        "D": "decoration est une propriété de Container (BoxDecoration)."
+      },
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Selon le cours, qu'est-ce qui est un widget dans Flutter ?",
+      "choices": {
+        "A": "Seulement les éléments visibles à l'écran",
+        "B": "Tout : texte, bouton, espacement, jusqu'à la page entière",
+        "C": "Seulement les conteneurs comme Row et Column",
+        "D": "Seulement les pages complètes de l'application"
+      },
+      "answer": "B",
+      "explanation": "Tout est widget : texte, bouton, espacement, alignement, jusqu'à la page entière.",
+      "why": {
+        "A": "Les widgets structuraux comme Row ou Column sont invisibles mais restent des widgets.",
+        "C": "Text, Icon ou un bouton sont aussi des widgets.",
+        "D": "Une page est un widget, mais un simple texte aussi."
+      },
+      "ref": "Chapitre 2 — Introduction aux widgets",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces widgets est structurel (invisible) ?",
+      "choices": {
+        "A": "`Column`",
+        "B": "`Text`",
+        "C": "`Icon`",
+        "D": "`TextField`"
+      },
+      "answer": "A",
+      "explanation": "Container, Column et Row sont des widgets structuraux : ils organisent sans être visibles eux-mêmes.",
+      "why": {
+        "B": "Text est un widget visuel : il affiche du texte.",
+        "C": "Icon est un widget visuel : il affiche une icône.",
+        "D": "TextField est un widget visuel : un champ de saisie."
+      },
+      "ref": "Chapitre 2 — Introduction aux widgets",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Combien d'enfants directs la Column ci-dessous possède-t-elle ?",
+      "code": "Column(\n  children: [\n    Container(child: Text('Titre')),\n    Row(children: [WidgetA(), WidgetB()]),\n    Container(child: Text('Bas')),\n  ],\n)",
+      "choices": {
+        "A": "4",
+        "B": "5",
+        "C": "2",
+        "D": "3"
+      },
+      "answer": "D",
+      "explanation": "La Column contient un Container, une Row et un autre Container. WidgetA et WidgetB sont des enfants de la Row.",
+      "why": {
+        "A": "WidgetA et WidgetB sont des enfants de la Row, pas de la Column.",
+        "B": "Ce total compte la Row et ses deux enfants : seuls les enfants directs comptent.",
+        "C": "Les deux Container sont des enfants, mais la Row aussi."
+      },
+      "ref": "Chapitre 2 — Introduction aux widgets",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "On veut un texte rouge, en gras, de taille 20. Quelle propriété de Text utiliser ?",
+      "choices": {
+        "A": "`style: TextStyle(...)`",
+        "B": "`decoration: BoxDecoration(...)`",
+        "C": "`textAlign`",
+        "D": "`overflow`"
+      },
+      "answer": "A",
+      "explanation": "style reçoit un TextStyle avec fontSize, fontWeight, color et fontStyle.",
+      "why": {
+        "B": "BoxDecoration décore un Container, pas le texte.",
+        "C": "textAlign règle l'alignement, pas la couleur ni la graisse.",
+        "D": "overflow gère le texte qui dépasse, pas son apparence."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un titre trop long doit tenir sur 2 lignes au maximum, en gérant ce qui dépasse. Quelles propriétés de Text utiliser ?",
+      "choices": {
+        "A": "`maxLines` et `overflow`",
+        "B": "`textAlign` et `style`",
+        "C": "`padding` et `margin`",
+        "D": "`width` et `height`"
+      },
+      "answer": "A",
+      "explanation": "maxLines limite le nombre de lignes et overflow gère le texte qui dépasse.",
+      "why": {
+        "B": "Ces propriétés règlent l'alignement et l'apparence, pas le nombre de lignes.",
+        "C": "Ce sont des propriétés de Container.",
+        "D": "Ce sont des propriétés de Container, pas de Text."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-018",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Comment afficher une icône étoile jaune de taille 40 ?",
+      "choices": {
+        "A": "`Text('star', style: TextStyle(fontSize: 40))`",
+        "B": "`Container(child: Icons.star, width: 40)`",
+        "C": "`Icon(Icons.star, color: Colors.yellow, size: 40)`",
+        "D": "`Icon(Icons.star, fontSize: 40)`"
+      },
+      "answer": "C",
+      "explanation": "Icon affiche une icône Material Design ; ses propriétés sont color et size.",
+      "why": {
+        "A": "Cela affiche le mot « star », pas une icône.",
+        "B": "Icons.star est une valeur d'icône, pas un widget : il faut l'envelopper dans Icon.",
+        "D": "fontSize appartient à TextStyle ; la taille d'une Icon est size."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Que fait ce Container ?",
+      "code": "Container(\n  width: 200, height: 100,\n  padding: const EdgeInsets.all(10),\n  margin: const EdgeInsets.all(20),\n  decoration: BoxDecoration(\n    color: Colors.green,\n    borderRadius: BorderRadius.circular(15)),\n  child: Text('Un beau Container'),\n)",
+      "choices": {
+        "A": "10 d'espace externe, 20 d'espace interne",
+        "B": "30 d'espace interne au total",
+        "C": "La marge de 20 est colorée en vert",
+        "D": "10 d'espace interne autour du texte, 20 d'espace externe"
+      },
+      "answer": "D",
+      "explanation": "padding est l'espace interne (entre le bord et le contenu), margin l'espace externe (autour de la boîte).",
+      "why": {
+        "A": "Les rôles sont inversés : padding est interne, margin externe.",
+        "B": "padding et margin ne s'additionnent pas : l'un est dedans, l'autre dehors.",
+        "C": "La couleur de BoxDecoration remplit la boîte, pas la marge extérieure."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "On veut arrondir les coins d'un Container coloré. Où placer `borderRadius` ?",
+      "choices": {
+        "A": "Directement dans `Container(borderRadius: ...)`",
+        "B": "Dans `style: TextStyle(...)`",
+        "C": "Dans `alignment`",
+        "D": "Dans `decoration: BoxDecoration(...)`"
+      },
+      "answer": "D",
+      "explanation": "Couleur, bordures, ombres et borderRadius se règlent dans la BoxDecoration du Container.",
+      "why": {
+        "A": "Container ne prend pas borderRadius directement : il passe par decoration.",
+        "B": "TextStyle règle l'apparence d'un texte.",
+        "C": "alignment place l'enfant dans la boîte ; il n'arrondit rien."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans une Row, quelle propriété contrôle la répartition des enfants sur l'axe horizontal ?",
+      "choices": {
+        "A": "`crossAxisAlignment`",
+        "B": "`mainAxisAlignment`",
+        "C": "`textAlign`",
+        "D": "`alignment`"
+      },
+      "answer": "B",
+      "explanation": "Pour une Row, l'axe principal est horizontal : mainAxisAlignment le contrôle.",
+      "why": {
+        "A": "Pour une Row, crossAxisAlignment règle l'axe vertical.",
+        "C": "textAlign est une propriété de Text.",
+        "D": "alignment est une propriété de Container."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-022",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans une Column, on veut centrer les enfants verticalement. Que faut-il écrire ?",
+      "choices": {
+        "A": "`crossAxisAlignment: CrossAxisAlignment.center`",
+        "B": "`mainAxisAlignment: MainAxisAlignment.stretch`",
+        "C": "`mainAxisAlignment: MainAxisAlignment.center`",
+        "D": "`textAlign: TextAlign.center`"
+      },
+      "answer": "C",
+      "explanation": "Column a les mêmes propriétés que Row avec les axes inversés : son axe principal est vertical.",
+      "why": {
+        "A": "Dans une Column, l'axe transversal est horizontal : cela centrerait en largeur.",
+        "B": "stretch n'est pas une valeur de mainAxisAlignment.",
+        "D": "textAlign aligne le texte d'un Text, pas les enfants d'une Column."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans une Column, on veut que tous les enfants occupent toute la largeur. Que faut-il écrire ?",
+      "choices": {
+        "A": "`mainAxisAlignment: MainAxisAlignment.spaceEvenly`",
+        "B": "`mainAxisAlignment: MainAxisAlignment.stretch`",
+        "C": "`crossAxisAlignment: CrossAxisAlignment.baseline`",
+        "D": "`crossAxisAlignment: CrossAxisAlignment.stretch`"
+      },
+      "answer": "D",
+      "explanation": "Pour une Column, la largeur est l'axe transversal, et stretch étire les enfants sur cet axe.",
+      "why": {
+        "A": "Cela répartit les enfants verticalement, sans les élargir.",
+        "B": "stretch n'existe que pour crossAxisAlignment.",
+        "C": "baseline aligne sur la ligne de base du texte ; il n'étire pas."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Laquelle de ces valeurs existe pour mainAxisAlignment mais pas pour crossAxisAlignment ?",
+      "choices": {
+        "A": "`spaceEvenly`",
+        "B": "`stretch`",
+        "C": "`center`",
+        "D": "`baseline`"
+      },
+      "answer": "A",
+      "explanation": "spaceAround, spaceBetween et spaceEvenly sont propres à mainAxisAlignment.",
+      "why": {
+        "B": "stretch est une valeur de crossAxisAlignment.",
+        "C": "center existe pour les deux propriétés.",
+        "D": "baseline est une valeur de crossAxisAlignment."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-025",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment ce code dispose-t-il les deux cases ?",
+      "code": "Row(\n  mainAxisAlignment: MainAxisAlignment.spaceEvenly,\n  children: [\n    Container(color: Colors.red, width: 150, height: 150, child: Text('case 1')),\n    Container(color: Colors.blue, width: 150, height: 150, child: Text('case 2')),\n  ],\n)",
+      "choices": {
+        "A": "L'une sous l'autre, avec des espaces égaux",
+        "B": "Côte à côte, collées au début de la ligne",
+        "C": "Superposées au même endroit",
+        "D": "Côte à côte, avec des espaces égaux autour"
+      },
+      "answer": "D",
+      "explanation": "Une Row place ses enfants horizontalement, et spaceEvenly répartit l'espace de façon égale.",
+      "why": {
+        "A": "Placer les enfants verticalement est le rôle de Column, pas de Row.",
+        "B": "Ce serait MainAxisAlignment.start.",
+        "C": "Une Row aligne ses enfants sur une ligne ; elle ne les superpose pas."
+      },
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-026",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Dans un IDE, comment crée-t-on un nouveau projet Flutter ?",
+      "choices": {
+        "A": "File > New Flutter Project, vérifier le SDK, nommer, Create",
+        "B": "Tools > AVD Manager > Create Virtual Device",
+        "C": "File > Settings > Plugins, puis Create",
+        "D": "Lancer `flutter doctor` dans l'IDE"
+      },
+      "answer": "A",
+      "explanation": "Dans VS Code ou Android Studio : File > New Flutter Project, on vérifie l'emplacement du SDK, on nomme le projet puis Create.",
+      "why": {
+        "B": "Ce chemin crée un émulateur Android, pas un projet.",
+        "C": "Ce menu installe les plugins Flutter et Dart.",
+        "D": "flutter doctor vérifie l'environnement ; il ne crée pas de projet."
+      },
+      "ref": "Chapitre 2 — Création d'un nouveau projet",
+      "source": "resume-flutter"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "flutter-widgets-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Créer un projet Flutter ?",
+      "back": "Terminal : `flutter create mon_premier_projet`. IDE : File > New Flutter Project, vérifier le SDK, nommer, Create.",
+      "ref": "Chapitre 2 — Création d'un nouveau projet",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Rôle du dossier lib/ ?",
+      "back": "Cœur de l'application Flutter : il contient le code Dart, dont main.dart.",
+      "ref": "Chapitre 2 — Structure d'un projet Flutter",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "pubspec.yaml vs pubspec.lock ?",
+      "back": "pubspec.yaml : nom, version, dépendances et assets (on l'édite). pubspec.lock : généré, versions exactes des dépendances.",
+      "ref": "Chapitre 2 — Structure d'un projet Flutter",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f004",
+      "kind": "definition",
+      "tier": "bonus",
+      "front": "Dossiers natifs d'un projet Flutter ?",
+      "back": "android/ (Android), ios/ (Xcode), web/ (déploiement web), windows/, macos/, linux/ (bureau).",
+      "ref": "Chapitre 2 — Structure d'un projet Flutter",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Rôle de main() et runApp ?",
+      "back": "main() est le point de départ ; `runApp(const MyApp())` lance l'application.",
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "build(BuildContext context) ?",
+      "back": "Cœur de tout widget : décrit son interface. context donne la position du widget dans l'arbre.",
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f007",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "MaterialApp vs Scaffold vs AppBar ?",
+      "back": "MaterialApp : racine, configure Material Design. Scaffold : structure d'un écran. AppBar : barre du haut (body = contenu).",
+      "ref": "Chapitre 2 — Le fichier main.dart",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f008",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Widget ?",
+      "back": "Classe qui décrit une partie de l'interface. Tout est widget ; une app est un arbre de widgets (parents et enfants).",
+      "ref": "Chapitre 2 — Introduction aux widgets",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Widgets visuels vs structuraux ?",
+      "back": "Visuels (visibles) : Text, Image, Icon, bouton, TextField. Structuraux (invisibles) : Container, Column, Row.",
+      "ref": "Chapitre 2 — Introduction aux widgets",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "padding vs margin d'un Container ?",
+      "back": "padding : espace interne, entre le bord et le contenu. margin : espace externe, autour de la boîte.",
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "BoxDecoration ?",
+      "back": "Valeur de `decoration` d'un Container : couleur, bordures, ombres, borderRadius.",
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f012",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "mainAxisAlignment vs crossAxisAlignment ?",
+      "back": "Row : main = horizontal, cross = vertical. Column : axes inversés (main = vertical).",
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-widgets-f013",
+      "kind": "definition",
+      "tier": "bonus",
+      "front": "Valeurs d'alignement de Row/Column ?",
+      "back": "main : start, center, end, spaceAround, spaceBetween, spaceEvenly. cross : start, center, end, stretch, baseline.",
+      "ref": "Chapitre 2 — Widgets de base",
+      "source": "resume-flutter"
+    }
+  ]
+}
