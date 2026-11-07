@@ -1,0 +1,666 @@
+{
+  "id": "interactions",
+  "title": "Listes, formulaires et navigation",
+  "order": 3,
+  "description": "ListView, GridView, TextField, Form et validation, Checkbox, Radio, Dropdown, Navigator.push et pop.",
+  "questions": [
+    {
+      "id": "flutter-interactions-001",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application affiche 2 000 contacts dont le nombre varie selon le serveur. Quelle construction le cours conseille-t-il ?",
+      "choices": {
+        "A": "`ListView` avec une liste fixe de `children`",
+        "B": "Une `Column` contenant 2 000 ListTile",
+        "C": "`GridView.count` avec `crossAxisCount: 2000`",
+        "D": "`ListView.builder` avec itemCount et itemBuilder"
+      },
+      "answer": "D",
+      "explanation": "ListView.builder est à privilégier pour une liste longue ou de taille inconnue.",
+      "why": {
+        "A": "La version statique convient à une liste fixe, pas à une liste longue et variable.",
+        "B": "Column n'est pas une liste défilable ; le cours utilise ListView.",
+        "C": "crossAxisCount fixe le nombre de colonnes d'une grille, pas le nombre d'éléments."
+      },
+      "ref": "Chapitre 3 — Gestion des listes",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans `ListView.builder`, quel est le rôle de itemCount et de itemBuilder ?",
+      "choices": {
+        "A": "itemCount fixe le nombre de colonnes ; itemBuilder le style",
+        "B": "itemCount donne le nombre d'éléments ; itemBuilder construit chacun",
+        "C": "itemBuilder donne le nombre d'éléments ; itemCount les construit",
+        "D": "itemCount numérote les lignes ; itemBuilder trie la liste"
+      },
+      "answer": "B",
+      "explanation": "itemCount indique combien d'éléments afficher ; itemBuilder reçoit (context, index) et renvoie le widget de cet élément.",
+      "why": {
+        "A": "Le nombre de colonnes est crossAxisCount, dans GridView.count.",
+        "C": "Les rôles sont inversés.",
+        "D": "itemBuilder ne trie rien : il construit le widget de l'index reçu."
+      },
+      "ref": "Chapitre 3 — Gestion des listes",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-003",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Que contient la deuxième ligne affichée par ce code ?",
+      "code": "final items = ['a', 'b', 'c'];\n\nListView.builder(\n  itemCount: items.length,\n  itemBuilder: (context, index) {\n    return ListTile(title: Text('Item ${items[index]}'));\n  },\n)",
+      "choices": {
+        "A": "Item 1",
+        "B": "Item a",
+        "C": "Item ${items[index]}",
+        "D": "Item b"
+      },
+      "answer": "D",
+      "explanation": "La 2e ligne a l'index 1, et items[1] vaut 'b' : le texte est donc « Item b ».",
+      "why": {
+        "A": "L'index n'est pas affiché : on affiche items[index].",
+        "B": "'a' est à l'index 0, donc sur la première ligne.",
+        "C": "${...} est une interpolation : Dart remplace l'expression par sa valeur."
+      },
+      "ref": "Chapitre 3 — Gestion des listes",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "On veut afficher une galerie de photos en grille de 3 colonnes. Que faut-il utiliser ?",
+      "choices": {
+        "A": "`GridView.count(crossAxisCount: 3, ...)`",
+        "B": "`ListView.builder(itemCount: 3, ...)`",
+        "C": "`Row(mainAxisAlignment: ...spaceEvenly)`",
+        "D": "`GridView.count(itemCount: 3, ...)`"
+      },
+      "answer": "A",
+      "explanation": "GridView affiche les éléments en grille ; GridView.count avec crossAxisCount fixe le nombre de colonnes.",
+      "why": {
+        "B": "Cela afficherait une liste de 3 éléments, pas une grille.",
+        "C": "Une Row n'aligne qu'une ligne et ne défile pas comme une grille.",
+        "D": "Le nombre de colonnes se fixe avec crossAxisCount."
+      },
+      "ref": "Chapitre 3 — Gestion des listes",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans `GridView.count`, que fixe crossAxisCount ?",
+      "choices": {
+        "A": "Le nombre total d'éléments",
+        "B": "La taille de chaque case en pixels",
+        "C": "L'alignement vertical des cases",
+        "D": "Le nombre de colonnes de la grille"
+      },
+      "answer": "D",
+      "explanation": "GridView.count avec crossAxisCount fixe le nombre de colonnes.",
+      "why": {
+        "A": "Le nombre total vient des children ; c'est itemCount qui joue ce rôle pour ListView.builder.",
+        "B": "crossAxisCount est un nombre de colonnes, pas une taille.",
+        "C": "C'est crossAxisAlignment, pour Row et Column."
+      },
+      "ref": "Chapitre 3 — Gestion des listes",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-006",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Un menu affiche 4 options toujours identiques. Quelle forme de ListView le cours associe-t-il à ce cas ?",
+      "choices": {
+        "A": "La forme ListView.builder, obligatoire pour une ListView",
+        "B": "La forme statique, avec des ListTile dans children",
+        "C": "Un GridView.count avec crossAxisCount: 4",
+        "D": "Un Form avec quatre TextFormField"
+      },
+      "answer": "B",
+      "explanation": "La ListView statique prend une liste fixe de ListTile dans children ; builder sert aux listes longues ou de taille inconnue.",
+      "why": {
+        "A": "builder n'est pas obligatoire : il est conseillé pour les listes longues ou inconnues.",
+        "C": "Cela ferait une grille de 4 colonnes, pas une liste.",
+        "D": "Form sert à valider des saisies, pas à afficher un menu."
+      },
+      "ref": "Chapitre 3 — Gestion des listes",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans InputDecoration, quelle différence entre labelText et hintText ?",
+      "choices": {
+        "A": "labelText est un texte d'exemple ; hintText un libellé flottant",
+        "B": "labelText masque la saisie ; hintText l'affiche",
+        "C": "labelText est un libellé flottant ; hintText un texte d'exemple",
+        "D": "labelText valide le champ ; hintText affiche l'erreur"
+      },
+      "answer": "C",
+      "explanation": "labelText est le libellé flottant du champ ; hintText est un texte d'exemple.",
+      "why": {
+        "A": "Les rôles sont inversés.",
+        "B": "Masquer la saisie, c'est obscureText: true.",
+        "D": "La validation passe par validator, dans un TextFormField."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un champ de mot de passe doit masquer les caractères saisis. Que faut-il écrire ?",
+      "choices": {
+        "A": "`keyboardType: TextInputType.text`",
+        "B": "`hintText: '••••••'`",
+        "C": "`obscureText: true`",
+        "D": "`border: OutlineInputBorder()`"
+      },
+      "answer": "C",
+      "explanation": "obscureText: true masque le texte, comme pour un mot de passe.",
+      "why": {
+        "A": "keyboardType choisit le clavier ; il ne masque rien.",
+        "B": "hintText n'affiche qu'un exemple ; la saisie reste visible.",
+        "D": "border dessine le contour du champ."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un champ attend une adresse e-mail et doit afficher le clavier adapté. Quelle propriété régler ?",
+      "choices": {
+        "A": "`validator` qui vérifie la présence de '@'",
+        "B": "`labelText: 'Email'`",
+        "C": "`keyboardType: TextInputType.emailAddress`",
+        "D": "`obscureText: false`"
+      },
+      "answer": "C",
+      "explanation": "keyboardType choisit le type de clavier : text, emailAddress, number, datetime…",
+      "why": {
+        "A": "validator vérifie après la saisie ; il ne change pas le clavier.",
+        "B": "labelText change le libellé, pas le clavier.",
+        "D": "obscureText concerne le masquage, pas le clavier."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment récupérer le texte saisi dans un TextField ?",
+      "choices": {
+        "A": "Lire la propriété `labelText` du champ",
+        "B": "Lui passer un TextEditingController et lire `.text`",
+        "C": "Appeler `_formKey.currentState!.validate()`",
+        "D": "Lire `hintText` après la saisie"
+      },
+      "answer": "B",
+      "explanation": "On associe un TextEditingController via controller:, puis on lit sa propriété .text.",
+      "why": {
+        "A": "labelText est le libellé, pas la saisie.",
+        "C": "validate() lance la validation et renvoie un booléen, pas le texte.",
+        "D": "hintText est le texte d'exemple, il ne change pas."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-011",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "On veut un champ encadré sur ses quatre côtés. Que mettre dans InputDecoration ?",
+      "choices": {
+        "A": "`border: OutlineInputBorder()`",
+        "B": "`border: UnderlineInputBorder()`",
+        "C": "`decoration: BoxDecoration(...)`",
+        "D": "`suffixIcon: Icon(Icons.crop_square)`"
+      },
+      "answer": "A",
+      "explanation": "border accepte OutlineInputBorder (cadre) ou UnderlineInputBorder (soulignement).",
+      "why": {
+        "B": "UnderlineInputBorder ne trace qu'un trait sous le champ.",
+        "C": "BoxDecoration décore un Container, pas un champ de saisie.",
+        "D": "suffixIcon ajoute une icône à la fin du champ, pas un cadre."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'apporte TextFormField par rapport à TextField ?",
+      "choices": {
+        "A": "Un validator, utilisé dans un Form",
+        "B": "Un clavier numérique par défaut",
+        "C": "La récupération automatique de .text sans controller",
+        "D": "Le masquage du texte saisi"
+      },
+      "answer": "A",
+      "explanation": "TextFormField est la version de TextField pour les formulaires, avec un validator, dans un Form lié à une GlobalKey<FormState>.",
+      "why": {
+        "B": "Le clavier se choisit avec keyboardType, sur les deux widgets.",
+        "C": "On utilise aussi un controller avec TextFormField.",
+        "D": "Le masquage se fait avec obscureText."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-013",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Avec ce validator, que se passe-t-il si l'utilisateur tape `ali.gmail.com` ?",
+      "code": "validator: (value) {\n  if (value == null || value.isEmpty) return 'Veuillez entrer votre email';\n  if (!value.contains('@')) return 'Email invalide';\n  return null;\n},",
+      "choices": {
+        "A": "Il renvoie 'Veuillez entrer votre email'",
+        "B": "Il renvoie null : le champ est valide",
+        "C": "Il renvoie 'Email invalide'",
+        "D": "Il renvoie true"
+      },
+      "answer": "C",
+      "explanation": "La valeur n'est pas vide, mais elle ne contient pas '@' : le deuxième test renvoie 'Email invalide'.",
+      "why": {
+        "A": "Ce message n'est renvoyé que si le champ est vide ou null.",
+        "B": "null signifie valide, mais la valeur n'a pas de '@'.",
+        "D": "Un validator renvoie un message d'erreur ou null, pas un booléen."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans un validator, que signifie `return null;` ?",
+      "choices": {
+        "A": "Le champ est vide",
+        "B": "La saisie est valide",
+        "C": "La validation a planté",
+        "D": "Le formulaire est envoyé au serveur"
+      },
+      "answer": "B",
+      "explanation": "Le validator renvoie un message d'erreur, ou null quand tout est bon.",
+      "why": {
+        "A": "Un champ vide doit renvoyer un message, comme 'Veuillez entrer votre email'.",
+        "C": "null est la valeur normale d'un champ valide.",
+        "D": "Le validator ne fait que valider : il n'envoie rien."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment déclenche-t-on la validation de tous les champs d'un Form ?",
+      "choices": {
+        "A": "`_emailController.text.validate()`",
+        "B": "`Navigator.pop(context, _formKey)`",
+        "C": "`setState(() => validator())`",
+        "D": "`_formKey.currentState!.validate()`"
+      },
+      "answer": "D",
+      "explanation": "Le Form est associé à une GlobalKey<FormState> ; on appelle _formKey.currentState!.validate().",
+      "why": {
+        "A": "Le controller sert à lire la saisie, pas à valider le Form.",
+        "B": "Navigator.pop revient à l'écran précédent.",
+        "C": "setState met à jour l'état ; la validation passe par la clé du Form."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-016",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un étudiant crée `final _formKey = GlobalKey<FormState>();` mais écrit `Form(child: ...)` sans `key: _formKey`. Pourquoi `_formKey.currentState!.validate()` ne peut-il pas marcher ?",
+      "choices": {
+        "A": "Il faut une GlobalKey<TextFormField>",
+        "B": "validate() ne marche que sur un TextField",
+        "C": "La clé n'est pas associée au Form",
+        "D": "Il manque `obscureText: true`"
+      },
+      "answer": "C",
+      "explanation": "Le Form doit être associé à la clé globale (key: _formKey) pour que currentState désigne ce formulaire.",
+      "why": {
+        "A": "Le cours utilise GlobalKey<FormState>.",
+        "B": "TextField n'a pas de validator ; c'est TextFormField, dans un Form.",
+        "D": "obscureText masque la saisie ; il n'a aucun lien avec la validation."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans l'exemple du cours, quand le SnackBar « Formulaire soumis avec succès! » s'affiche-t-il ?",
+      "choices": {
+        "A": "À chaque appui sur le bouton",
+        "B": "Seulement si validate() renvoie true",
+        "C": "Dès que le validator renvoie un message",
+        "D": "Quand on revient avec Navigator.pop"
+      },
+      "answer": "B",
+      "explanation": "Le onPressed appelle validate() et n'affiche le SnackBar via ScaffoldMessenger que si tous les champs sont valides.",
+      "why": {
+        "A": "L'affichage est dans un if : il dépend de validate().",
+        "C": "Un message signifie une erreur : validate() renvoie alors false.",
+        "D": "Le SnackBar est lié à la validation, pas à la navigation."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une Checkbox « J'accepte les termes » ne change pas d'aspect au clic. Que manque-t-il le plus probablement dans onChanged ?",
+      "choices": {
+        "A": "La mise à jour de la valeur avec setState",
+        "B": "Un appel à validate()",
+        "C": "Une groupValue",
+        "D": "Un appel à Navigator.push"
+      },
+      "answer": "A",
+      "explanation": "La Checkbox affiche sa value ; onChanged doit mettre cette valeur à jour avec setState.",
+      "why": {
+        "B": "validate() vérifie le Form ; il ne coche pas la case.",
+        "C": "groupValue est une propriété de Radio, pas de Checkbox.",
+        "D": "Navigator.push ouvre une nouvelle page."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un formulaire demande de choisir un genre parmi un enum Gender { male, female }. Quel widget et quelle propriété portent la valeur sélectionnée ?",
+      "choices": {
+        "A": "Radio, avec groupValue",
+        "B": "Checkbox, avec value",
+        "C": "Radio, avec hint",
+        "D": "TextField, avec labelText"
+      },
+      "answer": "A",
+      "explanation": "Radio / RadioListTile sert au choix unique ; groupValue contient la valeur sélectionnée.",
+      "why": {
+        "B": "Checkbox gère une valeur booléenne, pas un choix parmi plusieurs.",
+        "C": "hint est une propriété de DropdownButton.",
+        "D": "labelText est un libellé ; il ne stocke pas de choix."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-020",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Pour un DropdownButton, comment le cours génère-t-il la liste items ?",
+      "choices": {
+        "A": "Avec `itemBuilder: (context, index)`",
+        "B": "Avec `.map(...).toList()` sur les valeurs",
+        "C": "Avec `crossAxisCount`",
+        "D": "Avec `groupValue`"
+      },
+      "answer": "B",
+      "explanation": "Les items (DropdownMenuItem) sont générés par .map(...).toList(), avec value, hint et onChanged.",
+      "why": {
+        "A": "itemBuilder appartient à ListView.builder.",
+        "C": "crossAxisCount appartient à GridView.count.",
+        "D": "groupValue est la valeur sélectionnée d'un Radio."
+      },
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-021",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel code ouvre la page SecondPage ?",
+      "choices": {
+        "A": "`Navigator.pop(context, SecondPage())`",
+        "B": "`runApp(SecondPage())`",
+        "C": "`ScaffoldMessenger.of(context).push(...)`",
+        "D": "`Navigator.push(context, MaterialPageRoute(...))`"
+      },
+      "answer": "D",
+      "explanation": "Navigator.push empile une route MaterialPageRoute dont le builder renvoie SecondPage().",
+      "why": {
+        "A": "pop retire la page actuelle ; il n'en ouvre pas.",
+        "B": "runApp lance l'application au démarrage ; il ne navigue pas.",
+        "C": "ScaffoldMessenger affiche un SnackBar, pas une page."
+      },
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Depuis l'écran A, on fait push vers B, puis push vers C. On appelle ensuite `Navigator.pop(context)`. Quel écran s'affiche ?",
+      "choices": {
+        "A": "B",
+        "B": "A",
+        "C": "C",
+        "D": "Un écran vide"
+      },
+      "answer": "A",
+      "explanation": "push empile les routes (A, B, C) ; pop dépile la route actuelle, C, et revient à B.",
+      "why": {
+        "B": "pop ne retire qu'une route : il faudrait un second pop pour revenir à A.",
+        "C": "C est la route retirée par pop.",
+        "D": "B reste dans la pile : il s'affiche à nouveau."
+      },
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment la première page transmet-elle le texte 'Hello' à SecondPage ?",
+      "choices": {
+        "A": "Avec `Navigator.pop(context, 'Hello')`",
+        "B": "Avec un TextEditingController partagé",
+        "C": "Dans pubspec.yaml",
+        "D": "Par le constructeur : `SecondPage(data: 'Hello')`"
+      },
+      "answer": "D",
+      "explanation": "Les données d'aller passent par le constructeur de la page cible.",
+      "why": {
+        "A": "pop renvoie une valeur à la page précédente : c'est le retour, pas l'aller.",
+        "B": "Le controller lit un champ de saisie ; le cours passe par le constructeur.",
+        "C": "pubspec.yaml gère les dépendances et les assets."
+      },
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-024",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Que doit déclarer SecondPage pour recevoir et afficher la donnée envoyée ?",
+      "choices": {
+        "A": "`final String data;` et `SecondPage({required this.data})`",
+        "B": "Un TextFormField avec `validator: data`",
+        "C": "`final result = await Navigator.push(...)`",
+        "D": "Un appel à `Navigator.pop(context, data)`"
+      },
+      "answer": "A",
+      "explanation": "La page cible déclare un champ final et un constructeur avec required this.data, puis affiche Text(data).",
+      "why": {
+        "B": "validator vérifie une saisie ; il ne reçoit pas de données.",
+        "C": "Cette ligne récupère un résultat au retour, dans la première page.",
+        "D": "pop sert à renvoyer une valeur, pas à en recevoir."
+      },
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "SecondPage appelle `Navigator.pop(context, 'Rouge')`. Comment la première page récupère-t-elle 'Rouge' ?",
+      "choices": {
+        "A": "En lisant `SecondPage.data` après le retour",
+        "B": "`final result = await Navigator.push(...)` dans un onPressed async",
+        "C": "Avec `Navigator.pop(context)` dans la première page",
+        "D": "Avec un validator qui renvoie la valeur"
+      },
+      "answer": "B",
+      "explanation": "Navigator.push renvoie la valeur passée à pop ; on l'attend avec await, dans un onPressed: () async.",
+      "why": {
+        "A": "data est la donnée d'aller ; le résultat est renvoyé par push.",
+        "C": "pop quitterait la première page au lieu de lire le résultat.",
+        "D": "Un validator renvoie un message d'erreur ou null."
+      },
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi le onPressed qui récupère le résultat de Navigator.push est-il marqué `async` ?",
+      "choices": {
+        "A": "Pour que la nouvelle page s'affiche plus vite",
+        "B": "Parce que tout onPressed doit être async",
+        "C": "Pour pouvoir attendre le résultat avec await",
+        "D": "Pour pouvoir passer des données au constructeur"
+      },
+      "answer": "C",
+      "explanation": "La valeur n'arrive qu'au pop de la seconde page : on l'attend avec await, ce qui exige une fonction async.",
+      "why": {
+        "A": "async ne change pas la vitesse : il permet d'utiliser await.",
+        "B": "Le bouton Soumettre du cours a un onPressed sans async.",
+        "D": "Passer des données à l'aller ne demande pas async."
+      },
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "flutter-interactions-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "ListView statique vs ListView.builder ?",
+      "back": "Statique : liste fixe dans children. ListView.builder (itemCount + itemBuilder) : pour une liste longue ou de taille inconnue.",
+      "ref": "Chapitre 3 — Gestion des listes",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "GridView.count ?",
+      "back": "Affiche des éléments en grille (galerie…) ; crossAxisCount fixe le nombre de colonnes.",
+      "ref": "Chapitre 3 — Gestion des listes",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "labelText vs hintText ?",
+      "back": "labelText : libellé flottant du champ. hintText : texte d'exemple.",
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Options utiles d'un TextField ?",
+      "back": "keyboardType (emailAddress, number…), obscureText: true (mot de passe), border, icon / prefixIcon / suffixIcon.",
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Récupérer la saisie d'un TextField ?",
+      "back": "Passer un TextEditingController (controller:), puis lire sa propriété .text.",
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f006",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "TextField vs TextFormField ?",
+      "back": "TextFormField ajoute un validator et s'utilise dans un Form lié à une GlobalKey<FormState>.",
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f007",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Que renvoie un validator ?",
+      "back": "Un message d'erreur (String) si la saisie est invalide, null si tout est bon.",
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f008",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Valider un formulaire ?",
+      "back": "`final _formKey = GlobalKey<FormState>();`, `Form(key: _formKey, ...)`, puis `_formKey.currentState!.validate()`.",
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f009",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Checkbox vs Radio vs DropdownButton ?",
+      "back": "Checkbox : booléen (value + setState). Radio : choix unique (groupValue). DropdownButton : liste déroulante (items via .map().toList()).",
+      "ref": "Chapitre 3 — Formulaires",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f010",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Navigator.push vs Navigator.pop ?",
+      "back": "push empile une route pour afficher une page. pop dépile la route actuelle et revient à l'écran précédent.",
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Passer des données à une page ?",
+      "back": "Via son constructeur : SecondPage(data: '...'). La page déclare `final String data;` et `SecondPage({required this.data})`.",
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-interactions-f012",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Renvoyer des données à la page précédente ?",
+      "back": "`Navigator.pop(context, 'valeur')` ; la 1re page fait `final result = await Navigator.push(...)` dans un onPressed async.",
+      "ref": "Chapitre 3 — Navigation",
+      "source": "resume-flutter"
+    }
+  ]
+}

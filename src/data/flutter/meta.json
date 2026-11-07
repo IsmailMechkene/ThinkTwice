@@ -1,0 +1,15 @@
+{
+  "name": "Développement mobile : Flutter",
+  "description": "Introduction à Flutter et Dart, structure d'un projet, widgets de base, listes, formulaires et navigation.",
+  "icon": "📱",
+  "color": "#0284c7",
+  "language": "fr",
+  "contributors": [],
+  "sources": {
+    "resume-flutter": {
+      "label": "Résumé — Développement mobile : Flutter (chapitres 1 à 3)",
+      "file": "courses/flutter/Resume_Flutter.pdf",
+      "author": ""
+    }
+  }
+}

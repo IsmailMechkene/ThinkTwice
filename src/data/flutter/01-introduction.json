@@ -1,0 +1,415 @@
+{
+  "id": "intro",
+  "title": "Introduction à Flutter",
+  "order": 1,
+  "description": "SDK vs framework, Flutter et Dart, installation du SDK, éditeur, émulateurs et appareils.",
+  "questions": [
+    {
+      "id": "flutter-intro-001",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un outil fournit un compilateur, un débogueur et des bibliothèques : tout pour développer, sans imposer de structure au code. Selon le cours, de quoi s'agit-il ?",
+      "choices": {
+        "A": "Un framework",
+        "B": "Un widget",
+        "C": "Un SDK",
+        "D": "Un émulateur"
+      },
+      "answer": "C",
+      "explanation": "Le SDK est la boîte à outils complète (compilateur, debugger, bibliothèques). C'est le framework qui impose une structure au code.",
+      "why": {
+        "A": "Un framework impose une structure au code et fournit des composants prêts à l'emploi.",
+        "B": "Un widget est une classe qui décrit une partie de l'interface, pas un outil de développement.",
+        "D": "Un émulateur simule un appareil pour lancer l'application ; il ne fournit pas de compilateur."
+      },
+      "ref": "Chapitre 1 — SDK vs Framework",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Parmi ces éléments, lequel le cours classe-t-il comme framework, et non comme SDK ?",
+      "choices": {
+        "A": "Android SDK",
+        "B": "Spring",
+        "C": "iOS SDK",
+        "D": "Flutter SDK"
+      },
+      "answer": "B",
+      "explanation": "Le cours cite Spring, React Native et Flutter Framework comme frameworks.",
+      "why": {
+        "A": "Android SDK est un exemple de SDK dans le cours.",
+        "C": "iOS SDK est un exemple de SDK dans le cours.",
+        "D": "Le Flutter SDK est la boîte à outils ; c'est le Flutter Framework qui est classé comme framework."
+      },
+      "ref": "Chapitre 1 — SDK vs Framework",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans l'analogie du cours, à quoi correspond un framework ?",
+      "choices": {
+        "A": "Au plan de l'architecte et aux briques préfabriquées",
+        "B": "À la boîte à outils du constructeur",
+        "C": "Au terrain sur lequel on construit",
+        "D": "Au rapport d'inspection du chantier"
+      },
+      "answer": "A",
+      "explanation": "SDK = boîte à outils du constructeur ; framework = plan de l'architecte + briques préfabriquées.",
+      "why": {
+        "B": "C'est l'image du SDK, pas du framework.",
+        "C": "Le terrain n'apparaît pas dans l'analogie : elle oppose seulement outils et plan + briques.",
+        "D": "Le rapport évoque plutôt `flutter doctor` ; ce n'est pas l'image du framework."
+      },
+      "ref": "Chapitre 1 — SDK vs Framework",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe veut publier la même application sur Android, iOS et le web sans écrire trois applications. Pourquoi Flutter convient-il ?",
+      "choices": {
+        "A": "Il convertit du code Java en Swift",
+        "B": "Il est multiplateforme : une seule base de code",
+        "C": "Dart est le langage natif d'Android et d'iOS",
+        "D": "Il ne cible que le web, accessible partout"
+      },
+      "answer": "B",
+      "explanation": "Flutter permet une seule base de code pour Android, iOS, Web, Windows, macOS et Linux.",
+      "why": {
+        "A": "Le cours ne parle d'aucune conversion : on écrit une seule base de code en Dart.",
+        "C": "Dart est un langage développé par Google pour Flutter, pas le langage natif de ces systèmes.",
+        "D": "Flutter cible aussi Android, iOS et le bureau, pas seulement le web."
+      },
+      "ref": "Chapitre 1 — Flutter : un framework multiplateforme",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un développeur Java commence Flutter. Dans quel langage va-t-il coder, et pourquoi le trouvera-t-il familier ?",
+      "choices": {
+        "A": "Kotlin : c'est le langage du projet android/",
+        "B": "Dart : sa syntaxe est proche de Java, C# et JavaScript",
+        "C": "Swift : il est commun à toutes les plateformes",
+        "D": "JavaScript : Flutter tourne dans un navigateur"
+      },
+      "answer": "B",
+      "explanation": "Flutter est basé sur Dart, langage de Google à la syntaxe proche de Java / C# / JavaScript.",
+      "why": {
+        "A": "Le code Flutter s'écrit en Dart ; android/ contient le projet natif généré.",
+        "C": "Swift n'est pas le langage de Flutter ; le cours indique Dart.",
+        "D": "Flutter n'est pas en JavaScript ; le web n'est qu'une de ses plateformes."
+      },
+      "ref": "Chapitre 1 — Flutter : un framework multiplateforme",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sous Windows, Flutter est extrait dans `C:\\src\\flutter`. Quel chemin faut-il ajouter à la variable PATH ?",
+      "choices": {
+        "A": "`C:\\src\\flutter\\bin`",
+        "B": "`C:\\src\\flutter`",
+        "C": "`C:\\src\\flutter\\lib`",
+        "D": "`C:\\src`"
+      },
+      "answer": "A",
+      "explanation": "Le cours fait ajouter le sous-dossier bin, qui contient la commande flutter.",
+      "why": {
+        "B": "C'est la racine du SDK ; la commande se trouve dans son sous-dossier bin.",
+        "C": "lib/ est le dossier du code dans un projet Flutter, pas celui des commandes du SDK.",
+        "D": "C'est seulement le dossier parent de l'installation."
+      },
+      "ref": "Chapitre 1 — Installation du Flutter SDK",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sous Linux, un étudiant ajoute `export PATH=\"$PATH:$HOME/flutter/bin\"` dans `~/.bashrc`, mais `flutter` reste introuvable dans le terminal déjà ouvert. Quelle étape du cours manque-t-il ?",
+      "choices": {
+        "A": "Exécuter `flutter create`",
+        "B": "Exécuter `flutter doctor`",
+        "C": "Exécuter `source ~/.bashrc`",
+        "D": "Remplacer `bin` par `lib` dans le chemin"
+      },
+      "answer": "C",
+      "explanation": "Après avoir modifié ~/.bashrc, le cours fait recharger le fichier avec `source ~/.bashrc`.",
+      "why": {
+        "A": "flutter create crée un projet ; il faut d'abord que la commande soit trouvée.",
+        "B": "flutter doctor vérifie l'environnement, mais la commande est encore introuvable.",
+        "D": "C'est bien le dossier flutter/bin qu'il faut mettre dans le PATH."
+      },
+      "ref": "Chapitre 1 — Installation du Flutter SDK",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Après l'installation, quelle commande analyse l'environnement et génère un rapport ?",
+      "choices": {
+        "A": "`flutter create`",
+        "B": "`source ~/.bashrc`",
+        "C": "`flutter doctor`",
+        "D": "`runApp()`"
+      },
+      "answer": "C",
+      "explanation": "flutter doctor est l'étape 3 de l'installation : il analyse l'environnement et produit un rapport.",
+      "why": {
+        "A": "flutter create sert à créer un nouveau projet.",
+        "B": "Cette commande recharge la configuration du shell sous Linux.",
+        "D": "runApp est une fonction Dart qui lance l'application, pas une commande d'installation."
+      },
+      "ref": "Chapitre 1 — Installation du Flutter SDK",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le bon ordre des trois étapes d'installation du Flutter SDK ?",
+      "choices": {
+        "A": "Ajouter au PATH → télécharger et extraire → `flutter doctor`",
+        "B": "Télécharger et extraire → `flutter doctor` → ajouter au PATH",
+        "C": "`flutter doctor` → télécharger et extraire → ajouter au PATH",
+        "D": "Télécharger et extraire → ajouter au PATH → `flutter doctor`"
+      },
+      "answer": "D",
+      "explanation": "On télécharge et extrait l'archive, on ajoute flutter/bin au PATH, puis on vérifie avec flutter doctor.",
+      "why": {
+        "A": "On ne peut ajouter au PATH qu'un dossier déjà extrait.",
+        "B": "Sans PATH, la commande flutter doctor n'est pas trouvée : la vérification vient en dernier.",
+        "C": "flutter doctor fait partie du SDK : il n'existe pas avant le téléchargement."
+      },
+      "ref": "Chapitre 1 — Installation du Flutter SDK",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans Android Studio, où ajoute-t-on les plugins Flutter et Dart ?",
+      "choices": {
+        "A": "File > Settings > Plugins",
+        "B": "Tools > AVD Manager",
+        "C": "File > New Flutter Project",
+        "D": "Preferences > Components"
+      },
+      "answer": "A",
+      "explanation": "Le cours indique File > Settings > Plugins pour ajouter les plugins Flutter et Dart.",
+      "why": {
+        "B": "L'AVD Manager sert à créer un émulateur Android.",
+        "C": "Ce menu crée un projet ; les plugins doivent déjà être installés.",
+        "D": "C'est le menu de Xcode pour télécharger un simulateur iOS."
+      },
+      "ref": "Chapitre 1 — Configuration de l'éditeur et des émulateurs",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un étudiant veut tester son application sur un téléphone Android virtuel. Quel chemin suit-il dans Android Studio ?",
+      "choices": {
+        "A": "Xcode > Open Developer Tool > Simulator",
+        "B": "File > Settings > Plugins",
+        "C": "File > New Flutter Project",
+        "D": "Tools > AVD Manager > Create Virtual Device"
+      },
+      "answer": "D",
+      "explanation": "On crée l'émulateur dans l'AVD Manager, on choisit un appareil et une image système, puis on le lance avec l'icône de lecture.",
+      "why": {
+        "A": "Ce chemin lance le simulateur iOS, sous macOS.",
+        "B": "Ce menu sert à ajouter les plugins Flutter et Dart.",
+        "C": "Ce menu crée un nouveau projet, pas un appareil virtuel."
+      },
+      "ref": "Chapitre 1 — Configuration de l'éditeur et des émulateurs",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un étudiant branche son téléphone Android en USB, mais l'appareil n'apparaît pas comme cible. Que doit-il activer sur le téléphone ?",
+      "choices": {
+        "A": "Les plugins Flutter et Dart",
+        "B": "Un appareil virtuel dans l'AVD Manager",
+        "C": "Le mode développeur et le débogage USB",
+        "D": "Les Platform-Tools et Build-Tools"
+      },
+      "answer": "C",
+      "explanation": "Pour un appareil réel, le cours fait activer le « mode développeur » et le « débogage USB », puis brancher le câble.",
+      "why": {
+        "A": "Les plugins s'installent dans l'éditeur, pas sur le téléphone.",
+        "B": "L'AVD Manager crée un émulateur ; ici on veut un appareil réel.",
+        "D": "Ils font partie de l'Android SDK sur l'ordinateur, pas d'un réglage du téléphone."
+      },
+      "ref": "Chapitre 1 — Configuration de l'éditeur et des émulateurs",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-013",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un étudiant sous Windows veut tester son application sur le simulateur iOS. Que dit le cours ?",
+      "choices": {
+        "A": "Le simulateur iOS passe par Xcode, donc par macOS",
+        "B": "Il suffit d'en créer un dans l'AVD Manager",
+        "C": "L'extension Flutter de VS Code le fournit",
+        "D": "Il faut activer le débogage USB"
+      },
+      "answer": "A",
+      "explanation": "Le simulateur iOS s'installe avec Xcode depuis l'App Store, ce que le cours place sous macOS.",
+      "why": {
+        "B": "L'AVD Manager crée des émulateurs Android, pas iOS.",
+        "C": "VS Code peut lancer le simulateur, mais celui-ci vient de Xcode.",
+        "D": "Le débogage USB concerne un appareil Android réel."
+      },
+      "ref": "Chapitre 1 — Configuration de l'éditeur et des émulateurs",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-014",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Dans l'Android SDK, quel élément le cours ne demande-t-il PAS de vérifier ?",
+      "choices": {
+        "A": "Platform-Tools",
+        "B": "Xcode",
+        "C": "Build-Tools",
+        "D": "Android SDK"
+      },
+      "answer": "B",
+      "explanation": "Le cours fait vérifier Android SDK, Platform-Tools et Build-Tools. Xcode concerne iOS.",
+      "why": {
+        "A": "Platform-Tools fait partie des éléments à vérifier.",
+        "C": "Build-Tools fait partie des éléments à vérifier.",
+        "D": "L'Android SDK lui-même fait partie des éléments à vérifier."
+      },
+      "ref": "Chapitre 1 — Configuration de l'éditeur et des émulateurs",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-015",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Une étudiante préfère VS Code à Android Studio. Que doit-elle installer dans l'éditeur ?",
+      "choices": {
+        "A": "Uniquement l'extension Dart",
+        "B": "Xcode depuis l'App Store",
+        "C": "L'AVD Manager",
+        "D": "Les extensions Flutter et Dart"
+      },
+      "answer": "D",
+      "explanation": "VS Code est l'alternative : on y installe les extensions Flutter et Dart.",
+      "why": {
+        "A": "Le cours demande les deux extensions, Flutter et Dart.",
+        "B": "Xcode sert au simulateur iOS, pas à configurer VS Code.",
+        "C": "L'AVD Manager est un outil d'Android Studio pour les émulateurs."
+      },
+      "ref": "Chapitre 1 — Configuration de l'éditeur et des émulateurs",
+      "source": "resume-flutter"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "flutter-intro-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "SDK vs Framework ?",
+      "back": "SDK : boîte à outils complète (compilateur, debugger, bibliothèques). Framework : briques réutilisables qui imposent une structure au code.",
+      "ref": "Chapitre 1 — SDK vs Framework",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Analogie SDK / Framework ?",
+      "back": "SDK = boîte à outils du constructeur. Framework = plan de l'architecte + briques préfabriquées.",
+      "ref": "Chapitre 1 — SDK vs Framework",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Exemples de SDK et de frameworks ?",
+      "back": "SDK : Android SDK, iOS SDK, Flutter SDK. Frameworks : Spring, React Native, Flutter Framework.",
+      "ref": "Chapitre 1 — SDK vs Framework",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Flutter ?",
+      "back": "Framework multiplateforme : une seule base de code pour Android, iOS, Web, Windows, macOS et Linux.",
+      "ref": "Chapitre 1 — Flutter : un framework multiplateforme",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Dart ?",
+      "back": "Langage de Google sur lequel repose Flutter ; syntaxe proche de Java / C# / JavaScript, optimisé pour les interfaces réactives.",
+      "ref": "Chapitre 1 — Flutter : un framework multiplateforme",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f006",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 3 étapes d'installation du Flutter SDK ?",
+      "back": "1. Télécharger le ZIP sur flutter.dev et l'extraire. 2. Ajouter flutter/bin au PATH. 3. Vérifier avec `flutter doctor`.",
+      "ref": "Chapitre 1 — Installation du Flutter SDK",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f007",
+      "kind": "distinction",
+      "tier": "bonus",
+      "front": "Ajouter Flutter au PATH : Windows vs Linux ?",
+      "back": "Windows : Variables d'environnement → ajouter C:\\src\\flutter\\bin. Linux : export PATH dans ~/.bashrc, puis `source ~/.bashrc`.",
+      "ref": "Chapitre 1 — Installation du Flutter SDK",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f008",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi lancer `flutter doctor` ?",
+      "back": "Il analyse l'environnement et génère un rapport : c'est la vérification finale de l'installation.",
+      "ref": "Chapitre 1 — Installation du Flutter SDK",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f009",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Tester sur un appareil Android réel ?",
+      "back": "Activer le mode développeur et le débogage USB, puis brancher l'appareil en USB.",
+      "ref": "Chapitre 1 — Configuration de l'éditeur et des émulateurs",
+      "source": "resume-flutter"
+    },
+    {
+      "id": "flutter-intro-f010",
+      "kind": "distinction",
+      "tier": "bonus",
+      "front": "Émulateur Android vs simulateur iOS ?",
+      "back": "Android : Tools > AVD Manager > Create Virtual Device. iOS (macOS) : via Xcode > Open Developer Tool > Simulator.",
+      "ref": "Chapitre 1 — Configuration de l'éditeur et des émulateurs",
+      "source": "resume-flutter"
+    }
+  ]
+}
