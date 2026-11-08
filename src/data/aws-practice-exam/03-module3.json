@@ -1,0 +1,849 @@
+{
+  "id": "m3",
+  "title": "Module 3 — Infrastructure mondiale AWS",
+  "order": 3,
+  "description": "Régions, zones de disponibilité, edge locations, portée des services et extensions d'infrastructure AWS.",
+  "questions": [
+    {
+      "id": "aws-practice-exam-m3-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Qu'est-ce qu'une Région AWS ?",
+      "choices": {
+        "A": "Un unique data center situé dans une grande ville",
+        "B": "Un emplacement géographique physique qui regroupe plusieurs zones de disponibilité",
+        "C": "Un point de présence utilisé uniquement pour mettre du contenu en cache",
+        "D": "Un compte AWS rattaché à un pays"
+      },
+      "answer": "B",
+      "explanation": "Une Région est une zone géographique (ex. eu-west-3 = Paris) contenant plusieurs AZ.",
+      "why": {
+        "A": "Une Région n'est pas un seul data center : elle contient plusieurs AZ, elles-mêmes composées d'un ou plusieurs data centers.",
+        "C": "Le cache de contenu, c'est le rôle des edge locations, pas des Régions.",
+        "D": "Une Région est une notion d'infrastructure physique, pas un compte AWS."
+      },
+      "ref": "Module 3 — Question 1",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Qu'est-ce qu'une zone de disponibilité (AZ) ?",
+      "choices": {
+        "A": "Une zone réservée aux clients du secteur public",
+        "B": "Un cache régional proche des utilisateurs finaux",
+        "C": "Un ou plusieurs data centers distincts, dotés d'alimentation, de réseau et de connectivité redondants, au sein d'une Région",
+        "D": "Une région virtuelle créée par le client dans son VPC"
+      },
+      "answer": "C",
+      "explanation": "Une AZ = un ou plusieurs data centers discrets, redondants en énergie et réseau, à l'intérieur d'une Région. Les AZ servent à la haute disponibilité.",
+      "why": {
+        "A": "Les AZ sont ouvertes à tous les clients ; les charges du gouvernement américain relèvent plutôt de GovCloud (US).",
+        "B": "Un cache proche des utilisateurs correspond aux edge locations / regional edge caches, pas aux AZ.",
+        "D": "Une AZ est une infrastructure physique gérée par AWS, pas un objet que le client crée dans son VPC."
+      },
+      "ref": "Module 3 — Question 2",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service AWS est un réseau de distribution de contenu (CDN) qui livre données et vidéos avec une faible latence grâce aux edge locations ?",
+      "choices": {
+        "A": "Amazon CloudFront",
+        "B": "Amazon S3",
+        "C": "AWS Direct Connect",
+        "D": "Amazon EC2"
+      },
+      "answer": "A",
+      "explanation": "CloudFront est le CDN d'AWS : il met en cache le contenu dans les edge locations proches des utilisateurs.",
+      "why": {
+        "B": "S3 est un service de stockage d'objets ; il peut servir d'origine à CloudFront mais n'est pas un CDN.",
+        "C": "Direct Connect est une liaison réseau dédiée entre un site client et AWS, pas un CDN.",
+        "D": "EC2 fournit des serveurs virtuels (calcul), pas de distribution de contenu via les edge locations."
+      },
+      "ref": "Module 3 — Question 3",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel outil permet de gérer ses services AWS via une interface web graphique ?",
+      "choices": {
+        "A": "AWS CLI",
+        "B": "AWS SDK",
+        "C": "AWS CloudFormation",
+        "D": "AWS Management Console"
+      },
+      "answer": "D",
+      "explanation": "La console est l'interface web graphique d'AWS.",
+      "why": {
+        "A": "La CLI s'utilise en lignes de commande, pas via une interface graphique.",
+        "B": "Les SDK servent à appeler AWS depuis du code applicatif.",
+        "C": "CloudFormation sert à l'infrastructure as code (modèles), pas à une gestion via interface web."
+      },
+      "ref": "Module 3 — Question 4",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service fournit un service DNS hautement disponible et évolutif ?",
+      "choices": {
+        "A": "Amazon CloudFront",
+        "B": "Amazon Route 53",
+        "C": "Amazon VPC",
+        "D": "AWS Direct Connect"
+      },
+      "answer": "B",
+      "explanation": "Route 53 est le service DNS d'AWS (le « 53 » vient du port DNS). Il propose aussi du routage par latence, géolocalisation, etc.",
+      "why": {
+        "A": "CloudFront est le CDN (cache de contenu), pas le service DNS.",
+        "C": "Un VPC est un réseau virtuel privé, pas un service DNS public.",
+        "D": "Direct Connect fournit une connexion réseau dédiée, pas de résolution DNS."
+      },
+      "ref": "Module 3 — Question 5",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans quelle catégorie de services AWS se trouve Amazon EC2 ?",
+      "choices": {
+        "A": "Stockage",
+        "B": "Base de données",
+        "C": "Calcul (Compute)",
+        "D": "Réseau et diffusion de contenu"
+      },
+      "answer": "C",
+      "explanation": "EC2 fournit des serveurs virtuels redimensionnables : c'est un service de calcul (Compute), comme Lambda.",
+      "why": {
+        "A": "Le stockage regroupe des services comme S3, EBS ou EFS, pas EC2.",
+        "B": "Les bases de données regroupent RDS, DynamoDB, etc. ; EC2 fournit des serveurs.",
+        "D": "Cette catégorie regroupe VPC, CloudFront, Route 53 ; EC2 est du calcul."
+      },
+      "ref": "Module 3 — Question 6",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle paire regroupe deux facteurs à prendre en compte pour choisir une Région AWS ?",
+      "choices": {
+        "A": "La conformité et la gouvernance des données + la proximité avec les utilisateurs finaux (latence)",
+        "B": "Le nombre d'utilisateurs IAM prévus + la proximité avec les utilisateurs finaux (latence)",
+        "C": "La conformité et la gouvernance des données + la langue d'affichage de la console",
+        "D": "La langue d'affichage de la console + la version de l'AWS CLI installée"
+      },
+      "answer": "A",
+      "explanation": "Les 4 critères classiques sont : conformité/gouvernance, latence, disponibilité des services et coût. Les autres options n'ont aucun impact sur le choix.",
+      "why": {
+        "B": "Le nombre d'utilisateurs IAM n'influence pas le choix de Région (IAM est d'ailleurs un service global).",
+        "C": "La langue de la console est un simple réglage d'affichage, sans lien avec le choix de Région.",
+        "D": "Ni la langue de la console ni la version de la CLI n'ont d'impact sur le choix de Région."
+      },
+      "ref": "Module 3 — Question 7",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Parmi ces services, lequel est un service régional (et non global) ?",
+      "choices": {
+        "A": "AWS IAM",
+        "B": "Amazon Route 53",
+        "C": "Amazon CloudFront",
+        "D": "Amazon EC2"
+      },
+      "answer": "D",
+      "explanation": "EC2 est régional : une instance vit dans une AZ d'une Région précise.",
+      "why": {
+        "A": "IAM est un service global : utilisateurs et rôles valent pour toutes les Régions.",
+        "B": "Route 53 est un service global qui s'appuie sur les edge locations.",
+        "C": "CloudFront est un service global distribué sur les edge locations."
+      },
+      "ref": "Module 3 — Question 8",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle ville correspond à la Région dont le code est eu-west-3 ?",
+      "choices": {
+        "A": "Dublin",
+        "B": "Londres",
+        "C": "Paris",
+        "D": "Francfort"
+      },
+      "answer": "C",
+      "explanation": "eu-west-1 = Irlande, eu-west-2 = Londres, eu-west-3 = Paris, eu-central-1 = Francfort.",
+      "why": {
+        "A": "Dublin (Irlande) correspond à eu-west-1.",
+        "B": "Londres correspond à eu-west-2.",
+        "D": "Francfort correspond à eu-central-1."
+      },
+      "ref": "Module 3 — Question 9",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quels services utilisent principalement les edge locations pour réduire la latence ?",
+      "choices": {
+        "A": "Amazon RDS et Amazon DynamoDB",
+        "B": "Amazon CloudFront et Amazon Route 53",
+        "C": "Amazon EC2 et Amazon EBS",
+        "D": "AWS Lambda et Amazon SQS"
+      },
+      "answer": "B",
+      "explanation": "CloudFront (cache de contenu) et Route 53 (résolution DNS) s'appuient sur le réseau d'edge locations.",
+      "why": {
+        "A": "RDS et DynamoDB sont des bases de données régionales, hébergées dans les AZ d'une Région.",
+        "C": "EC2 et EBS sont des ressources de Région/AZ ; les edge locations n'hébergent pas d'instances EC2.",
+        "D": "Lambda et SQS sont des services régionaux, pas des services d'edge location."
+      },
+      "ref": "Module 3 — Question 10",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Laquelle de ces affirmations sur les zones de disponibilité d'une même Région est exacte ?",
+      "choices": {
+        "A": "Elles partagent la même alimentation électrique pour réduire les coûts",
+        "B": "Elles sont toutes hébergées dans un seul bâtiment",
+        "C": "Elles sont interconnectées par un réseau à haut débit et faible latence",
+        "D": "Elles se trouvent dans des pays différents"
+      },
+      "answer": "C",
+      "explanation": "Les AZ sont isolées physiquement (énergie, refroidissement) mais reliées par des liens à faible latence, ce qui permet la réplication synchrone.",
+      "why": {
+        "A": "Chaque AZ a sa propre alimentation redondante : partager l'énergie créerait un point de défaillance unique.",
+        "B": "Les AZ sont physiquement séparées pour isoler les sinistres ; un seul bâtiment irait à l'encontre de ce principe.",
+        "D": "Les AZ d'une Région sont dans la même zone géographique, assez proches pour une latence de quelques millisecondes."
+      },
+      "ref": "Module 3 — Question 11",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un ingénieur doit exécuter chaque nuit, via cron sur un serveur Linux, un script qui liste les buckets S3 du compte. Quel outil est le plus adapté ?",
+      "choices": {
+        "A": "AWS CLI",
+        "B": "AWS Management Console",
+        "C": "AWS Artifact",
+        "D": "AWS Snowball"
+      },
+      "answer": "A",
+      "explanation": "La CLI permet d'automatiser des commandes (ex. `aws s3 ls`) dans des scripts.",
+      "why": {
+        "B": "La console exige une action manuelle dans le navigateur, impossible à planifier via cron.",
+        "C": "AWS Artifact donne accès aux rapports de conformité, pas à la gestion des buckets.",
+        "D": "Snowball est un appareil physique de transfert de données en masse, pas un outil de script."
+      },
+      "ref": "Module 3 — Question 12",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans quelle catégorie de services se range AWS Cost Explorer ?",
+      "choices": {
+        "A": "Calcul",
+        "B": "Sécurité, identité et conformité",
+        "C": "Réseau et diffusion de contenu",
+        "D": "Gestion des coûts (Cost Management)"
+      },
+      "answer": "D",
+      "explanation": "Cost Explorer, Budgets et Cost and Usage Report font partie de la catégorie Cost Management.",
+      "why": {
+        "A": "Le calcul regroupe EC2, Lambda, etc. ; Cost Explorer analyse les dépenses.",
+        "B": "Cette catégorie regroupe IAM, Shield, etc. ; Cost Explorer ne gère pas la sécurité.",
+        "C": "Cette catégorie regroupe VPC, CloudFront, Route 53 ; Cost Explorer n'a pas de rôle réseau."
+      },
+      "ref": "Module 3 — Question 13",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service est une base de données NoSQL clé-valeur entièrement gérée, offrant une latence de l'ordre de la milliseconde ?",
+      "choices": {
+        "A": "Amazon RDS",
+        "B": "Amazon Redshift",
+        "C": "Amazon DynamoDB",
+        "D": "Amazon Aurora"
+      },
+      "answer": "C",
+      "explanation": "DynamoDB est une base NoSQL clé-valeur/document, serverless.",
+      "why": {
+        "A": "RDS est un service de bases de données relationnelles, pas NoSQL.",
+        "B": "Redshift est un entrepôt de données (analytique), pas une base clé-valeur.",
+        "D": "Aurora est une base relationnelle compatible MySQL/PostgreSQL, pas NoSQL."
+      },
+      "ref": "Module 3 — Question 14",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Selon le modèle de responsabilité partagée, qui est responsable de la sécurité physique des data centers AWS ?",
+      "choices": {
+        "A": "Le client, via les groupes de sécurité",
+        "B": "Le client, via IAM",
+        "C": "Le fournisseur d'accès Internet du client",
+        "D": "AWS"
+      },
+      "answer": "D",
+      "explanation": "AWS est responsable de la sécurité « DU » cloud (bâtiments, matériel, réseau) ; le client l'est de la sécurité « DANS » le cloud.",
+      "why": {
+        "A": "Les groupes de sécurité filtrent le trafic des instances (sécurité DANS le cloud), pas l'accès physique aux bâtiments.",
+        "B": "IAM gère les identités et permissions du client, pas la sécurité physique des data centers.",
+        "C": "Le fournisseur d'accès Internet n'a aucun rôle dans le modèle de responsabilité partagée."
+      },
+      "ref": "Module 3 — Question 15",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-016",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle paire est composée uniquement de services régionaux ?",
+      "choices": {
+        "A": "Amazon S3 + Amazon VPC",
+        "B": "AWS IAM + Amazon S3",
+        "C": "Amazon Route 53 + Amazon VPC",
+        "D": "Amazon CloudFront + AWS IAM"
+      },
+      "answer": "A",
+      "explanation": "Un bucket S3 et un VPC sont créés dans une Région précise (le nom de bucket est unique au niveau global, mais les données restent dans la Région).",
+      "why": {
+        "B": "S3 est bien régional, mais IAM est un service global.",
+        "C": "Le VPC est bien régional, mais Route 53 est un service global.",
+        "D": "CloudFront et IAM sont tous deux des services globaux."
+      },
+      "ref": "Module 3 — Question 16",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-017",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle affirmation décrit correctement la portée d'un VPC et de ses sous-réseaux ?",
+      "choices": {
+        "A": "Un VPC est limité à une seule AZ, et un sous-réseau couvre toute la Région",
+        "B": "Un VPC peut s'étendre sur plusieurs Régions",
+        "C": "Un VPC couvre toutes les AZ d'une Région, et chaque sous-réseau réside dans une seule AZ",
+        "D": "Un sous-réseau peut couvrir plusieurs AZ pour améliorer la tolérance aux pannes"
+      },
+      "answer": "C",
+      "explanation": "Le VPC est régional et un sous-réseau réside dans une seule AZ. Pour la haute disponibilité, on crée donc un sous-réseau par AZ.",
+      "why": {
+        "A": "C'est l'inverse : le VPC est régional et le sous-réseau est limité à une AZ.",
+        "B": "Un VPC est régional : il ne dépasse pas les limites de sa Région.",
+        "D": "Un sous-réseau ne réside que dans une seule AZ ; la tolérance aux pannes passe par un sous-réseau par AZ."
+      },
+      "ref": "Module 3 — Question 17",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous avez lancé une instance EC2 hier, mais elle n'apparaît plus dans la console. Vous n'avez rien supprimé. Quelle est la cause la plus probable ?",
+      "choices": {
+        "A": "AWS a arrêté et masqué l'instance au bout de 24 heures",
+        "B": "L'instance a migré automatiquement vers une autre zone de disponibilité",
+        "C": "Le compte est passé en mode facturation consolidée",
+        "D": "Le sélecteur de Région de la console est positionné sur une autre Région"
+      },
+      "answer": "D",
+      "explanation": "Les ressources EC2 sont propres à une Région : la console n'affiche que celles de la Région sélectionnée. Vérifiez le sélecteur en haut à droite.",
+      "why": {
+        "A": "AWS n'arrête ni ne masque une instance au bout de 24 heures ; elle tourne tant que le client ne l'arrête pas.",
+        "B": "Une instance ne change pas d'AZ toute seule, et elle resterait de toute façon visible dans la même Région.",
+        "C": "La facturation consolidée regroupe les factures de plusieurs comptes ; elle ne masque pas les ressources."
+      },
+      "ref": "Module 3 — Question 18",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise stocke des données dans une Région pour respecter une obligation légale de résidence des données. Que garantit AWS par défaut ?",
+      "choices": {
+        "A": "Les données sont répliquées automatiquement dans toutes les Régions du même continent",
+        "B": "Les données sont déplacées vers la Région la moins chère pendant les heures creuses",
+        "C": "Les données ne quittent pas la Région choisie, sauf si le client décide de les déplacer ou de les répliquer",
+        "D": "AWS peut déplacer les données vers n'importe quelle Région pour équilibrer la charge"
+      },
+      "answer": "C",
+      "explanation": "Le client garde le contrôle : aucune donnée ne sort de la Région sans action explicite (ex. réplication inter-Régions configurée par le client).",
+      "why": {
+        "A": "Il n'y a aucune réplication automatique entre Régions ; elle doit être configurée par le client.",
+        "B": "AWS ne déplace jamais les données d'une Région à l'autre pour des raisons de coût.",
+        "D": "AWS ne déplace pas les données hors de la Région choisie ; cela violerait la résidence des données."
+      },
+      "ref": "Module 3 — Question 19",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-020",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Pourquoi le prix d'une même instance EC2 peut-il différer d'une Région à l'autre ?",
+      "choices": {
+        "A": "Parce que les coûts locaux (énergie, immobilier, taxes, etc.) varient selon la Région",
+        "B": "Parce que chaque AZ applique son propre tarif",
+        "C": "Parce que seules certaines Régions bénéficient de l'offre gratuite",
+        "D": "Parce que le plan de support détermine le tarif de la Région"
+      },
+      "answer": "A",
+      "explanation": "Les tarifs reflètent les coûts propres à chaque Région. C'est l'un des 4 critères de choix de Région (avec conformité, latence et services disponibles).",
+      "why": {
+        "B": "Les tarifs sont fixés par Région, pas par AZ.",
+        "C": "L'offre gratuite n'explique pas les différences de prix à la demande entre Régions.",
+        "D": "Le plan de support est facturé à part et ne fixe pas le prix des instances d'une Région."
+      },
+      "ref": "Module 3 — Question 20",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-021",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle affirmation concernant la disponibilité des services selon les Régions est exacte ?",
+      "choices": {
+        "A": "Tous les services AWS sont disponibles dans toutes les Régions dès leur lancement",
+        "B": "La disponibilité d'un service varie selon la Région ; les nouveaux services sont souvent lancés d'abord dans certaines Régions",
+        "C": "Un service disponible dans une AZ l'est automatiquement dans toutes les Régions",
+        "D": "Seules les Régions de Chine proposent des services en préversion"
+      },
+      "answer": "B",
+      "explanation": "Tous les services ne sont pas disponibles partout. Avant de choisir une Région, vérifiez la liste des services par Région.",
+      "why": {
+        "A": "C'est faux : les services sont déployés progressivement, Région par Région.",
+        "C": "La disponibilité d'un service se vérifie Région par Région ; une AZ ne l'étend pas aux autres Régions.",
+        "D": "Les Régions de Chine ont des comptes séparés et ne sont pas réservées aux services en préversion."
+      },
+      "ref": "Module 3 — Question 21",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-022",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Pourquoi AWS sépare-t-il physiquement les AZ d'une Région tout en les reliant par un réseau à très faible latence ?",
+      "choices": {
+        "A": "Pour permettre la mise en cache du contenu auprès des utilisateurs finaux",
+        "B": "Pour que chaque AZ serve un pays différent",
+        "C": "Pour réduire le coût du transfert de données vers Internet",
+        "D": "Pour limiter l'impact d'un sinistre localisé tout en permettant une réplication synchrone entre AZ"
+      },
+      "answer": "D",
+      "explanation": "La distance isole les incendies, inondations ou coupures, tandis que la proximité garde une latence de quelques millisecondes, compatible avec la réplication synchrone.",
+      "why": {
+        "A": "La mise en cache auprès des utilisateurs est le rôle des edge locations (CloudFront), pas des AZ.",
+        "B": "Les AZ d'une Région sont dans la même zone géographique ; elles ne servent pas chacune un pays.",
+        "C": "La séparation des AZ vise la résilience, pas la réduction du coût de transfert vers Internet."
+      },
+      "ref": "Module 3 — Question 22",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un architecte veut exécuter des instances EC2 directement dans les edge locations de CloudFront pour se rapprocher des utilisateurs. Que peut-on dire ?",
+      "choices": {
+        "A": "C'est possible en activant l'option « Edge Compute » dans le VPC",
+        "B": "C'est impossible : les edge locations servent à mettre en cache du contenu et à résoudre le DNS, mais n'hébergent pas d'instances EC2",
+        "C": "C'est possible uniquement avec des instances Réservées",
+        "D": "C'est possible, chaque edge location contient une AZ virtuelle"
+      },
+      "answer": "B",
+      "explanation": "Les edge locations ne sont pas des AZ. Pour du calcul proche des utilisateurs, on utilise Local Zones ou Wavelength (ou Lambda@Edge pour du code léger).",
+      "why": {
+        "A": "Aucune option « Edge Compute » du VPC ne permet de lancer des instances EC2 dans une edge location.",
+        "C": "Le modèle de tarification (instances Réservées) ne change pas l'endroit où EC2 peut s'exécuter.",
+        "D": "Les edge locations ne contiennent pas d'AZ, virtuelles ou non."
+      },
+      "ref": "Module 3 — Question 23",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-024",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous créez un utilisateur IAM alors que la console est positionnée sur la Région us-east-1. Où cet utilisateur pourra-t-il être utilisé ?",
+      "choices": {
+        "A": "Dans toutes les Régions, car IAM est un service global",
+        "B": "Uniquement dans us-east-1",
+        "C": "Uniquement dans les Régions du même continent",
+        "D": "Uniquement dans l'AZ où il a été créé"
+      },
+      "answer": "A",
+      "explanation": "IAM est un service global : utilisateurs, groupes, rôles et politiques ne sont pas liés à une Région.",
+      "why": {
+        "B": "La Région sélectionnée dans la console n'a pas d'effet sur IAM, qui est global.",
+        "C": "IAM n'a aucune notion de continent : ses entités valent pour toutes les Régions.",
+        "D": "Un utilisateur IAM n'est rattaché ni à une Région ni à une AZ."
+      },
+      "ref": "Module 3 — Question 24",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle association service / catégorie est INCORRECTE ?",
+      "choices": {
+        "A": "AWS Lambda : Calcul",
+        "B": "Amazon EFS : Stockage",
+        "C": "AWS Shield : Gestion des coûts",
+        "D": "Amazon CloudWatch : Gestion et gouvernance"
+      },
+      "answer": "C",
+      "explanation": "AWS Shield (protection DDoS) relève de Sécurité, identité et conformité, pas de la gestion des coûts. Attention au mot « INCORRECTE ».",
+      "why": {
+        "A": "Cette association est correcte : Lambda est un service de calcul serverless.",
+        "B": "Cette association est correcte : EFS est un système de fichiers, donc du stockage.",
+        "D": "Cette association est correcte : CloudWatch (surveillance) relève de Gestion et gouvernance."
+      },
+      "ref": "Module 3 — Question 25",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-026",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une équipe développe une application Java qui doit créer et supprimer des ressources AWS de façon programmatique pendant son exécution. Quel est le meilleur choix ?",
+      "choices": {
+        "A": "AWS Management Console",
+        "B": "AWS Artifact",
+        "C": "AWS Trusted Advisor",
+        "D": "Le kit de développement AWS SDK pour Java"
+      },
+      "answer": "D",
+      "explanation": "Les SDK donnent accès aux API AWS depuis le code (Java, Python/Boto3, JavaScript, etc.).",
+      "why": {
+        "A": "La console est une interface manuelle, inutilisable depuis le code d'une application.",
+        "B": "AWS Artifact fournit des rapports de conformité, pas un accès programmatique aux ressources.",
+        "C": "Trusted Advisor donne des recommandations sur le compte ; il ne crée pas de ressources depuis le code."
+      },
+      "ref": "Module 3 — Question 26",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-027",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une Région récemment lancée n'apparaît pas dans la liste des Régions utilisables du compte. Quelle est l'explication la plus probable ?",
+      "choices": {
+        "A": "Le compte doit d'abord souscrire au plan Enterprise Support",
+        "B": "Certaines Régions, lancées après mars 2019, sont désactivées par défaut et doivent être activées (opt-in)",
+        "C": "Les nouvelles Régions ne sont accessibles que via l'AWS CLI",
+        "D": "La Région n'est accessible qu'après 30 jours d'utilisation de l'offre gratuite"
+      },
+      "answer": "B",
+      "explanation": "Les Régions ajoutées après le 20 mars 2019 sont désactivées par défaut : on les active manuellement dans les paramètres du compte.",
+      "why": {
+        "A": "L'activation d'une Région opt-in ne dépend pas du plan de support.",
+        "C": "Une fois activée, une Région opt-in est accessible par la console comme par la CLI.",
+        "D": "L'accès à une Région ne dépend pas d'une durée d'utilisation de l'offre gratuite."
+      },
+      "ref": "Module 3 — Question 27",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle Région AWS est isolée et destinée aux charges de travail soumises aux exigences réglementaires du gouvernement américain, avec un accès via un compte dédié ?",
+      "choices": {
+        "A": "us-east-1 (Virginie du Nord)",
+        "B": "us-west-2 (Oregon)",
+        "C": "AWS GovCloud (US)",
+        "D": "AWS Local Zones"
+      },
+      "answer": "C",
+      "explanation": "AWS GovCloud (US) est conçue pour les agences gouvernementales et sous-traitants américains (ex. normes ITAR, FedRAMP High).",
+      "why": {
+        "A": "us-east-1 est une Région commerciale standard, ouverte à tous les clients.",
+        "B": "us-west-2 est une Région commerciale standard, sans isolement gouvernemental.",
+        "D": "Les Local Zones sont des extensions de Région près des métropoles, pas une Région isolée gouvernementale."
+      },
+      "ref": "Module 3 — Question 28",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-029",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans CloudFront, un objet a expiré du cache d'une edge location. Où la requête est-elle généralement acheminée avant d'atteindre l'origine ?",
+      "choices": {
+        "A": "Directement vers l'origine, sans aucun cache intermédiaire",
+        "B": "Vers l'AZ la plus proche",
+        "C": "Vers Route 53 pour résoudre à nouveau le nom",
+        "D": "Vers un regional edge cache, un niveau de cache intermédiaire plus grand"
+      },
+      "answer": "D",
+      "explanation": "Le chemin est : edge location, puis regional edge cache, puis origine. Ce niveau supplémentaire réduit les allers-retours vers l'origine.",
+      "why": {
+        "A": "Il existe un niveau intermédiaire, le regional edge cache, consulté avant l'origine.",
+        "B": "Les AZ ne font pas partie de la hiérarchie de cache de CloudFront.",
+        "C": "La résolution DNS a déjà eu lieu ; un cache miss n'entraîne pas de nouvelle résolution Route 53."
+      },
+      "ref": "Module 3 — Question 29",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-030",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application est déployée dans deux Régions (Irlande et Singapour). Vous voulez diriger automatiquement chaque utilisateur vers la Région qui lui offre la plus faible latence. Quelle solution choisir ?",
+      "choices": {
+        "A": "Amazon Route 53 avec une politique de routage basée sur la latence",
+        "B": "Des URL signées CloudFront",
+        "C": "Un seul Elastic Load Balancer couvrant les deux Régions",
+        "D": "AWS Direct Connect"
+      },
+      "answer": "A",
+      "explanation": "Route 53 propose le routage basé sur la latence, qui oriente chaque utilisateur vers la Région la plus rapide pour lui.",
+      "why": {
+        "B": "Les URL signées CloudFront servent à restreindre l'accès au contenu, pas à choisir une Région.",
+        "C": "Un ELB est régional : il ne peut pas répartir le trafic entre deux Régions.",
+        "D": "Direct Connect relie un site client à AWS ; il n'oriente pas les utilisateurs vers une Région."
+      },
+      "ref": "Module 3 — Question 30",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-031",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une banque doit garder certaines charges de travail dans son propre data center (latence, résidence locale) tout en utilisant les mêmes API, outils et services AWS. Quelle offre convient ?",
+      "choices": {
+        "A": "AWS Local Zones",
+        "B": "AWS Wavelength",
+        "C": "AWS Outposts",
+        "D": "Amazon CloudFront"
+      },
+      "answer": "C",
+      "explanation": "AWS Outposts installe de l'infrastructure AWS (racks) chez le client, dans son data center, avec une expérience hybride cohérente.",
+      "why": {
+        "A": "Les Local Zones sont gérées par AWS près des métropoles, pas installées dans le data center du client.",
+        "B": "Wavelength place l'infrastructure AWS dans les réseaux 5G des opérateurs, pas chez le client.",
+        "D": "CloudFront est un CDN qui met du contenu en cache ; il n'exécute pas de charges dans le data center du client."
+      },
+      "ref": "Module 3 — Question 31",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-032",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un studio de jeu vidéo veut placer du calcul et du stockage au plus près d'une grande métropole, comme extension d'une Région AWS parente, sans installer de matériel chez lui. Quelle offre convient ?",
+      "choices": {
+        "A": "AWS Local Zones",
+        "B": "AWS Outposts",
+        "C": "AWS Snowball",
+        "D": "Une edge location CloudFront"
+      },
+      "answer": "A",
+      "explanation": "Les Local Zones sont une extension d'une Région près des grands centres urbains, gérée par AWS.",
+      "why": {
+        "B": "Outposts se trouve chez le client, ce qui implique d'installer du matériel sur site.",
+        "C": "Snowball est un appareil de transfert de données, pas une extension de Région près d'une métropole.",
+        "D": "Une edge location met en cache du contenu mais n'héberge pas de calcul EC2 ni de stockage applicatif."
+      },
+      "ref": "Module 3 — Question 32",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-033",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application de réalité augmentée pour smartphones 5G exige une latence de quelques millisecondes. Quelle offre intègre l'infrastructure AWS dans les réseaux 5G des opérateurs télécoms ?",
+      "choices": {
+        "A": "AWS Outposts",
+        "B": "AWS Local Zones",
+        "C": "Amazon CloudFront",
+        "D": "AWS Wavelength"
+      },
+      "answer": "D",
+      "explanation": "AWS Wavelength place calcul et stockage dans les data centers des opérateurs 5G, au plus près des appareils mobiles.",
+      "why": {
+        "A": "Outposts installe l'infrastructure AWS chez le client, pas chez les opérateurs 5G.",
+        "B": "Les Local Zones sont proches des métropoles, mais pas intégrées aux réseaux 5G des opérateurs.",
+        "C": "CloudFront met en cache du contenu dans les edge locations ; il n'est pas intégré aux réseaux 5G."
+      },
+      "ref": "Module 3 — Question 33",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-034",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un volume EBS se trouve dans eu-west-3a. Vous voulez l'utiliser avec une instance EC2 située dans eu-west-3b. Que faire ?",
+      "choices": {
+        "A": "L'attacher directement : EBS est un service régional",
+        "B": "Créer un snapshot du volume, puis créer un nouveau volume dans eu-west-3b à partir de ce snapshot",
+        "C": "Déplacer le volume dans une edge location",
+        "D": "Modifier le sous-réseau du volume"
+      },
+      "answer": "B",
+      "explanation": "Un volume EBS est lié à une seule AZ et ne s'attache qu'à une instance de la même AZ. Le snapshot permet de le recréer ailleurs.",
+      "why": {
+        "A": "Un volume EBS est lié à une AZ : il ne peut pas être attaché à une instance d'une autre AZ.",
+        "C": "Les edge locations n'hébergent pas de volumes EBS.",
+        "D": "Un volume EBS n'a pas de sous-réseau ; il est rattaché à une AZ."
+      },
+      "ref": "Module 3 — Question 34",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une AZ complète d'une Région devient indisponible. Que devient un objet S3 Standard stocké dans un bucket de cette Région ?",
+      "choices": {
+        "A": "Il est définitivement perdu",
+        "B": "Il est inaccessible jusqu'au rétablissement de l'AZ",
+        "C": "Il reste accessible uniquement si la réplication inter-Régions est activée",
+        "D": "Il reste accessible, car S3 Standard stocke les données de façon redondante sur plusieurs AZ"
+      },
+      "answer": "D",
+      "explanation": "S3 Standard réplique chaque objet sur plusieurs AZ de la Région : une panne d'AZ n'interrompt pas l'accès.",
+      "why": {
+        "A": "Les copies présentes dans les autres AZ empêchent toute perte de l'objet.",
+        "B": "Les autres AZ continuent de servir l'objet pendant la panne.",
+        "C": "La réplication inter-Régions sert à d'autres besoins ; la redondance multi-AZ suffit face à une panne d'AZ."
+      },
+      "ref": "Module 3 — Question 35",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-036",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application web tourne sur une seule instance EC2 dans une seule AZ. Après une panne d'AZ, le site a été indisponible. Quelle modification améliore le plus la résilience face à ce type de panne ?",
+      "choices": {
+        "A": "Passer à un type d'instance plus gros",
+        "B": "Ajouter un snapshot EBS quotidien",
+        "C": "Déployer des instances dans plusieurs AZ derrière un Elastic Load Balancer",
+        "D": "Placer l'instance dans une edge location"
+      },
+      "answer": "C",
+      "explanation": "Multi-AZ + répartiteur de charge = plus de point de défaillance unique au niveau de l'AZ.",
+      "why": {
+        "A": "Une instance plus grosse reste dans une seule AZ et tombe avec elle.",
+        "B": "Un snapshot aide à restaurer, mais n'évite pas l'interruption pendant la panne.",
+        "D": "Les edge locations n'hébergent pas d'instances EC2."
+      },
+      "ref": "Module 3 — Question 36",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-037",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application critique doit rester disponible même en cas d'indisponibilité totale d'une Région AWS. Quelle conception est la plus adaptée ?",
+      "choices": {
+        "A": "Déployer l'application dans au moins deux Régions",
+        "B": "Déployer l'application sur plusieurs AZ de la même Région",
+        "C": "Utiliser une seule AZ avec des sauvegardes S3 dans la même Région",
+        "D": "Placer toutes les ressources dans une Local Zone"
+      },
+      "answer": "A",
+      "explanation": "Pour survivre à la perte d'une Région, il faut une architecture multi-Régions.",
+      "why": {
+        "B": "Le multi-AZ protège d'une panne d'AZ, pas d'une panne de Région entière.",
+        "C": "Une seule AZ et des sauvegardes dans la même Région disparaissent avec la Région.",
+        "D": "Une Local Zone est une extension d'une Région parente : elle ne protège pas contre la perte de la Région."
+      },
+      "ref": "Module 3 — Question 37",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-038",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Deux comptes AWS veulent déployer des ressources dans la même AZ physique d'eu-west-3, mais « eu-west-3a » ne correspond pas à la même AZ pour les deux comptes. Que doivent-ils comparer ?",
+      "choices": {
+        "A": "Le code de la Région",
+        "B": "L'ID d'AZ (par exemple euw3-az1), identique pour tous les comptes",
+        "C": "Le nom de l'AZ avec son suffixe de lettre",
+        "D": "L'ID du compte AWS"
+      },
+      "answer": "B",
+      "explanation": "AWS répartit les noms d'AZ (a, b, c…) différemment selon les comptes pour équilibrer la charge. L'ID d'AZ, lui, désigne toujours la même AZ physique.",
+      "why": {
+        "A": "Le code de Région (eu-west-3) est le même pour les deux comptes et ne distingue pas les AZ.",
+        "C": "C'est justement le nom d'AZ (a, b, c) qui est réparti différemment selon les comptes.",
+        "D": "L'ID du compte identifie le compte, pas une AZ physique."
+      },
+      "ref": "Module 3 — Question 38",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-039",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un site statique hébergé dans un bucket S3 à Dublin est servi via CloudFront. Le premier visiteur à Tokyo subit un chargement lent, alors que les visiteurs suivants à Tokyo obtiennent des temps très courts. Pourquoi ?",
+      "choices": {
+        "A": "Le premier visiteur déclenche la création d'une AZ à Tokyo",
+        "B": "Le DNS Route 53 met du temps à se propager",
+        "C": "Le bucket est répliqué vers Tokyo après la première requête",
+        "D": "La première requête est un « cache miss » : l'edge location récupère l'objet depuis l'origine puis le met en cache pour les suivants"
+      },
+      "answer": "D",
+      "explanation": "Au premier accès, l'edge location n'a pas l'objet (cache miss). Elle va le chercher à l'origine, le garde, puis sert les suivants localement (cache hit).",
+      "why": {
+        "A": "Une requête utilisateur ne crée jamais d'AZ ; les AZ sont une infrastructure fixe gérée par AWS.",
+        "B": "Une propagation DNS ne s'expliquerait pas par un premier visiteur lent puis des suivants rapides au même endroit.",
+        "C": "Le bucket n'est pas répliqué automatiquement vers une autre Région ; c'est le cache CloudFront qui agit."
+      },
+      "ref": "Module 3 — Question 39",
+      "source": "qcm-m3"
+    },
+    {
+      "id": "aws-practice-exam-m3-040",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application web dont les serveurs sont dans us-east-1 sert images et fichiers statiques à des utilisateurs en Asie, qui se plaignent de la latence. Quelle action réduit le plus la latence avec le moins de changements ?",
+      "choices": {
+        "A": "Ajouter une AZ supplémentaire dans us-east-1",
+        "B": "Placer CloudFront devant l'application pour mettre en cache le contenu statique près des utilisateurs",
+        "C": "Augmenter la taille de l'instance",
+        "D": "Créer un utilisateur IAM dans chaque Région"
+      },
+      "answer": "B",
+      "explanation": "CloudFront rapproche le contenu statique des utilisateurs, sans migrer l'application.",
+      "why": {
+        "A": "Une AZ de plus dans us-east-1 ne réduit pas la distance réseau jusqu'à l'Asie.",
+        "C": "Un plus gros serveur ne réduit pas la distance réseau, cause principale de la latence.",
+        "D": "IAM est global et n'a aucun effet sur la latence de livraison du contenu."
+      },
+      "ref": "Module 3 — Question 40",
+      "source": "qcm-m3"
+    }
+  ],
+  "flashcards": []
+}

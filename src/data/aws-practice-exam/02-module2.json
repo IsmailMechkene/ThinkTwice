@@ -1,0 +1,849 @@
+{
+  "id": "m2",
+  "title": "Module 2 — Cloud Economics and Billing",
+  "order": 2,
+  "description": "Principes de tarification AWS, Free Tier, TCO, AWS Organizations, outils de gestion des coûts et plans de support.",
+  "questions": [
+    {
+      "id": "aws-practice-exam-m2-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quels sont les trois principaux facteurs de coût fondamentaux avec AWS ?",
+      "choices": {
+        "A": "Le calcul, le support et le transfert de données entrant",
+        "B": "Le calcul, le stockage et le transfert de données sortant",
+        "C": "Le stockage, les licences et le nombre d'utilisateurs",
+        "D": "Le réseau, la supervision et le nombre de Régions"
+      },
+      "answer": "B",
+      "explanation": "Les trois facteurs fondamentaux sont le calcul (à l'heure ou à la seconde), le stockage (généralement par Go) et le transfert de données sortant.",
+      "why": {
+        "A": "Le transfert entrant est en général gratuit, et le support n'est pas un des trois facteurs fondamentaux.",
+        "C": "Les licences et le nombre d'utilisateurs ne font pas partie des trois facteurs de coût fondamentaux.",
+        "D": "Le réseau, la supervision et le nombre de Régions ne sont pas les trois facteurs fondamentaux ; le calcul et le stockage manquent."
+      },
+      "ref": "Module 2 — Question 1",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "En règle générale, comment le transfert de données est-il facturé sur AWS ?",
+      "choices": {
+        "A": "Le transfert entrant et sortant sont tous deux gratuits",
+        "B": "Le transfert entrant est facturé ; le sortant est gratuit",
+        "C": "Le transfert est facturé par un forfait mensuel fixe",
+        "D": "Le transfert entrant est gratuit ; le transfert sortant est facturé"
+      },
+      "answer": "D",
+      "explanation": "Envoyer des données vers AWS est généralement gratuit ; les données qui sortent vers Internet sont facturées (avec des exceptions selon le service ou la Région).",
+      "why": {
+        "A": "Le transfert sortant vers Internet est facturé, il n'est pas gratuit.",
+        "B": "C'est l'inverse : l'entrant est généralement gratuit et le sortant est facturé.",
+        "C": "Le transfert est facturé à l'usage (par Go), pas par un forfait mensuel fixe."
+      },
+      "ref": "Module 2 — Question 2",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Lequel de ces éléments n'est PAS une façon de payer moins avec AWS ?",
+      "choices": {
+        "A": "Payer un prix unitaire plus élevé à mesure que le volume augmente",
+        "B": "Réserver de la capacité en échange d'un engagement",
+        "C": "Bénéficier de remises basées sur le volume",
+        "D": "Profiter des baisses de prix d'AWS à mesure qu'il grandit"
+      },
+      "answer": "A",
+      "explanation": "Les principes de tarification AWS sont : payer ce qu'on utilise, payer moins en réservant, payer moins en utilisant plus, payer encore moins quand AWS grandit. Le prix unitaire baisse avec le volume, il n'augmente pas.",
+      "why": {
+        "B": "C'est le principe « payer moins en réservant », une vraie façon de payer moins.",
+        "C": "C'est le principe « payer moins en utilisant plus », une vraie façon de payer moins.",
+        "D": "C'est le principe « payer encore moins quand AWS grandit », une vraie façon de payer moins."
+      },
+      "ref": "Module 2 — Question 3",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Lequel de ces éléments est un type d'offre de l'AWS Free Tier ?",
+      "choices": {
+        "A": "Une offre gratuite réservée aux clients Enterprise",
+        "B": "Une utilisation gratuite facturée rétroactivement",
+        "C": "Les offres « toujours gratuites » qui n'expirent pas",
+        "D": "Une utilisation gratuite illimitée pendant 5 ans"
+      },
+      "answer": "C",
+      "explanation": "Le Free Tier propose trois types d'offres : toujours gratuit, 12 mois gratuits après l'inscription et essais de courte durée.",
+      "why": {
+        "A": "Le Free Tier n'est pas réservé aux clients Enterprise ; il s'adresse à tous les clients.",
+        "B": "Une offre gratuite n'est pas facturée rétroactivement ; ce type d'offre n'existe pas.",
+        "D": "Il n'existe pas d'offre illimitée de 5 ans ; les offres temporaires durent 12 mois ou sont des essais courts."
+      },
+      "ref": "Module 2 — Question 4",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Que signifie TCO ?",
+      "choices": {
+        "A": "Total Cloud Optimization",
+        "B": "Technical Cost Overview",
+        "C": "Total Cost of Ownership (coût total de possession)",
+        "D": "Transfer Cost Output"
+      },
+      "answer": "C",
+      "explanation": "Le TCO (Total Cost of Ownership) est le coût total pour posséder et exploiter une infrastructure : matériel, logiciels, énergie, locaux, personnel, maintenance…",
+      "why": {
+        "A": "Sigle inventé : TCO ne désigne pas une optimisation du cloud.",
+        "B": "Sigle inventé : TCO ne désigne pas une vue d'ensemble technique des coûts.",
+        "D": "Sigle inventé : TCO n'a rien à voir avec le transfert de données."
+      },
+      "ref": "Module 2 — Question 5",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel outil permet d'estimer le coût mensuel d'une architecture AWS avant de la déployer ?",
+      "choices": {
+        "A": "AWS Pricing Calculator",
+        "B": "AWS Budgets",
+        "C": "AWS Cost Explorer",
+        "D": "AWS Trusted Advisor"
+      },
+      "answer": "A",
+      "explanation": "Avec AWS Pricing Calculator, on modélise les services et leur configuration pour obtenir une estimation, sans rien déployer.",
+      "why": {
+        "B": "AWS Budgets travaille sur les coûts réels (et prévus) pour déclencher des alertes, pas sur une architecture non déployée.",
+        "C": "Cost Explorer analyse les coûts réels déjà engagés, pas une architecture encore à déployer.",
+        "D": "Trusted Advisor inspecte un environnement existant et fait des recommandations ; il n'estime pas une architecture future."
+      },
+      "ref": "Module 2 — Question 6",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "À quoi sert AWS Organizations ?",
+      "choices": {
+        "A": "Créer des serveurs virtuels",
+        "B": "Stocker des objets",
+        "C": "Analyser les journaux d'une application",
+        "D": "Gérer et gouverner de manière centralisée plusieurs comptes AWS"
+      },
+      "answer": "D",
+      "explanation": "AWS Organizations regroupe plusieurs comptes dans une organisation : gestion centralisée, facturation consolidée, politiques communes.",
+      "why": {
+        "A": "Créer des serveurs virtuels est le rôle d'Amazon EC2, pas d'Organizations.",
+        "B": "Stocker des objets est le rôle d'Amazon S3, pas d'Organizations.",
+        "C": "L'analyse de journaux relève d'autres services (comme CloudWatch), pas d'Organizations."
+      },
+      "ref": "Module 2 — Question 7",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle fonctionnalité d'AWS Organizations fournit une facture unique pour plusieurs comptes ?",
+      "choices": {
+        "A": "Les service control policies",
+        "B": "La facturation consolidée (consolidated billing)",
+        "C": "AWS Trusted Advisor",
+        "D": "Les groupes de sécurité"
+      },
+      "answer": "B",
+      "explanation": "La facturation consolidée regroupe les coûts de tous les comptes membres sur la facture du compte de gestion.",
+      "why": {
+        "A": "Les SCP restreignent les services et actions des comptes membres ; elles ne produisent pas de facture.",
+        "C": "Trusted Advisor fait des recommandations de bonnes pratiques et n'est pas une fonctionnalité de facturation d'Organizations.",
+        "D": "Les groupes de sécurité filtrent le trafic réseau ; ils n'ont rien à voir avec la facturation."
+      },
+      "ref": "Module 2 — Question 8",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel plan de support AWS est gratuit pour tous les clients ?",
+      "choices": {
+        "A": "Basic",
+        "B": "Developer",
+        "C": "Business",
+        "D": "Enterprise"
+      },
+      "answer": "A",
+      "explanation": "Basic est inclus avec tout compte AWS : service client 24h/24 pour la facturation et les comptes, documentation, forums et vérifications de base de Trusted Advisor.",
+      "why": {
+        "B": "Developer est un plan payant.",
+        "C": "Business est un plan payant.",
+        "D": "Enterprise est le plan payant le plus complet."
+      },
+      "ref": "Module 2 — Question 9",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-010",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service permet de définir des seuils de coûts personnalisés et de recevoir une alerte en cas de dépassement ?",
+      "choices": {
+        "A": "AWS Cost Explorer",
+        "B": "AWS Organizations",
+        "C": "AWS Budgets",
+        "D": "AWS Trusted Advisor"
+      },
+      "answer": "C",
+      "explanation": "Avec AWS Budgets, on fixe un budget (coût ou usage) et on reçoit des alertes lorsque le réel ou le prévisionnel dépasse un seuil.",
+      "why": {
+        "A": "Cost Explorer sert à visualiser et analyser les coûts, pas à définir des seuils d'alerte.",
+        "B": "Organizations gère plusieurs comptes et la facturation consolidée, sans alertes de budget.",
+        "D": "Trusted Advisor donne des recommandations de bonnes pratiques, pas des alertes sur des seuils personnalisés."
+      },
+      "ref": "Module 2 — Question 10",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-011",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service inspecte votre environnement AWS et fournit des recommandations de bonnes pratiques (coûts, performance, sécurité, tolérance aux pannes…) ?",
+      "choices": {
+        "A": "AWS Trusted Advisor",
+        "B": "AWS Budgets",
+        "C": "AWS Organizations",
+        "D": "AWS Cost Explorer"
+      },
+      "answer": "A",
+      "explanation": "Trusted Advisor vérifie votre compte et recommande des améliorations ; le nombre de contrôles disponibles dépend du plan de support.",
+      "why": {
+        "B": "AWS Budgets suit des seuils de coûts et envoie des alertes, sans inspecter les bonnes pratiques.",
+        "C": "Organizations gère et gouverne plusieurs comptes ; il ne fait pas de recommandations.",
+        "D": "Cost Explorer analyse les coûts uniquement, pas la sécurité, la performance ou la tolérance aux pannes."
+      },
+      "ref": "Module 2 — Question 11",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-012",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle approche donne un prix réduit en échange d'un engagement d'utilisation ?",
+      "choices": {
+        "A": "Le paiement à la demande (On-Demand)",
+        "B": "Le Free Tier",
+        "C": "Le paiement à la requête sans engagement",
+        "D": "La capacité réservée (Reserved Instances / Savings Plans)"
+      },
+      "answer": "D",
+      "explanation": "« Payer moins en réservant » : un engagement d'un ou trois ans (Reserved Instances, Savings Plans) donne une remise importante par rapport au tarif à la demande.",
+      "why": {
+        "A": "On-Demand est le tarif de référence sans engagement, donc sans remise.",
+        "B": "Le Free Tier offre un usage gratuit limité, sans contrepartie d'engagement.",
+        "C": "Un paiement sans engagement n'apporte pas la remise liée à un engagement d'utilisation."
+      },
+      "ref": "Module 2 — Question 12",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment sont généralement facturées les instances Amazon EC2 On-Demand sous Linux ?",
+      "choices": {
+        "A": "Au mois, avec un forfait fixe",
+        "B": "À la seconde (minimum de 60 secondes), selon le type d'instance",
+        "C": "Une seule fois, selon la mémoire",
+        "D": "À la requête"
+      },
+      "answer": "B",
+      "explanation": "Le calcul est facturé à l'heure ou à la seconde selon le système d'exploitation et le type d'instance ; le prix varie avec la taille et la famille.",
+      "why": {
+        "A": "On-Demand n'est pas un forfait mensuel fixe : on paie le temps d'exécution réel.",
+        "C": "EC2 n'est pas un paiement unique : la facturation suit la durée d'utilisation.",
+        "D": "La facturation à la requête correspond à des services comme Lambda, pas aux instances EC2."
+      },
+      "ref": "Module 2 — Question 13",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise exécute une charge de travail stable et prévisible pour les trois prochaines années. Quelle option est la plus rentable ?",
+      "choices": {
+        "A": "Les Reserved Instances ou les Savings Plans",
+        "B": "Uniquement des instances On-Demand",
+        "C": "Des instances Spot pour la base de données",
+        "D": "Le Free Tier"
+      },
+      "answer": "A",
+      "explanation": "Une charge stable et prévisible avec un engagement long donne la remise maximale avec la capacité réservée.",
+      "why": {
+        "B": "On-Demand n'offre aucune remise ; c'est plus cher pour une charge stable sur trois ans.",
+        "C": "Les instances Spot peuvent être interrompues : mauvais choix pour une base de données.",
+        "D": "Le Free Tier est limité et ne couvre pas une charge de production sur trois ans."
+      },
+      "ref": "Module 2 — Question 14",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un traitement par lots tolérant aux pannes peut être interrompu sans conséquence. Quelle option d'achat EC2 offre la plus grande remise ?",
+      "choices": {
+        "A": "Les instances On-Demand",
+        "B": "Les Dedicated Hosts",
+        "C": "Les Reserved Instances Standard sans paiement initial",
+        "D": "Les instances Spot"
+      },
+      "answer": "D",
+      "explanation": "Les instances Spot utilisent la capacité inutilisée d'AWS avec de très fortes remises, mais peuvent être reprises : idéales pour les charges flexibles et tolérantes aux interruptions.",
+      "why": {
+        "A": "On-Demand est le tarif plein, sans remise.",
+        "B": "Les Dedicated Hosts sont des serveurs physiques dédiés, une option coûteuse.",
+        "C": "Les Reserved Instances donnent une remise mais exigent un engagement et restent moins avantageuses que Spot pour ce cas."
+      },
+      "ref": "Module 2 — Question 15",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Amazon S3 facture moins cher par Go à mesure que le volume stocké augmente. Quel principe de tarification AWS est illustré ?",
+      "choices": {
+        "A": "Payer ce qu'on utilise",
+        "B": "Payer moins en réservant",
+        "C": "Payer moins en utilisant plus (remises sur le volume)",
+        "D": "Payer encore moins quand AWS grandit"
+      },
+      "answer": "C",
+      "explanation": "La tarification par paliers fait baisser le prix unitaire quand l'usage augmente : « pay less when you use more ».",
+      "why": {
+        "A": "Payer ce qu'on utilise décrit le paiement à l'usage, pas la baisse du prix unitaire avec le volume.",
+        "B": "Payer moins en réservant suppose un engagement, absent ici.",
+        "D": "Ce principe désigne les baisses de prix générales décidées par AWS, pas les paliers de volume d'un client."
+      },
+      "ref": "Module 2 — Question 16",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel type d'offre Free Tier correspond à 1 million de requêtes AWS Lambda gratuites par mois, sans expiration ?",
+      "choices": {
+        "A": "Toujours gratuit",
+        "B": "12 mois gratuits",
+        "C": "Essai de courte durée",
+        "D": "Ne fait pas partie du Free Tier"
+      },
+      "answer": "A",
+      "explanation": "Les offres « toujours gratuites » n'expirent pas à la fin des 12 mois, contrairement aux offres « 12 mois gratuits ».",
+      "why": {
+        "B": "Les offres « 12 mois gratuits » expirent ; ici l'offre n'expire pas.",
+        "C": "Un essai de courte durée est limité dans le temps, contrairement à cette offre.",
+        "D": "Cette offre Lambda fait bien partie du Free Tier."
+      },
+      "ref": "Module 2 — Question 17",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel coût est souvent oublié dans le TCO d'une infrastructure sur site ?",
+      "choices": {
+        "A": "La facturation EC2 à la seconde",
+        "B": "Les frais de support AWS",
+        "C": "Le transfert sortant vers Internet via AWS",
+        "D": "L'énergie, le refroidissement, l'immobilier et le personnel IT"
+      },
+      "answer": "D",
+      "explanation": "Le TCO sur site inclut serveurs, stockage, réseau, locaux, énergie, refroidissement, personnel et maintenance : des coûts indirects souvent sous-estimés.",
+      "why": {
+        "A": "La facturation EC2 est un coût AWS, pas un coût de l'infrastructure sur site.",
+        "B": "Les frais de support AWS concernent le cloud, pas l'infrastructure sur site.",
+        "C": "Le transfert sortant via AWS est un coût cloud, pas un coût sur site."
+      },
+      "ref": "Module 2 — Question 18",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est l'objectif principal d'une analyse de TCO lors d'une comparaison entre le sur site et AWS ?",
+      "choices": {
+        "A": "Calculer uniquement le prix d'achat du matériel",
+        "B": "Comparer le coût total de possession et d'exploitation dans les deux environnements, coûts indirects compris",
+        "C": "Mesurer la latence des applications",
+        "D": "Estimer le nombre d'utilisateurs"
+      },
+      "answer": "B",
+      "explanation": "Une analyse de TCO compare des coûts complets (directs et indirects) pour éclairer la décision de migration, pas seulement le prix du matériel.",
+      "why": {
+        "A": "Se limiter au prix du matériel oublie les coûts indirects, ce que le TCO vise justement à inclure.",
+        "C": "La latence est une mesure de performance, pas de coût.",
+        "D": "Le nombre d'utilisateurs n'est pas l'objet d'une analyse de coût total."
+      },
+      "ref": "Module 2 — Question 19",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle paire d'éléments correspond à des avantages de la facturation consolidée dans AWS Organizations ?",
+      "choices": {
+        "A": "Une seule facture pour tous les comptes membres + Du support illimité gratuit",
+        "B": "Une seule facture pour tous les comptes membres + L'usage cumulé peut atteindre plus vite des paliers de remise",
+        "C": "La suppression automatique de tous les frais de transfert de données + L'usage cumulé peut atteindre plus vite des paliers de remise",
+        "D": "Du support illimité gratuit + Des prix plus élevés pour les comptes membres"
+      },
+      "answer": "B",
+      "explanation": "Une facture unique simplifie le suivi, et l'usage de tous les comptes est agrégé pour atteindre les remises sur volume.",
+      "why": {
+        "A": "La facture unique est correcte, mais la facturation consolidée n'apporte pas de support illimité gratuit.",
+        "C": "Les paliers de remise sont corrects, mais la facturation consolidée ne supprime pas les frais de transfert.",
+        "D": "Aucun des deux n'est un avantage : pas de support gratuit, et les prix ne sont pas plus élevés pour les membres."
+      },
+      "ref": "Module 2 — Question 20",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle affirmation sur la tarification d'AWS Organizations est correcte ?",
+      "choices": {
+        "A": "La facturation consolidée coûte 5 % de la facture totale",
+        "B": "Chaque compte membre doit avoir un plan de support payant",
+        "C": "Ses fonctionnalités, dont la facturation consolidée, sont fournies sans frais supplémentaires",
+        "D": "Elle n'est disponible qu'avec Enterprise Support"
+      },
+      "answer": "C",
+      "explanation": "AWS Organizations est gratuit : on ne paie que les ressources AWS utilisées dans les comptes.",
+      "why": {
+        "A": "La facturation consolidée n'a aucun coût ; il n'y a pas de pourcentage prélevé.",
+        "B": "Aucun plan de support payant n'est exigé pour les comptes membres.",
+        "D": "Organizations est disponible pour tous, quel que soit le plan de support."
+      },
+      "ref": "Module 2 — Question 21",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle fonctionnalité d'AWS Organizations permet de restreindre les services et actions disponibles dans les comptes membres ?",
+      "choices": {
+        "A": "La facturation consolidée",
+        "B": "Les service control policies (SCP)",
+        "C": "AWS Budgets",
+        "D": "Les cost allocation tags"
+      },
+      "answer": "B",
+      "explanation": "Les SCP définissent les permissions maximales autorisées dans les comptes membres, par compte ou par unité d'organisation (OU).",
+      "why": {
+        "A": "La facturation consolidée regroupe les factures ; elle ne restreint aucune action.",
+        "C": "AWS Budgets envoie des alertes de coûts, sans bloquer de services.",
+        "D": "Les tags d'allocation de coûts servent à ventiler les coûts, pas à restreindre les permissions."
+      },
+      "ref": "Module 2 — Question 22",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service permet de visualiser les coûts et l'usage dans le temps et de prévoir les dépenses futures ?",
+      "choices": {
+        "A": "AWS Cost Explorer",
+        "B": "AWS Pricing Calculator",
+        "C": "AWS Budgets",
+        "D": "AWS Trusted Advisor"
+      },
+      "answer": "A",
+      "explanation": "Cost Explorer propose des graphiques et filtres sur les coûts passés, avec une prévision à court terme.",
+      "why": {
+        "B": "Pricing Calculator estime un coût futur théorique, sans visualiser l'usage réel dans le temps.",
+        "C": "AWS Budgets sert surtout à fixer des seuils et à alerter, pas à explorer l'historique des coûts.",
+        "D": "Trusted Advisor fait des recommandations de bonnes pratiques, pas de visualisation des coûts dans le temps."
+      },
+      "ref": "Module 2 — Question 23",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service fournit les données de coûts et d'usage les plus détaillées, livrées dans un bucket Amazon S3 ?",
+      "choices": {
+        "A": "AWS Budgets",
+        "B": "AWS Pricing Calculator",
+        "C": "AWS Trusted Advisor",
+        "D": "AWS Cost and Usage Report"
+      },
+      "answer": "D",
+      "explanation": "Le Cost and Usage Report (CUR) est le rapport le plus complet (disponible aussi via AWS Data Exports), livré dans S3 pour analyse.",
+      "why": {
+        "A": "AWS Budgets gère des seuils et des alertes, pas des rapports détaillés livrés dans S3.",
+        "B": "Pricing Calculator produit des estimations théoriques, pas des données d'usage réel.",
+        "C": "Trusted Advisor fournit des recommandations, pas un rapport détaillé des coûts."
+      },
+      "ref": "Module 2 — Question 24",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-025",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise veut voir les coûts par projet et par département sur plusieurs comptes. Que doit-elle utiliser ?",
+      "choices": {
+        "A": "Les service control policies",
+        "B": "Les groupes de sécurité",
+        "C": "Les cost allocation tags",
+        "D": "AWS Trusted Advisor"
+      },
+      "answer": "C",
+      "explanation": "Les tags d'allocation de coûts étiquettent les ressources (projet, équipe…) pour ventiler les coûts dans Cost Explorer et les rapports.",
+      "why": {
+        "A": "Les SCP restreignent les permissions des comptes ; elles ne ventilent pas les coûts.",
+        "B": "Les groupes de sécurité filtrent le trafic réseau, sans lien avec les coûts.",
+        "D": "Trusted Advisor recommande des optimisations mais ne répartit pas les coûts par projet."
+      },
+      "ref": "Module 2 — Question 25",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-026",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'est-ce qui est inclus dans le plan AWS Basic Support ?",
+      "choices": {
+        "A": "Accès 24h/24 au service client pour la facturation et les comptes, plus les contrôles de base de Trusted Advisor",
+        "B": "Support téléphonique 24h/24 avec des ingénieurs Cloud Support",
+        "C": "Un Technical Account Manager dédié",
+        "D": "Accès e-mail aux heures ouvrées à des Cloud Support Associates"
+      },
+      "answer": "A",
+      "explanation": "Basic (gratuit) inclut le service client pour la facturation, la documentation, les forums, les contrôles de base de Trusted Advisor et l'état des services, sans support technique par ingénieurs.",
+      "why": {
+        "B": "Le support téléphonique 24h/24 par ingénieurs commence avec le plan Business.",
+        "C": "Un TAM dédié est propre au plan Enterprise.",
+        "D": "L'e-mail aux heures ouvrées avec des Cloud Support Associates correspond au plan Developer."
+      },
+      "ref": "Module 2 — Question 26",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-027",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le plan le moins cher offrant un support technique par e-mail aux heures ouvrées via des Cloud Support Associates ? (Anciens plans, tels qu'enseignés dans le cours)",
+      "choices": {
+        "A": "Basic",
+        "B": "Developer",
+        "C": "Business",
+        "D": "Enterprise"
+      },
+      "answer": "B",
+      "explanation": "Developer convient aux tests et au développement : e-mail aux heures ouvrées, un contact principal. Ce plan est abandonné le 1er janvier 2027.",
+      "why": {
+        "A": "Basic n'inclut aucun support technique, seulement le service client pour la facturation et les comptes.",
+        "C": "Business offre ce support (et plus, 24h/24), mais il est plus cher que Developer.",
+        "D": "Enterprise est le plan le plus cher, donc pas le moins cher pour ce besoin."
+      },
+      "ref": "Module 2 — Question 27",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-028",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle paire d'affirmations sur AWS Pricing Calculator est vraie ?",
+      "choices": {
+        "A": "Il affiche l'usage réel passé de vos comptes + Il permet de modéliser des services et de partager l'estimation",
+        "B": "Il permet d'estimer le coût d'une architecture prévue avant de la construire + Il envoie des alertes lorsqu'un budget est dépassé",
+        "C": "Il affiche l'usage réel passé de vos comptes + Il nécessite un plan de support Enterprise",
+        "D": "Il permet d'estimer le coût d'une architecture prévue avant de la construire + Il permet de modéliser des services et de partager l'estimation"
+      },
+      "answer": "D",
+      "explanation": "C'est un outil de prévision théorique : on choisit services et configurations, on obtient un coût mensuel estimé que l'on peut partager.",
+      "why": {
+        "A": "La modélisation est correcte, mais l'usage réel passé relève de Cost Explorer.",
+        "B": "L'estimation est correcte, mais les alertes de dépassement relèvent d'AWS Budgets.",
+        "C": "Les deux sont fausses : l'usage réel relève de Cost Explorer, et l'outil ne demande aucun plan Enterprise."
+      },
+      "ref": "Module 2 — Question 28",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-029",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise exécute des charges de production et veut un support 24h/24 par téléphone, chat et e-mail avec des ingénieurs, au moindre coût, ainsi que toutes les vérifications Trusted Advisor. Quel plan choisir ? (Anciens plans)",
+      "choices": {
+        "A": "Basic",
+        "B": "Developer",
+        "C": "Business",
+        "D": "Enterprise On-Ramp"
+      },
+      "answer": "C",
+      "explanation": "Business offre le support 24h/24 par ingénieurs, des contacts illimités et l'ensemble complet des contrôles Trusted Advisor. Dans la nouvelle structure, c'est Business Support+ qui joue ce rôle.",
+      "why": {
+        "A": "Basic n'offre ni support technique par ingénieurs ni l'ensemble complet des contrôles Trusted Advisor.",
+        "B": "Developer ne propose que l'e-mail aux heures ouvrées et les contrôles de base de Trusted Advisor.",
+        "D": "Enterprise On-Ramp répond au besoin mais coûte plus cher que Business."
+      },
+      "ref": "Module 2 — Question 29",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-030",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise exige un Technical Account Manager (TAM) dédié et une équipe Concierge pour l'aide sur la facturation. Quel plan choisir ? (Anciens plans)",
+      "choices": {
+        "A": "Developer",
+        "B": "Business",
+        "C": "Enterprise",
+        "D": "Basic"
+      },
+      "answer": "C",
+      "explanation": "Un TAM désigné et le Concierge sont caractéristiques d'Enterprise, avec aussi la gestion d'événements d'infrastructure.",
+      "why": {
+        "A": "Developer n'offre ni TAM ni Concierge.",
+        "B": "Business et les plans inférieurs n'offrent pas de TAM.",
+        "D": "Basic est gratuit et n'inclut ni TAM ni Concierge."
+      },
+      "ref": "Module 2 — Question 30",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-031",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise veut accéder à un pool de Technical Account Managers, à un coût inférieur à celui d'Enterprise. Quel plan correspond ? (Anciens plans)",
+      "choices": {
+        "A": "Basic",
+        "B": "Developer",
+        "C": "Business",
+        "D": "Enterprise On-Ramp"
+      },
+      "answer": "D",
+      "explanation": "Enterprise On-Ramp donne accès à un « pool » de TAM (pas un TAM désigné), pour les charges critiques. Ce plan est abandonné le 1er janvier 2027.",
+      "why": {
+        "A": "Basic n'offre aucun accès à des TAM.",
+        "B": "Developer n'offre aucun accès à des TAM.",
+        "C": "Business n'inclut pas de TAM, même en pool."
+      },
+      "ref": "Module 2 — Question 31",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-032",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un système critique pour l'activité est en panne. Quel est le temps de première réponse cible du plan Enterprise ?",
+      "choices": {
+        "A": "15 minutes",
+        "B": "1 heure",
+        "C": "4 heures",
+        "D": "24 heures"
+      },
+      "answer": "A",
+      "explanation": "Enterprise vise 15 min pour un système critique en panne. Business : moins d'1 h (production en panne), moins de 4 h (production dégradée).",
+      "why": {
+        "B": "Moins d'1 h correspond au plan Business pour une production en panne.",
+        "C": "Moins de 4 h correspond au plan Business pour une production dégradée.",
+        "D": "Moins de 24 h correspond au plan Developer pour une question générale."
+      },
+      "ref": "Module 2 — Question 32",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-033",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une équipe financière veut (1) être alertée si les dépenses mensuelles prévues dépassent 5 000 $ et (2) analyser les dépenses du dernier trimestre par service. Quelle combinaison d'outils ?",
+      "choices": {
+        "A": "(1) AWS Cost Explorer, (2) AWS Budgets",
+        "B": "(1) AWS Budgets, (2) AWS Cost Explorer",
+        "C": "(1) AWS Trusted Advisor, (2) AWS Pricing Calculator",
+        "D": "(1) AWS Organizations, (2) AWS Budgets"
+      },
+      "answer": "B",
+      "explanation": "Budgets envoie des alertes sur coûts réels ou prévus ; Cost Explorer sert à analyser l'historique par service, compte ou tag.",
+      "why": {
+        "A": "Les rôles sont inversés : les alertes relèvent de Budgets et l'analyse historique de Cost Explorer.",
+        "C": "Trusted Advisor ne gère pas d'alertes de budget, et Pricing Calculator n'analyse pas les dépenses réelles.",
+        "D": "Organizations n'envoie pas d'alertes, et Budgets n'est pas l'outil d'analyse historique par service."
+      },
+      "ref": "Module 2 — Question 33",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-034",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise a 10 comptes AWS et veut une facture unique, des remises de volume partagées et empêcher les comptes membres d'utiliser certains services. Quelle solution ?",
+      "choices": {
+        "A": "Cost Explorer avec des tags",
+        "B": "10 comptes séparés avec AWS Budgets",
+        "C": "AWS Trusted Advisor",
+        "D": "AWS Organizations avec facturation consolidée et SCP"
+      },
+      "answer": "D",
+      "explanation": "Organizations couvre les trois besoins : facture unique, volume agrégé (facturation consolidée) et restrictions via les SCP.",
+      "why": {
+        "A": "Cost Explorer avec des tags analyse les coûts mais ne crée ni facture unique ni restrictions de services.",
+        "B": "Des comptes séparés gardent des factures distinctes, sans volume agrégé ni restrictions.",
+        "C": "Trusted Advisor fait des recommandations ; il ne consolide pas la facturation ni ne restreint les services."
+      },
+      "ref": "Module 2 — Question 34",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un directeur financier compare le prix d'une instance EC2 à celui d'un serveur physique et conclut que le sur site est moins cher. Quelle est la faille de ce raisonnement ?",
+      "choices": {
+        "A": "Il ignore les coûts indirects du sur site : énergie, refroidissement, locaux, personnel et renouvellement du matériel",
+        "B": "Le prix d'EC2 n'inclut pas le calcul",
+        "C": "Une analyse de TCO ne doit comparer que le réseau",
+        "D": "Le sur site coûte toujours moins cher"
+      },
+      "answer": "A",
+      "explanation": "Un vrai TCO inclut tous les coûts directs et indirects ; comparer seulement le prix d'une machine donne une image fausse.",
+      "why": {
+        "B": "Faux : le prix d'une instance EC2 correspond justement au calcul.",
+        "C": "Un TCO compare l'ensemble des coûts, pas seulement le réseau.",
+        "D": "Ce n'est pas une faille du raisonnement mais une affirmation fausse : le sur site n'est pas toujours moins cher."
+      },
+      "ref": "Module 2 — Question 35",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-036",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un étudiant a dépassé les limites du Free Tier et reçu une facture inattendue. Quelle paire d'actions l'aurait aidé à le détecter plus tôt ?",
+      "choices": {
+        "A": "Créer un budget AWS avec un seuil d'alerte + Passer à Enterprise Support",
+        "B": "Désactiver la facturation consolidée + Consulter régulièrement le tableau de bord de facturation et Cost Explorer",
+        "C": "Créer un budget AWS avec un seuil d'alerte + Consulter régulièrement le tableau de bord de facturation et Cost Explorer",
+        "D": "Passer à Enterprise Support + Déplacer toutes les ressources dans une seule Région"
+      },
+      "answer": "C",
+      "explanation": "Une alerte budgétaire et un suivi régulier de la facturation détectent les dépassements.",
+      "why": {
+        "A": "Le budget est utile, mais changer de plan de support n'aide pas à détecter un dépassement.",
+        "B": "Le suivi régulier est utile, mais désactiver la facturation consolidée n'a aucun effet sur la détection.",
+        "D": "Ni le plan de support ni le choix de la Région n'aident à détecter un dépassement."
+      },
+      "ref": "Module 2 — Question 36",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-037",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise diffuse de gros fichiers vidéo à des internautes depuis AWS et constate une facture élevée. Quel facteur de coût est le plus probablement en cause ?",
+      "choices": {
+        "A": "Le transfert de données entrant",
+        "B": "Les frais d'AWS Organizations",
+        "C": "Le transfert de données sortant",
+        "D": "Les frais du plan Basic Support"
+      },
+      "answer": "C",
+      "explanation": "Le trafic sortant vers Internet est facturé au Go ; c'est l'un des trois facteurs de coût fondamentaux.",
+      "why": {
+        "A": "Le trafic entrant est généralement gratuit ; diffuser des vidéos génère surtout du trafic sortant.",
+        "B": "AWS Organizations est gratuit.",
+        "D": "Le plan Basic Support est gratuit."
+      },
+      "ref": "Module 2 — Question 37",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-038",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Fin 2025, AWS a restructuré ses plans de support. Quel ensemble de plans est proposé aux nouveaux clients dans les Régions commerciales ? (Mise à jour au-delà du cours)",
+      "choices": {
+        "A": "Basic, Business Support+, Enterprise Support, Unified Operations",
+        "B": "Basic, Developer, Business, Enterprise",
+        "C": "Basic, Developer, Enterprise On-Ramp, Enterprise",
+        "D": "Gratuit, Standard, Premium, Platinum"
+      },
+      "answer": "A",
+      "explanation": "Selon la documentation AWS, Developer, l'ancien Business et Enterprise On-Ramp prennent fin le 1er janvier 2027 ; la nouvelle offre est Basic, Business Support+, Enterprise Support et Unified Operations.",
+      "why": {
+        "B": "C'est l'ancienne structure enseignée dans le cours ; Developer et l'ancien Business prennent fin.",
+        "C": "Developer et Enterprise On-Ramp font partie des plans qui prennent fin le 1er janvier 2027.",
+        "D": "Ces noms de plans n'existent pas chez AWS."
+      },
+      "ref": "Module 2 — Question 38",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-039",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle affirmation sur AWS Trusted Advisor est correcte ?",
+      "choices": {
+        "A": "Il n'est disponible que pour les clients Enterprise",
+        "B": "Le nombre de contrôles disponibles dépend du plan de support : les contrôles de base pour Basic et Developer, l'ensemble complet à partir de Business",
+        "C": "Il déploie automatiquement les correctifs",
+        "D": "Il ne vérifie que les coûts"
+      },
+      "answer": "B",
+      "explanation": "Trusted Advisor recommande sans corriger, sur plusieurs catégories ; les contrôles complets exigent un plan payant supérieur.",
+      "why": {
+        "A": "Trusted Advisor est accessible à tous : les contrôles de base sont inclus même avec Basic.",
+        "C": "Trusted Advisor recommande des améliorations mais ne corrige rien automatiquement.",
+        "D": "Il couvre aussi la performance, la sécurité, la tolérance aux pannes et les limites de service."
+      },
+      "ref": "Module 2 — Question 39",
+      "source": "qcm-m2"
+    },
+    {
+      "id": "aws-practice-exam-m2-040",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle paire de fonctionnalités fait partie du plan Enterprise Support (ancienne structure) ?",
+      "choices": {
+        "A": "Un Technical Account Manager désigné + Uniquement les contrôles de base de Trusted Advisor",
+        "B": "Un Technical Account Manager désigné + Une équipe Concierge pour la facturation et les comptes",
+        "C": "Uniquement un support par e-mail aux heures ouvrées + Une équipe Concierge pour la facturation et les comptes",
+        "D": "Uniquement un support par e-mail aux heures ouvrées + Aucun support par téléphone"
+      },
+      "answer": "B",
+      "explanation": "Enterprise inclut un TAM désigné, le Concierge, la gestion d'événements d'infrastructure, le support 24h/24 et l'ensemble complet des contrôles Trusted Advisor.",
+      "why": {
+        "A": "Le TAM est correct, mais Enterprise inclut l'ensemble complet des contrôles Trusted Advisor, pas seulement ceux de base.",
+        "C": "Le Concierge est correct, mais Enterprise offre un support 24h/24, pas uniquement l'e-mail aux heures ouvrées.",
+        "D": "Les deux sont faux : Enterprise offre un support 24h/24, y compris par téléphone."
+      },
+      "ref": "Module 2 — Question 40",
+      "source": "qcm-m2"
+    }
+  ],
+  "flashcards": []
+}

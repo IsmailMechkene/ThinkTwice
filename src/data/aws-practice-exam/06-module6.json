@@ -1,0 +1,933 @@
+{
+  "id": "m6",
+  "title": "Module 6 — Calcul (Compute)",
+  "order": 6,
+  "description": "EC2 (AMI, types, états, stockage, sécurité, tarification), conteneurs (ECS, EKS, ECR, Fargate), Lambda et Elastic Beanstalk.",
+  "questions": [
+    {
+      "id": "aws-practice-exam-m6-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Que signifie l'acronyme EC2 ?",
+      "choices": {
+        "A": "Elastic Container Cluster",
+        "B": "Elastic Compute Cloud",
+        "C": "Efficient Cloud Computing",
+        "D": "Enterprise Compute Core"
+      },
+      "answer": "B",
+      "explanation": "Amazon EC2 (Elastic Compute Cloud) fournit des serveurs virtuels redimensionnables, appelés instances, dans le cloud AWS.",
+      "why": {
+        "A": "Nom inventé qui évoque les conteneurs (ECS/EKS), pas le service de serveurs virtuels.",
+        "C": "Nom inventé : le premier « C » de EC2 vient de Compute et le second de Cloud.",
+        "D": "Nom inventé : EC2 signifie Elastic Compute Cloud, pas « Enterprise ... Core »."
+      },
+      "ref": "Module 6 — Question 1",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service permet d'exécuter du code sans provisionner ni gérer de serveurs, en ne payant que le temps de calcul consommé ?",
+      "choices": {
+        "A": "AWS Lambda",
+        "B": "Amazon EC2",
+        "C": "Amazon EBS",
+        "D": "AWS Snowball"
+      },
+      "answer": "A",
+      "explanation": "Lambda est un service de calcul serverless : vous fournissez le code, AWS gère l'infrastructure et la facturation suit l'usage.",
+      "why": {
+        "B": "Avec EC2, vous provisionnez et gérez vous-même des instances (serveurs virtuels).",
+        "C": "EBS est un service de stockage bloc, pas un service d'exécution de code.",
+        "D": "Snowball sert au transfert physique de grandes quantités de données vers AWS."
+      },
+      "ref": "Module 6 — Question 2",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Qu'est-ce qu'une AMI (Amazon Machine Image) ?",
+      "choices": {
+        "A": "Un pare-feu virtuel attaché à l'instance",
+        "B": "Un volume de stockage bloc persistant",
+        "C": "Une adresse IP publique statique",
+        "D": "Un modèle contenant l'OS et les logiciels servant à lancer des instances"
+      },
+      "answer": "D",
+      "explanation": "Une AMI est le modèle de démarrage d'une instance : système d'exploitation, serveur d'applications et applications préinstallés.",
+      "why": {
+        "A": "Le pare-feu virtuel attaché à l'instance est le groupe de sécurité (security group).",
+        "B": "Le stockage bloc persistant correspond à un volume EBS.",
+        "C": "Une adresse IPv4 publique statique est une Elastic IP."
+      },
+      "ref": "Module 6 — Question 3",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Vous lancez une application de test pour quelques jours, sans engagement et sans risque d'interruption. Quel modèle de tarification choisir ?",
+      "choices": {
+        "A": "Reserved Instances sur 3 ans",
+        "B": "Savings Plans",
+        "C": "Spot Instances",
+        "D": "On-Demand"
+      },
+      "answer": "D",
+      "explanation": "On-Demand : paiement à l'usage, aucun engagement et pas de reprise de capacité par AWS.",
+      "why": {
+        "A": "Les Reserved Instances exigent un engagement (1 ou 3 ans), inadapté à quelques jours de test.",
+        "B": "Les Savings Plans reposent eux aussi sur un engagement d'utilisation sur 1 ou 3 ans.",
+        "C": "Les Spot Instances peuvent être interrompues par AWS, ce qui contredit l'exigence."
+      },
+      "ref": "Module 6 — Question 4",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service sert de registre managé pour stocker et déployer des images de conteneurs Docker ?",
+      "choices": {
+        "A": "Amazon ECS",
+        "B": "AWS Fargate",
+        "C": "Amazon ECR",
+        "D": "Amazon EFS"
+      },
+      "answer": "C",
+      "explanation": "Amazon ECR (Elastic Container Registry) héberge vos images de conteneurs ; ECS et Fargate les exécutent.",
+      "why": {
+        "A": "ECS orchestre et exécute les conteneurs, il ne stocke pas les images.",
+        "B": "Fargate est le moteur de calcul serverless qui exécute les conteneurs, pas un registre.",
+        "D": "EFS est un système de fichiers partagé, pas un registre d'images de conteneurs."
+      },
+      "ref": "Module 6 — Question 5",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Vous voulez simplement téléverser votre application web et laisser AWS gérer le déploiement, l'équilibrage de charge et l'Auto Scaling. Quel service ?",
+      "choices": {
+        "A": "AWS Lambda",
+        "B": "AWS Elastic Beanstalk",
+        "C": "Amazon Glacier",
+        "D": "Amazon EBS"
+      },
+      "answer": "B",
+      "explanation": "Elastic Beanstalk est un service PaaS : vous déposez le code, il provisionne et gère l'environnement (EC2, ELB, Auto Scaling...).",
+      "why": {
+        "A": "Lambda exécute des fonctions déclenchées par des événements, pas une application web complète avec ELB et Auto Scaling.",
+        "C": "Glacier est un service de stockage d'archives, sans rôle de déploiement.",
+        "D": "EBS fournit des volumes de stockage bloc pour EC2, il ne déploie pas d'application."
+      },
+      "ref": "Module 6 — Question 6",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "À quoi sert une paire de clés (key pair) lors du lancement d'une instance EC2 Linux ?",
+      "choices": {
+        "A": "Chiffrer les volumes EBS",
+        "B": "Définir les ports ouverts",
+        "C": "S'authentifier pour se connecter en SSH à l'instance",
+        "D": "Attribuer un rôle IAM"
+      },
+      "answer": "C",
+      "explanation": "AWS conserve la clé publique ; vous gardez la clé privée (.pem) pour prouver votre identité lors de la connexion SSH.",
+      "why": {
+        "A": "Le chiffrement EBS est géré séparément (clés KMS), pas par la paire de clés de connexion.",
+        "B": "Les ports ouverts sont définis par les règles du groupe de sécurité.",
+        "D": "Un rôle IAM s'attribue via un profil d'instance, sans lien avec la paire de clés."
+      },
+      "ref": "Module 6 — Question 7",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service orchestre l'exécution de conteneurs Docker sur un cluster, avec ses propres API AWS ?",
+      "choices": {
+        "A": "Amazon ECS",
+        "B": "Amazon ECR",
+        "C": "AWS Lambda",
+        "D": "Amazon Route 53"
+      },
+      "answer": "A",
+      "explanation": "Amazon ECS (Elastic Container Service) démarre, arrête et supervise des conteneurs Docker sur un cluster.",
+      "why": {
+        "B": "ECR est le registre qui stocke les images de conteneurs, il ne les orchestre pas.",
+        "C": "Lambda exécute des fonctions serverless, pas des conteneurs sur un cluster.",
+        "D": "Route 53 est le service DNS d'AWS."
+      },
+      "ref": "Module 6 — Question 8",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle famille d'instances EC2 est optimisée pour la mémoire (bases de données en mémoire, grandes analyses) ?",
+      "choices": {
+        "A": "C (optimisée pour le calcul)",
+        "B": "T (usage général, rafales)",
+        "C": "R (optimisée pour la mémoire)",
+        "D": "I (optimisée pour le stockage)"
+      },
+      "answer": "C",
+      "explanation": "Les familles R (et X) offrent un rapport mémoire/vCPU élevé, adapté aux bases en mémoire et aux grandes analyses.",
+      "why": {
+        "A": "La famille C privilégie la puissance de calcul (CPU), pas la mémoire.",
+        "B": "La famille T est burstable, à usage général, pour des charges modestes avec pics.",
+        "D": "La famille I est optimisée pour un stockage local rapide, pas pour la mémoire."
+      },
+      "ref": "Module 6 — Question 9",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-010",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel état d'instance EC2 signifie qu'elle est supprimée définitivement ?",
+      "choices": {
+        "A": "stopped",
+        "B": "terminated",
+        "C": "pending",
+        "D": "running"
+      },
+      "answer": "B",
+      "explanation": "Une instance terminated ne peut plus être redémarrée ; son volume racine EBS est supprimé par défaut.",
+      "why": {
+        "A": "Une instance stopped est seulement arrêtée et peut être redémarrée.",
+        "C": "pending est l'état transitoire pendant le démarrage de l'instance.",
+        "D": "running signifie que l'instance est en cours d'exécution."
+      },
+      "ref": "Module 6 — Question 10",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel élément permet d'exécuter automatiquement un script (par exemple installer un serveur web) au premier démarrage d'une instance ?",
+      "choices": {
+        "A": "Les métadonnées d'instance",
+        "B": "Le groupe de sécurité",
+        "C": "Le script User data",
+        "D": "L'Elastic IP"
+      },
+      "answer": "C",
+      "explanation": "Le champ User data est exécuté au premier démarrage (par défaut une seule fois) : idéal pour l'amorçage automatisé.",
+      "why": {
+        "A": "Les métadonnées décrivent l'instance (ID, AZ...) et se consultent, elles n'exécutent pas de script.",
+        "B": "Le groupe de sécurité filtre le trafic réseau, il n'exécute rien au démarrage.",
+        "D": "Une Elastic IP est une adresse IPv4 publique statique, sans rôle d'amorçage."
+      },
+      "ref": "Module 6 — Question 11",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une instance EC2 adossée à EBS passe à l'état « stopped ». Que se passe-t-il ?",
+      "choices": {
+        "A": "Elle n'est plus facturée en calcul, mais ses volumes EBS sont conservés (et facturés)",
+        "B": "Elle est supprimée avec tous ses volumes",
+        "C": "Elle continue d'être facturée en calcul",
+        "D": "Elle perd son rôle IAM"
+      },
+      "answer": "A",
+      "explanation": "À l'arrêt, plus de facturation d'instance, mais le stockage EBS reste facturé tant que les volumes existent.",
+      "why": {
+        "B": "La suppression correspond à l'état terminated, pas à stopped.",
+        "C": "Le calcul n'est plus facturé quand l'instance est arrêtée.",
+        "D": "Le profil d'instance (rôle IAM) reste associé à l'instance arrêtée."
+      },
+      "ref": "Module 6 — Question 12",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelles données sont perdues lorsqu'une instance EC2 est arrêtée (stop) ?",
+      "choices": {
+        "A": "Celles du volume racine EBS",
+        "B": "Celles d'un volume EBS de données",
+        "C": "Celles d'un snapshot EBS",
+        "D": "Celles du volume d'instance store (stockage éphémère)"
+      },
+      "answer": "D",
+      "explanation": "L'instance store est physiquement attaché à l'hôte : ses données disparaissent au stop ou à la terminaison.",
+      "why": {
+        "A": "Le volume racine EBS est persistant et conservé lors d'un stop.",
+        "B": "Un volume EBS de données est persistant et survit à l'arrêt de l'instance.",
+        "C": "Un snapshot EBS est stocké indépendamment de l'instance et n'est pas affecté par un stop."
+      },
+      "ref": "Module 6 — Question 13",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel scénario convient le mieux aux Spot Instances ?",
+      "choices": {
+        "A": "Une base de données de production critique",
+        "B": "Un traitement par lots tolérant aux interruptions et flexible sur les horaires",
+        "C": "Un serveur lié à une licence sur un cœur physique",
+        "D": "Une application stable 24h/24 pendant 3 ans"
+      },
+      "answer": "B",
+      "explanation": "Les Spot offrent de fortes remises (jusqu'à 90 %) mais peuvent être reprises par AWS : à réserver aux charges tolérantes aux interruptions.",
+      "why": {
+        "A": "Une base critique ne doit pas risquer d'être interrompue par une reprise de capacité Spot.",
+        "C": "Une licence liée à un cœur physique demande un Dedicated Host.",
+        "D": "Une charge stable sur 3 ans relève des Reserved Instances ou Savings Plans."
+      },
+      "ref": "Module 6 — Question 14",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle affirmation sur les groupes de sécurité (security groups) EC2 est exacte ?",
+      "choices": {
+        "A": "Ils sont sans état (stateless) et acceptent des règles de refus",
+        "B": "Ils s'appliquent au niveau du sous-réseau",
+        "C": "Ils sont avec état (stateful) et ne contiennent que des règles d'autorisation",
+        "D": "Ils filtrent uniquement le trafic sortant"
+      },
+      "answer": "C",
+      "explanation": "Un security group est un pare-feu au niveau de l'instance, stateful, avec des règles allow uniquement ; le refus explicite est le rôle des NACL.",
+      "why": {
+        "A": "Sans état et règles de refus : ce sont les caractéristiques des NACL, pas des security groups.",
+        "B": "Le filtrage au niveau du sous-réseau est assuré par les NACL ; le security group agit au niveau de l'instance.",
+        "D": "Les security groups ont des règles entrantes et sortantes."
+      },
+      "ref": "Module 6 — Question 15",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une application sur EC2 doit lire des objets dans S3. Quelle est la meilleure pratique de sécurité ?",
+      "choices": {
+        "A": "Stocker une clé d'accès IAM dans le code",
+        "B": "Attacher un rôle IAM à l'instance (profil d'instance)",
+        "C": "Copier les identifiants root sur l'instance",
+        "D": "Rendre le bucket S3 public"
+      },
+      "answer": "B",
+      "explanation": "Un rôle IAM fournit des identifiants temporaires, automatiquement renouvelés, sans secret à stocker sur l'instance.",
+      "why": {
+        "A": "Une clé d'accès dans le code est un secret long terme exposé en cas de fuite du code.",
+        "C": "Les identifiants root ne doivent jamais être utilisés par une application ni copiés sur un serveur.",
+        "D": "Rendre le bucket public expose les données à tout Internet au lieu de limiter l'accès à l'application."
+      },
+      "ref": "Module 6 — Question 16",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le principal avantage d'AWS Fargate ?",
+      "choices": {
+        "A": "Il offre un stockage de fichiers partagé entre conteneurs",
+        "B": "Il remplace Docker par un autre moteur",
+        "C": "Il fournit un registre privé d'images",
+        "D": "Il exécute des conteneurs sans gérer les serveurs ni les instances sous-jacentes"
+      },
+      "answer": "D",
+      "explanation": "Fargate est le moteur de calcul serverless pour ECS et EKS : plus de cluster d'instances EC2 à provisionner ou patcher.",
+      "why": {
+        "A": "Le stockage de fichiers partagé relève d'un service comme EFS, pas de Fargate.",
+        "B": "Fargate exécute des conteneurs Docker standard, il ne remplace pas Docker.",
+        "C": "Le registre privé d'images est Amazon ECR."
+      },
+      "ref": "Module 6 — Question 17",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-018",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle est la durée maximale d'exécution d'une seule invocation AWS Lambda ?",
+      "choices": {
+        "A": "24 heures",
+        "B": "5 minutes",
+        "C": "60 minutes",
+        "D": "15 minutes"
+      },
+      "answer": "D",
+      "explanation": "Une invocation Lambda est limitée à 15 minutes (900 s) ; au-delà, il faut un autre service (EC2, conteneurs, Step Functions...).",
+      "why": {
+        "A": "24 heures dépasse très largement la limite de 15 minutes d'une invocation.",
+        "B": "5 minutes est une ancienne limite ; la limite actuelle est de 15 minutes.",
+        "C": "60 minutes dépasse la limite de 15 minutes par invocation."
+      },
+      "ref": "Module 6 — Question 18",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-019",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Des images déposées dans un bucket S3 doivent être redimensionnées automatiquement, sans serveur à gérer. Quelle architecture ?",
+      "choices": {
+        "A": "Un événement S3 qui déclenche une fonction Lambda",
+        "B": "Une instance EC2 qui interroge le bucket en continu",
+        "C": "Un cluster EKS dédié",
+        "D": "Un Dedicated Host avec une tâche cron"
+      },
+      "answer": "A",
+      "explanation": "Lambda est conçu pour le traitement piloté par événements : l'upload S3 déclenche la fonction, sans serveur à maintenir.",
+      "why": {
+        "B": "Une instance EC2 est un serveur à gérer, et l'interrogation continue gaspille des ressources.",
+        "C": "Un cluster EKS implique une infrastructure à administrer, disproportionnée pour ce besoin.",
+        "D": "Un Dedicated Host est un serveur physique à gérer, à l'opposé du « sans serveur »."
+      },
+      "ref": "Module 6 — Question 19",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Votre équipe utilise déjà Kubernetes et veut un plan de contrôle managé sur AWS. Quel service choisir ?",
+      "choices": {
+        "A": "Amazon ECS",
+        "B": "AWS Elastic Beanstalk",
+        "C": "Amazon EKS",
+        "D": "AWS Lambda"
+      },
+      "answer": "C",
+      "explanation": "Amazon EKS est le service Kubernetes managé ; ECS est l'orchestrateur propriétaire d'AWS.",
+      "why": {
+        "A": "ECS est l'orchestrateur propriétaire d'AWS, pas Kubernetes.",
+        "B": "Elastic Beanstalk déploie des applications web (PaaS), il ne fournit pas de plan de contrôle Kubernetes.",
+        "D": "Lambda exécute des fonctions serverless, sans lien avec Kubernetes."
+      },
+      "ref": "Module 6 — Question 20",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Après un stop/start, l'adresse IPv4 publique standard d'une instance change. Comment conserver une adresse publique fixe ?",
+      "choices": {
+        "A": "Utiliser une Elastic IP",
+        "B": "Activer la protection contre la terminaison",
+        "C": "Créer une AMI personnalisée",
+        "D": "Modifier le groupe de sécurité"
+      },
+      "answer": "A",
+      "explanation": "Une Elastic IP est une adresse IPv4 publique statique, réassociable à une autre instance en cas de panne.",
+      "why": {
+        "B": "La protection contre la terminaison empêche la suppression accidentelle, pas le changement d'IP.",
+        "C": "Une AMI est un modèle de lancement ; elle ne fixe pas l'adresse IP publique.",
+        "D": "Le groupe de sécurité filtre le trafic, il n'attribue pas d'adresse IP."
+      },
+      "ref": "Module 6 — Question 21",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-022",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise doit réutiliser des licences logicielles liées aux sockets/cœurs physiques (BYOL). Quelle option EC2 choisir ?",
+      "choices": {
+        "A": "Dedicated Hosts",
+        "B": "Spot Instances",
+        "C": "On-Demand Instances",
+        "D": "Instances T3 en mode burst"
+      },
+      "answer": "A",
+      "explanation": "Les Dedicated Hosts exposent le serveur physique (sockets, cœurs) et permettent de respecter des licences par socket/cœur.",
+      "why": {
+        "B": "Les Spot Instances tournent sur du matériel partagé, sans visibilité sur les sockets/cœurs physiques.",
+        "C": "Les instances On-Demand standard n'exposent pas le serveur physique sous-jacent.",
+        "D": "Les T3 burstables sont des instances partagées sans contrôle des cœurs physiques."
+      },
+      "ref": "Module 6 — Question 22",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-023",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment améliorer la haute disponibilité d'une application hébergée sur EC2 ?",
+      "choices": {
+        "A": "Lancer plusieurs instances dans une seule zone de disponibilité",
+        "B": "Choisir une instance plus grande",
+        "C": "Répartir des instances dans plusieurs zones de disponibilité derrière un Elastic Load Balancer",
+        "D": "Activer le chiffrement EBS"
+      },
+      "answer": "C",
+      "explanation": "Multi-AZ et répartition de charge : la panne d'une zone n'interrompt pas le service.",
+      "why": {
+        "A": "Avec une seule AZ, la panne de cette zone arrête toutes les instances.",
+        "B": "Une instance plus grande reste un point de défaillance unique.",
+        "D": "Le chiffrement EBS améliore la sécurité des données, pas la disponibilité."
+      },
+      "ref": "Module 6 — Question 23",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-024",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous entraînez un modèle de machine learning qui exige des GPU. Quelle catégorie d'instances est la plus adaptée ?",
+      "choices": {
+        "A": "Calcul accéléré (accelerated computing)",
+        "B": "Optimisée pour la mémoire",
+        "C": "Optimisée pour le stockage",
+        "D": "Usage général"
+      },
+      "answer": "A",
+      "explanation": "Le calcul accéléré (familles P, G...) embarque des GPU ou accélérateurs dédiés au ML et au graphisme.",
+      "why": {
+        "B": "Les instances optimisées mémoire (R, X) offrent beaucoup de RAM, pas des GPU.",
+        "C": "Les instances optimisées stockage (I) visent un stockage local rapide, pas le calcul GPU.",
+        "D": "Les instances à usage général équilibrent CPU, mémoire et réseau, sans GPU dédiés."
+      },
+      "ref": "Module 6 — Question 24",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-025",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Selon le modèle de responsabilité partagée, qui applique les correctifs de sécurité du système d'exploitation invité d'une instance EC2 ?",
+      "choices": {
+        "A": "AWS",
+        "B": "AWS et le client à parts égales",
+        "C": "Le fournisseur de l'AMI",
+        "D": "Le client"
+      },
+      "answer": "D",
+      "explanation": "Sur EC2 (IaaS), AWS sécurise l'infrastructure ; le client gère l'OS invité, les correctifs, le pare-feu et les applications.",
+      "why": {
+        "A": "AWS sécurise l'infrastructure physique et l'hyperviseur, pas l'OS invité d'EC2.",
+        "B": "La responsabilité n'est pas partagée à parts égales : l'OS invité relève entièrement du client.",
+        "C": "Le fournisseur de l'AMI fournit l'image de départ, mais les correctifs ultérieurs incombent au client."
+      },
+      "ref": "Module 6 — Question 25",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-026",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle paire d'affirmations sur AWS Lambda est exacte ?",
+      "choices": {
+        "A": "La facturation dépend du nombre de requêtes et de la durée d'exécution + Vous devez appliquer les correctifs du système d'exploitation sous-jacent",
+        "B": "La facturation dépend du nombre de requêtes et de la durée d'exécution + La mémoire est configurable jusqu'à plusieurs gigaoctets et le CPU est alloué proportionnellement",
+        "C": "La mémoire est configurable jusqu'à plusieurs gigaoctets et le CPU est alloué proportionnellement + L'état en mémoire est garanti entre deux invocations",
+        "D": "La facturation dépend du nombre de requêtes et de la durée d'exécution + La mémoire est fixée à 128 Mo et ne peut pas changer"
+      },
+      "answer": "B",
+      "explanation": "Lambda est facturé aux requêtes et à la durée, et la mémoire se configure de 128 Mo à 10 Go avec un CPU alloué proportionnellement.",
+      "why": {
+        "A": "L'OS sous-jacent de Lambda est géré et patché par AWS, pas par vous.",
+        "C": "Aucun état n'est garanti entre deux invocations Lambda.",
+        "D": "La mémoire n'est pas fixée : elle se règle de 128 Mo à 10 Go."
+      },
+      "ref": "Module 6 — Question 26",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-027",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous réservez pour 3 ans mais voulez pouvoir changer de famille d'instance en cours de période. Quelle option correspond ?",
+      "choices": {
+        "A": "Standard Reserved Instances",
+        "B": "Convertible Reserved Instances",
+        "C": "Spot Instances",
+        "D": "Dedicated Instances"
+      },
+      "answer": "B",
+      "explanation": "Les Convertible RI permettent d'échanger contre d'autres attributs (famille, OS...), avec une remise moindre que les Standard RI.",
+      "why": {
+        "A": "Les Standard RI offrent la plus forte remise mais ne permettent pas de changer de famille d'instance.",
+        "C": "Les Spot Instances ne sont pas une réservation et peuvent être interrompues.",
+        "D": "Les Dedicated Instances concernent l'isolation matérielle, pas un engagement modifiable."
+      },
+      "ref": "Module 6 — Question 27",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application a une charge de base stable et des pics imprévisibles. Quelle combinaison minimise le coût sans nuire à la disponibilité ?",
+      "choices": {
+        "A": "Tout en On-Demand",
+        "B": "Tout en Spot Instances",
+        "C": "Reserved Instances (ou Savings Plans) pour la base, On-Demand pour les pics",
+        "D": "Tout en Dedicated Hosts"
+      },
+      "answer": "C",
+      "explanation": "Engagement pour le socle prévisible et capacité à la demande (Auto Scaling) pour les pics.",
+      "why": {
+        "A": "Le tout On-Demand fonctionne mais paie plein tarif la base stable qui pourrait être réservée.",
+        "B": "Le tout Spot n'est pas sûr pour un service critique : les instances peuvent être reprises.",
+        "D": "Les Dedicated Hosts sont l'option la plus coûteuse et inutile sans contrainte de licence."
+      },
+      "ref": "Module 6 — Question 28",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-029",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une instance EC2 est arrêtée (stopped). Quelle paire d'éléments reste facturée ?",
+      "choices": {
+        "A": "Les volumes EBS attachés + Les frais de calcul de l'instance",
+        "B": "Une Elastic IP conservée + Le trafic entrant (data transfer in)",
+        "C": "Le profil d'instance IAM + Les volumes EBS attachés",
+        "D": "Les volumes EBS attachés + Une Elastic IP conservée"
+      },
+      "answer": "D",
+      "explanation": "Le stockage EBS et l'adresse IPv4 publique/Elastic IP restent facturés ; le calcul est suspendu, le trafic entrant et IAM sont gratuits.",
+      "why": {
+        "A": "Les frais de calcul sont suspendus quand l'instance est arrêtée.",
+        "B": "Le trafic entrant (data transfer in) n'est pas facturé.",
+        "C": "IAM est gratuit : le profil d'instance ne génère aucun coût."
+      },
+      "ref": "Module 6 — Question 29",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-030",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quand AWS doit récupérer la capacité d'une Spot Instance, quel préavis est normalement envoyé ?",
+      "choices": {
+        "A": "Aucun préavis",
+        "B": "30 secondes",
+        "C": "2 minutes",
+        "D": "1 heure"
+      },
+      "answer": "C",
+      "explanation": "Un avis d'interruption est émis 2 minutes avant (métadonnées et EventBridge) : l'application doit gérer l'arrêt proprement.",
+      "why": {
+        "A": "AWS émet bien un avis d'interruption avant de reprendre une Spot Instance.",
+        "B": "Le préavis standard est de 2 minutes, pas de 30 secondes.",
+        "D": "Le préavis n'est que de 2 minutes, bien moins qu'une heure."
+      },
+      "ref": "Module 6 — Question 30",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-031",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle affirmation sur un redémarrage (reboot) d'une instance EC2 est exacte ?",
+      "choices": {
+        "A": "L'instance migre vers un autre hôte physique",
+        "B": "Les données de l'instance store sont perdues",
+        "C": "L'instance conserve son IP publique, son hôte et les données de l'instance store",
+        "D": "Elle reçoit une nouvelle IP publique"
+      },
+      "answer": "C",
+      "explanation": "Un reboot équivaut à redémarrer un OS : même hôte, mêmes IP, instance store intact ; c'est un stop/start qui change d'hôte.",
+      "why": {
+        "A": "Le changement d'hôte se produit lors d'un stop/start, pas d'un reboot.",
+        "B": "Les données de l'instance store survivent à un reboot ; elles sont perdues au stop ou à la terminaison.",
+        "D": "L'IP publique est conservée lors d'un reboot ; elle change après un stop/start."
+      },
+      "ref": "Module 6 — Question 31",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-032",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans Amazon ECS, quel élément décrit les conteneurs d'une application (image, CPU, mémoire, ports) ?",
+      "choices": {
+        "A": "Le cluster",
+        "B": "Le service",
+        "C": "Le registre",
+        "D": "La définition de tâche (task definition)"
+      },
+      "answer": "D",
+      "explanation": "La task definition est le plan de l'application : image, CPU, mémoire et ports de chaque conteneur.",
+      "why": {
+        "A": "Le cluster regroupe les ressources de calcul, il ne décrit pas les conteneurs.",
+        "B": "Le service maintient le nombre voulu de tâches en exécution.",
+        "C": "Le registre (ECR) stocke les images, il ne définit ni CPU, ni mémoire, ni ports."
+      },
+      "ref": "Module 6 — Question 32",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-033",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle affirmation sur AWS Elastic Beanstalk est exacte ?",
+      "choices": {
+        "A": "Pas de frais propres : vous payez les ressources créées (EC2, ELB...) et gardez le contrôle dessus",
+        "B": "Il facture des frais supplémentaires par déploiement",
+        "C": "Il ne prend en charge que Java",
+        "D": "Il interdit tout accès aux ressources sous-jacentes"
+      },
+      "answer": "A",
+      "explanation": "Beanstalk est gratuit en soi ; plusieurs langages sont pris en charge et vous conservez l'accès aux ressources créées.",
+      "why": {
+        "B": "Beanstalk n'ajoute aucun frais : seules les ressources sous-jacentes sont facturées.",
+        "C": "Beanstalk prend en charge plusieurs langages et plateformes, pas uniquement Java.",
+        "D": "Vous gardez l'accès et le contrôle des ressources créées (EC2, ELB...)."
+      },
+      "ref": "Module 6 — Question 33",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-034",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel terme désigne la latence supplémentaire lors de la première invocation d'une fonction Lambda après une période d'inactivité ?",
+      "choices": {
+        "A": "Cold start (démarrage à froid)",
+        "B": "Throttling",
+        "C": "Failover",
+        "D": "Drift"
+      },
+      "answer": "A",
+      "explanation": "Le cold start correspond à la création et l'initialisation d'un nouvel environnement d'exécution.",
+      "why": {
+        "B": "Le throttling est la limitation des invocations quand la concurrence autorisée est dépassée.",
+        "C": "Le failover est le basculement vers une ressource de secours en cas de panne.",
+        "D": "Le drift désigne l'écart entre la configuration réelle et la configuration attendue."
+      },
+      "ref": "Module 6 — Question 34",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Charge stable et critique pendant 3 ans, sans besoin de changer de famille ni de région : quelle option offre généralement la plus forte économie ?",
+      "choices": {
+        "A": "Convertible RI, 1 an, sans paiement initial",
+        "B": "On-Demand",
+        "C": "Standard RI, 3 ans, paiement initial total",
+        "D": "Spot Instances"
+      },
+      "answer": "C",
+      "explanation": "Remise maximale : engagement le plus long, paiement initial total (All Upfront) et type Standard, au prix de la flexibilité.",
+      "why": {
+        "A": "Convertible, 1 an et sans paiement initial : chacun de ces choix réduit la remise.",
+        "B": "On-Demand est le tarif plein, sans aucune remise d'engagement.",
+        "D": "Les Spot peuvent être interrompues, inadaptées à une charge critique."
+      },
+      "ref": "Module 6 — Question 35",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-036",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "À quelle adresse une application, depuis l'instance, interroge-t-elle le service de métadonnées (ID d'instance, AZ, etc.) ?",
+      "choices": {
+        "A": "127.0.0.1",
+        "B": "10.0.0.1",
+        "C": "192.168.0.254",
+        "D": "169.254.169.254"
+      },
+      "answer": "D",
+      "explanation": "Le service de métadonnées d'instance (IMDS) est joignable uniquement depuis l'instance, à l'adresse 169.254.169.254.",
+      "why": {
+        "A": "127.0.0.1 est l'adresse de bouclage locale (localhost), pas l'IMDS.",
+        "B": "10.0.0.1 est une adresse privée de réseau, pas celle du service de métadonnées.",
+        "C": "192.168.0.254 est une adresse privée quelconque, sans lien avec l'IMDS."
+      },
+      "ref": "Module 6 — Question 36",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-037",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le port 22 est ouvert depuis votre IP, mais votre site sur le port 80 reste inaccessible. Quelle est la cause la plus probable ?",
+      "choices": {
+        "A": "Aucune règle entrante n'autorise le port 80 (tout ce qui n'est pas autorisé est refusé)",
+        "B": "Il faut ajouter une règle de refus pour le port 80",
+        "C": "Il manque une règle sortante pour renvoyer la réponse",
+        "D": "Le volume d'instance store est plein"
+      },
+      "answer": "A",
+      "explanation": "Un security group refuse par défaut tout le trafic entrant non autorisé ; étant stateful, la réponse est ensuite autorisée automatiquement.",
+      "why": {
+        "B": "Les security groups ne contiennent que des règles d'autorisation, et un refus bloquerait le site.",
+        "C": "Le security group est stateful : la réponse à une requête autorisée sort automatiquement.",
+        "D": "Rien n'indique un problème de stockage ; le symptôme correspond à un filtrage réseau."
+      },
+      "ref": "Module 6 — Question 37",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-038",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle paire de cas regroupe deux usages pour lesquels Lambda n'est PAS adapté ?",
+      "choices": {
+        "A": "Un traitement continu de 2 heures + Une fonction déclenchée par un dépôt dans S3",
+        "B": "Un traitement continu de 2 heures + Une application nécessitant l'accès à l'OS et des logiciels personnalisés installés",
+        "C": "Une application nécessitant l'accès à l'OS et des logiciels personnalisés + Un backend d'API léger derrière API Gateway",
+        "D": "Un backend d'API léger derrière API Gateway + Une courte tâche planifiée via EventBridge"
+      },
+      "answer": "B",
+      "explanation": "Lambda est limité à 15 minutes par invocation et ne donne pas accès à l'OS ; les autres cas sont ses usages typiques.",
+      "why": {
+        "A": "Une fonction déclenchée par un dépôt S3 est un usage typique de Lambda.",
+        "C": "Un backend d'API léger derrière API Gateway est un usage typique de Lambda.",
+        "D": "Ces deux cas (API légère, tâche planifiée courte) sont des usages typiques de Lambda."
+      },
+      "ref": "Module 6 — Question 38",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-039",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle est la différence essentielle entre un conteneur et une machine virtuelle ?",
+      "choices": {
+        "A": "Les conteneurs embarquent chacun un OS invité complet",
+        "B": "Les conteneurs partagent le noyau de l'hôte ; une VM embarque son propre OS invité",
+        "C": "Les VM partagent le noyau de l'hôte",
+        "D": "Les conteneurs nécessitent un hyperviseur"
+      },
+      "answer": "B",
+      "explanation": "Les conteneurs sont plus légers : isolation au niveau processus et noyau partagé, alors que les VM virtualisent le matériel via un hyperviseur.",
+      "why": {
+        "A": "C'est la VM qui embarque un OS invité complet ; le conteneur partage le noyau de l'hôte.",
+        "C": "Les VM ont chacune leur propre OS invité ; ce sont les conteneurs qui partagent le noyau.",
+        "D": "C'est la VM qui repose sur un hyperviseur ; le conteneur s'appuie sur le noyau de l'hôte."
+      },
+      "ref": "Module 6 — Question 39",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-040",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Comment exécuter des pods Kubernetes sans gérer les nœuds worker ?",
+      "choices": {
+        "A": "Amazon EKS avec AWS Fargate",
+        "B": "Amazon ECS avec le type de lancement EC2",
+        "C": "Elastic Beanstalk avec une AMI personnalisée",
+        "D": "Lambda Layers"
+      },
+      "answer": "A",
+      "explanation": "EKS sur Fargate exécute chaque pod dans un environnement managé : aucun nœud EC2 à administrer.",
+      "why": {
+        "B": "ECS n'est pas Kubernetes, et le type de lancement EC2 implique de gérer les instances.",
+        "C": "Elastic Beanstalk n'exécute pas de pods Kubernetes et s'appuie sur des instances EC2.",
+        "D": "Les Lambda Layers partagent du code entre fonctions Lambda, sans rapport avec Kubernetes."
+      },
+      "ref": "Module 6 — Question 40",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-041",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une instance burstable (famille T) a épuisé ses crédits CPU en mode standard. Que se passe-t-il ?",
+      "choices": {
+        "A": "Elle est arrêtée automatiquement",
+        "B": "Elle bascule vers un autre type d'instance",
+        "C": "Sa performance CPU est limitée au niveau de base (baseline)",
+        "D": "Elle passe en Spot"
+      },
+      "answer": "C",
+      "explanation": "Sans crédits, le CPU est plafonné à la performance de base ; en mode unlimited, le dépassement serait facturé.",
+      "why": {
+        "A": "L'instance continue de tourner, seulement bridée à son niveau de base.",
+        "B": "Le type d'instance ne change pas automatiquement à l'épuisement des crédits.",
+        "D": "Le modèle de tarification ne change pas : une instance ne bascule jamais seule en Spot."
+      },
+      "ref": "Module 6 — Question 41",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-042",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Par défaut, que devient le volume EBS racine d'une instance lorsqu'elle est terminée ?",
+      "choices": {
+        "A": "Il est conservé tel quel",
+        "B": "Il est converti en snapshot",
+        "C": "Il est migré vers S3",
+        "D": "Il est supprimé (DeleteOnTermination activé par défaut)"
+      },
+      "answer": "D",
+      "explanation": "Le volume racine est supprimé par défaut à la terminaison ; les volumes de données supplémentaires sont conservés par défaut.",
+      "why": {
+        "A": "Ce sont les volumes de données supplémentaires qui sont conservés par défaut, pas le volume racine.",
+        "B": "Aucun snapshot n'est créé automatiquement à la terminaison.",
+        "C": "Le volume n'est pas migré vers S3 : il est supprimé."
+      },
+      "ref": "Module 6 — Question 42",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-043",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans quel cas choisir le type de lancement EC2 plutôt que Fargate pour ECS ?",
+      "choices": {
+        "A": "Quand vous ne voulez gérer aucun serveur",
+        "B": "Quand vous avez besoin de contrôler l'infrastructure du cluster (type d'instance, GPU, AMI personnalisée)",
+        "C": "Pour exécuter uniquement des fonctions",
+        "D": "Quand vous n'utilisez pas Docker"
+      },
+      "answer": "B",
+      "explanation": "Le type EC2 donne le contrôle des instances du cluster (au prix de leur gestion) ; Fargate retire cette charge.",
+      "why": {
+        "A": "Ne gérer aucun serveur est justement l'intérêt de Fargate.",
+        "C": "Exécuter uniquement des fonctions relève de Lambda, pas d'ECS.",
+        "D": "ECS exécute des conteneurs Docker quel que soit le type de lancement."
+      },
+      "ref": "Module 6 — Question 43",
+      "source": "qcm-m6"
+    },
+    {
+      "id": "aws-practice-exam-m6-044",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous devez garantir de la capacité EC2 dans une zone précise pour un événement ponctuel, sans engagement de 1 ou 3 ans. Que choisir ?",
+      "choices": {
+        "A": "On-Demand Capacity Reservation",
+        "B": "Spot Fleet",
+        "C": "Standard RI régionale",
+        "D": "Lambda Provisioned Concurrency"
+      },
+      "answer": "A",
+      "explanation": "La Capacity Reservation réserve de la capacité dans une AZ, sans durée minimale ; une RI régionale ne garantit pas la capacité.",
+      "why": {
+        "B": "Une Spot Fleet repose sur des instances Spot, interruptibles et sans capacité garantie.",
+        "C": "Une RI régionale impose un engagement de 1 ou 3 ans et ne garantit pas la capacité dans une AZ.",
+        "D": "Provisioned Concurrency concerne les fonctions Lambda, pas la capacité EC2."
+      },
+      "ref": "Module 6 — Question 44",
+      "source": "qcm-m6"
+    }
+  ],
+  "flashcards": []
+}

@@ -1,0 +1,849 @@
+{
+  "id": "m4",
+  "title": "Module 4 — Sécurité du cloud AWS",
+  "order": 4,
+  "description": "Responsabilité partagée, IAM, compte racine, Organizations et services de sécurité, d'audit et de chiffrement AWS.",
+  "questions": [
+    {
+      "id": "aws-practice-exam-m4-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans le modèle de responsabilité partagée, de quoi AWS est-il responsable ?",
+      "choices": {
+        "A": "De la sécurité VERS le cloud",
+        "B": "De la gestion des mots de passe des utilisateurs du client",
+        "C": "De la sécurité DU cloud",
+        "D": "De la sécurité DANS le cloud"
+      },
+      "answer": "C",
+      "explanation": "AWS assure la sécurité DU cloud (bâtiments, matériel, réseau, logiciel d'infrastructure) ; le client assure la sécurité DANS le cloud (données, accès, configuration).",
+      "why": {
+        "A": "« Sécurité vers le cloud » n'est pas une notion du modèle de responsabilité partagée.",
+        "B": "La gestion des identités et des mots de passe des utilisateurs relève du client.",
+        "D": "La sécurité DANS le cloud (données, accès, configuration) est la part du client."
+      },
+      "ref": "Module 4 — Question 1",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Parmi ces tâches, laquelle incombe toujours au client ?",
+      "choices": {
+        "A": "La sécurité physique des data centers",
+        "B": "Le remplacement des disques défaillants",
+        "C": "La gestion de ses données et des accès à ses ressources (IAM)",
+        "D": "La maintenance du matériel réseau d'AWS"
+      },
+      "answer": "C",
+      "explanation": "Les données, la gestion des identités et des permissions restent toujours à la charge du client, quel que soit le service utilisé.",
+      "why": {
+        "A": "La sécurité physique des data centers fait partie de la sécurité DU cloud, assurée par AWS.",
+        "B": "Le remplacement du matériel défaillant est géré par AWS.",
+        "D": "Le matériel réseau de l'infrastructure AWS est maintenu par AWS."
+      },
+      "ref": "Module 4 — Question 2",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service permet de contrôler qui peut accéder aux ressources AWS et avec quelles permissions ?",
+      "choices": {
+        "A": "AWS IAM",
+        "B": "Amazon Route 53",
+        "C": "AWS Snowball",
+        "D": "Amazon CloudFront"
+      },
+      "answer": "A",
+      "explanation": "AWS Identity and Access Management (IAM) gère utilisateurs, groupes, rôles et politiques. C'est un service global.",
+      "why": {
+        "B": "Route 53 est un service DNS, pas un service de gestion des accès.",
+        "C": "Snowball sert au transfert physique de grandes quantités de données.",
+        "D": "CloudFront est un réseau de diffusion de contenu (CDN)."
+      },
+      "ref": "Module 4 — Question 3",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle fonctionnalité ajoute une seconde vérification (par exemple un code à usage unique) lors de la connexion à un compte AWS ?",
+      "choices": {
+        "A": "L'authentification multifacteur (MFA)",
+        "B": "Le pare-feu applicatif",
+        "C": "Le chiffrement des données",
+        "D": "Les groupes de sécurité"
+      },
+      "answer": "A",
+      "explanation": "La MFA combine quelque chose que l'on connaît (mot de passe) et quelque chose que l'on possède (application, clé de sécurité, jeton).",
+      "why": {
+        "B": "Un pare-feu applicatif filtre le trafic HTTP ; il n'intervient pas dans la connexion au compte.",
+        "C": "Le chiffrement protège les données, il n'ajoute pas de facteur d'authentification.",
+        "D": "Les groupes de sécurité filtrent le trafic réseau des instances, pas la connexion au compte."
+      },
+      "ref": "Module 4 — Question 4",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle identité a un accès complet à toutes les ressources du compte et ne devrait pas être utilisée pour les tâches courantes ?",
+      "choices": {
+        "A": "Un rôle IAM",
+        "B": "Un groupe IAM",
+        "C": "L'utilisateur racine (root) du compte",
+        "D": "Un utilisateur IAM administrateur"
+      },
+      "answer": "C",
+      "explanation": "L'utilisateur racine est créé avec le compte et a un accès complet. Il faut le protéger avec la MFA et utiliser un utilisateur IAM au quotidien.",
+      "why": {
+        "A": "Un rôle IAM n'a que les permissions de ses politiques et fournit des identifiants temporaires.",
+        "B": "Un groupe IAM n'est pas une identité de connexion ; il sert à attribuer des permissions.",
+        "D": "L'utilisateur IAM administrateur est justement celui recommandé pour le travail quotidien."
+      },
+      "ref": "Module 4 — Question 5",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service donne un accès à la demande aux rapports de conformité d'AWS (par exemple SOC, ISO, PCI) ?",
+      "choices": {
+        "A": "AWS Artifact",
+        "B": "Amazon CloudWatch",
+        "C": "AWS Trusted Advisor",
+        "D": "AWS Direct Connect"
+      },
+      "answer": "A",
+      "explanation": "AWS Artifact est le portail libre-service des rapports d'audit et des accords (par exemple BAA) d'AWS.",
+      "why": {
+        "B": "CloudWatch fournit métriques, journaux applicatifs et alarmes, pas des rapports de conformité.",
+        "C": "Trusted Advisor émet des recommandations sur votre compte, pas les rapports d'audit d'AWS.",
+        "D": "Direct Connect est une connexion réseau dédiée vers AWS."
+      },
+      "ref": "Module 4 — Question 6",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'est-ce qu'un groupe IAM ?",
+      "choices": {
+        "A": "Un ensemble de Régions autorisées pour un compte",
+        "B": "Un ensemble de comptes AWS regroupés pour la facturation",
+        "C": "Un ensemble d'utilisateurs IAM auxquels on attache des permissions communes",
+        "D": "Un rôle que plusieurs services peuvent assumer"
+      },
+      "answer": "C",
+      "explanation": "Les groupes simplifient l'attribution des permissions : on attache une politique au groupe, tous ses membres en bénéficient.",
+      "why": {
+        "A": "IAM est un service global ; un groupe ne regroupe pas des Régions.",
+        "B": "Regrouper des comptes pour la facturation relève d'AWS Organizations, pas d'un groupe IAM.",
+        "D": "Un groupe ne peut pas être assumé ; c'est le propre d'un rôle IAM."
+      },
+      "ref": "Module 4 — Question 7",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle est la principale différence entre un utilisateur IAM et un rôle IAM ?",
+      "choices": {
+        "A": "Un rôle ne peut avoir aucune politique de permissions",
+        "B": "Un rôle n'a pas d'identifiants permanents : il est assumé temporairement",
+        "C": "Un utilisateur IAM ne peut utiliser que la CLI",
+        "D": "Un rôle est toujours réservé à l'utilisateur racine"
+      },
+      "answer": "B",
+      "explanation": "Un rôle fournit des identifiants temporaires (via STS) à qui l'assume ; un utilisateur IAM possède des identifiants à long terme.",
+      "why": {
+        "A": "Un rôle reçoit des permissions précisément via des politiques qui lui sont attachées.",
+        "C": "Un utilisateur IAM peut utiliser la console (mot de passe) comme la CLI/SDK (clés d'accès).",
+        "D": "Un rôle peut être assumé par des utilisateurs, des services, des applications ou d'autres comptes."
+      },
+      "ref": "Module 4 — Question 8",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'est-ce qu'une politique IAM ?",
+      "choices": {
+        "A": "Un document JSON qui définit des permissions sur des ressources",
+        "B": "Un contrat de niveau de service avec AWS",
+        "C": "Un rapport de conformité téléchargeable",
+        "D": "Un type de clé de chiffrement"
+      },
+      "answer": "A",
+      "explanation": "Une politique est un document JSON avec des instructions Effect (Allow/Deny), Action et Resource.",
+      "why": {
+        "B": "Un contrat de niveau de service (SLA) concerne la disponibilité, pas les permissions.",
+        "C": "Les rapports de conformité sont fournis par AWS Artifact.",
+        "D": "Les clés de chiffrement sont gérées par AWS KMS, pas par des politiques IAM."
+      },
+      "ref": "Module 4 — Question 9",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quels identifiants permettent à l'AWS CLI ou à un SDK d'appeler les API AWS ?",
+      "choices": {
+        "A": "L'identifiant du compte à 12 chiffres",
+        "B": "Le code MFA affiché sur le téléphone",
+        "C": "Le mot de passe de connexion à la console",
+        "D": "Les clés d'accès (ID de clé d'accès et clé d'accès secrète)"
+      },
+      "answer": "D",
+      "explanation": "Les clés d'accès servent à l'accès programmatique ; le mot de passe sert à la console web.",
+      "why": {
+        "A": "L'identifiant du compte identifie le compte mais n'authentifie personne.",
+        "B": "Le code MFA est un facteur supplémentaire, il ne suffit pas à appeler les API.",
+        "C": "Le mot de passe sert à se connecter à la console web, pas à la CLI ou aux SDK."
+      },
+      "ref": "Module 4 — Question 10",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous exécutez une application sur une instance Amazon EC2. Quelle tâche vous incombe ?",
+      "choices": {
+        "A": "Mettre à jour le logiciel de l'hyperviseur",
+        "B": "Appliquer les correctifs du système d'exploitation invité",
+        "C": "Assurer la sécurité physique du serveur",
+        "D": "Remplacer le matériel défectueux"
+      },
+      "answer": "B",
+      "explanation": "EC2 est un service d'infrastructure : AWS gère le matériel et l'hyperviseur, le client gère l'OS invité, les applications, le pare-feu et les données.",
+      "why": {
+        "A": "L'hyperviseur fait partie de l'infrastructure gérée par AWS.",
+        "C": "La sécurité physique des serveurs est assurée par AWS.",
+        "D": "Le remplacement du matériel relève d'AWS."
+      },
+      "ref": "Module 4 — Question 11",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service permet de créer et de contrôler les clés de chiffrement utilisées pour protéger vos données ?",
+      "choices": {
+        "A": "AWS KMS",
+        "B": "Amazon Macie",
+        "C": "AWS Shield",
+        "D": "AWS Config"
+      },
+      "answer": "A",
+      "explanation": "KMS crée et gère les clés cryptographiques, s'intègre à de nombreux services (S3, EBS, RDS) et journalise leur usage dans CloudTrail.",
+      "why": {
+        "B": "Macie découvre les données sensibles dans S3, il ne gère pas de clés.",
+        "C": "Shield protège contre les attaques DDoS.",
+        "D": "Config évalue la conformité des configurations des ressources."
+      },
+      "ref": "Module 4 — Question 12",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service protège automatiquement contre les attaques DDoS courantes, sans coût supplémentaire pour tous les clients ?",
+      "choices": {
+        "A": "AWS WAF",
+        "B": "AWS Secrets Manager",
+        "C": "AWS Shield Standard",
+        "D": "Amazon GuardDuty"
+      },
+      "answer": "C",
+      "explanation": "Shield Standard est activé automatiquement et gratuitement ; Shield Advanced est une offre payante avec protections étendues et assistance.",
+      "why": {
+        "A": "WAF filtre le trafic HTTP (couche 7) selon des règles à configurer ; il est payant.",
+        "B": "Secrets Manager stocke et fait tourner des secrets, il ne protège pas contre les DDoS.",
+        "D": "GuardDuty détecte des menaces dans les journaux ; il doit être activé et n'est pas gratuit."
+      },
+      "ref": "Module 4 — Question 13",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service enregistre les appels d'API effectués dans votre compte (qui, quoi, quand, depuis où) ?",
+      "choices": {
+        "A": "AWS Artifact",
+        "B": "AWS CloudTrail",
+        "C": "AWS Trusted Advisor",
+        "D": "Amazon CloudWatch"
+      },
+      "answer": "B",
+      "explanation": "CloudTrail est le journal d'audit des actions sur le compte ; CloudWatch gère métriques, journaux applicatifs et alarmes.",
+      "why": {
+        "A": "Artifact fournit les rapports de conformité d'AWS, pas l'historique de vos appels d'API.",
+        "C": "Trusted Advisor émet des recommandations, il n'enregistre pas les appels d'API.",
+        "D": "CloudWatch suit métriques, journaux applicatifs et alarmes, pas l'audit des actions du compte."
+      },
+      "ref": "Module 4 — Question 14",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service analyse automatiquement vos charges de travail (par exemple des instances EC2) pour y détecter des vulnérabilités logicielles ?",
+      "choices": {
+        "A": "AWS Organizations",
+        "B": "Amazon Cognito",
+        "C": "AWS Shield",
+        "D": "Amazon Inspector"
+      },
+      "answer": "D",
+      "explanation": "Amazon Inspector recherche les vulnérabilités connues et les expositions réseau involontaires, puis classe les résultats par priorité.",
+      "why": {
+        "A": "Organizations sert à gérer plusieurs comptes AWS.",
+        "B": "Cognito gère l'authentification des utilisateurs d'applications.",
+        "C": "Shield protège contre les DDoS, il n'analyse pas les vulnérabilités logicielles."
+      },
+      "ref": "Module 4 — Question 15",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-016",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une société utilise Amazon RDS for MySQL. Laquelle de ces tâches reste à sa charge ?",
+      "choices": {
+        "A": "Appliquer les correctifs du système d'exploitation hôte",
+        "B": "Remplacer le matériel du serveur de base de données",
+        "C": "Configurer les groupes de sécurité et gérer qui peut accéder aux données",
+        "D": "Assurer la sécurité physique du data center"
+      },
+      "answer": "C",
+      "explanation": "RDS est un service géré : AWS gère matériel, OS et logiciel du moteur. Le client gère les données, l'accès réseau (groupes de sécurité), les utilisateurs et les paramètres de chiffrement.",
+      "why": {
+        "A": "Avec RDS, AWS applique les correctifs de l'OS sous-jacent.",
+        "B": "Le matériel est toujours géré par AWS.",
+        "D": "La sécurité physique des data centers relève d'AWS."
+      },
+      "ref": "Module 4 — Question 16",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-017",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Pour une fonction AWS Lambda, qui maintient le système d'exploitation et l'environnement d'exécution sous-jacents ?",
+      "choices": {
+        "A": "Le client, à chaque déploiement",
+        "B": "Le client, seulement pour les fonctions de plus de 512 Mo",
+        "C": "Le client et AWS à parts égales",
+        "D": "AWS ; le client gère son code, ses données et ses permissions IAM"
+      },
+      "answer": "D",
+      "explanation": "Lambda est un service « abstrait » : AWS gère l'infrastructure et la plateforme d'exécution. Le client gère le code, les données et les permissions.",
+      "why": {
+        "A": "Le client ne gère jamais l'OS d'une fonction Lambda, même lors d'un déploiement.",
+        "B": "La taille mémoire de la fonction ne change pas le partage des responsabilités.",
+        "C": "Il n'y a pas de partage à parts égales : l'OS et l'environnement d'exécution sont entièrement gérés par AWS."
+      },
+      "ref": "Module 4 — Question 17",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Comment AWS qualifie-t-il la gestion des correctifs (patch management) dans le modèle de responsabilité partagée ?",
+      "choices": {
+        "A": "Un contrôle partagé : AWS corrige l'infrastructure, le client corrige ses systèmes invités et ses applications",
+        "B": "Un contrôle exclusivement à la charge d'AWS",
+        "C": "Un contrôle exclusivement à la charge du client",
+        "D": "Un contrôle hérité : le client en hérite entièrement"
+      },
+      "answer": "A",
+      "explanation": "Les contrôles partagés comprennent les correctifs, la gestion de la configuration, la sensibilisation et la formation. Les contrôles hérités sont par exemple la sécurité physique.",
+      "why": {
+        "B": "AWS ne corrige pas les OS invités ni les applications du client.",
+        "C": "Le client ne corrige pas l'infrastructure d'AWS.",
+        "D": "Un contrôle hérité est par exemple la sécurité physique ; les correctifs sont un contrôle partagé."
+      },
+      "ref": "Module 4 — Question 18",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle tâche exige obligatoirement les identifiants de l'utilisateur racine ?",
+      "choices": {
+        "A": "Créer un bucket Amazon S3",
+        "B": "Lancer une instance EC2",
+        "C": "Fermer le compte AWS",
+        "D": "Créer un utilisateur IAM"
+      },
+      "answer": "C",
+      "explanation": "Fermer le compte, changer le plan de support ou certains paramètres de compte nécessitent l'utilisateur racine. Le reste se fait avec un utilisateur IAM.",
+      "why": {
+        "A": "Un utilisateur IAM disposant des permissions S3 peut créer un bucket.",
+        "B": "Un utilisateur IAM disposant des permissions EC2 peut lancer une instance.",
+        "D": "Un utilisateur IAM administrateur peut créer d'autres utilisateurs IAM."
+      },
+      "ref": "Module 4 — Question 19",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-020",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle paire d'actions est recommandée pour sécuriser un nouveau compte AWS ?",
+      "choices": {
+        "A": "Partager le mot de passe racine avec l'équipe d'administration + Activer la MFA sur l'utilisateur racine",
+        "B": "Créer des clés d'accès racine et les intégrer aux scripts + Créer un utilisateur IAM administrateur pour le quotidien",
+        "C": "Activer la MFA sur l'utilisateur racine + Désactiver la journalisation CloudTrail pour réduire les coûts",
+        "D": "Activer la MFA sur l'utilisateur racine + Créer un utilisateur IAM administrateur pour le travail quotidien"
+      },
+      "answer": "D",
+      "explanation": "Bonnes pratiques : MFA sur le root, ne pas créer de clés d'accès racine, utiliser un utilisateur IAM au quotidien et appliquer le moindre privilège.",
+      "why": {
+        "A": "Le mot de passe racine ne doit jamais être partagé : chacun doit avoir sa propre identité IAM.",
+        "B": "Il ne faut pas créer de clés d'accès pour l'utilisateur racine, encore moins les intégrer à des scripts.",
+        "C": "Désactiver CloudTrail supprime l'audit des actions du compte, ce qui affaiblit la sécurité."
+      },
+      "ref": "Module 4 — Question 20",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-021",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un utilisateur IAM appartient à deux groupes : l'un autorise s3:*, l'autre refuse explicitement s3:DeleteObject. Peut-il supprimer un objet S3 ?",
+      "choices": {
+        "A": "Oui, car le dernier groupe créé l'emporte",
+        "B": "Non, car un refus explicite l'emporte toujours sur une autorisation",
+        "C": "Oui, car l'autorisation s3:* est plus large",
+        "D": "Cela dépend de l'ordre alphabétique des groupes"
+      },
+      "answer": "B",
+      "explanation": "Évaluation IAM : refus par défaut, un Allow explicite autorise, mais un Deny explicite prime sur tout.",
+      "why": {
+        "A": "La date de création des groupes n'intervient pas dans l'évaluation des politiques.",
+        "C": "La largeur d'une autorisation ne compte pas : un Deny explicite l'emporte sur tout Allow.",
+        "D": "L'ordre des groupes n'a aucun effet ; seul compte le Deny explicite."
+      },
+      "ref": "Module 4 — Question 21",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-022",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un nouvel utilisateur IAM est créé, sans aucune politique attachée. Que peut-il faire ?",
+      "choices": {
+        "A": "Tout, sauf accéder à la facturation",
+        "B": "Rien : l'accès est refusé par défaut (refus implicite)",
+        "C": "Lire les ressources du compte, sans pouvoir les modifier",
+        "D": "Accéder uniquement à Amazon S3"
+      },
+      "answer": "B",
+      "explanation": "Un utilisateur IAM n'a aucune permission tant qu'on ne lui en accorde pas. C'est la base du principe du moindre privilège.",
+      "why": {
+        "A": "Sans politique, l'utilisateur n'a aucun droit, pas un accès presque complet.",
+        "C": "Même la lecture doit être explicitement autorisée par une politique.",
+        "D": "Aucun service n'est accessible par défaut, S3 compris."
+      },
+      "ref": "Module 4 — Question 22",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application sur Amazon EC2 doit lire des objets dans un bucket S3. Quelle est la bonne pratique ?",
+      "choices": {
+        "A": "Intégrer des clés d'accès IAM dans le code de l'application",
+        "B": "Utiliser les clés d'accès de l'utilisateur racine dans une variable d'environnement",
+        "C": "Attacher à l'instance un rôle IAM avec les permissions nécessaires (profil d'instance)",
+        "D": "Stocker les clés d'accès dans un fichier texte sur l'instance"
+      },
+      "answer": "C",
+      "explanation": "Le rôle fournit des identifiants temporaires, renouvelés automatiquement, sans secret à stocker ni à faire tourner à la main.",
+      "why": {
+        "A": "Des clés à long terme dans le code risquent de fuiter et doivent être tournées manuellement.",
+        "B": "Les clés racine ne doivent jamais exister ni être utilisées par une application.",
+        "D": "Un fichier texte expose des identifiants à long terme sur l'instance."
+      },
+      "ref": "Module 4 — Question 23",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-024",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le compte A veut donner accès à certaines ressources au compte B d'un partenaire, sans créer d'utilisateurs IAM pour lui dans le compte A. Quelle approche convient ?",
+      "choices": {
+        "A": "Créer dans le compte A un rôle IAM que le compte B est autorisé à assumer",
+        "B": "Partager les clés d'accès de l'utilisateur racine du compte A",
+        "C": "Désactiver la MFA pour faciliter l'accès",
+        "D": "Créer un utilisateur IAM avec le même nom dans chaque compte"
+      },
+      "answer": "A",
+      "explanation": "L'accès inter-comptes repose sur les rôles : le compte de confiance assume le rôle et obtient des identifiants temporaires.",
+      "why": {
+        "B": "Partager les clés racine donnerait un accès total au compte A : à proscrire.",
+        "C": "Désactiver la MFA affaiblit la sécurité et ne donne aucun accès au compte B.",
+        "D": "Des utilisateurs homonymes dans deux comptes restent des identités distinctes, sans lien d'accès."
+      },
+      "ref": "Module 4 — Question 24",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle affirmation sur les groupes IAM est exacte ?",
+      "choices": {
+        "A": "Un groupe contient uniquement des utilisateurs (pas d'autres groupes), et un utilisateur peut appartenir à plusieurs groupes",
+        "B": "Un groupe peut contenir d'autres groupes",
+        "C": "Un utilisateur ne peut appartenir qu'à un seul groupe",
+        "D": "Un groupe peut être assumé comme un rôle"
+      },
+      "answer": "A",
+      "explanation": "Il n'y a pas d'imbrication de groupes. Un groupe n'est pas une identité utilisable pour se connecter ; il sert uniquement à attribuer des permissions.",
+      "why": {
+        "B": "IAM ne permet pas d'imbriquer des groupes.",
+        "C": "Un utilisateur peut être membre de plusieurs groupes.",
+        "D": "Un groupe n'est pas une identité : il ne peut pas être assumé comme un rôle."
+      },
+      "ref": "Module 4 — Question 25",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-026",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous avez perdu la clé d'accès secrète d'un utilisateur IAM créée il y a un mois. Que faire ?",
+      "choices": {
+        "A": "Créer une nouvelle clé, mettre à jour les applications, puis désactiver et supprimer l'ancienne",
+        "B": "La consulter dans la console IAM",
+        "C": "Demander son affichage au support AWS",
+        "D": "Utiliser uniquement l'ID de clé d'accès, qui suffit à s'authentifier"
+      },
+      "answer": "A",
+      "explanation": "La clé secrète n'est visible qu'à la création. Si elle est perdue, on la remplace (rotation) et on désactive l'ancienne.",
+      "why": {
+        "B": "La clé secrète ne s'affiche qu'une fois, à la création ; la console ne permet pas de la revoir.",
+        "C": "Le support AWS ne peut pas afficher une clé secrète, elle n'est pas récupérable.",
+        "D": "L'ID de clé d'accès seul ne suffit pas : la clé secrète est nécessaire pour signer les requêtes."
+      },
+      "ref": "Module 4 — Question 26",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-027",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une stratégie de contrôle des services (SCP) d'AWS Organizations refuse l'accès à un service pour une unité d'organisation. Qu'advient-il de l'utilisateur racine d'un compte membre de cette unité ?",
+      "choices": {
+        "A": "Seuls les utilisateurs IAM sont restreints",
+        "B": "Il est également restreint par la SCP",
+        "C": "La SCP s'applique uniquement aux rôles",
+        "D": "Il n'est pas affecté, car le root contourne toujours les SCP"
+      },
+      "answer": "B",
+      "explanation": "Les SCP s'appliquent à tous les utilisateurs et rôles des comptes membres, y compris leur utilisateur racine (mais pas au compte de gestion).",
+      "why": {
+        "A": "Les SCP restreignent aussi les rôles et l'utilisateur racine des comptes membres.",
+        "C": "Les SCP s'appliquent aux utilisateurs, aux rôles et au root des comptes membres.",
+        "D": "Le root d'un compte membre ne contourne pas les SCP ; seul le compte de gestion n'est pas affecté."
+      },
+      "ref": "Module 4 — Question 27",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une SCP autorise ec2:* pour un compte membre. Un utilisateur IAM de ce compte, sans aucune politique IAM, peut-il lancer une instance EC2 ?",
+      "choices": {
+        "A": "Oui, mais uniquement dans la Région par défaut",
+        "B": "Non : une SCP ne donne aucune permission, elle fixe seulement un plafond",
+        "C": "Oui, la SCP lui accorde cette permission",
+        "D": "Oui, si l'utilisateur active la MFA"
+      },
+      "answer": "B",
+      "explanation": "Les permissions effectives sont l'intersection entre la SCP (plafond) et les politiques IAM (autorisations réelles). Sans politique IAM : refus.",
+      "why": {
+        "A": "La Région n'y change rien : sans politique IAM, l'utilisateur n'a aucune permission.",
+        "C": "Une SCP ne fait que plafonner les permissions, elle n'en accorde aucune.",
+        "D": "La MFA authentifie mais n'accorde aucune permission."
+      },
+      "ref": "Module 4 — Question 28",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-029",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un auditeur veut savoir QUI a supprimé un groupe de sécurité hier à 14 h, ainsi que l'adresse IP source de l'appel d'API. Quel service consulter ?",
+      "choices": {
+        "A": "Amazon CloudWatch",
+        "B": "AWS Trusted Advisor",
+        "C": "Amazon Inspector",
+        "D": "AWS CloudTrail"
+      },
+      "answer": "D",
+      "explanation": "CloudTrail journalise l'identité, l'heure, l'IP source et les paramètres de chaque appel d'API.",
+      "why": {
+        "A": "CloudWatch suit métriques et journaux applicatifs, pas l'identité derrière chaque appel d'API.",
+        "B": "Trusted Advisor émet des recommandations, il ne trace pas les actions des utilisateurs.",
+        "C": "Inspector recherche des vulnérabilités, il n'enregistre pas les appels d'API."
+      },
+      "ref": "Module 4 — Question 29",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-030",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une équipe veut vérifier en continu que tous les volumes EBS sont chiffrés et conserver l'historique des changements de configuration des ressources. Quel service convient ?",
+      "choices": {
+        "A": "AWS CloudTrail",
+        "B": "Amazon GuardDuty",
+        "C": "AWS Artifact",
+        "D": "AWS Config"
+      },
+      "answer": "D",
+      "explanation": "AWS Config évalue la conformité des ressources à des règles et conserve l'historique des configurations.",
+      "why": {
+        "A": "CloudTrail enregistre qui a fait quel appel d'API, pas l'état et la conformité des ressources.",
+        "B": "GuardDuty détecte des menaces, il n'évalue pas les configurations.",
+        "C": "Artifact fournit les rapports de conformité d'AWS, pas l'évaluation de vos ressources."
+      },
+      "ref": "Module 4 — Question 30",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-031",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel service analyse en continu les journaux CloudTrail, les journaux de flux VPC et les journaux DNS pour détecter des activités suspectes (par exemple une instance contactant une IP malveillante) ?",
+      "choices": {
+        "A": "Amazon GuardDuty",
+        "B": "AWS WAF",
+        "C": "AWS KMS",
+        "D": "AWS Shield Standard"
+      },
+      "answer": "A",
+      "explanation": "GuardDuty est un service de détection de menaces (intelligence des menaces et apprentissage automatique) activable en quelques clics.",
+      "why": {
+        "B": "WAF filtre les requêtes HTTP entrantes, il n'analyse pas ces journaux.",
+        "C": "KMS gère les clés de chiffrement.",
+        "D": "Shield Standard protège contre les DDoS, il ne détecte pas ce type d'activité suspecte."
+      },
+      "ref": "Module 4 — Question 31",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-032",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une société veut découvrir automatiquement les données personnelles (PII) stockées dans ses buckets S3, grâce à l'apprentissage automatique. Quel service choisir ?",
+      "choices": {
+        "A": "Amazon Macie",
+        "B": "AWS Certificate Manager",
+        "C": "Amazon Inspector",
+        "D": "AWS CloudHSM"
+      },
+      "answer": "A",
+      "explanation": "Amazon Macie identifie et classe les données sensibles dans S3 et alerte en cas d'exposition à risque.",
+      "why": {
+        "B": "Certificate Manager gère les certificats TLS, il n'analyse pas le contenu de S3.",
+        "C": "Inspector recherche des vulnérabilités logicielles, pas des données personnelles.",
+        "D": "CloudHSM fournit des modules matériels de sécurité pour les clés."
+      },
+      "ref": "Module 4 — Question 32",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-033",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application web distribuée via CloudFront subit des tentatives d'injection SQL. Quel service permet de filtrer ces requêtes HTTP malveillantes ?",
+      "choices": {
+        "A": "AWS KMS",
+        "B": "AWS WAF",
+        "C": "Amazon GuardDuty",
+        "D": "AWS Shield Standard"
+      },
+      "answer": "B",
+      "explanation": "AWS WAF filtre le trafic applicatif (couche 7) : injection SQL, XSS, limitation de débit.",
+      "why": {
+        "A": "KMS gère les clés de chiffrement, il ne filtre pas de requêtes.",
+        "C": "GuardDuty détecte des menaces dans les journaux mais ne bloque pas les requêtes HTTP.",
+        "D": "Shield Standard protège surtout contre les DDoS réseau/transport, pas contre l'injection SQL."
+      },
+      "ref": "Module 4 — Question 33",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-034",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une société exige un module de sécurité matériel dédié, à locataire unique, dont elle seule contrôle les clés cryptographiques. Quel service choisir ?",
+      "choices": {
+        "A": "Amazon Cognito",
+        "B": "AWS Secrets Manager",
+        "C": "Amazon Macie",
+        "D": "AWS CloudHSM"
+      },
+      "answer": "D",
+      "explanation": "CloudHSM fournit des HSM dédiés dans votre VPC, contrôlés par le client. KMS est un service géré par AWS avec un modèle multi-clients.",
+      "why": {
+        "A": "Cognito gère l'authentification des utilisateurs d'applications.",
+        "B": "Secrets Manager stocke des secrets mais ne fournit pas de HSM dédié.",
+        "C": "Macie découvre les données sensibles dans S3."
+      },
+      "ref": "Module 4 — Question 34",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel service permet de provisionner, gérer et renouveler des certificats SSL/TLS pour chiffrer les données en transit ?",
+      "choices": {
+        "A": "AWS Artifact",
+        "B": "AWS Certificate Manager (ACM)",
+        "C": "AWS Key Management Service",
+        "D": "Amazon Inspector"
+      },
+      "answer": "B",
+      "explanation": "ACM gère les certificats TLS utilisés par exemple avec CloudFront et Elastic Load Balancing, avec renouvellement automatique.",
+      "why": {
+        "A": "Artifact fournit des rapports de conformité, pas des certificats TLS.",
+        "C": "KMS gère des clés de chiffrement, surtout pour les données au repos, pas des certificats TLS.",
+        "D": "Inspector recherche des vulnérabilités."
+      },
+      "ref": "Module 4 — Question 35",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-036",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un bucket S3 a été exposé publiquement par erreur. Quelle fonctionnalité aide à empêcher tout accès public, au niveau du bucket ou de tout le compte ?",
+      "choices": {
+        "A": "S3 Transfer Acceleration",
+        "B": "S3 Block Public Access",
+        "C": "Le versioning S3",
+        "D": "Les classes de stockage S3 Glacier"
+      },
+      "answer": "B",
+      "explanation": "S3 Block Public Access neutralise les ACL et politiques publiques ; elle fait partie de la sécurisation des données dans S3.",
+      "why": {
+        "A": "Transfer Acceleration accélère les transferts, il ne restreint pas l'accès.",
+        "C": "Le versioning conserve les versions des objets mais n'empêche pas l'accès public.",
+        "D": "Les classes Glacier concernent le coût et l'archivage, pas le contrôle d'accès."
+      },
+      "ref": "Module 4 — Question 36",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-037",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel service signale, avec ses vérifications de base, qu'un groupe de sécurité laisse un port sensible ouvert à tout Internet ou que la MFA n'est pas activée sur le compte racine ?",
+      "choices": {
+        "A": "AWS Cost Explorer",
+        "B": "AWS Artifact",
+        "C": "AWS Trusted Advisor",
+        "D": "Amazon CloudFront"
+      },
+      "answer": "C",
+      "explanation": "Trusted Advisor inspecte le compte et émet des recommandations (coûts, performance, sécurité, tolérance aux pannes). Les contrôles de sécurité de base sont inclus pour tous.",
+      "why": {
+        "A": "Cost Explorer analyse les dépenses, pas la configuration de sécurité.",
+        "B": "Artifact fournit les rapports de conformité d'AWS, il n'inspecte pas votre compte.",
+        "D": "CloudFront est un CDN, il n'audite pas le compte."
+      },
+      "ref": "Module 4 — Question 37",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-038",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application doit récupérer des identifiants de base de données qui changent automatiquement tous les 30 jours, sans redéployer le code. Quel service convient ?",
+      "choices": {
+        "A": "AWS Config",
+        "B": "Amazon Cognito",
+        "C": "AWS Secrets Manager",
+        "D": "AWS Shield"
+      },
+      "answer": "C",
+      "explanation": "Secrets Manager stocke, chiffre et fait tourner automatiquement les secrets (identifiants de base de données, clés d'API).",
+      "why": {
+        "A": "Config évalue les configurations des ressources, il ne stocke pas de secrets.",
+        "B": "Cognito authentifie les utilisateurs finaux d'applications, pas les accès à une base de données.",
+        "D": "Shield protège contre les DDoS."
+      },
+      "ref": "Module 4 — Question 38",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-039",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une application mobile grand public doit proposer inscription et connexion à ses utilisateurs finaux, y compris via des fournisseurs d'identité sociaux. Quel service choisir ?",
+      "choices": {
+        "A": "AWS Organizations",
+        "B": "Amazon Cognito",
+        "C": "Amazon Inspector",
+        "D": "AWS IAM (création d'un utilisateur IAM par client)"
+      },
+      "answer": "B",
+      "explanation": "Cognito gère l'authentification des utilisateurs d'applications (pools d'utilisateurs, fédération). IAM sert aux identités de votre personnel et de vos services.",
+      "why": {
+        "A": "Organizations gère plusieurs comptes AWS, pas les utilisateurs d'une application.",
+        "C": "Inspector recherche des vulnérabilités.",
+        "D": "IAM sert aux identités du personnel et des services, pas aux clients d'une application grand public."
+      },
+      "ref": "Module 4 — Question 39",
+      "source": "qcm-m4"
+    },
+    {
+      "id": "aws-practice-exam-m4-040",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Selon la politique d'AWS sur les tests d'intrusion, laquelle de ces affirmations est exacte ?",
+      "choices": {
+        "A": "Tous les tests, y compris les attaques par déni de service, sont autorisés sur vos ressources",
+        "B": "Seul AWS peut réaliser des tests de sécurité sur l'infrastructure du client",
+        "C": "Sur les services autorisés, le client peut tester ses propres ressources sans approbation préalable, mais les attaques par déni de service restent interdites",
+        "D": "Une approbation préalable d'AWS est obligatoire pour chaque test, sans exception"
+      },
+      "answer": "C",
+      "explanation": "Les tests sur vos propres ressources, pour les services listés par la politique, sont possibles sans approbation. Les DoS/DDoS non autorisés restent interdits.",
+      "why": {
+        "A": "Les attaques par déni de service non autorisées restent interdites.",
+        "B": "Le client peut tester lui-même ses propres ressources sur les services autorisés.",
+        "D": "Pour les services listés, aucune approbation préalable n'est nécessaire."
+      },
+      "ref": "Module 4 — Question 40",
+      "source": "qcm-m4"
+    }
+  ],
+  "flashcards": []
+}

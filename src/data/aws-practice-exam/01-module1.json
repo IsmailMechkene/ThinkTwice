@@ -1,0 +1,534 @@
+{
+  "id": "m1",
+  "title": "Module 1 — Cloud Concepts Overview",
+  "order": 1,
+  "description": "Définition du cloud, modèles de service et de déploiement, six avantages du cloud, AWS CAF et stratégies de migration.",
+  "questions": [
+    {
+      "id": "aws-practice-exam-m1-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle définition décrit le mieux le cloud computing ?",
+      "choices": {
+        "A": "L'achat de serveurs physiques installés dans le datacenter de l'entreprise",
+        "B": "La mise à disposition de ressources informatiques à la demande via Internet, avec une tarification à l'usage",
+        "C": "Un logiciel antivirus installé sur chaque poste de travail",
+        "D": "Un réseau local privé sans aucune connexion à Internet"
+      },
+      "answer": "B",
+      "explanation": "Le cloud, ce sont des ressources IT (calcul, stockage, bases de données…) fournies à la demande via Internet et payées selon l'usage.",
+      "why": {
+        "A": "Acheter et installer ses propres serveurs décrit l'on-premises, pas le cloud.",
+        "C": "Un antivirus local est un logiciel de sécurité, sans lien avec la fourniture de ressources à la demande.",
+        "D": "Le cloud repose justement sur un accès via Internet ; un réseau isolé en est l'opposé."
+      },
+      "ref": "Module 1 — Question 1",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Que signifie le principe « pay-as-you-go » (paiement à l'usage) ?",
+      "choices": {
+        "A": "Payer à l'avance toute la capacité pour 3 ans",
+        "B": "Acheter une licence à vie pour chaque serveur",
+        "C": "Payer uniquement les ressources réellement consommées",
+        "D": "Payer un forfait fixe, quelle que soit l'utilisation"
+      },
+      "answer": "C",
+      "explanation": "Aucun investissement initial : on paie ce qu'on consomme (calcul à l'heure ou à la seconde, stockage par Go, etc.).",
+      "why": {
+        "A": "Payer d'avance toute la capacité est un engagement initial, contraire au paiement à l'usage.",
+        "B": "Une licence à vie est un achat ponctuel, pas une facturation selon la consommation.",
+        "D": "Un forfait fixe ne dépend pas de l'usage réel, alors que le pay-as-you-go le suit."
+      },
+      "ref": "Module 1 — Question 2",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel modèle de service cloud donne au client le plus de contrôle sur l'infrastructure (serveurs virtuels, réseau, stockage), le système d'exploitation restant à sa charge ?",
+      "choices": {
+        "A": "IaaS (Infrastructure as a Service)",
+        "B": "PaaS (Platform as a Service)",
+        "C": "SaaS (Software as a Service)",
+        "D": "Les trois offrent exactement le même niveau de contrôle"
+      },
+      "answer": "A",
+      "explanation": "En IaaS (ex. Amazon EC2), le fournisseur gère le matériel et le client gère OS, middleware et applications : c'est le niveau de contrôle le plus élevé.",
+      "why": {
+        "B": "En PaaS, le fournisseur gère aussi l'OS et le runtime ; le client ne gère que son application.",
+        "C": "En SaaS, le client utilise une application complète et ne contrôle presque rien.",
+        "D": "Le niveau de contrôle diminue de IaaS à PaaS puis à SaaS ; il n'est pas identique."
+      },
+      "ref": "Module 1 — Question 3",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un service de messagerie en ligne (webmail), entièrement géré par le fournisseur et utilisé via un navigateur, est un exemple de…",
+      "choices": {
+        "A": "IaaS",
+        "B": "PaaS",
+        "C": "SaaS",
+        "D": "Cloud privé sur site"
+      },
+      "answer": "C",
+      "explanation": "SaaS : application complète prête à l'emploi. Le client n'a rien à installer ni à maintenir côté infrastructure ou plateforme.",
+      "why": {
+        "A": "En IaaS, le client gérerait lui-même OS et applications sur des serveurs virtuels.",
+        "B": "Le PaaS sert à déployer son propre code ; ici on utilise une application finie.",
+        "D": "Un service géré par le fournisseur et accessible via navigateur n'est pas une infrastructure sur site."
+      },
+      "ref": "Module 1 — Question 4",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une entreprise héberge toutes ses applications dans son propre datacenter, sans aucun service cloud. Comment nomme-t-on ce modèle de déploiement ?",
+      "choices": {
+        "A": "On-premises (sur site)",
+        "B": "Cloud public",
+        "C": "Cloud hybride",
+        "D": "Cloud natif"
+      },
+      "answer": "A",
+      "explanation": "On-premises = infrastructure détenue et exploitée par l'entreprise. Les trois modèles de déploiement du cours : tout dans le cloud, hybride, on-premises.",
+      "why": {
+        "B": "Le cloud public implique des ressources chez un fournisseur cloud, or ici il n'y en a aucune.",
+        "C": "L'hybride combine sur site et cloud ; l'entreprise n'utilise aucun service cloud.",
+        "D": "« Cloud natif » désigne une façon de concevoir des applications pour le cloud, pas un hébergement 100 % sur site."
+      },
+      "ref": "Module 1 — Question 5",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service AWS fournit un stockage d'objets hautement durable et évolutif ?",
+      "choices": {
+        "A": "Amazon EC2",
+        "B": "Amazon S3",
+        "C": "Amazon RDS",
+        "D": "AWS Lambda"
+      },
+      "answer": "B",
+      "explanation": "Amazon S3 (Simple Storage Service) est le service de stockage d'objets d'AWS.",
+      "why": {
+        "A": "EC2 fournit des serveurs virtuels (calcul), pas du stockage d'objets.",
+        "C": "RDS fournit des bases de données relationnelles managées.",
+        "D": "Lambda exécute du code sans serveur à gérer ; ce n'est pas un service de stockage."
+      },
+      "ref": "Module 1 — Question 6",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service AWS permet de lancer des serveurs virtuels (instances) à la demande ?",
+      "choices": {
+        "A": "AWS Lambda",
+        "B": "Amazon S3",
+        "C": "Amazon RDS",
+        "D": "Amazon EC2"
+      },
+      "answer": "D",
+      "explanation": "Amazon EC2 (Elastic Compute Cloud) fournit de la capacité de calcul redimensionnable sous forme d'instances.",
+      "why": {
+        "A": "Lambda exécute du code sans que l'on gère de serveurs ; on ne lance pas d'instances.",
+        "B": "S3 est un service de stockage d'objets, pas de calcul.",
+        "C": "RDS fournit des bases relationnelles managées, pas des serveurs virtuels génériques."
+      },
+      "ref": "Module 1 — Question 7",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Lequel de ces éléments n'est PAS un moyen d'accéder aux services AWS ?",
+      "choices": {
+        "A": "AWS Management Console",
+        "B": "AWS Command Line Interface (CLI)",
+        "C": "Kits de développement logiciel (SDK) AWS",
+        "D": "Se rendre physiquement dans un datacenter AWS pour configurer ses ressources"
+      },
+      "answer": "D",
+      "explanation": "On accède à AWS via la Console, la CLI, les SDK ou les API. Les clients n'ont pas d'accès physique aux datacenters AWS.",
+      "why": {
+        "A": "La Console de gestion est l'interface web pour accéder aux services AWS.",
+        "B": "La CLI permet de piloter AWS en ligne de commande.",
+        "C": "Les SDK permettent d'appeler les services AWS depuis du code."
+      },
+      "ref": "Module 1 — Question 8",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une entreprise ne veut plus investir lourdement dans des serveurs avant de savoir comment elle les utilisera ; elle préfère payer ce qu'elle consomme. Quel avantage du cloud cela illustre-t-il ?",
+      "choices": {
+        "A": "Bénéficier d'économies d'échelle massives",
+        "B": "Troquer les dépenses d'investissement (CapEx) contre des dépenses variables (OpEx)",
+        "C": "Cesser de deviner ses besoins en capacité",
+        "D": "Se déployer à l'échelle mondiale en quelques minutes"
+      },
+      "answer": "B",
+      "explanation": "CapEx = achat initial de matériel ; OpEx = dépense variable selon l'usage. Remplacer l'un par l'autre est le premier des six avantages du cloud.",
+      "why": {
+        "A": "Les économies d'échelle concernent les prix bas permis par le volume agrégé d'AWS, pas l'absence d'investissement initial.",
+        "C": "Cesser de deviner la capacité vise l'ajustement à la demande, alors qu'ici l'accent est mis sur le mode de dépense.",
+        "D": "Le déploiement mondial concerne la proximité des utilisateurs, sans rapport avec l'investissement initial."
+      },
+      "ref": "Module 1 — Question 9",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Parce qu'AWS agrège l'utilisation d'un très grand nombre de clients, quel avantage peut-il offrir à chacun d'eux ?",
+      "choices": {
+        "A": "Un accès physique aux serveurs",
+        "B": "Une capacité fixe et non modifiable",
+        "C": "La suppression de toute facturation",
+        "D": "Des prix à l'usage plus bas grâce aux économies d'échelle"
+      },
+      "answer": "D",
+      "explanation": "Le volume agrégé réduit les coûts pour AWS, ce qui se traduit par des tarifs à l'usage plus bas pour les clients : c'est l'avantage « économies d'échelle ».",
+      "why": {
+        "A": "Les clients n'ont pas d'accès physique aux datacenters AWS.",
+        "B": "Le cloud permet au contraire d'ajuster la capacité à la demande.",
+        "C": "Les prix baissent, mais les clients paient toujours ce qu'ils consomment."
+      },
+      "ref": "Module 1 — Question 10",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Le trafic du site web d'une startup est totalement imprévisible. Elle craint de sur- ou sous-dimensionner son infrastructure. Quel avantage du cloud répond à ce besoin ?",
+      "choices": {
+        "A": "Les économies d'échelle",
+        "B": "Cesser de dépenser pour exploiter et maintenir des datacenters",
+        "C": "Le déploiement mondial en quelques minutes",
+        "D": "Cesser de deviner la capacité (augmenter ou réduire à la demande)"
+      },
+      "answer": "D",
+      "explanation": "Dans le cloud, on ajuste la capacité à la hausse comme à la baisse selon la demande réelle, au lieu de la deviner à l'avance.",
+      "why": {
+        "A": "Les économies d'échelle baissent les prix, mais ne résolvent pas le problème du dimensionnement.",
+        "B": "Ne plus maintenir de datacenters libère des efforts d'exploitation, sans traiter la variabilité du trafic.",
+        "C": "Le déploiement mondial répond à un besoin de latence géographique, pas de trafic imprévisible."
+      },
+      "ref": "Module 1 — Question 11",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces éléments n'est PAS un avantage du cloud computing AWS ?",
+      "choices": {
+        "A": "Augmenter la vitesse et l'agilité",
+        "B": "Bénéficier d'économies d'échelle",
+        "C": "Acheter à l'avance une capacité fixe pour les cinq prochaines années",
+        "D": "Se déployer à l'échelle mondiale en quelques minutes"
+      },
+      "answer": "C",
+      "explanation": "Acheter de la capacité fixe à l'avance est le fonctionnement traditionnel (on-premises) ; le cloud permet justement de l'éviter.",
+      "why": {
+        "A": "Augmenter la vitesse et l'agilité fait partie des six avantages du cloud.",
+        "B": "Les économies d'échelle font partie des six avantages du cloud.",
+        "D": "Le déploiement mondial en quelques minutes fait partie des six avantages du cloud."
+      },
+      "ref": "Module 1 — Question 12",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une société veut offrir une faible latence à des clients en Europe, en Asie et en Amérique, sans construire ses propres datacenters. Quel avantage exploite-t-elle ?",
+      "choices": {
+        "A": "Se déployer à l'échelle mondiale en quelques minutes",
+        "B": "Les économies d'échelle",
+        "C": "Cesser de deviner la capacité",
+        "D": "Troquer CapEx contre OpEx"
+      },
+      "answer": "A",
+      "explanation": "L'infrastructure mondiale d'AWS (Régions) permet de déployer près des utilisateurs en quelques minutes seulement.",
+      "why": {
+        "B": "Les économies d'échelle concernent les prix, pas la proximité géographique des utilisateurs.",
+        "C": "Cesser de deviner la capacité traite le volume de ressources, pas leur emplacement.",
+        "D": "Troquer CapEx contre OpEx concerne le mode de dépense, pas la latence."
+      },
+      "ref": "Module 1 — Question 13",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous téléversez simplement votre code ; le service gère le déploiement, la capacité et l'équilibrage de charge. AWS Elastic Beanstalk correspond le mieux à quel modèle de service ?",
+      "choices": {
+        "A": "IaaS",
+        "B": "PaaS",
+        "C": "SaaS",
+        "D": "On-premises"
+      },
+      "answer": "B",
+      "explanation": "PaaS : le client se concentre sur son application, la plateforme (infrastructure, OS, runtime) est gérée par le fournisseur.",
+      "why": {
+        "A": "En IaaS, le client devrait gérer lui-même OS, déploiement et capacité.",
+        "C": "En SaaS, on utilise une application finie ; ici on déploie son propre code.",
+        "D": "Elastic Beanstalk est un service AWS géré, pas une infrastructure détenue sur site."
+      },
+      "ref": "Module 1 — Question 14",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une banque garde ses données les plus sensibles dans son propre datacenter mais utilise AWS pour des analyses ponctuelles, les deux environnements étant connectés. Quel modèle de déploiement est-ce ?",
+      "choices": {
+        "A": "Cloud uniquement (tout dans le cloud)",
+        "B": "On-premises uniquement",
+        "C": "Cloud hybride",
+        "D": "Cloud privé sans aucun réseau"
+      },
+      "answer": "C",
+      "explanation": "Hybride = infrastructure cloud + infrastructure sur site interconnectées, fréquent pour des raisons de conformité ou de migration progressive.",
+      "why": {
+        "A": "Une partie des données reste dans le datacenter de la banque, donc tout n'est pas dans le cloud.",
+        "B": "La banque utilise AWS pour ses analyses, donc elle n'est pas uniquement sur site.",
+        "D": "Les deux environnements sont connectés ; il y a bien un réseau entre eux."
+      },
+      "ref": "Module 1 — Question 15",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel élément fait partie des dépenses d'investissement (CapEx) que le cloud permet d'éviter ?",
+      "choices": {
+        "A": "Le paiement à l'usage d'une instance de calcul",
+        "B": "La facture mensuelle de stockage dans Amazon S3",
+        "C": "Les frais variables de transfert de données",
+        "D": "L'achat de serveurs physiques et la construction d'un datacenter"
+      },
+      "answer": "D",
+      "explanation": "L'achat de matériel et de locaux est un CapEx classique ; les autres options sont des dépenses variables (OpEx).",
+      "why": {
+        "A": "Le paiement à l'usage d'une instance est une dépense variable (OpEx).",
+        "B": "Une facture mensuelle de stockage selon l'usage est une dépense variable (OpEx).",
+        "C": "Des frais de transfert variables sont, par définition, de l'OpEx."
+      },
+      "ref": "Module 1 — Question 16",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service AWS fournit une base de données relationnelle managée (sauvegardes et correctifs automatisés) ?",
+      "choices": {
+        "A": "Amazon EC2",
+        "B": "Amazon S3",
+        "C": "Amazon RDS",
+        "D": "AWS Lambda"
+      },
+      "answer": "C",
+      "explanation": "Amazon RDS (Relational Database Service) gère l'administration courante : sauvegardes, mises à jour, haute disponibilité.",
+      "why": {
+        "A": "Sur EC2, on pourrait installer une base, mais on en gérerait soi-même sauvegardes et correctifs.",
+        "B": "S3 est un stockage d'objets, pas une base de données relationnelle.",
+        "D": "Lambda exécute du code sans serveur ; ce n'est pas un service de base de données."
+      },
+      "ref": "Module 1 — Question 17",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Laquelle de ces perspectives ne fait PAS partie des six perspectives de l'AWS Cloud Adoption Framework (CAF) ?",
+      "choices": {
+        "A": "Business",
+        "B": "Marketing",
+        "C": "Governance",
+        "D": "Operations"
+      },
+      "answer": "B",
+      "explanation": "Les six perspectives du CAF sont Business, People, Governance, Platform, Security et Operations. « Marketing » n'en fait pas partie.",
+      "why": {
+        "A": "Business est l'une des six perspectives du CAF.",
+        "C": "Governance est l'une des six perspectives du CAF.",
+        "D": "Operations est l'une des six perspectives du CAF."
+      },
+      "ref": "Module 1 — Question 18",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise veut former ses équipes et adapter sa culture et son organisation (RH, formation, gestion du changement) pour adopter le cloud. Quelle perspective du CAF est la plus concernée ?",
+      "choices": {
+        "A": "People",
+        "B": "Platform",
+        "C": "Security",
+        "D": "Operations"
+      },
+      "answer": "A",
+      "explanation": "La perspective People couvre les compétences, la formation, l'organisation et la gestion du changement.",
+      "why": {
+        "B": "Platform concerne l'architecture technique, pas la formation des équipes.",
+        "C": "Security concerne la protection des données et des systèmes.",
+        "D": "Operations concerne l'exploitation au quotidien des services cloud."
+      },
+      "ref": "Module 1 — Question 19",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-020",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise déplace son application existante vers des instances Amazon EC2 sans modifier le code ni l'architecture (« lift and shift »). Quelle stratégie de migration est-ce ?",
+      "choices": {
+        "A": "Refactor",
+        "B": "Rehost",
+        "C": "Retire",
+        "D": "Repurchase"
+      },
+      "answer": "B",
+      "explanation": "Rehost (« lift and shift ») consiste à migrer l'application telle quelle.",
+      "why": {
+        "A": "Refactor signifie réécrire l'application, or le code n'est pas modifié.",
+        "C": "Retire signifie abandonner l'application, alors qu'ici elle est migrée.",
+        "D": "Repurchase signifie la remplacer par un produit (souvent SaaS), pas la déplacer telle quelle."
+      },
+      "ref": "Module 1 — Question 20",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-021",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise migre sa base de données sur site vers Amazon RDS pour ne plus gérer correctifs et sauvegardes, sans réécrire l'application. Quelle stratégie ?",
+      "choices": {
+        "A": "Replatform",
+        "B": "Rehost",
+        "C": "Retain",
+        "D": "Refactor"
+      },
+      "answer": "A",
+      "explanation": "Replatform (« lift, tinker and shift ») : on migre avec quelques optimisations du cloud (ici un service managé), sans changer l'architecture centrale.",
+      "why": {
+        "B": "Rehost migrerait sans aucun changement, alors qu'ici on passe à un service managé.",
+        "C": "Retain signifie garder l'application sur site, or la base est migrée.",
+        "D": "Refactor impliquerait de réécrire l'application, ce qui n'est pas le cas."
+      },
+      "ref": "Module 1 — Question 21",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-022",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle paire d'éléments contient uniquement des avantages du cloud AWS ?",
+      "choices": {
+        "A": "Cesser de deviner ses besoins en capacité + Augmenter la vitesse et l'agilité",
+        "B": "Augmenter la vitesse et l'agilité + Maintenir soi-même les datacenters",
+        "C": "Cesser de deviner ses besoins en capacité + S'engager à l'avance sur une capacité fixe",
+        "D": "Disposer d'un contrôle physique total sur le matériel + S'engager à l'avance sur une capacité fixe"
+      },
+      "answer": "A",
+      "explanation": "Cesser de deviner la capacité et augmenter la vitesse et l'agilité font partie des six avantages du cloud. Les autres éléments décrivent l'approche traditionnelle sur site.",
+      "why": {
+        "B": "Maintenir soi-même les datacenters relève de l'on-premises ; le cloud permet justement de cesser de le faire.",
+        "C": "S'engager à l'avance sur une capacité fixe est l'approche traditionnelle que le cloud permet d'éviter.",
+        "D": "Contrôle physique du matériel et capacité fixe engagée à l'avance décrivent tous deux l'on-premises."
+      },
+      "ref": "Module 1 — Question 22",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un site e-commerce subit un énorme pic de trafic au Black Friday puis retrouve un niveau normal ; il payait auparavant des serveurs inutilisés le reste de l'année. Quelle paire d'avantages du cloud répond le mieux à ce besoin ?",
+      "choices": {
+        "A": "Cesser de deviner la capacité (ajuster à la demande) + Troquer les dépenses d'investissement contre des dépenses variables",
+        "B": "Se déployer dans le monde entier en quelques minutes + Troquer les dépenses d'investissement contre des dépenses variables",
+        "C": "Cesser de deviner la capacité (ajuster à la demande) + Disposer de serveurs physiques dédiés",
+        "D": "Se déployer dans le monde entier en quelques minutes + Obtenir un accès physique aux datacenters"
+      },
+      "answer": "A",
+      "explanation": "Cesser de deviner la capacité apporte l'élasticité face au pic, et troquer CapEx contre OpEx évite de payer des serveurs oisifs toute l'année.",
+      "why": {
+        "B": "Le déploiement mondial n'est pas le sujet ici : le problème est le pic de trafic, pas la géographie.",
+        "C": "Des serveurs physiques dédiés resteraient payés et inutilisés hors du pic, ce qu'on cherche à éviter.",
+        "D": "Ni le déploiement mondial ni un accès physique aux datacenters ne traitent le pic ou les serveurs oisifs."
+      },
+      "ref": "Module 1 — Question 23",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-024",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise migre trois applications : (1) un CRM interne remplacé par une solution SaaS du marché ; (2) une application inutilisée depuis des années, abandonnée ; (3) une application monolithique réécrite en architecture cloud-native. Quelles stratégies, dans cet ordre ?",
+      "choices": {
+        "A": "Replatform, Retain, Rehost",
+        "B": "Rehost, Retire, Retain",
+        "C": "Repurchase, Retire, Refactor",
+        "D": "Refactor, Repurchase, Retain"
+      },
+      "answer": "C",
+      "explanation": "(1) Repurchase : on achète un produit à la place. (2) Retire : on éteint. (3) Refactor : on réécrit pour tirer parti du cloud.",
+      "why": {
+        "A": "Retain signifie garder l'application sur site, pas l'abandonner, et Rehost ne réécrit rien.",
+        "B": "Remplacer par du SaaS n'est pas du Rehost, et réécrire n'est pas Retain (garder sur site).",
+        "D": "L'ordre est faux : le SaaS correspond à Repurchase, l'abandon à Retire et la réécriture à Refactor."
+      },
+      "ref": "Module 1 — Question 24",
+      "source": "qcm-m1"
+    },
+    {
+      "id": "aws-practice-exam-m1-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Classez ces modèles de service du MOINS au PLUS de responsabilité de gestion à la charge du client :",
+      "choices": {
+        "A": "IaaS, PaaS, SaaS",
+        "B": "PaaS, SaaS, IaaS",
+        "C": "SaaS, IaaS, PaaS",
+        "D": "SaaS, PaaS, IaaS"
+      },
+      "answer": "D",
+      "explanation": "En SaaS le client ne gère presque rien ; en PaaS il gère l'application et ses données ; en IaaS il gère aussi OS et middleware.",
+      "why": {
+        "A": "C'est l'ordre inverse : du PLUS au MOINS de responsabilité.",
+        "B": "Le SaaS laisse moins de responsabilité au client que le PaaS, il doit donc venir en premier.",
+        "C": "L'IaaS donne plus de responsabilité que le PaaS, il doit donc venir en dernier."
+      },
+      "ref": "Module 1 — Question 25",
+      "source": "qcm-m1"
+    }
+  ],
+  "flashcards": []
+}

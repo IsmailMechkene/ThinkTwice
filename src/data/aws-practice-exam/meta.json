@@ -1,0 +1,16 @@
+{
+  "name": "AWS Cloud Practitioner — Examen blanc",
+  "description": "QCM d'entraînement module par module (modules 1 à 6), avec corrigé commenté, pour préparer l'AWS Certified Cloud Practitioner.",
+  "icon": "📝",
+  "color": "#0891b2",
+  "language": "fr",
+  "contributors": [],
+  "sources": {
+    "qcm-m1": { "label": "QCM Module 1 — Cloud Concepts Overview (questions + corrigé)", "file": "courses/cloud/practice exam/QCM_AWS_CloudPractitioner_Module1_Corrige.pdf", "author": "" },
+    "qcm-m2": { "label": "QCM Module 2 — Cloud Economics and Billing (questions + corrigé)", "file": "courses/cloud/practice exam/QCM_AWS_CloudPractitioner_Module2_Corrige.pdf", "author": "" },
+    "qcm-m3": { "label": "QCM Module 3 — Infrastructure mondiale AWS (questions + corrigé)", "file": "courses/cloud/practice exam/QCM_AWS_Module3_Corrige.pdf", "author": "" },
+    "qcm-m4": { "label": "QCM Module 4 — Sécurité du cloud AWS (questions + corrigé)", "file": "courses/cloud/practice exam/QCM_AWS_Module4_Corrige.pdf", "author": "" },
+    "qcm-m5": { "label": "QCM Module 5 — Réseau et diffusion de contenu (questions + corrigé)", "file": "courses/cloud/practice exam/QCM_AWS_Module5_Corrige.pdf", "author": "" },
+    "qcm-m6": { "label": "QCM Module 6 — Compute (questions + corrigé)", "file": "courses/cloud/practice exam/QCM_AWS_Module6_Compute_Corrige.pdf", "author": "" }
+  }
+}

@@ -1,0 +1,849 @@
+{
+  "id": "m5",
+  "title": "Module 5 — Réseau et diffusion de contenu",
+  "order": 5,
+  "description": "Amazon VPC, sous-réseaux, groupes de sécurité et ACL réseau, connectivité hybride, Route 53 et CloudFront.",
+  "questions": [
+    {
+      "id": "aws-practice-exam-m5-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Qu'est-ce qu'Amazon VPC ?",
+      "choices": {
+        "A": "Un service de calcul qui exécute du code sans serveur",
+        "B": "Un service de stockage d'objets",
+        "C": "Un réseau de distribution de contenu mondial",
+        "D": "Un réseau virtuel isolé, que vous définissez, dans le cloud AWS"
+      },
+      "answer": "D",
+      "explanation": "Un VPC est votre réseau privé logique dans AWS : vous choisissez la plage d'adresses IP, les sous-réseaux, les routes et les règles de sécurité.",
+      "why": {
+        "A": "Exécuter du code sans serveur, c'est AWS Lambda, pas un réseau.",
+        "B": "Le stockage d'objets, c'est Amazon S3.",
+        "C": "Le réseau de distribution de contenu mondial, c'est Amazon CloudFront."
+      },
+      "ref": "Module 5 — Question 1",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Combien de bits comporte une adresse IPv4 ?",
+      "choices": {
+        "A": "128",
+        "B": "64",
+        "C": "8",
+        "D": "32"
+      },
+      "answer": "D",
+      "explanation": "IPv4 = 32 bits (ex. 192.0.2.10, quatre octets). IPv6 = 128 bits, soit un espace d'adresses bien plus grand.",
+      "why": {
+        "A": "128 bits, c'est la taille d'une adresse IPv6.",
+        "B": "64 bits ne correspond à aucune version d'adresse IP complète.",
+        "C": "8 bits, c'est un seul octet ; une adresse IPv4 en compte quatre."
+      },
+      "ref": "Module 5 — Question 2",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-003",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel service permet d'enregistrer un nom de domaine et de gérer ses enregistrements DNS dans AWS ?",
+      "choices": {
+        "A": "Amazon Route 53",
+        "B": "Amazon CloudFront",
+        "C": "Amazon S3",
+        "D": "AWS Direct Connect"
+      },
+      "answer": "A",
+      "explanation": "Route 53 est à la fois registraire de domaines et service DNS hautement disponible, avec des contrôles d'état et plusieurs politiques de routage.",
+      "why": {
+        "B": "CloudFront est un CDN qui met en cache du contenu, pas un service DNS.",
+        "C": "S3 est un service de stockage d'objets.",
+        "D": "Direct Connect fournit un lien réseau dédié vers AWS, sans rapport avec le DNS."
+      },
+      "ref": "Module 5 — Question 3",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel composant permet la communication entre les ressources d'un VPC et Internet ?",
+      "choices": {
+        "A": "Un volume Amazon EBS",
+        "B": "Un rôle IAM",
+        "C": "La passerelle Internet (internet gateway)",
+        "D": "Une clé AWS KMS"
+      },
+      "answer": "C",
+      "explanation": "La passerelle Internet est un composant du VPC, redondant et hautement disponible, qui relie le VPC à Internet.",
+      "why": {
+        "A": "Un volume EBS est du stockage en mode bloc attaché à une instance.",
+        "B": "Un rôle IAM accorde des permissions, il ne fournit aucune connectivité réseau.",
+        "D": "Une clé KMS sert au chiffrement des données."
+      },
+      "ref": "Module 5 — Question 4",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Qu'est-ce qu'un sous-réseau (subnet) dans un VPC ?",
+      "choices": {
+        "A": "Une plage d'adresses IP du VPC, située dans une seule zone de disponibilité",
+        "B": "Un groupe d'utilisateurs IAM",
+        "C": "Une connexion dédiée vers un data center",
+        "D": "Un VPC supplémentaire dans une autre Région"
+      },
+      "answer": "A",
+      "explanation": "Un VPC couvre une Région ; chaque sous-réseau est une plage d'adresses du VPC liée à une seule AZ, où l'on place les ressources (instances EC2, bases de données…).",
+      "why": {
+        "B": "Un groupe d'utilisateurs IAM relève de la gestion des identités, pas du réseau.",
+        "C": "Une connexion dédiée vers un data center, c'est AWS Direct Connect.",
+        "D": "Un sous-réseau est à l'intérieur d'un VPC, dans la même Région ; ce n'est pas un autre VPC."
+      },
+      "ref": "Module 5 — Question 5",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "À quoi sert un groupe de sécurité (security group) ?",
+      "choices": {
+        "A": "À répartir le trafic entre plusieurs Régions",
+        "B": "À chiffrer les données stockées dans S3",
+        "C": "À gérer les clés d'accès des utilisateurs",
+        "D": "À agir comme un pare-feu virtuel qui contrôle le trafic entrant et sortant d'une instance"
+      },
+      "answer": "D",
+      "explanation": "Un groupe de sécurité filtre le trafic au niveau de l'instance (plus précisément de son interface réseau).",
+      "why": {
+        "A": "Répartir le trafic entre Régions relève de Route 53 (politiques de routage), pas d'un groupe de sécurité.",
+        "B": "Le chiffrement des données S3 passe par le chiffrement côté serveur ou KMS.",
+        "C": "Les clés d'accès des utilisateurs se gèrent dans IAM."
+      },
+      "ref": "Module 5 — Question 6",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Combien d'adresses IP contient le bloc CIDR 10.0.0.0/24 ?",
+      "choices": {
+        "A": "65 536",
+        "B": "24",
+        "C": "256",
+        "D": "128"
+      },
+      "answer": "C",
+      "explanation": "Nombre d'adresses = 2 puissance (32 − préfixe). Pour /24 : 2^8 = 256. Pour /16 : 2^16 = 65 536.",
+      "why": {
+        "A": "65 536 adresses correspondent à un /16, pas à un /24.",
+        "B": "24 est la longueur du préfixe, pas le nombre d'adresses.",
+        "D": "128 adresses correspondent à un /25 (2^7)."
+      },
+      "ref": "Module 5 — Question 7",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quand dit-on qu'un sous-réseau est « public » ?",
+      "choices": {
+        "A": "Quand il contient plus de 100 instances",
+        "B": "Quand sa table de routage contient une route vers une passerelle Internet",
+        "C": "Quand il se trouve dans la Région par défaut",
+        "D": "Quand il est partagé entre plusieurs comptes"
+      },
+      "answer": "B",
+      "explanation": "Ce qui rend un sous-réseau public, c'est la route (par exemple 0.0.0.0/0) vers une passerelle Internet. Sans elle, il est privé.",
+      "why": {
+        "A": "Le nombre d'instances n'a aucun effet sur le caractère public ou privé.",
+        "C": "La Région ne détermine pas si un sous-réseau est public.",
+        "D": "Le partage entre comptes ne donne pas d'accès Internet ; seule la route vers l'IGW compte."
+      },
+      "ref": "Module 5 — Question 8",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le comportement par défaut d'un nouveau groupe de sécurité ?",
+      "choices": {
+        "A": "Il autorise tout le trafic entrant et sortant",
+        "B": "Il autorise le trafic entrant SSH uniquement",
+        "C": "Il refuse tout le trafic entrant et autorise tout le trafic sortant",
+        "D": "Il refuse tout le trafic entrant et tout le trafic sortant"
+      },
+      "answer": "C",
+      "explanation": "Un groupe de sécurité neuf n'a aucune règle entrante (tout est refusé) et une règle sortante qui autorise tout.",
+      "why": {
+        "A": "Le trafic entrant est refusé tant qu'aucune règle entrante n'est ajoutée.",
+        "B": "Aucune règle entrante n'existe par défaut, pas même SSH.",
+        "D": "Le trafic sortant est autorisé par défaut grâce à une règle sortante qui autorise tout."
+      },
+      "ref": "Module 5 — Question 9",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle affirmation décrit correctement une ACL réseau (network ACL) ?",
+      "choices": {
+        "A": "Un pare-feu avec état, appliqué au niveau de l'instance",
+        "B": "Un pare-feu sans état (stateless), appliqué au niveau du sous-réseau",
+        "C": "Un type de passerelle Internet",
+        "D": "Un service de cache de contenu"
+      },
+      "answer": "B",
+      "explanation": "Les ACL réseau protègent un sous-réseau et sont sans état : le trafic de retour doit être explicitement autorisé.",
+      "why": {
+        "A": "Pare-feu avec état au niveau de l'instance, c'est la définition d'un groupe de sécurité.",
+        "C": "Une ACL réseau filtre le trafic ; elle ne relie pas le VPC à Internet.",
+        "D": "La mise en cache de contenu relève de CloudFront."
+      },
+      "ref": "Module 5 — Question 10",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle politique de routage Route 53 répartit le trafic selon des proportions que vous définissez (par exemple 10 % vers une nouvelle version) ?",
+      "choices": {
+        "A": "Routage par géolocalisation",
+        "B": "Routage pondéré (weighted)",
+        "C": "Routage par basculement",
+        "D": "Routage simple"
+      },
+      "answer": "B",
+      "explanation": "Le routage pondéré sert aux tests A/B et aux déploiements progressifs en attribuant un poids à chaque enregistrement.",
+      "why": {
+        "A": "La géolocalisation route selon l'emplacement de l'utilisateur, pas selon des proportions.",
+        "C": "Le basculement envoie le trafic vers un secondaire seulement si le primaire est défaillant.",
+        "D": "Le routage simple renvoie un enregistrement sans notion de poids."
+      },
+      "ref": "Module 5 — Question 11",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel service établit une connexion réseau privée et dédiée entre un data center et AWS, sans passer par Internet public ?",
+      "choices": {
+        "A": "Amazon Route 53",
+        "B": "Une passerelle Internet",
+        "C": "Amazon CloudFront",
+        "D": "AWS Direct Connect"
+      },
+      "answer": "D",
+      "explanation": "Direct Connect offre un lien dédié, avec une bande passante plus stable qu'Internet. Il ne chiffre pas le trafic par défaut.",
+      "why": {
+        "A": "Route 53 est un service DNS, pas une liaison réseau.",
+        "B": "Une passerelle Internet passe justement par Internet public.",
+        "C": "CloudFront distribue du contenu aux utilisateurs via les edge locations."
+      },
+      "ref": "Module 5 — Question 12",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel est le rôle d'une NAT gateway ?",
+      "choices": {
+        "A": "Distribuer du contenu en cache dans les edge locations",
+        "B": "Chiffrer le trafic entre deux VPC",
+        "C": "Permettre aux instances d'un sous-réseau privé d'initier des connexions sortantes vers Internet, sans être joignables depuis Internet",
+        "D": "Attribuer des noms de domaine aux instances"
+      },
+      "answer": "C",
+      "explanation": "La NAT gateway se place dans un sous-réseau public. Les instances privées l'utilisent pour sortir (mises à jour, API), sans connexion entrante possible.",
+      "why": {
+        "A": "La mise en cache dans les edge locations, c'est CloudFront.",
+        "B": "Une NAT gateway traduit les adresses ; elle ne chiffre pas le trafic entre VPC.",
+        "D": "Les noms de domaine se gèrent avec Route 53."
+      },
+      "ref": "Module 5 — Question 13",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel type d'enregistrement DNS associe un nom de domaine à une adresse IPv4 ?",
+      "choices": {
+        "A": "A",
+        "B": "AAAA",
+        "C": "CNAME",
+        "D": "MX"
+      },
+      "answer": "A",
+      "explanation": "A = IPv4, AAAA = IPv6, CNAME = alias vers un autre nom, MX = serveurs de messagerie.",
+      "why": {
+        "B": "AAAA associe un nom à une adresse IPv6.",
+        "C": "CNAME fait pointer un nom vers un autre nom, pas vers une adresse IP.",
+        "D": "MX désigne les serveurs de messagerie du domaine."
+      },
+      "ref": "Module 5 — Question 14",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle ressource fournit une adresse IPv4 publique statique, que l'on peut réassocier à une autre instance ?",
+      "choices": {
+        "A": "Une ACL réseau",
+        "B": "Une table de routage",
+        "C": "Un groupe de sécurité",
+        "D": "Une adresse Elastic IP"
+      },
+      "answer": "D",
+      "explanation": "L'adresse IP publique attribuée automatiquement peut changer quand l'instance s'arrête puis redémarre ; une Elastic IP reste la vôtre jusqu'à libération.",
+      "why": {
+        "A": "Une ACL réseau filtre le trafic d'un sous-réseau ; elle ne fournit pas d'adresse.",
+        "B": "Une table de routage dirige le trafic ; elle n'attribue pas d'adresse IP.",
+        "C": "Un groupe de sécurité filtre le trafic d'une instance ; il ne fournit pas d'adresse."
+      },
+      "ref": "Module 5 — Question 15",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-016",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans un sous-réseau 10.0.1.0/24, combien d'adresses IP peuvent être attribuées à des instances ?",
+      "choices": {
+        "A": "251",
+        "B": "256",
+        "C": "254",
+        "D": "250"
+      },
+      "answer": "A",
+      "explanation": "/24 = 256 adresses, mais AWS en réserve 5 dans chaque sous-réseau (les 4 premières et la dernière) : 256 − 5 = 251.",
+      "why": {
+        "B": "256 est le total du bloc /24, avant les 5 adresses réservées par AWS.",
+        "C": "254 correspond à la réservation classique de 2 adresses (réseau et diffusion) ; AWS en réserve 5.",
+        "D": "AWS réserve 5 adresses, pas 6 : il en reste 251, pas 250."
+      },
+      "ref": "Module 5 — Question 16",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-017",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un VPC utilise le bloc CIDR 10.0.0.0/16. Parmi ces blocs, lequel est un sous-réseau valide de ce VPC ?",
+      "choices": {
+        "A": "10.1.0.0/24",
+        "B": "172.16.0.0/24",
+        "C": "10.0.5.0/24",
+        "D": "10.0.0.0/8"
+      },
+      "answer": "C",
+      "explanation": "Un sous-réseau doit être inclus dans le CIDR du VPC : 10.0.5.0/24 est dans 10.0.0.0/16. Les autres sont hors plage ou plus grands.",
+      "why": {
+        "A": "10.1.0.0/24 est hors de 10.0.0.0/16 (le deuxième octet diffère).",
+        "B": "172.16.0.0/24 appartient à une tout autre plage que celle du VPC.",
+        "D": "Un /8 est plus grand que le /16 du VPC ; un sous-réseau ne peut pas le dépasser."
+      },
+      "ref": "Module 5 — Question 17",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle affirmation sur le VPC par défaut est exacte ?",
+      "choices": {
+        "A": "Il ne contient que des sous-réseaux privés, sans accès Internet",
+        "B": "Il doit être créé manuellement avant de lancer la première instance",
+        "C": "Il n'existe que dans la Région us-east-1",
+        "D": "Chaque Région en possède un (sauf suppression), avec un sous-réseau public par AZ et une passerelle Internet"
+      },
+      "answer": "D",
+      "explanation": "Le VPC par défaut permet de lancer tout de suite des instances accessibles depuis Internet. Pour une architecture de production, on crée en général son propre VPC.",
+      "why": {
+        "A": "Ses sous-réseaux par défaut sont publics, reliés à une passerelle Internet.",
+        "B": "AWS le crée automatiquement : on peut lancer une instance sans rien configurer.",
+        "C": "Chaque Région possède son propre VPC par défaut."
+      },
+      "ref": "Module 5 — Question 18",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-019",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quelle affirmation sur les tables de routage d'un VPC est exacte ?",
+      "choices": {
+        "A": "Les tables de routage sont des ressources globales, partagées entre toutes les Régions",
+        "B": "La route locale vers le CIDR du VPC peut être supprimée",
+        "C": "Un sous-réseau peut être associé à plusieurs tables de routage en même temps",
+        "D": "Chaque sous-réseau est associé à une seule table de routage à la fois ; la route locale vers le CIDR du VPC existe automatiquement"
+      },
+      "answer": "D",
+      "explanation": "La route « local » permet la communication entre toutes les ressources du VPC et ne peut pas être supprimée. Un sous-réseau n'a qu'une table à la fois.",
+      "why": {
+        "A": "Une table de routage appartient à un VPC, lui-même limité à une Région.",
+        "B": "La route locale ne peut pas être supprimée.",
+        "C": "Un sous-réseau n'est associé qu'à une seule table de routage à la fois."
+      },
+      "ref": "Module 5 — Question 19",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-020",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une instance EC2 placée dans un sous-réseau « public » ne peut pas joindre Internet, alors qu'une passerelle Internet est attachée au VPC. Quelle paire regroupe deux causes possibles ?",
+      "choices": {
+        "A": "Pas de route 0.0.0.0/0 vers la passerelle Internet dans la table du sous-réseau + l'instance n'a ni IPv4 publique ni Elastic IP",
+        "B": "Pas de route 0.0.0.0/0 vers la passerelle Internet dans la table du sous-réseau + l'instance n'appartient à aucun groupe IAM",
+        "C": "L'instance n'a ni IPv4 publique ni Elastic IP + la passerelle Internet n'a pas été facturée ce mois-ci",
+        "D": "L'instance appartient à un VPC situé dans une autre Région + l'instance n'appartient à aucun groupe IAM"
+      },
+      "answer": "A",
+      "explanation": "Pour sortir sur Internet il faut une route vers l'IGW et une adresse IP publique (ou Elastic IP). Groupes de sécurité et ACL réseau sont aussi à vérifier.",
+      "why": {
+        "B": "La route manquante est une vraie cause, mais les groupes IAM concernent les utilisateurs et n'ont aucun effet sur le réseau d'une instance.",
+        "C": "L'absence d'IP publique est une vraie cause, mais la connectivité ne dépend pas d'une facturation de la passerelle Internet.",
+        "D": "Aucune des deux n'est valable : l'instance utilise le VPC où elle est lancée, et les groupes IAM n'agissent pas sur le réseau."
+      },
+      "ref": "Module 5 — Question 20",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-021",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Des instances d'un sous-réseau privé doivent télécharger des correctifs sur Internet, mais ne doivent pas être joignables depuis Internet. Quelle conception convient ?",
+      "choices": {
+        "A": "Créer une NAT gateway dans un sous-réseau public, puis router le trafic 0.0.0.0/0 du sous-réseau privé vers elle",
+        "B": "Créer un appairage de VPC avec le VPC par défaut",
+        "C": "Attribuer une Elastic IP à chaque instance",
+        "D": "Attacher une passerelle Internet au sous-réseau privé et y router tout le trafic"
+      },
+      "answer": "A",
+      "explanation": "La NAT gateway (dans un sous-réseau public) autorise les connexions sortantes et bloque les connexions entrantes initiées depuis Internet.",
+      "why": {
+        "B": "Un appairage relie deux VPC entre eux ; il ne donne pas accès à Internet (l'appairage n'est pas transitif).",
+        "C": "Une Elastic IP rend chaque instance joignable depuis Internet, ce qui est interdit ici.",
+        "D": "Router vers une passerelle Internet rendrait le sous-réseau public et les instances joignables."
+      },
+      "ref": "Module 5 — Question 21",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-022",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel outil capture les informations sur le trafic IP entrant et sortant des interfaces réseau d'un VPC, afin de l'analyser (diagnostic, sécurité) ?",
+      "choices": {
+        "A": "AWS Shield Standard",
+        "B": "VPC Flow Logs",
+        "C": "Amazon Route 53 Resolver",
+        "D": "AWS Artifact"
+      },
+      "answer": "B",
+      "explanation": "Les VPC Flow Logs enregistrent les métadonnées du trafic (adresses, ports, protocole, accepté ou refusé) vers CloudWatch Logs ou S3.",
+      "why": {
+        "A": "Shield Standard protège contre les attaques DDoS ; il n'enregistre pas le trafic du VPC.",
+        "C": "Route 53 Resolver résout les requêtes DNS, il ne journalise pas le trafic IP des interfaces.",
+        "D": "AWS Artifact donne accès aux rapports de conformité d'AWS."
+      },
+      "ref": "Module 5 — Question 22",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-023",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un groupe de sécurité autorise le trafic entrant TCP 443. Le trafic de réponse correspondant est-il autorisé à sortir ?",
+      "choices": {
+        "A": "Oui, car les groupes de sécurité sont avec état : la réponse est autorisée automatiquement",
+        "B": "Oui, mais seulement si une ACL réseau le permet aussi",
+        "C": "Non, il faut obligatoirement une règle sortante explicite",
+        "D": "Non, car les groupes de sécurité sont sans état"
+      },
+      "answer": "A",
+      "explanation": "Groupe de sécurité = avec état (stateful) : le trafic de retour d'une connexion autorisée passe sans règle supplémentaire.",
+      "why": {
+        "B": "La question porte sur le groupe de sécurité lui-même : son caractère avec état suffit à autoriser la réponse.",
+        "C": "Une règle sortante explicite n'est pas nécessaire pour le trafic de retour d'un groupe de sécurité.",
+        "D": "Ce sont les ACL réseau qui sont sans état, pas les groupes de sécurité."
+      },
+      "ref": "Module 5 — Question 23",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-024",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une ACL réseau personnalisée autorise le trafic entrant TCP 443, mais les clients ne reçoivent aucune réponse. Quelle est la cause la plus probable ?",
+      "choices": {
+        "A": "Les ACL réseau ne prennent pas en charge HTTPS",
+        "B": "Il manque une règle sortante autorisant le trafic de retour (ports éphémères), car les ACL réseau sont sans état",
+        "C": "Le groupe de sécurité bloque toujours le trafic quand une ACL réseau existe",
+        "D": "L'ACL réseau doit être associée à une autre Région"
+      },
+      "answer": "B",
+      "explanation": "ACL réseau = sans état : réponses et requêtes sont évaluées séparément. Il faut autoriser le trafic de retour (ports éphémères 1024-65535).",
+      "why": {
+        "A": "Une ACL réseau filtre par protocole et port ; elle peut parfaitement autoriser le TCP 443.",
+        "C": "Groupe de sécurité et ACL réseau coexistent ; l'un ne bloque pas tout du seul fait de l'autre.",
+        "D": "Une ACL réseau est associée à des sous-réseaux de son VPC, pas à une autre Région."
+      },
+      "ref": "Module 5 — Question 24",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-025",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous devez bloquer une adresse IP malveillante précise pour tout un sous-réseau. Quelle fonctionnalité utiliser ?",
+      "choices": {
+        "A": "Une règle de routage vers une NAT gateway",
+        "B": "Une règle de refus (Deny) dans une ACL réseau",
+        "C": "Une politique IAM",
+        "D": "Une règle de refus dans un groupe de sécurité"
+      },
+      "answer": "B",
+      "explanation": "Les groupes de sécurité n'ont que des règles d'autorisation. Seules les ACL réseau acceptent des règles de refus explicites.",
+      "why": {
+        "A": "Une NAT gateway gère le trafic sortant ; elle ne filtre pas une adresse source.",
+        "C": "Une politique IAM contrôle les actions sur les API AWS, pas le trafic réseau.",
+        "D": "Les groupes de sécurité n'acceptent pas de règles de refus."
+      },
+      "ref": "Module 5 — Question 25",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-026",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une ACL réseau contient la règle 100 (autoriser tout le trafic entrant depuis 0.0.0.0/0) et la règle 200 (refuser 203.0.113.5/32). Cette adresse peut-elle entrer dans le sous-réseau ?",
+      "choices": {
+        "A": "Oui, mais seulement si un groupe de sécurité la refuse aussi",
+        "B": "Non, car la règle 200 est plus spécifique",
+        "C": "Non, un refus explicite l'emporte toujours",
+        "D": "Oui : les règles sont évaluées dans l'ordre numérique et la règle 100 correspond en premier"
+      },
+      "answer": "D",
+      "explanation": "Contrairement à IAM, les ACL réseau s'arrêtent à la première règle qui correspond (numéro le plus bas). Il fallait placer le refus avant l'autorisation.",
+      "why": {
+        "A": "Le passage par l'ACL ne dépend pas du groupe de sécurité, qui ne peut d'ailleurs pas contenir de refus.",
+        "B": "Une ACL réseau ne choisit pas la règle la plus spécifique, mais la première qui correspond.",
+        "C": "« Le refus explicite l'emporte » est la logique d'IAM, pas celle des ACL réseau."
+      },
+      "ref": "Module 5 — Question 26",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-027",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel est le comportement de l'ACL réseau par défaut d'un VPC, comparé à une ACL réseau personnalisée nouvellement créée ?",
+      "choices": {
+        "A": "Les deux refusent tout le trafic",
+        "B": "Défaut : refuse tout ; personnalisée : autorise tout",
+        "C": "Les deux autorisent tout le trafic",
+        "D": "Défaut : autorise tout le trafic entrant et sortant ; personnalisée : refuse tout tant qu'on n'ajoute pas de règles"
+      },
+      "answer": "D",
+      "explanation": "L'ACL par défaut est permissive ; une ACL personnalisée est restrictive jusqu'à ce qu'on lui ajoute des règles d'autorisation.",
+      "why": {
+        "A": "L'ACL par défaut autorise tout le trafic ; seule la personnalisée refuse tout au départ.",
+        "B": "C'est l'inverse : la par défaut autorise tout, la personnalisée refuse tout.",
+        "C": "Une ACL personnalisée neuve refuse tout tant qu'on n'ajoute pas de règles."
+      },
+      "ref": "Module 5 — Question 27",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-028",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Seuls les serveurs web doivent pouvoir joindre le port 3306 des serveurs de base de données, même si les adresses IP des serveurs web changent. Quelle est la meilleure règle ?",
+      "choices": {
+        "A": "Une règle entrante ouvrant le port 3306 à 0.0.0.0/0",
+        "B": "Une règle entrante du groupe de sécurité de la base de données, avec comme source l'ID du groupe de sécurité des serveurs web",
+        "C": "Une règle entrante du groupe de sécurité de la base avec la liste des adresses IP des serveurs web",
+        "D": "Une règle de refus dans la table de routage"
+      },
+      "answer": "B",
+      "explanation": "Un groupe de sécurité peut servir de source d'une règle : la règle suit automatiquement les instances membres, quelle que soit leur IP.",
+      "why": {
+        "A": "Ouvrir à 0.0.0.0/0 expose la base à tout Internet, pas seulement aux serveurs web.",
+        "C": "Une liste d'adresses IP devient fausse dès que les IP des serveurs web changent.",
+        "D": "Une table de routage dirige le trafic ; elle ne contient pas de règles de refus."
+      },
+      "ref": "Module 5 — Question 28",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-029",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le VPC A est appairé (VPC peering) avec le VPC B, et le VPC B avec le VPC C. Les instances du VPC A peuvent-elles communiquer avec celles du VPC C via B ?",
+      "choices": {
+        "A": "Oui, le peering est transitif par défaut",
+        "B": "Oui, si les trois VPC sont dans la même Région",
+        "C": "Non, l'appairage n'est pas transitif : il faut un appairage direct A–C (ou une Transit Gateway)",
+        "D": "Oui, si les groupes de sécurité l'autorisent"
+      },
+      "answer": "C",
+      "explanation": "Le VPC peering est une relation de un à un, non transitive. Pour beaucoup de VPC, une Transit Gateway évite le maillage complet.",
+      "why": {
+        "A": "Le peering n'est jamais transitif.",
+        "B": "La Région ne change rien : le peering reste non transitif.",
+        "D": "Les groupes de sécurité ne peuvent pas créer un chemin réseau qui n'existe pas."
+      },
+      "ref": "Module 5 — Question 29",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-030",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Deux VPC utilisent tous les deux le bloc CIDR 10.0.0.0/16. Peut-on les relier par un appairage de VPC ?",
+      "choices": {
+        "A": "Oui, mais seulement entre deux Régions différentes",
+        "B": "Oui, AWS traduit automatiquement les adresses",
+        "C": "Oui, si on désactive les groupes de sécurité",
+        "D": "Non, les blocs CIDR des VPC appairés ne doivent pas se chevaucher"
+      },
+      "answer": "D",
+      "explanation": "Un appairage exige des plages d'adresses distinctes. D'où l'importance de planifier les CIDR dès la conception.",
+      "why": {
+        "A": "Le chevauchement des CIDR interdit l'appairage, que les Régions soient identiques ou non.",
+        "B": "AWS ne fait aucune traduction d'adresses automatique pour un appairage.",
+        "C": "Les groupes de sécurité n'ont rien à voir avec la contrainte sur les CIDR."
+      },
+      "ref": "Module 5 — Question 30",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-031",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une entreprise doit relier une quarantaine de VPC et un réseau local selon une topologie centralisée en étoile, plutôt que de multiplier les appairages. Quel service convient ?",
+      "choices": {
+        "A": "Une NAT gateway",
+        "B": "Amazon CloudFront",
+        "C": "AWS Transit Gateway",
+        "D": "Amazon Route 53"
+      },
+      "answer": "C",
+      "explanation": "Transit Gateway joue le rôle de concentrateur central (hub) pour interconnecter VPC et réseaux locaux, avec une gestion simplifiée.",
+      "why": {
+        "A": "Une NAT gateway donne un accès sortant à Internet ; elle n'interconnecte pas des VPC.",
+        "B": "CloudFront est un CDN, pas un service d'interconnexion réseau.",
+        "D": "Route 53 est un service DNS ; il ne relie pas des réseaux."
+      },
+      "ref": "Module 5 — Question 31",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-032",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quels composants permettent d'établir une connexion AWS Site-to-Site VPN entre un VPC et un réseau local ?",
+      "choices": {
+        "A": "Une passerelle privée virtuelle (côté AWS) et une passerelle client (côté réseau local)",
+        "B": "Une passerelle Internet et une NAT gateway",
+        "C": "Une Elastic IP et un point de terminaison de VPC",
+        "D": "Un groupe de sécurité et une ACL réseau"
+      },
+      "answer": "A",
+      "explanation": "Le VPN Site-to-Site crée des tunnels chiffrés sur Internet entre la passerelle privée virtuelle du VPC et la passerelle client du réseau local.",
+      "why": {
+        "B": "Ces passerelles donnent accès à Internet, mais ne créent pas de tunnel VPN.",
+        "C": "Une Elastic IP est une adresse et un endpoint donne un accès privé aux services AWS ; aucun ne termine un VPN.",
+        "D": "Ce sont des filtres de trafic, pas des extrémités de tunnel VPN."
+      },
+      "ref": "Module 5 — Question 32",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-033",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une banque veut une connexion chiffrée vers AWS, rapide à mettre en place, en utilisant Internet. Quelle option convient ?",
+      "choices": {
+        "A": "Amazon CloudFront",
+        "B": "Une passerelle Internet sans chiffrement",
+        "C": "AWS Site-to-Site VPN",
+        "D": "AWS Direct Connect, car il chiffre le trafic par défaut"
+      },
+      "answer": "C",
+      "explanation": "Le VPN s'active en quelques minutes, via Internet, avec chiffrement IPsec. Direct Connect est un lien dédié, plus long à provisionner, non chiffré par défaut.",
+      "why": {
+        "A": "CloudFront distribue du contenu ; il ne relie pas un réseau d'entreprise à AWS.",
+        "B": "La banque exige une connexion chiffrée.",
+        "D": "Direct Connect n'utilise pas Internet, est long à provisionner et ne chiffre pas par défaut."
+      },
+      "ref": "Module 5 — Question 33",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-034",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Des instances d'un sous-réseau privé doivent accéder à Amazon S3 sans passer par Internet et sans NAT gateway. Que faut-il créer ?",
+      "choices": {
+        "A": "Un appairage de VPC avec S3",
+        "B": "Un point de terminaison de VPC (VPC endpoint) pour S3",
+        "C": "Une passerelle Internet attachée au sous-réseau privé",
+        "D": "Une Elastic IP par instance"
+      },
+      "answer": "B",
+      "explanation": "Un endpoint de passerelle pour S3 (ou DynamoDB) route le trafic sur le réseau privé d'AWS, sans Internet ni NAT.",
+      "why": {
+        "A": "L'appairage relie deux VPC ; S3 n'est pas un VPC.",
+        "C": "Une passerelle Internet fait passer le trafic par Internet, ce qui est exclu.",
+        "D": "Une Elastic IP sert à joindre Internet, ce qui est justement à éviter."
+      },
+      "ref": "Module 5 — Question 34",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un site principal est hébergé en Irlande et une page de secours statique est hébergée dans S3. Comment basculer automatiquement vers la page de secours si le site principal tombe ?",
+      "choices": {
+        "A": "Routage simple avec deux enregistrements",
+        "B": "Routage par basculement (failover) avec un contrôle d'état Route 53",
+        "C": "Routage pondéré 50/50",
+        "D": "Routage par latence"
+      },
+      "answer": "B",
+      "explanation": "Le failover (actif-passif) s'appuie sur des contrôles d'état : si le primaire est jugé défaillant, Route 53 répond avec l'enregistrement secondaire.",
+      "why": {
+        "A": "Le routage simple ne vérifie pas l'état du site et ne bascule pas.",
+        "C": "Le routage pondéré enverrait la moitié des visiteurs vers la page de secours en permanence.",
+        "D": "Le routage par latence vise la Région la plus rapide, pas un secours en cas de panne."
+      },
+      "ref": "Module 5 — Question 35",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-036",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une société veut servir une version française du site aux utilisateurs situés en France, et une version anglaise aux autres. Quelle politique de routage Route 53 convient ?",
+      "choices": {
+        "A": "Routage par basculement",
+        "B": "Routage par géolocalisation",
+        "C": "Routage par latence",
+        "D": "Routage pondéré"
+      },
+      "answer": "B",
+      "explanation": "La géolocalisation route selon l'emplacement de l'utilisateur (pays, continent), utile pour la langue, les licences ou la conformité. La latence vise la Région la plus rapide.",
+      "why": {
+        "A": "Le basculement sert à la reprise en cas de panne, pas à choisir selon le pays.",
+        "C": "La latence vise la Région la plus rapide, pas le pays de l'utilisateur.",
+        "D": "Le routage pondéré répartit selon des proportions, sans tenir compte de l'emplacement."
+      },
+      "ref": "Module 5 — Question 36",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-037",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous voulez faire pointer le domaine racine (exemple.com) vers une distribution CloudFront. Quelle option est la bonne ?",
+      "choices": {
+        "A": "Un enregistrement A avec l'adresse IP de la distribution",
+        "B": "Un enregistrement alias Route 53 vers la distribution",
+        "C": "Un enregistrement CNAME vers le nom de la distribution",
+        "D": "Un enregistrement MX"
+      },
+      "answer": "B",
+      "explanation": "Un CNAME est interdit à la racine d'une zone. L'enregistrement alias fonctionne à la racine et s'adapte aux changements d'adresses de CloudFront.",
+      "why": {
+        "A": "Les adresses IP de CloudFront changent ; un A figé sur une IP finirait par être faux.",
+        "C": "Un CNAME est interdit à la racine d'une zone.",
+        "D": "MX désigne les serveurs de messagerie, pas un site web."
+      },
+      "ref": "Module 5 — Question 37",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-038",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un bucket S3 doit rester privé et n'être lisible par les visiteurs que via CloudFront. Quelle fonctionnalité faut-il utiliser ?",
+      "choices": {
+        "A": "Attacher un groupe de sécurité au bucket",
+        "B": "Rendre le bucket public avec une ACL ouverte",
+        "C": "L'Origin Access Control (OAC) de CloudFront, avec une politique de bucket qui n'autorise que CloudFront",
+        "D": "Utiliser une NAT gateway devant le bucket"
+      },
+      "answer": "C",
+      "explanation": "OAC (qui remplace l'ancien OAI) permet à CloudFront seul de lire le bucket. Les visiteurs ne peuvent pas contourner CloudFront.",
+      "why": {
+        "A": "Un groupe de sécurité s'attache à une interface réseau d'instance, pas à un bucket S3.",
+        "B": "Un bucket public pourrait être lu directement, sans passer par CloudFront.",
+        "D": "Une NAT gateway sert au trafic sortant d'instances privées, pas à protéger un bucket."
+      },
+      "ref": "Module 5 — Question 38",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-039",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une plateforme vend des vidéos accessibles uniquement aux abonnés, pendant une durée limitée. Quelle fonctionnalité de CloudFront convient ?",
+      "choices": {
+        "A": "Le routage par géolocalisation de Route 53",
+        "B": "AWS Shield Advanced",
+        "C": "S3 Transfer Acceleration",
+        "D": "Les URL signées ou les cookies signés"
+      },
+      "answer": "D",
+      "explanation": "Les URL/cookies signés contrôlent qui accède au contenu privé et jusqu'à quand. La géolocalisation, elle, ne vérifie pas l'abonnement.",
+      "why": {
+        "A": "La géolocalisation route selon l'emplacement ; elle ne vérifie pas l'abonnement.",
+        "B": "Shield Advanced protège contre les attaques DDoS, pas l'accès au contenu.",
+        "C": "Transfer Acceleration accélère les transferts vers S3 ; elle ne restreint pas l'accès."
+      },
+      "ref": "Module 5 — Question 39",
+      "source": "qcm-m5"
+    },
+    {
+      "id": "aws-practice-exam-m5-040",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous avez mis à jour un fichier à l'origine, mais les visiteurs voient encore l'ancienne version servie depuis l'edge location. Quelle action est la plus adaptée ?",
+      "choices": {
+        "A": "Modifier l'enregistrement MX dans Route 53",
+        "B": "Augmenter la taille de l'instance d'origine",
+        "C": "Réassocier l'Elastic IP de l'origine",
+        "D": "Créer une invalidation CloudFront pour l'objet (ou attendre l'expiration du TTL)"
+      },
+      "answer": "D",
+      "explanation": "Le cache garde l'objet jusqu'à l'expiration du TTL. Une invalidation le retire immédiatement des edge locations ; le fichier sera récupéré à nouveau à l'origine.",
+      "why": {
+        "A": "L'enregistrement MX concerne la messagerie, pas le cache CloudFront.",
+        "B": "La taille de l'origine ne change rien : l'ancienne version reste en cache.",
+        "C": "Changer l'IP de l'origine ne vide pas le cache des edge locations."
+      },
+      "ref": "Module 5 — Question 40",
+      "source": "qcm-m5"
+    }
+  ],
+  "flashcards": []
+}
