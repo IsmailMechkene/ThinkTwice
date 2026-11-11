@@ -40,6 +40,11 @@
       "label": "Notes manuscrites — Ch4 Méthodologie de parallélisme de tâches",
       "file": "courses/calcul parallele/chapitre 4.pdf",
       "author": ""
+    },
+    "resume-algo-final": {
+      "label": "Résumé final — Algorithmique & architectures parallèles",
+      "file": "courses/calcul parallele/Resume_Algorithmique_Parallele_final.pdf",
+      "author": ""
     }
   }
 }

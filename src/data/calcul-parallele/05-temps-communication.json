@@ -255,6 +255,27 @@
       },
       "ref": "Notes ch3 — Types de communication",
       "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur une grille 2D, le processeur (2,1) envoie un message de taille N au processeur (4,5) par un seul chemin. Quel est le temps de communication ?",
+      "choices": {
+        "A": "4 (τ + N/β)",
+        "B": "8 (τ + N/β)",
+        "C": "6 (τ + N/β)",
+        "D": "6 (τ + N/2β)"
+      },
+      "answer": "C",
+      "explanation": "La distance sur la grille est la distance de Manhattan : |2 − 4| + |1 − 5| = 2 + 4 = 6 liens. Sur un seul chemin, chaque lien coûte τ + N/β.",
+      "why": {
+        "A": "4 = |1 − 5| seulement : on a oublié le déplacement vertical |2 − 4| = 2.",
+        "B": "8 = 4 + 4 : on a pris l’écart des colonnes deux fois au lieu d’additionner lignes et colonnes.",
+        "D": "N/2β correspond à l’envoi de deux moitiés par deux chemins ; ici, un seul chemin porte tout le message."
+      },
+      "ref": "Résumé final §5.6 — Grille 2D, cas 1",
+      "source": "resume-algo-final"
     }
   ],
   "flashcards": [
@@ -338,6 +359,15 @@
       "back": "1 chemin : (|i₁ − i₂| + |j₁ − j₂|)(τ + N/β). 2 chemins (deux moitiés) : (|i₁ − i₂| + |j₁ − j₂|)(τ + N/(2β)).",
       "ref": "Notes ch3",
       "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-comm-f010",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Grille 2D : distance et temps O2O de (i1, j1) vers (i2, j2) ?",
+      "back": "Distance de Manhattan d = |i1 − i2| + |j1 − j2|. Un chemin : d (τ + N/β). Deux chemins, deux moitiés : d (τ + N/2β).",
+      "ref": "Résumé final §5.6",
+      "source": "resume-algo-final"
     }
   ]
 }

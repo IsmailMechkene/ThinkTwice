@@ -326,6 +326,49 @@
       },
       "ref": "Notes ch4 — Remarque sur le choix de la granularité",
       "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Ti précède Tj dans le programme. Quel type de dépendance relie ces deux tâches ?",
+      "code": "Ti : x = a + b\nTj : a = c * 2",
+      "choices": {
+        "A": "Dépendance de flot : Sᵢ ∩ Eⱼ = {a}",
+        "B": "Dépendance de sortie : Sᵢ ∩ Sⱼ = {a}",
+        "C": "Aucune : les deux tâches sont indépendantes",
+        "D": "Anti-dépendance : Eᵢ ∩ Sⱼ = {a}"
+      },
+      "answer": "D",
+      "explanation": "Ti LIT a (a ∈ Eᵢ) et Tj l’ÉCRIT ensuite (a ∈ Sⱼ) : Eᵢ ∩ Sⱼ = {a}, c’est une anti-dépendance. Tj ne doit pas écraser a avant que Ti l’ait lue.",
+      "why": {
+        "A": "Le flot, c’est « écrit puis lu » (Sᵢ ∩ Eⱼ). Ici Ti n’écrit que x, que Tj ne lit pas.",
+        "B": "Une dépendance de sortie exige que les deux tâches écrivent la même variable ; Ti écrit x, Tj écrit a.",
+        "C": "Eᵢ ∩ Sⱼ = {a} est non vide : une des trois conditions de Bernstein est violée."
+      },
+      "ref": "Résumé final §9.2 — Conditions de Bernstein",
+      "source": "resume-algo-final"
+    },
+    {
+      "id": "calcul-parallele-taches-017",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans les conditions de Bernstein, à quel type de dépendance correspond l’intersection Sᵢ ∩ Sⱼ ≠ ∅ ?",
+      "choices": {
+        "A": "Anti-dépendance : Tj écrit une variable que Ti lit",
+        "B": "Dépendance de flot : Tj lit une variable que Ti écrit",
+        "C": "Dépendance de sortie : les deux tâches écrivent la même variable",
+        "D": "Aucune : seule l’intersection des entrées compte"
+      },
+      "answer": "C",
+      "explanation": "Sᵢ ∩ Sⱼ porte sur les SORTIES : les deux tâches écrivent la même variable, dont la valeur finale dépendrait de l’ordre d’exécution.",
+      "why": {
+        "A": "L’anti-dépendance correspond à Eᵢ ∩ Sⱼ (lu par Ti, écrit par Tj).",
+        "B": "Le flot correspond à Sᵢ ∩ Eⱼ (écrit par Ti, lu par Tj).",
+        "D": "Eᵢ ∩ Eⱼ n’apparaît pas dans les conditions : lire la même variable ne crée pas de conflit."
+      },
+      "ref": "Résumé final §9.2 — Conditions de Bernstein",
+      "source": "resume-algo-final"
     }
   ],
   "flashcards": [
@@ -427,6 +470,15 @@
       "back": "Arc qui se déduit par transitivité d'un autre chemin (ex. T2 → T6 quand T2 → T5 → T6 existe). On l'élimine du graphe.",
       "ref": "Notes ch4 — Graphe de précédence (exemple)",
       "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f012",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Les 3 types de dépendance des conditions de Bernstein ?",
+      "back": "Sᵢ ∩ Eⱼ : flot (écrit puis lu). Eᵢ ∩ Sⱼ : anti-dépendance (lu puis écrit). Sᵢ ∩ Sⱼ : sortie (écrits tous deux).",
+      "ref": "Résumé final §9.2",
+      "source": "resume-algo-final"
     }
   ]
 }

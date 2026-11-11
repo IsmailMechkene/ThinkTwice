@@ -444,6 +444,48 @@
       },
       "ref": "Résumé algo §7 — Topologies (connectivité K)",
       "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-reseaux-022",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une machine à mémoire partagée relie p = 8 processeurs à m = 16 bancs mémoire par un crossbar. Combien d’interrupteurs (switchs) faut-il ?",
+      "choices": {
+        "A": "128",
+        "B": "24",
+        "C": "16",
+        "D": "64"
+      },
+      "answer": "A",
+      "explanation": "Le crossbar relie chaque processeur à chaque banc : il faut p × m = 8 × 16 = 128 switchs. C’est ce qui le rend très coûteux.",
+      "why": {
+        "B": "24 = p + m : on a additionné au lieu de compter un switch par couple (processeur, banc).",
+        "C": "16 = m : un switch par banc, comme si les bancs n’étaient pas reliés à chaque processeur.",
+        "D": "64 = p² : on a compté les couples processeur-processeur au lieu de processeur-banc."
+      },
+      "ref": "Résumé final §4.1 — Crossbar (un étage)",
+      "source": "resume-algo-final"
+    },
+    {
+      "id": "calcul-parallele-reseaux-023",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Dans un réseau, les connexions entre processeurs et bancs mémoire sont établies à la volée, selon les demandes. Selon quel critère de classement, et dans quelle catégorie, range-t-on ce réseau ?",
+      "choices": {
+        "A": "Commutation : réseau à commutation de paquets",
+        "B": "Topologie : réseau dynamique",
+        "C": "Mode d’opération : réseau asynchrone",
+        "D": "Stratégie de contrôle : réseau décentralisé"
+      },
+      "answer": "B",
+      "explanation": "Le critère de topologie distingue les réseaux statiques (liens fixes) des réseaux dynamiques, dont les connexions sont établies à la volée. C’est le cas des réseaux des machines à mémoire partagée.",
+      "why": {
+        "A": "La commutation (circuit / paquet) décrit comment les données transitent, pas si les connexions sont fixes.",
+        "C": "Le mode d’opération (synchrone / asynchrone) concerne la cadence des échanges.",
+        "D": "La stratégie de contrôle (centralisée / décentralisée) dit qui pilote le réseau."
+      },
+      "ref": "Résumé final §4 — Critères de classement",
+      "source": "resume-algo-final"
     }
   ],
   "flashcards": [
@@ -590,6 +632,15 @@
       "back": "Chaîne : 1. Arbre binaire : 1. Anneau : 2. Grilles 2D (simple ou torique) : ≥ 2. Grille 3D : ≥ 3. Hypercube de dimension d : d. K = 1 : aucun parallélisme ni tolérance aux pannes.",
       "ref": "Résumé algo §7",
       "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f017",
+      "kind": "definition",
+      "tier": "bonus",
+      "front": "Les 4 critères de classement des réseaux d’interconnexion ?",
+      "back": "Mode d’opération (synchrone / asynchrone), stratégie de contrôle (centralisée / décentralisée), commutation (circuit / paquet), topologie (statique / dynamique).",
+      "ref": "Résumé final §4",
+      "source": "resume-algo-final"
     }
   ]
 }
