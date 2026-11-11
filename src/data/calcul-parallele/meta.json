@@ -1,6 +1,6 @@
 {
   "name": "Calcul parallèle",
-  "description": "Formes de parallélisme, performances, architectures, réseaux d'interconnexion, temps de communication et OpenMP.",
+  "description": "Formes de parallélisme, performances, architectures, réseaux d'interconnexion, temps de communication, OpenMP et systèmes de tâches.",
   "icon": "⚡",
   "color": "#4f46e5",
   "language": "fr",
@@ -29,6 +29,16 @@
     "resume-openmp": {
       "label": "Résumé — OpenMP",
       "file": "courses/calcul parallele/openmp.pdf",
+      "author": ""
+    },
+    "resume-algo-parallele": {
+      "label": "Résumé — Algorithmique & architectures parallèles",
+      "file": "courses/calcul parallele/Resume_Algorithmique_Parallele.pdf",
+      "author": ""
+    },
+    "notes-taches": {
+      "label": "Notes manuscrites — Ch4 Méthodologie de parallélisme de tâches",
+      "file": "courses/calcul parallele/chapitre 4.pdf",
       "author": ""
     }
   }

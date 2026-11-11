@@ -1,0 +1,432 @@
+{
+  "id": "taches",
+  "title": "Systèmes de tâches & graphe de précédence",
+  "order": 7,
+  "description": "Méthodologie de parallélisme de tâches (environnement homogène) : granularité, modèle de tâche (E, S, F, θ), conditions de Bernstein, relation de précédence << et graphe de précédence.",
+  "questions": [
+    {
+      "id": "calcul-parallele-taches-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "On considère deux tâches. Sont-elles indépendantes au sens de Bernstein ?",
+      "code": "T1 : x = y + z\nT2 : w = y * 2",
+      "choices": {
+        "A": "Oui : y n'est que lue, aucune intersection n'est non vide",
+        "B": "Non : les deux tâches partagent la variable y en entrée",
+        "C": "Non : T1 précède T2 dans le programme séquentiel",
+        "D": "Oui, mais seulement si T1 a un coût inférieur à T2"
+      },
+      "answer": "A",
+      "explanation": "E₁ = {y, z}, S₁ = {x}, E₂ = {y}, S₂ = {w}. S₁∩S₂ = S₁∩E₂ = E₁∩S₂ = ∅ : les tâches sont indépendantes. E₁∩E₂ n'apparaît pas dans les conditions.",
+      "why": {
+        "B": "Partager une variable en lecture seule ne crée aucune interférence : E₁∩E₂ ne fait pas partie des conditions de Bernstein.",
+        "C": "L'ordre séquentiel seul ne crée pas de dépendance : il faut en plus une interférence sur les variables.",
+        "D": "Le coût θ ne joue aucun rôle dans l'indépendance ; seuls les ensembles E et S comptent."
+      },
+      "ref": "Notes ch4 — Comparaison de 2 tâches (Bernstein)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle condition de Bernstein est violée entre ces deux tâches ?",
+      "code": "t1 : a = b + c\nt2 : e = a - b",
+      "choices": {
+        "A": "S₁ ∩ S₂ ≠ ∅, à cause de la variable b",
+        "B": "S₁ ∩ E₂ ≠ ∅, à cause de la variable a",
+        "C": "E₁ ∩ S₂ ≠ ∅, à cause de la variable e",
+        "D": "Aucune : les deux tâches sont indépendantes"
+      },
+      "answer": "B",
+      "explanation": "S₁ = {a} et E₂ = {a, b} : t2 lit la variable a que t1 écrit, donc S₁∩E₂ = {a} ≠ ∅.",
+      "why": {
+        "A": "b n'est écrite par aucune tâche : S₁ = {a}, S₂ = {e}, donc S₁∩S₂ = ∅.",
+        "C": "e n'est pas une entrée de t1 : E₁ = {b, c} et S₂ = {e}, donc E₁∩S₂ = ∅.",
+        "D": "t2 utilise le résultat a produit par t1 : il y a bien une interférence."
+      },
+      "ref": "Notes ch4 — Comparaison de 2 tâches (exemple)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "On donne ces deux tâches sans préciser leur ordre dans le programme séquentiel. Que peut-on conclure ?",
+      "code": "Ti : A = B + C\nTj : B = E - F",
+      "choices": {
+        "A": "Ti << Tj, car Ti est écrite en premier",
+        "B": "Tj << Ti, car Tj produit B qui est lue par Ti",
+        "C": "Elles interfèrent, mais le sens de << reste inconnu",
+        "D": "Elles sont indépendantes, donc parallélisables"
+      },
+      "answer": "C",
+      "explanation": "Eᵢ∩Sⱼ = {B} ≠ ∅ : les tâches interfèrent. Mais Ti << Tj exige aussi Ti → Tj dans l'ordre séquentiel : sans cet ordre, on ne peut pas trancher entre Ti << Tj et Tj << Ti.",
+      "why": {
+        "A": "L'énoncé ne donne pas l'ordre séquentiel ; l'ordre d'écriture de l'exemple n'est pas une information.",
+        "B": "Si Ti est avant Tj dans le programme, Ti doit lire l'ANCIENNE valeur de B : c'est alors Ti << Tj. Le sens dépend de l'ordre séquentiel.",
+        "D": "Tj écrit B, qui est une entrée de Ti : Eᵢ∩Sⱼ ≠ ∅."
+      },
+      "ref": "Notes ch4 — Définition de << (exemple A = B + C)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans le programme séquentiel, Ti est placée avant Tj (Ti → Tj). Les trois intersections Sᵢ∩Sⱼ, Sᵢ∩Eⱼ et Eᵢ∩Sⱼ sont vides. A-t-on Ti << Tj ?",
+      "choices": {
+        "A": "Oui : la précédence séquentielle suffit à définir <<",
+        "B": "Oui : deux tâches sont toujours comparables par <<",
+        "C": "Non : on a alors Tj << Ti par symétrie",
+        "D": "Non : il manque l'interférence sur les variables"
+      },
+      "answer": "D",
+      "explanation": "Ti << Tj ⟺ Ti → Tj ET (Sᵢ∩Sⱼ) ∪ (Sᵢ∩Eⱼ) ∪ (Eᵢ∩Sⱼ) ≠ ∅. Ici la seconde condition est fausse : aucune relation de précédence entre Ti et Tj.",
+      "why": {
+        "A": "→ est l'ordre total du programme séquentiel ; << n'en garde que les couples qui interfèrent réellement.",
+        "B": "<< est un ordre PARTIEL : certaines tâches ne sont pas comparables, et c'est ce qui permet le parallélisme.",
+        "C": "Tj << Ti exigerait Tj → Ti, ce qui contredit l'ordre séquentiel donné."
+      },
+      "ref": "Notes ch4 — Définition de <<",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans ce programme, t1 et t3 n'ont aucune variable en conflit direct. Quelle est la relation entre t1 et t3 ?",
+      "code": "t1 : a = b + c\nt2 : e = a - b\nt3 : f = d * e",
+      "choices": {
+        "A": "t1 << t3, par transitivité via t2",
+        "B": "Aucune : t1 et t3 sont parallélisables",
+        "C": "t3 << t1, car t3 est la tâche finale",
+        "D": "t1 << t3, car S₁ ∩ E₃ est non vide"
+      },
+      "answer": "A",
+      "explanation": "t1 << t2 (t2 lit a) et t2 << t3 (t3 lit e). La relation << est transitive, donc t1 << t3.",
+      "why": {
+        "B": "Bernstein est vérifié directement entre t1 et t3, mais ce n'est pas suffisant : t3 attend t2, qui attend t1.",
+        "C": "<< suit l'ordre séquentiel : t1 est avant t3, la relation ne peut pas être inversée.",
+        "D": "S₁ = {a} et E₃ = {d, e} : l'intersection est vide. La relation vient de la transitivité, pas d'un conflit direct."
+      },
+      "ref": "Notes ch4 — Relation transitive (exemple t1, t2, t3)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-006",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un système de tâches vérifie : T1 << T4 ; T2 << T4, T2 << T5, T2 << T6 ; T3 << T5, T3 << T6 ; T5 << T6. Quels arcs sont redondants dans le graphe de précédence ?",
+      "choices": {
+        "A": "T1 → T4 et T2 → T4",
+        "B": "T2 → T6 et T3 → T6",
+        "C": "T2 → T5 et T3 → T5",
+        "D": "T5 → T6 uniquement"
+      },
+      "answer": "B",
+      "explanation": "T2 << T5 << T6 et T3 << T5 << T6 : les arcs directs T2 → T6 et T3 → T6 se déduisent par transitivité, on les élimine.",
+      "why": {
+        "A": "Aucun chemin indirect ne relie T1 ou T2 à T4 : ces arcs sont indispensables.",
+        "C": "T5 n'est atteinte que par ces arcs directs ; les supprimer ferait perdre les dépendances.",
+        "D": "T5 → T6 est justement l'arc qui rend les autres redondants ; lui-même ne se déduit d'aucun chemin."
+      },
+      "ref": "Notes ch4 — Graphe de précédence (exemple)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Pour le produit matrice-vecteur ci-dessous, quel découpage correspond à la granularité la plus fine ?",
+      "code": "pour i = 1 à n faire\n  pour j = 1 à n faire\n    y(i) = y(i) + A(i,j) * x(j)\n  fin pour\nfin pour",
+      "choices": {
+        "A": "Une tâche par itération de la boucle sur i",
+        "B": "Une tâche par boucle interne sur j complète",
+        "C": "Une tâche par opération arithmétique (+ ou *)",
+        "D": "Une tâche par instruction y(i) = y(i) + A(i,j) * x(j)"
+      },
+      "answer": "C",
+      "explanation": "Le grain le plus fin descend au niveau de l'opération : l'addition et la multiplication sont chacune une tâche.",
+      "why": {
+        "A": "C'est le grain le plus gros de l'exemple : une itération de i contient toute la boucle sur j.",
+        "B": "La boucle sur j regroupe n instructions : c'est un grain plus gros que l'instruction.",
+        "D": "L'instruction contient encore deux opérations (+ et *) : on peut découper plus finement."
+      },
+      "ref": "Notes ch4 — Notions de système de tâches (granularité)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une tâche de coût θ = 10 a démarré sur le processeur P1. Dans le modèle du cours, peut-on l'interrompre à mi-parcours pour la terminer sur P2 ?",
+      "choices": {
+        "A": "Oui, si P1 et P2 sont homogènes",
+        "B": "Oui, à condition de recopier ses entrées sur P2",
+        "C": "Non, sauf si son coût θ est connu à l'avance",
+        "D": "Non : exécution non préemptive, sur un seul processeur"
+      },
+      "answer": "D",
+      "explanation": "Une tâche est une unité indivisible : elle s'exécute sur un seul processeur et son exécution est non préemptive (pas d'interruption).",
+      "why": {
+        "A": "L'homogénéité des processeurs ne change rien : la tâche reste indivisible.",
+        "B": "Le modèle interdit l'interruption elle-même, quelle que soit la gestion des données.",
+        "C": "Connaître θ définit le modèle statique ; cela n'autorise pas la préemption."
+      },
+      "ref": "Notes ch4 — Définition d'une tâche",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle différence y a-t-il entre le programme séquentiel segmenté PS = (T₁, …, Tₙ, →) et le système de tâches S = (T₁, …, Tₙ, <<) ?",
+      "choices": {
+        "A": "→ est un ordre total, << est un ordre partiel",
+        "B": "→ est un ordre partiel, << est un ordre total",
+        "C": "PS contient plus de tâches que S",
+        "D": "S impose une granularité plus fine que PS"
+      },
+      "answer": "A",
+      "explanation": "PS ordonne toutes les tâches (ordre total). Paralléliser, c'est rendre cet ordre partiel : S ne garde que les précédences réellement nécessaires.",
+      "why": {
+        "B": "C'est l'inverse : le programme séquentiel impose un ordre entre toutes les tâches.",
+        "C": "Les deux portent sur les mêmes tâches T₁, …, Tₙ ; seule la relation d'ordre change.",
+        "D": "Le grain est choisi dès le début, avant de construire PS puis S : il est le même."
+      },
+      "ref": "Notes ch4 — PS et système de tâches",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "L'indépendance de Bernstein est une condition « nécessaire mais non suffisante » pour le parallélisme. Quelle affirmation est correcte ?",
+      "choices": {
+        "A": "Deux tâches indépendantes sont toujours parallélisables",
+        "B": "Deux tâches non indépendantes ne sont pas parallélisables",
+        "C": "Deux tâches non indépendantes peuvent rester parallélisables",
+        "D": "Deux tâches parallélisables peuvent ne pas être indépendantes"
+      },
+      "answer": "B",
+      "explanation": "t1 et t2 non indépendantes ⇒ non parallélisables. L'inverse est faux : deux tâches indépendantes peuvent rester liées par transitivité.",
+      "why": {
+        "A": "C'est l'implication inverse, qui n'est pas correcte : exemple t1 : a = b + c et t3 : f = d * e, liées via t2 : e = a − b.",
+        "C": "Une interférence sur une variable interdit l'exécution simultanée.",
+        "D": "Condition nécessaire : si elles sont parallélisables, alors elles sont forcément indépendantes."
+      },
+      "ref": "Notes ch4 — Condition nécessaire mais non suffisante",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel est le graphe de précédence, sans arc redondant, de ce programme séquentiel ?",
+      "code": "T1 : x = a + b\nT2 : y = x * c\nT3 : z = a - c\nT4 : w = y + z",
+      "choices": {
+        "A": "T1 → T2, T2 → T3, T3 → T4",
+        "B": "T1 → T2, T1 → T3, T2 → T4, T3 → T4",
+        "C": "T1 → T2, T2 → T4, T3 → T4",
+        "D": "T1 → T2, T1 → T4, T2 → T4, T3 → T4"
+      },
+      "answer": "C",
+      "explanation": "T2 lit x (S₁∩E₂), T4 lit y (S₂∩E₄) et z (S₃∩E₄). T3 n'interfère ni avec T1 ni avec T2 : elle peut s'exécuter en parallèle avec elles.",
+      "why": {
+        "A": "C'est l'ordre total séquentiel : T2 et T3 n'interfèrent pas, il n'y a pas d'arc T2 → T3.",
+        "B": "T1 et T3 partagent seulement a en lecture : aucune interférence, donc pas d'arc T1 → T3.",
+        "D": "T1 → T4 n'est pas un conflit direct (S₁ = {x} ∉ E₄) et serait de toute façon redondant via T2."
+      },
+      "ref": "Notes ch4 — Graphe de précédence",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Ces deux tâches ne lisent aucune variable écrite par l'autre. Sont-elles indépendantes ?",
+      "code": "T1 : s = a + b\nT2 : s = c * d",
+      "choices": {
+        "A": "Oui : S₁ ∩ E₂ et E₁ ∩ S₂ sont vides",
+        "B": "Oui : leurs entrées sont disjointes",
+        "C": "Non : E₁ ∩ E₂ est non vide",
+        "D": "Non : S₁ ∩ S₂ = {s} est non vide"
+      },
+      "answer": "D",
+      "explanation": "Les deux tâches écrivent s : S₁∩S₂ = {s} ≠ ∅. La valeur finale de s dépendrait de l'ordre d'exécution.",
+      "why": {
+        "A": "Il y a trois conditions : il faut aussi S₁∩S₂ = ∅, ce qui est faux ici.",
+        "B": "Des entrées disjointes ne suffisent pas ; les sorties ne doivent pas non plus entrer en conflit.",
+        "C": "E₁ = {a, b} et E₂ = {c, d} sont disjoints, et E₁∩E₂ n'est de toute façon pas une condition de Bernstein."
+      },
+      "ref": "Notes ch4 — Comparaison de 2 tâches (Bernstein)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-013",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Combien de couples de tâches sont indépendants au sens de Bernstein ?",
+      "code": "T1 : a = b + c\nT2 : d = b * c\nT3 : c = a + d",
+      "choices": {
+        "A": "1 seul : (T1, T2)",
+        "B": "2 : (T1, T2) et (T1, T3)",
+        "C": "Aucun couple",
+        "D": "Les 3 couples"
+      },
+      "answer": "A",
+      "explanation": "(T1, T2) : seules des lectures sont partagées (b, c) → indépendantes. (T1, T3) : S₁∩E₃ = {a} et E₁∩S₃ = {c}. (T2, T3) : S₂∩E₃ = {d} et E₂∩S₃ = {c}.",
+      "why": {
+        "B": "T3 lit a (écrite par T1) et écrit c (lue par T1) : (T1, T3) interfère doublement.",
+        "C": "T1 et T2 ne partagent que b et c en lecture : elles sont indépendantes.",
+        "D": "T3 lit a et d et modifie c : elle interfère avec T1 et avec T2."
+      },
+      "ref": "Notes ch4 — Comparaison de 2 tâches (Bernstein)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi le graphe de précédence d'un système de tâches ne peut-il pas contenir de cycle ?",
+      "choices": {
+        "A": "Parce que les arcs redondants ont été éliminés",
+        "B": "Parce que chaque tâche s'exécute sur un seul processeur",
+        "C": "Parce que Ti << Tj impose Ti → Tj dans l'ordre séquentiel",
+        "D": "Parce que les tâches ont toutes un coût θ connu"
+      },
+      "answer": "C",
+      "explanation": "Chaque arc Ti → Tj du graphe respecte l'ordre total du programme séquentiel : on ne peut jamais revenir vers une tâche antérieure. Le graphe est orienté et non cyclique.",
+      "why": {
+        "A": "Éliminer les arcs redondants allège le graphe ; l'absence de cycle est vraie avant même cette étape.",
+        "B": "C'est une hypothèse sur l'exécution d'une tâche, sans lien avec la forme du graphe.",
+        "D": "Le coût θ sert au modèle statique, pas à la structure des dépendances."
+      },
+      "ref": "Notes ch4 — Graphe de précédence",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-015",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Lors du choix de la granularité, on repère un bloc d'instructions liées entre elles par de très nombreuses dépendances. Que préconise le cours ?",
+      "choices": {
+        "A": "Le découper au grain le plus fin possible",
+        "B": "Le considérer comme une seule tâche",
+        "C": "Supprimer ses dépendances redondantes",
+        "D": "Le répartir sur plusieurs processeurs"
+      },
+      "answer": "B",
+      "explanation": "Un bloc ayant trop de dépendances peut être considéré comme une seule tâche : le découper ne créerait que des tâches à exécuter l'une après l'autre.",
+      "why": {
+        "A": "Un grain fin multiplie les tâches sans gain : elles restent enchaînées par leurs dépendances.",
+        "C": "On n'élimine que les arcs redondants du graphe ; les dépendances réelles du bloc demeurent.",
+        "D": "Une tâche est indivisible et s'exécute sur un seul processeur."
+      },
+      "ref": "Notes ch4 — Remarque sur le choix de la granularité",
+      "source": "notes-taches"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "calcul-parallele-taches-f001",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Par quoi une tâche Tᵢ est-elle définie ?",
+      "back": "Unité indivisible définie par (Eᵢ, Sᵢ, Fᵢ, θᵢ) : Eᵢ entrées, Sᵢ sorties, Fᵢ opération, θᵢ coût.",
+      "ref": "Notes ch4 — Définition d'une tâche",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Les 2 hypothèses d'exécution d'une tâche ?",
+      "back": "Elle ne s'exécute que sur un seul processeur, et son exécution est non préemptive (pas d'interruption).",
+      "ref": "Notes ch4 — Définition d'une tâche",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Quand le modèle de tâches est-il statique ?",
+      "back": "Quand on connaît (Eᵢ, Sᵢ, Fᵢ, θᵢ) pour chaque tâche.",
+      "ref": "Notes ch4 — Modèle statique",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Granularité : que faut-il retenir ?",
+      "back": "La décomposition en tâches n'est pas unique : elle dépend du grain (opération, instruction, boucle…). On choisit le grain dès le début.",
+      "ref": "Notes ch4 — Notions de système de tâches",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "PS = (T₁…Tₙ, →) vs S = (T₁…Tₙ, <<) ?",
+      "back": "PS : programme séquentiel segmenté, → est un ordre total. S : système de tâches, << est un ordre partiel. Paralléliser = rendre l'ordre partiel.",
+      "ref": "Notes ch4 — PS et système de tâches",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f006",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Conditions de Bernstein (tâches indépendantes) ?",
+      "back": "Sᵢ∩Sⱼ = Sᵢ∩Eⱼ = Eᵢ∩Sⱼ = ∅ : aucune variable n'est écrite par l'une et lue ou écrite par l'autre. Eᵢ∩Eⱼ peut être non vide.",
+      "ref": "Notes ch4 — Comparaison de 2 tâches",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f007",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Définition de Tᵢ << Tⱼ ?",
+      "back": "Tᵢ → Tⱼ (précédence séquentielle) ET (Sᵢ∩Sⱼ) ∪ (Sᵢ∩Eⱼ) ∪ (Eᵢ∩Sⱼ) ≠ ∅. La relation est transitive.",
+      "ref": "Notes ch4 — Définition de <<",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f008",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi l'indépendance est-elle nécessaire mais non suffisante ?",
+      "back": "Non indépendantes ⇒ non parallélisables, mais l'inverse est faux : deux tâches sans conflit direct peuvent être liées par transitivité (t1 << t2 et t2 << t3 ⇒ t1 << t3).",
+      "ref": "Notes ch4 — Condition nécessaire mais non suffisante",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f009",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi faut-il l'ordre séquentiel pour orienter << ?",
+      "back": "Les intersections disent seulement que deux tâches interfèrent. Ex. A = B + C et B = E − F : sans savoir laquelle vient en premier, impossible de choisir entre Tᵢ << Tⱼ et Tⱼ << Tᵢ.",
+      "ref": "Notes ch4 — Définition de << (exemple)",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f010",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Graphe de précédence ?",
+      "back": "Graphe de tâches orienté non cyclique : un arc Tᵢ → Tⱼ si Tᵢ << Tⱼ.",
+      "ref": "Notes ch4 — Graphe de précédence",
+      "source": "notes-taches"
+    },
+    {
+      "id": "calcul-parallele-taches-f011",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Dépendance redondante dans le graphe de précédence ?",
+      "back": "Arc qui se déduit par transitivité d'un autre chemin (ex. T2 → T6 quand T2 → T5 → T6 existe). On l'élimine du graphe.",
+      "ref": "Notes ch4 — Graphe de précédence (exemple)",
+      "source": "notes-taches"
+    }
+  ]
+}

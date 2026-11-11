@@ -402,6 +402,48 @@
       },
       "ref": "Notes ch3 — Réseau en étoile",
       "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-reseaux-020",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "On construit un hypercube de dimension 4 en superposant deux 3-cubes (8 nœuds et 12 liens chacun), puis en reliant chaque sommet à son correspondant. Combien de liens a le 4-cube ?",
+      "choices": {
+        "A": "24 liens, ceux des deux 3-cubes",
+        "B": "32 liens, soit 2 × 12 + 8",
+        "C": "28 liens, soit 2 × 12 + 4",
+        "D": "64 liens, soit d · 2^d = 4 × 16"
+      },
+      "answer": "B",
+      "explanation": "Récurrence : m_d = 2·m_(d−1) + n_(d−1) = 2 × 12 + 8 = 32. On retrouve m = d·2^(d−1) = 4 × 8 = 32.",
+      "why": {
+        "A": "On a oublié les 8 liens qui relient chaque sommet d'un 3-cube à son correspondant dans l'autre.",
+        "C": "Ce sont les 8 sommets d'UN 3-cube qui sont chacun reliés à leur correspondant : il faut ajouter n_(d−1) = 8 liens, pas 4.",
+        "D": "d · 2^d compte chaque lien deux fois (une fois par extrémité) : m = d · 2^(d−1)."
+      },
+      "ref": "Résumé algo §7 — Hypercube (récurrence)",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-reseaux-021",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi un hypercube de dimension d supporte-t-il mieux les pannes de liens qu'un arbre binaire ?",
+      "choices": {
+        "A": "Son diamètre d est plus petit que celui d'un arbre de même taille",
+        "B": "Chaque nœud y a au plus 3 voisins, ce qui limite les liens exposés",
+        "C": "Il a moins de liens, donc moins de liens qui peuvent tomber en panne",
+        "D": "Il offre d chemins disjoints entre deux nœuds (K = d), l'arbre un seul"
+      },
+      "answer": "D",
+      "explanation": "La connectivité K compte les chemins différents entre deux nœuds. Hypercube : K = d (ex. 3 chemins disjoints dans le 3-cube). Arbre binaire : K = 1, donc une seule panne peut isoler des nœuds. K ≥ 2 permet aussi des communications parallèles.",
+      "why": {
+        "A": "Un petit diamètre accélère les messages, mais c'est la connectivité K qui donne la tolérance aux pannes.",
+        "B": "Δ = 3 est le degré de l'ARBRE binaire. Dans l'hypercube, Δ = d.",
+        "C": "C'est l'inverse : l'hypercube a d·2^(d−1) liens, bien plus que les 2^h − 2 liens de l'arbre, et ces liens en plus donnent des chemins de secours."
+      },
+      "ref": "Résumé algo §7 — Topologies (connectivité K)",
+      "source": "resume-algo-parallele"
     }
   ],
   "flashcards": [
@@ -539,6 +581,15 @@
       "back": "Le nœud central a un degré Δ = n − 1. C'est un modèle client-serveur, centralisé.",
       "ref": "Notes ch3",
       "source": "notes-reseaux"
+    },
+    {
+      "id": "calcul-parallele-reseaux-f016",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Connectivité K de chaque topologie ?",
+      "back": "Chaîne : 1. Arbre binaire : 1. Anneau : 2. Grilles 2D (simple ou torique) : ≥ 2. Grille 3D : ≥ 3. Hypercube de dimension d : d. K = 1 : aucun parallélisme ni tolérance aux pannes.",
+      "ref": "Résumé algo §7",
+      "source": "resume-algo-parallele"
     }
   ]
 }

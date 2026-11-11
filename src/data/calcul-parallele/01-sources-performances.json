@@ -614,6 +614,154 @@
       },
       "ref": "Cours prog. §2.3 — Parallélisme mixte",
       "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-030",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un calcul met T₁ = 40 s sur un processeur. Réparti sur 4 processeurs reliés par un réseau, chacun calcule pendant 10 s, mais les échanges de données ajoutent 6 s. Quelle accélération obtient-on ?",
+      "choices": {
+        "A": "S₄ = 2,5, car Tpar = 10 s de traitement + 6 s de communication",
+        "B": "S₄ = 4, car seul le temps de traitement compte en parallèle",
+        "C": "S₄ ≈ 0,87, car on ajoute les 6 s au temps séquentiel de 40 s",
+        "D": "S₄ ≈ 6,7, car seul le temps de communication limite le calcul"
+      },
+      "answer": "A",
+      "explanation": "Tséq ne dépend que du processeur (traitement). Tpar dépend de deux facteurs : Tpar = Ttraitement + Tcommunication = 10 + 6 = 16 s. Donc S₄ = 40/16 = 2,5.",
+      "why": {
+        "B": "On oublie le réseau d'interconnexion : en parallèle, le temps de communication s'ajoute au traitement.",
+        "C": "La communication s'ajoute au temps PARALLÈLE (10 s), pas au temps séquentiel de 40 s.",
+        "D": "40/6 ne garde que la communication : le traitement de 10 s compte aussi."
+      },
+      "ref": "Résumé algo §1 — Temps séquentiel vs temps parallèle",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-031",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un algorithme a trois branches indépendantes de 5, 8 et 3 opérations. On exécute chaque branche sur son propre processeur, en négligeant la communication. Quelle est sa complexité en temps, en séquentiel puis en parallèle ?",
+      "choices": {
+        "A": "16 dans les deux cas, car le nombre total d'opérations ne change pas",
+        "B": "16 en séquentiel, puis 3 en parallèle : la branche la plus courte",
+        "C": "16 en séquentiel (la somme), puis 8 en parallèle (le maximum)",
+        "D": "16 en séquentiel, puis 16/3 ≈ 5,3 en parallèle : la moyenne"
+      },
+      "answer": "C",
+      "explanation": "En séquentiel, les opérations s'enchaînent : complexité = somme (5 + 8 + 3 = 16). En parallèle, les branches tournent en même temps : on attend la plus longue, complexité = max (8).",
+      "why": {
+        "A": "Le nombre total d'opérations ne change pas, mais le temps, si : les branches s'exécutent en même temps.",
+        "B": "Le calcul n'est fini que lorsque TOUTES les branches ont terminé : c'est la plus longue qui compte.",
+        "D": "La moyenne supposerait un partage parfait du travail. Ici chaque branche reste sur un processeur, et la branche de 8 opérations impose son temps."
+      },
+      "ref": "Résumé algo §1 — Algorithme séquentiel vs parallèle",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-032",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une équipe écrit un algorithme parallèle sans savoir s'il tournera sur un PC multi-cœur ou sur un cluster. Pourquoi le cours juge-t-il cette démarche risquée ?",
+      "choices": {
+        "A": "Parce que Topt ne peut pas se calculer sans connaître le nombre de processeurs",
+        "B": "Parce que le compilateur refuse un code parallèle dont la cible est inconnue",
+        "C": "Parce qu'un algorithme parallèle ne fonctionne que sur un seul type de machine",
+        "D": "Parce que l'échange des données (mémoire commune ou messages) dépend de la machine"
+      },
+      "answer": "D",
+      "explanation": "Question clé du cours : les processeurs partagent-ils la même mémoire, ou passent-ils par un réseau ? La communication en dépend, donc avant d'écrire l'algorithme, il faut connaître l'architecture (architecture → algorithmique → programmes parallèles).",
+      "why": {
+        "A": "Faux : Topt (chemin critique du graphe de dépendance) se détermine indépendamment du nombre de processeurs.",
+        "B": "Le cours ne parle pas d'un refus du compilateur. Le risque est un algorithme mal adapté, pas un code qui ne compile pas.",
+        "C": "C'est exagéré : le problème est l'efficacité de la communication, pas une impossibilité de tourner ailleurs."
+      },
+      "ref": "Résumé algo §1 — Introduction",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-033",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Une application « 3P » demande une puissance de l'ordre de 1 pétaflops. Que cela représente-t-il ?",
+      "choices": {
+        "A": "10¹⁵ opérations sur des réels par seconde, soit 1 000 téraflops",
+        "B": "10¹² opérations sur des réels par seconde, soit 1 téraflops",
+        "C": "10¹⁵ octets de mémoire centrale, soit 1 000 téraoctets",
+        "D": "10¹⁵ opérations sur des réels par seconde, soit 100 téraflops"
+      },
+      "answer": "A",
+      "explanation": "flops = floating-point operations per second (opérations sur les réels). Péta = 10¹⁵ = 10³ téra, donc 1 pétaflops = 1 000 téraflops. Seul un parallélisme massif (HPC) atteint ces valeurs.",
+      "why": {
+        "B": "10¹² flops = 1 téraflops : c'est l'échelle des anciennes applications « 3T », pas « 3P ».",
+        "C": "Les flops mesurent une vitesse de calcul, pas une quantité de mémoire.",
+        "D": "Péta = 10³ téra, donc 1 000 téraflops, pas 100."
+      },
+      "ref": "Résumé algo §1 — Pourquoi le parallélisme est devenu indispensable",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-034",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "Un PC à un seul cœur fait tourner un navigateur et un lecteur de musique : le système alterne très vite de l'un à l'autre. Comment qualifier cette exécution ?",
+      "choices": {
+        "A": "Parallèle, car les deux applications avancent vraiment en même temps",
+        "B": "Monotâche, car un seul programme utilise le processeur à chaque instant",
+        "C": "Multitâche, car les deux tâches sont entrelacées sur un seul processeur",
+        "D": "Distribuée, car chaque application dispose de sa propre zone mémoire"
+      },
+      "answer": "C",
+      "explanation": "Monotâche : les tâches s'enchaînent (l'une finit avant que l'autre commence). Multitâche : elles sont entrelacées sur un seul processeur. Parallèle : elles s'exécutent vraiment en même temps, sur plusieurs processeurs.",
+      "why": {
+        "A": "Avec un seul cœur, une seule instruction s'exécute à la fois : la simultanéité n'est qu'apparente.",
+        "B": "En monotâche, une tâche se termine avant le début de la suivante. Ici les deux alternent avant d'avoir fini.",
+        "D": "Un système distribué relie des processeurs autonomes par un réseau. Ici il n'y a qu'un processeur."
+      },
+      "ref": "Résumé algo §5 — Monotâche, multitâche, parallèle",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-035",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Six instructions de 1 u.t. chacune doivent s'exécuter en Topt. Combien de processeurs faut-il au minimum, et quelle efficacité obtient-on alors ?",
+      "code": "S1 : a = 2      S2 : b = a × 2   S3 : c = 4\nS4 : d = 5      S5 : e = c − d   S6 : f = a + e",
+      "choices": {
+        "A": "3 processeurs, avec une efficacité E₃ = 2/3",
+        "B": "6 processeurs, avec une efficacité E₆ = 1/3",
+        "C": "2 processeurs, avec une efficacité E₂ = 2/3",
+        "D": "2 processeurs, avec une efficacité E₂ = 1"
+      },
+      "answer": "D",
+      "explanation": "Dépendances : S1→S2, S1→S6, S3→S5, S4→S5, S5→S6. Chemin critique S3→S5→S6 : Topt = 3. Avec 2 processeurs : (S3 ∥ S4) → (S1 ∥ S5) → (S2 ∥ S6), soit T₂ = 3. Popt = 2, S₂ = 6/3 = 2 et E₂ = 2/2 = 1 (aucun processeur inactif).",
+      "why": {
+        "A": "Avec 3 processeurs on a bien T₃ = 3 et E₃ = 2/3, mais 2 processeurs suffisent pour le même temps : ce n'est pas le minimum.",
+        "B": "6 processeurs ne réduisent pas le temps en dessous de 3 (chemin critique) : E₆ = 6/(6 × 3) = 1/3, et ce n'est pas le minimum.",
+        "C": "Avec 2 processeurs, les 6 cases (2 processeurs × 3 u.t.) sont toutes occupées : E₂ = 6/(2 × 3) = 1."
+      },
+      "ref": "Résumé algo §2 — Exemple du cours (graphe + diagramme de Gantt)",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-036",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un pipeline à 3 étages (1 u.t. par étage, un processeur par étage) traite n = 100 données. Que vaut l'efficacité E₃ ?",
+      "choices": {
+        "A": "E₃ = 1, car les 3 processeurs travaillent en permanence",
+        "B": "E₃ = 100/102 ≈ 0,98, à cause du remplissage du pipeline",
+        "C": "E₃ = 300/102 ≈ 2,94, en divisant T₁ par T₃",
+        "D": "E₃ = 100/103 ≈ 0,97, avec T₃ = n + p"
+      },
+      "answer": "B",
+      "explanation": "T₁ = p·n = 300 ; T₃ = n + p − 1 = 102 ; S₃ = 300/102 ≈ 2,94 ; E₃ = S₃/3 = n/(n + p − 1) = 100/102 ≈ 0,98. Elle tend vers 1 quand n ≫ p.",
+      "why": {
+        "A": "Pendant le remplissage et la vidange (p − 1 = 2 u.t.), certains étages sont inactifs : E₃ < 1.",
+        "C": "300/102 est l'accélération S₃. L'efficacité vaut S₃/p, et ne peut pas dépasser 1 ici.",
+        "D": "Le temps du pipeline est n + p − 1 = 102, pas n + p = 103."
+      },
+      "ref": "Résumé algo §2 — Parallélisme de flux (pipeline)",
+      "source": "resume-algo-parallele"
     }
   ],
   "flashcards": [
@@ -684,8 +832,8 @@
       "id": "calcul-parallele-perf-f008",
       "kind": "formula",
       "tier": "core",
-      "front": "Pipeline à p étapes, n données : T₁, Tp, Sp ?",
-      "back": "T₁ = p·n ; Tp = n + p − 1 ; Sp = p·n/(n + p − 1), qui tend vers p si n ≫ p. Les p − 1 u.t. servent à remplir et vider le pipeline.",
+      "front": "Pipeline à p étapes, n données : T₁, Tp, Sp, Ep ?",
+      "back": "T₁ = p·n ; Tp = n + p − 1 ; Sp = p·n/(n + p − 1) → p et Ep = n/(n + p − 1) → 1 si n ≫ p. Les p − 1 u.t. servent à remplir et vider le pipeline.",
       "ref": "§4",
       "source": "resume-parallelisme"
     },
@@ -805,6 +953,60 @@
       "back": "Plusieurs tâches en parallèle, dont l'une traite elle-même ses données en parallèle (tâches + données).",
       "ref": "Cours prog. §2.3",
       "source": "cours-programmation"
+    },
+    {
+      "id": "calcul-parallele-perf-f022",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Temps séquentiel vs temps parallèle ?",
+      "back": "Tséq = Ttraitement (1 facteur : le processeur). Tpar = Ttraitement + Tcommunication (2 facteurs : les processeurs et le réseau d'interconnexion).",
+      "ref": "Résumé algo §1",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-f023",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Complexité : algorithme séquentiel vs parallèle ?",
+      "back": "Séquentiel : la somme des opérations. Parallèle : le maximum des branches exécutées en même temps (plus la communication, la coopération et la synchronisation).",
+      "ref": "Résumé algo §1",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-f024",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Que faut-il connaître avant d'écrire un algorithme parallèle ?",
+      "back": "L'architecture : les processeurs partagent-ils la même mémoire, ou passent-ils par un réseau ? Chaîne du cours : architecture → algorithmique → programmes parallèles.",
+      "ref": "Résumé algo §1",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-f025",
+      "kind": "distinction",
+      "tier": "bonus",
+      "front": "Monotâche vs multitâche vs parallèle ?",
+      "back": "Monotâche : les tâches s'enchaînent. Multitâche : elles sont entrelacées sur un seul processeur. Parallèle : elles s'exécutent vraiment en même temps sur plusieurs processeurs.",
+      "ref": "Résumé algo §5",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-f026",
+      "kind": "definition",
+      "tier": "bonus",
+      "front": "Applications « 3T » et « 3P » ?",
+      "back": "3T : 1 téraflops, 1 To de mémoire centrale, 1 To/s de bande passante. 3P : la même chose en péta (10¹⁵ = 10³ téra). Seul un parallélisme massif (HPC) les permet.",
+      "ref": "Résumé algo §1",
+      "source": "resume-algo-parallele"
+    },
+    {
+      "id": "calcul-parallele-perf-f027",
+      "kind": "definition",
+      "tier": "bonus",
+      "front": "Dmax, Dmoy, Dmin : comment les évaluer ?",
+      "back": "Le degré varie pendant l'exécution, d'où Dmax, Dmoy (moyenne des degrés de chaque étape) et Dmin. On les évalue statiquement (à la compilation) ou dynamiquement (à l'exécution).",
+      "ref": "Résumé algo §3",
+      "source": "resume-algo-parallele"
     }
   ]
 }
