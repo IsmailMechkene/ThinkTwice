@@ -58,16 +58,16 @@ export default function ProfileMenu() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-haspopup="true"
-        className="flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+        className="flex items-center gap-2 rounded-md px-2.5 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 dark:text-stone-200 dark:hover:bg-stone-800"
       >
         <Icon name="user" />
         <span className="hidden max-w-24 truncate sm:inline">{current}</span>
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t('profile.who')}</p>
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t('profile.savedHint')}</p>
+        <div className="absolute right-0 z-50 mt-2 w-72 rounded-lg border border-stone-200 bg-white p-4 shadow-xl dark:border-stone-700 dark:bg-stone-900">
+          <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">{t('profile.who')}</p>
+          <p className="mt-1 text-xs text-stone-500 dark:text-stone-400">{t('profile.savedHint')}</p>
           <ul className="mt-3 space-y-1">
             {profiles.map((p) => (
               <li key={p.id} className="flex items-center gap-1">
@@ -76,8 +76,8 @@ export default function ProfileMenu() {
                   onClick={() => switchProfile(p.id)}
                   className={`flex-1 rounded-lg px-3 py-2 text-left text-sm ${
                     p.id === currentProfile.id
-                      ? 'bg-indigo-50 font-semibold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
-                      : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+                      ? 'bg-accent-50 font-semibold text-accent-700 dark:bg-accent-950 dark:text-accent-300'
+                      : 'hover:bg-stone-100 dark:hover:bg-stone-800'
                   }`}
                 >
                   {profileName(p, t)}
@@ -87,7 +87,7 @@ export default function ProfileMenu() {
                     type="button"
                     aria-label={t('profile.delete', { name: profileName(p, t) })}
                     onClick={() => confirm(t('profile.confirmDelete', { name: profileName(p, t) })) && deleteProfile(p.id)}
-                    className="rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950"
+                    className="rounded-lg p-2 text-stone-400 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950"
                   >
                     <Icon name="x" className="h-4 w-4" />
                   </button>
@@ -108,15 +108,15 @@ export default function ProfileMenu() {
               onChange={(e) => setName(e.target.value)}
               placeholder={t('profile.addPlaceholder')}
               aria-label={t('profile.newName')}
-              className="min-w-0 flex-1 rounded-lg border border-slate-300 bg-transparent px-3 py-2 text-sm dark:border-slate-700"
+              className="min-w-0 flex-1 rounded-lg border border-stone-300 bg-transparent px-3 py-2 text-sm dark:border-stone-700"
             />
             <Button type="submit" className="px-3" disabled={!name.trim()}>
               {t('profile.add')}
             </Button>
           </form>
 
-          <div className="mt-4 border-t border-slate-200 pt-4 dark:border-slate-800">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t('profile.progressOf', { name: current })}</p>
+          <div className="mt-4 border-t border-stone-200 pt-4 dark:border-stone-800">
+            <p className="text-xs font-semibold uppercase tracking-wide text-stone-500">{t('profile.progressOf', { name: current })}</p>
             <div className="mt-2 grid grid-cols-2 gap-2">
               <Button variant="secondary" onClick={exportProgress}>
                 {t('profile.export')}

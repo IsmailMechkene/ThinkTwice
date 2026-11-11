@@ -36,7 +36,7 @@ function build() {
     const subject = {
       ...meta,
       id: subjectId,
-      color: meta.color || '#4f46e5',
+      color: meta.color || 'var(--accent)',
       icon: meta.icon || '📘',
       sources,
       chapters: [],

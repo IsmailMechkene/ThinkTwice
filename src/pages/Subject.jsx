@@ -22,11 +22,8 @@ export default function Subject() {
   return (
     <div>
       <PageHeader
-        title={
-          <span className="flex items-center gap-3">
-            <span aria-hidden>{subject.icon}</span> {subject.name}
-          </span>
-        }
+        eyebrow={t('subjectCard.chapters', { count: subject.chapters.length })}
+        title={subject.name}
         subtitle={subject.description}
         actions={
           <>
@@ -41,7 +38,7 @@ export default function Subject() {
         }
       />
 
-      <div className="mb-6 flex flex-wrap gap-x-6 gap-y-1 text-sm text-slate-600 dark:text-slate-400">
+      <div className="mb-6 flex flex-wrap gap-x-6 gap-y-1 text-sm text-stone-600 dark:text-stone-400">
         <span>{t('subject.questions', { count: subject.questionCount })}</span>
         <span>{t('subject.flashcardsCount', { count: subject.flashcardCount })}</span>
         <span>{t('subject.language', { lang: subject.language?.toUpperCase() })}</span>
@@ -66,23 +63,22 @@ export default function Subject() {
             if (questionById[id]?.tier === 'core') core++
           }
           return (
-            <Card key={c.key} className="flex flex-col gap-4 transition hover:shadow-md sm:flex-row sm:items-center">
+            <Card key={c.key} className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <ProgressRing
                 value={masteryOf(c.questionIds, progress)}
-                color={subject.color}
                 size={60}
                 label={`${t('subject.mastery')} ${masteryOf(c.questionIds, progress)}%`}
               />
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold text-slate-500">{t('subject.chapter', { n: c.order ?? i + 1 })}</p>
-                <h3 className="font-semibold">{c.title}</h3>
-                {c.description && <p className="mt-0.5 text-sm text-slate-600 dark:text-slate-400">{c.description}</p>}
-                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                <p className="eyebrow">{t('subject.chapter', { n: c.order ?? i + 1 })}</p>
+                <h3 className="mt-0.5 text-xl font-medium">{c.title}</h3>
+                {c.description && <p className="mt-0.5 text-sm text-stone-600 dark:text-stone-400">{c.description}</p>}
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
                   <span>{t('subject.chapterCounts', { q: c.questionIds.length, core, cards: c.flashcardIds.length })}</span>
                   {attempts > 0 && <Badge>{t('subject.accuracyBadge', { pct: percent(correct, attempts) })}</Badge>}
                   {mistakes > 0 && <Badge tone="hard">{t('subject.toReviseBadge', { count: mistakes })}</Badge>}
                 </div>
-                <ProgressBar className="mt-2 max-w-sm" value={done} max={c.questionIds.length} color={subject.color} label={t('subject.chapterCounts', { q: c.questionIds.length, core, cards: c.flashcardIds.length })} />
+                <ProgressBar className="mt-2 max-w-sm" value={done} max={c.questionIds.length} label={t('subject.chapterCounts', { q: c.questionIds.length, core, cards: c.flashcardIds.length })} />
               </div>
               <div className="flex gap-2">
                 <Button to={quizLink(c.key)} className="flex-1 sm:flex-none">
@@ -100,7 +96,7 @@ export default function Subject() {
           )
         })}
       </div>
-      <p className="mt-6 text-xs text-slate-500">{t('subject.overall', { done: stats.done, total: stats.total })}</p>
+      <p className="mt-6 text-xs text-stone-500">{t('subject.overall', { done: stats.done, total: stats.total })}</p>
     </div>
   )
 }

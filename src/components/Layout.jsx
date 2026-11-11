@@ -19,7 +19,7 @@ const NAV = [
 function CountBadge({ n }) {
   if (!n) return null
   return (
-    <span className="ml-1 rounded-full bg-rose-500 px-1.5 text-[10px] leading-4 font-bold text-white tabular-nums">
+    <span className="ml-1.5 rounded-sm bg-rose-600 px-1 text-[10px] leading-4 font-semibold text-white tabular-nums">
       {n > 99 ? '99+' : n}
     </span>
   )
@@ -34,23 +34,22 @@ export default function Layout() {
 
   return (
     <div className="min-h-dvh pb-20 md:pb-0">
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+      <header className="sticky top-0 z-40 border-b border-stone-300 bg-[var(--paper)] dark:border-stone-800">
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
-          <NavLink to="/" className="flex items-center gap-2 font-bold tracking-tight">
-            <span className="brand-fill grid h-8 w-8 place-items-center rounded-lg text-sm font-extrabold text-white">T²</span>
-            <span className="text-lg">Think<span className="brand-ink">Twice</span></span>
+          <NavLink to="/" className="font-serif text-xl leading-none tracking-tight">
+            Think<em className="text-accent-700 dark:text-accent-300">Twice</em>
           </NavLink>
-          <nav className="ml-4 hidden items-center gap-1 md:flex" aria-label={t('nav.main')}>
+          <nav className="ml-6 hidden h-full items-stretch gap-5 md:flex" aria-label={t('nav.main')}>
             {NAV.map((n) => (
               <NavLink
                 key={n.to}
                 to={n.to}
                 end={n.end}
                 className={({ isActive }) =>
-                  `flex items-center rounded-lg px-3 py-2 text-sm font-medium transition ${
+                  `-mb-px flex items-center border-b-2 text-sm transition ${
                     isActive
-                      ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
-                      : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                      ? 'border-stone-900 font-medium text-stone-900 dark:border-stone-100 dark:text-stone-100'
+                      : 'border-transparent text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100'
                   }`
                 }
               >
@@ -65,7 +64,7 @@ export default function Layout() {
               type="button"
               onClick={toggle}
               aria-label={theme === 'dark' ? t('theme.toLight') : t('theme.toDark')}
-              className="rounded-xl p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              className="rounded-md p-2 text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
             >
               <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
             </button>
@@ -76,20 +75,18 @@ export default function Layout() {
 
       {!canSave && (
         <p role="alert" className="bg-amber-100 px-4 py-2 text-center text-sm font-medium text-amber-900 dark:bg-amber-950 dark:text-amber-200">
-          ⚠️ {t('storage.unavailable')}
+          {t('storage.unavailable')}
         </p>
       )}
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:py-10">
-        <div key={pathname} className="animate-fade-up">
-          <Outlet />
-        </div>
+        <Outlet key={pathname} />
       </main>
 
       {/* Mobile tab bar */}
       <nav
         aria-label={t('nav.main')}
-        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden dark:border-slate-800 dark:bg-slate-950/95"
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-stone-300 bg-[var(--paper)] pb-[env(safe-area-inset-bottom)] md:hidden dark:border-stone-800"
       >
         {NAV.map((n) => (
           <NavLink
@@ -98,7 +95,7 @@ export default function Layout() {
             end={n.end}
             className={({ isActive }) =>
               `relative flex flex-col items-center gap-0.5 py-2 text-[11px] font-medium ${
-                isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400'
+                isActive ? 'text-stone-900 dark:text-stone-100' : 'text-stone-500 dark:text-stone-400'
               }`
             }
           >

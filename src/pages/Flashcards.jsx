@@ -15,7 +15,7 @@ const RELEARN_GAP = 3
 const SWIPE_THRESHOLD = 90
 
 // Leitner shelf: one column per box, bar height = share of cards; darker = better known.
-const BOX_SHADES = ['#cbd5e1', '#c7d2fe', '#a5b4fc', '#818cf8', '#6366f1', '#4338ca']
+const BOX_SHADES = ['#d6d3d1', '#c3d1e6', '#98b0d3', '#6a8bbd', '#4669a3', '#2b4570']
 
 function BoxSummary({ cards, states }) {
   const { t } = useI18n()
@@ -27,17 +27,17 @@ function BoxSummary({ cards, states }) {
       {counts.map((n, i) => (
         <div key={i} className="flex flex-col items-center gap-1.5">
           <span className="text-sm font-bold tabular-nums">{n}</span>
-          <div className="flex h-24 w-full items-end overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+          <div className="flex h-24 w-full items-end overflow-hidden rounded-lg bg-stone-100 dark:bg-stone-800">
             <div
               className="w-full rounded-lg transition-all duration-500"
               style={{ height: `${Math.max(n ? 6 : 0, (n / max) * 100)}%`, background: BOX_SHADES[i] }}
               title={`${i === 0 ? t('cards.new') : t('cards.box', { n: i })}: ${n}`}
             />
           </div>
-          <span className="text-center text-[11px] leading-tight font-semibold text-slate-600 dark:text-slate-300">
+          <span className="text-center text-[11px] leading-tight font-semibold text-stone-600 dark:text-stone-300">
             {i === 0 ? t('cards.new') : t('cards.box', { n: i })}
           </span>
-          <span className="text-[10px] text-slate-400">
+          <span className="text-[10px] text-stone-400">
             {i === 0 ? '—' : BOX_INTERVAL_DAYS[i] === 0 ? t('cards.today') : t('cards.inDays', { n: BOX_INTERVAL_DAYS[i] })}
           </span>
         </div>
@@ -125,7 +125,7 @@ function Session({ deck, onExit }) {
       <div className="mb-4 flex items-center gap-3">
         <span className="shrink-0 text-sm font-semibold tabular-nums">{t('session.left', { count: queue.length })}</span>
         <ProgressBar value={done.knew} max={done.knew + queue.length} label={t('session.progress')} />
-        <button type="button" onClick={onExit} className="shrink-0 rounded-lg px-2 py-1 text-sm text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+        <button type="button" onClick={onExit} className="shrink-0 rounded-lg px-2 py-1 text-sm text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800">
           {t('session.end')}
         </button>
       </div>
@@ -147,7 +147,7 @@ function Session({ deck, onExit }) {
         {Math.abs(dx) > 20 && (
           <span
             aria-hidden
-            className={`pointer-events-none absolute top-5 rounded-xl border-2 px-3 py-1 text-sm font-extrabold uppercase ${
+            className={`pointer-events-none absolute top-5 rounded-md border-2 px-3 py-1 text-sm font-semibold uppercase ${
               dx > 0 ? 'left-5 -rotate-6 border-emerald-500 text-emerald-600' : 'right-5 rotate-6 border-rose-500 text-rose-600'
             }`}
             style={{ opacity: Math.min(1, Math.abs(dx) / SWIPE_THRESHOLD) }}
@@ -164,7 +164,7 @@ function Session({ deck, onExit }) {
           {t('session.knewIt')}
         </Button>
       </div>
-      <p className="mt-3 text-center text-xs text-slate-400">
+      <p className="mt-3 text-center text-xs text-stone-400">
         {flipped ? t('session.honest') : t('session.thinkFirst')}
         <span className="hidden sm:inline"> · {t('session.keys')}</span>
         <span className="sm:hidden"> · {t('session.swipe')}</span>
@@ -199,12 +199,12 @@ export default function Flashcards() {
 
   return (
     <div>
-      <PageHeader icon="🃏" title={t('cards.title')} subtitle={t('cards.subtitle')} />
+      <PageHeader title={t('cards.title')} subtitle={t('cards.subtitle')} />
 
       <Card className="p-5 sm:p-6">
         <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="font-bold">{t('cards.boxesTitle')}</h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">{t('cards.boxesHint')}</p>
+          <p className="text-xs text-stone-500 dark:text-stone-400">{t('cards.boxesHint')}</p>
         </div>
         <BoxSummary cards={cards} states={progress.flashcards} />
       </Card>
@@ -216,7 +216,7 @@ export default function Flashcards() {
         <div className="lg:sticky lg:top-20 lg:self-start">
           <Card className="space-y-5 p-5 sm:p-6">
             <div>
-              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('cards.mode')}</p>
+              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{t('cards.mode')}</p>
               <Segmented
                 label={t('cards.mode')}
                 value={mode}
@@ -227,14 +227,14 @@ export default function Flashcards() {
                 ]}
               />
             </div>
-            <div className="rounded-xl bg-slate-50 p-4 text-center dark:bg-slate-800/60">
-              <p className="text-4xl font-extrabold tabular-nums">{selection.length}</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{t('cards.inSession')}</p>
+            <div className="rounded-md bg-stone-50 p-4 text-center dark:bg-stone-800/60">
+              <p className="text-4xl font-semibold tabular-nums">{selection.length}</p>
+              <p className="text-sm text-stone-500 dark:text-stone-400">{t('cards.inSession')}</p>
             </div>
             <Button className="w-full py-3" disabled={!selection.length} onClick={startDeck}>
               {selection.length ? t('cards.study', { count: selection.length }) : t('cards.nothingDue')}
             </Button>
-            <p className="text-center text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-center text-xs text-stone-500 dark:text-stone-400">
               {t('cards.intervals', { a: BOX_INTERVAL_DAYS[2], b: BOX_INTERVAL_DAYS[3], c: BOX_INTERVAL_DAYS[4], d: BOX_INTERVAL_DAYS[5] })}
             </p>
           </Card>

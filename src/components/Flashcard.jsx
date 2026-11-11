@@ -6,7 +6,7 @@ import { Badge } from './ui'
 
 export default function Flashcard({ card, flipped, onFlip }) {
   const { t } = useI18n()
-  const face = 'flip-face flex min-h-72 flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:min-h-80 sm:p-8 dark:border-slate-800 dark:bg-slate-900'
+  const face = 'flip-face flex min-h-72 flex-col rounded-md border border-stone-300 bg-white p-6 sm:min-h-80 sm:p-8 dark:border-stone-800 dark:bg-stone-900'
   return (
     <div className="flip-card">
       <button
@@ -20,19 +20,19 @@ export default function Flashcard({ card, flipped, onFlip }) {
             {card.kind && <Badge>{t(`card.${card.kind}`)}</Badge>}
             <Badge tone={card.tier}>{t(`tier.${card.tier}`)}</Badge>
           </div>
-          <p className="my-auto py-6 text-center text-xl leading-relaxed font-semibold sm:text-2xl">
+          <p className="my-auto py-6 text-center font-serif text-2xl leading-snug sm:text-3xl">
             <RichText text={card.front} />
           </p>
-          <p className="flex items-center justify-center gap-1.5 text-xs text-slate-400">
+          <p className="flex items-center justify-center gap-1.5 text-xs text-stone-400">
             <Icon name="flip" className="h-4 w-4" /> {t('card.flipHint')}
           </p>
         </div>
-        <div className={`${face} flip-back border-indigo-200 dark:border-indigo-900`}>
-          <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">{t('card.answer')}</p>
+        <div className={`${face} flip-back border-t-[3px] border-t-stone-900 dark:border-t-stone-200`}>
+          <p className="eyebrow">{t('card.answer')}</p>
           <p className="my-auto py-6 text-center text-lg leading-relaxed sm:text-xl">
             <RichText text={card.back} />
           </p>
-          <p className="text-center text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-center text-xs text-stone-500 dark:text-stone-400">
             {chapterLabel(card)} · {card.ref} · {card.sourceLabel}
           </p>
         </div>

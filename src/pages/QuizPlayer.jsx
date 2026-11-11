@@ -215,12 +215,12 @@ function QuizPlayer() {
             <Icon name="timer" className="h-4 w-4" /> {formatTime(remaining)}
           </span>
         ) : (
-          <span className="shrink-0 text-sm text-slate-500 tabular-nums">{score} ✓</span>
+          <span className="shrink-0 text-sm text-stone-500 tabular-nums">{score} ✓</span>
         )}
         <button
           type="button"
           onClick={() => confirm(t('player.confirmStop')) && finish(answers)}
-          className="shrink-0 rounded-lg px-2 py-1 text-sm text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+          className="shrink-0 rounded-lg px-2 py-1 text-sm text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800"
         >
           {t('player.stop')}
         </button>
@@ -235,11 +235,11 @@ function QuizPlayer() {
         >
           <span>
             {t('grid.title')}{' '}
-            <span className="font-normal text-slate-500 dark:text-slate-400">
+            <span className="font-normal text-stone-500 dark:text-stone-400">
               · {t('grid.answeredOf', { done: session.items.length - unansweredCount, total: session.items.length })}
             </span>
           </span>
-          <Icon name="arrow" className={`h-4 w-4 text-slate-400 transition ${showGrid ? '-rotate-90' : 'rotate-90'}`} />
+          <Icon name="arrow" className={`h-4 w-4 text-stone-400 transition ${showGrid ? '-rotate-90' : 'rotate-90'}`} />
         </button>
         {showGrid && (
           <div className="mt-3">
@@ -248,7 +248,7 @@ function QuizPlayer() {
         )}
       </Card>
 
-      <div key={index} className="animate-fade-up">
+      <div key={index}>
         <QuestionCard
           question={current.question}
           arranged={current.arranged}
@@ -258,7 +258,7 @@ function QuizPlayer() {
         />
       </div>
 
-      {answered && exam && <p className="mt-4 text-center text-sm text-slate-500 dark:text-slate-400">{t('player.locked')}</p>}
+      {answered && exam && <p className="mt-4 text-center text-sm text-stone-500 dark:text-stone-400">{t('player.locked')}</p>}
 
       {answered && !exam && (
         <div className="animate-pop mt-4 space-y-3" aria-live="polite">
@@ -269,7 +269,7 @@ function QuizPlayer() {
                 event === 'mastered' || event === 'progress'
                   ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                   : event === 'same-day'
-                    ? 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                    ? 'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-300'
                     : 'bg-rose-50 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
               }`}
             >
@@ -287,7 +287,7 @@ function QuizPlayer() {
           {isLast ? t('player.seeResults') : answered ? t('player.next') : t('player.skip')} <Icon name="arrow" className="h-4 w-4" />
         </Button>
       </div>
-      <p className="mt-3 hidden text-center text-xs text-slate-400 sm:block">{t('player.keys')}</p>
+      <p className="mt-3 hidden text-center text-xs text-stone-400 sm:block">{t('player.keys')}</p>
     </div>
   )
 }

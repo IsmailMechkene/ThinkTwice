@@ -2,83 +2,114 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+  Look: a printed revision sheet. Warm paper, black ink, one blue-black
+  "fountain pen" accent. Serif for headings (Newsreader), a plain grotesque
+  for reading (IBM Plex Sans), and mono for figures, letters and labels.
+*/
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  /* Blue-black ink */
+  --color-accent-50: #f1f4f9;
+  --color-accent-100: #e1e8f2;
+  --color-accent-200: #c3d1e6;
+  --color-accent-300: #98b0d3;
+  --color-accent-400: #6a8bbd;
+  --color-accent-500: #4669a3;
+  --color-accent-600: #345489;
+  --color-accent-700: #2b4570;
+  --color-accent-800: #24395b;
+  --color-accent-900: #1e2f4a;
+  --color-accent-950: #131e30;
+
+  /* Highlighter, used sparingly (streak, current item) */
+  --color-marker: #e8b04a;
+}
+
+:root {
+  --paper: #f5f3ee;
+  --accent: #345489;
+
+  /* Activity heatmap: one hue, light → dark = less → more */
+  --heat-0: #e7e5e0;
+  --heat-1: #c3d1e6;
+  --heat-2: #6a8bbd;
+  --heat-3: #345489;
+  --heat-4: #1e2f4a;
+  --chart-series: #345489;
+  --chart-grid: #e7e5e4;
+  --chart-axis: #78716c;
+  --chart-surface: #ffffff;
+}
+.dark {
+  --paper: #12110f;
+  --accent: #98b0d3;
+
+  --heat-0: #292524;
+  --heat-1: #24395b;
+  --heat-2: #345489;
+  --heat-3: #6a8bbd;
+  --heat-4: #c3d1e6;
+  --chart-series: #98b0d3;
+  --chart-grid: #292524;
+  --chart-axis: #a8a29e;
+  --chart-surface: #1c1917;
 }
 
 html {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Chart tokens: one series hue, recessive grid/axes, text stays neutral. */
-:root {
-  /* Activity heatmap: one hue, light → dark = less → more */
-  --heat-0: #eef0f4;
-  --heat-1: #c7d2fe;
-  --heat-2: #818cf8;
-  --heat-3: #4f46e5;
-  --heat-4: #312e81;
-  --chart-series: #4f46e5;
-  --chart-grid: #e2e8f0;
-  --chart-axis: #64748b;
-  --chart-surface: #ffffff;
-}
-.dark {
-  --heat-0: #1e293b;
-  --heat-1: #312e81;
-  --heat-2: #4f46e5;
-  --heat-3: #818cf8;
-  --heat-4: #c7d2fe;
-  --chart-series: #818cf8;
-  --chart-grid: #1e293b;
-  --chart-axis: #94a3b8;
-  --chart-surface: #0f172a;
-}
-
 body {
-  @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+  @apply text-stone-900 antialiased dark:text-stone-100;
+  background: var(--paper);
+  font-feature-settings: 'ss01';
 }
 
-.brand-fill {
-  background-color: #4f46e5;
-}
-.brand-ink {
-  color: #4f46e5;
-}
-.dark .brand-ink {
-  color: #a5b4fc;
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
 }
 
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+/* Figures line up and read as data. */
+.tabular-nums {
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
 }
+
+/* Small caps-style label used above figures and sections. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  @apply text-stone-500 dark:text-stone-400;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-marker) 45%, transparent);
+}
+
 @keyframes pop {
   0% {
-    transform: scale(0.97);
-  }
-  60% {
-    transform: scale(1.015);
+    transform: scale(0.985);
+    opacity: 0.6;
   }
   100% {
     transform: scale(1);
+    opacity: 1;
   }
 }
-.animate-fade-up {
-  animation: fade-up 0.35s ease-out both;
-}
 .animate-pop {
-  animation: pop 0.3s ease-out both;
+  animation: pop 0.2s ease-out both;
 }
 @media (prefers-reduced-motion: reduce) {
-  .animate-fade-up,
   .animate-pop {
     animation: none;
   }

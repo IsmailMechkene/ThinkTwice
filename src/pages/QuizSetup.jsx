@@ -26,24 +26,20 @@ function filterFromParams(params) {
   }
 }
 
-function Preset({ icon, title, desc, onClick, disabled, tone }) {
+function Preset({ n, title, desc, onClick, disabled }) {
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md disabled:pointer-events-none disabled:opacity-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-700"
+      className="group flex flex-col rounded-md border border-stone-300 bg-white p-4 text-left transition hover:border-stone-900 disabled:pointer-events-none disabled:opacity-50 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-400"
     >
-      <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl text-xl ${tone}`} aria-hidden>
-        {icon}
+      <span className="flex items-center justify-between gap-2">
+        <span className="font-mono text-xs text-stone-400">{n}</span>
+        <Icon name="arrow" className="h-4 w-4 text-stone-300 transition group-hover:translate-x-0.5 group-hover:text-stone-900 dark:group-hover:text-stone-100" />
       </span>
-      <span className="min-w-0 flex-1">
-        <span className="flex items-center justify-between gap-2 font-bold">
-          {title}
-          <Icon name="arrow" className="h-4 w-4 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" />
-        </span>
-        <span className="mt-0.5 block text-sm text-slate-500 dark:text-slate-400">{desc}</span>
-      </span>
+      <span className="mt-3 font-serif text-xl leading-tight">{title}</span>
+      <span className="mt-1 block text-sm text-stone-500 dark:text-stone-400">{desc}</span>
     </button>
   )
 }
@@ -75,36 +71,33 @@ export default function QuizSetup() {
 
   return (
     <div>
-      <PageHeader icon="🎯" title={t('setup.title')} subtitle={t('setup.subtitle')} />
+      <PageHeader title={t('setup.title')} subtitle={t('setup.subtitle')} />
       <ResumeBanner />
 
-      <h2 className="mb-3 text-lg font-bold">{t('setup.presets')}</h2>
+      <h2 className="mb-3 text-xl font-medium">{t('setup.presets')}</h2>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <Preset icon="⚡" tone="bg-indigo-50 dark:bg-indigo-950" title={t('preset.quick')} desc={t('preset.quickDesc')} onClick={() => launch(scoped, { n: 10, weak: true })} />
+        <Preset n="01" title={t('preset.quick')} desc={t('preset.quickDesc')} onClick={() => launch(scoped, { n: 10, weak: true })} />
         <Preset
-          icon="⏰"
-          tone="bg-amber-50 dark:bg-amber-950"
+          n="02"
           title={t('preset.lastMinute')}
           desc={t('preset.lastMinuteDesc')}
           onClick={() => launch({ ...scoped, coreOnly: true }, { n: 15, weak: true })}
         />
         <Preset
-          icon="📝"
-          tone="bg-violet-50 dark:bg-violet-950"
+          n="03"
           title={t('preset.exam')}
           desc={t('preset.examDesc')}
           onClick={() => launch(scoped, { n: 20, examMinutes: 25, weak: false })}
         />
         <Preset
-          icon="🧩"
-          tone="bg-rose-50 dark:bg-rose-950"
+          n="04"
           title={t('preset.mistakes')}
           desc={mistakeCount ? t('setup.reviseMistakes', { count: mistakeCount }) : t('player.noMistakesHint')}
           disabled={!mistakeCount}
           onClick={() => navigate('/quiz/play', { state: { mode: 'revise', filter: scope || {} } })}
         />
       </div>
-      <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{t('setup.presetsHint')}</p>
+      <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">{t('setup.presetsHint')}</p>
 
       <SectionTitle hint={t('setup.customHint')}>{t('setup.custom')}</SectionTitle>
       <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
@@ -115,7 +108,7 @@ export default function QuizSetup() {
         <div className="lg:sticky lg:top-20 lg:self-start">
           <Card className="space-y-5 p-5 sm:p-6">
             <div>
-              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('setup.questions')}</p>
+              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{t('setup.questions')}</p>
               <div className="flex flex-wrap gap-2">
                 {COUNTS.map((n) => (
                   <Chip key={n} active={count === n} onClick={() => setCount(n)}>
@@ -138,17 +131,17 @@ export default function QuizSetup() {
                   max={240}
                   value={minutes}
                   onChange={(e) => setMinutes(Math.max(1, Math.min(240, Number(e.target.value) || 1)))}
-                  className="mt-1 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 dark:border-slate-700"
+                  className="mt-1 w-full rounded-lg border border-stone-300 bg-transparent px-3 py-2 dark:border-stone-700"
                 />
               </label>
             )}
 
-            <div className="rounded-xl bg-slate-50 p-4 dark:bg-slate-800/60">
+            <div className="rounded-md bg-stone-50 p-4 dark:bg-stone-800/60">
               <p className="flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold tabular-nums">{effective}</span>
-                <span className="text-slate-600 dark:text-slate-300">{t('setup.match', { count: effective })}</span>
+                <span className="text-3xl font-semibold tabular-nums">{effective}</span>
+                <span className="text-stone-600 dark:text-stone-300">{t('setup.match', { count: effective })}</span>
               </p>
-              <p className="mt-1 flex flex-wrap gap-x-3 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 flex flex-wrap gap-x-3 text-xs text-stone-500 dark:text-stone-400">
                 <span>{t('setup.available', { count: available })}</span>
                 <span className="flex items-center gap-1">
                   <Icon name="timer" className="h-3.5 w-3.5" />

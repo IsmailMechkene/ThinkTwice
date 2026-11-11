@@ -14,8 +14,8 @@ const axis = { stroke: 'var(--chart-grid)', tick: { fill: 'var(--chart-axis)', f
 function ChartTooltip({ active, payload, label, unit = '' }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-lg dark:border-slate-700 dark:bg-slate-900">
-      <p className="text-xs text-slate-500">{label}</p>
+    <div className="rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm shadow-lg dark:border-stone-700 dark:bg-stone-900">
+      <p className="text-xs text-stone-500">{label}</p>
       <p className="font-semibold tabular-nums">
         {payload[0].value}
         {unit}
@@ -28,7 +28,7 @@ function ChartCard({ title, subtitle, children }) {
   return (
     <Card>
       <h3 className="font-semibold">{title}</h3>
-      {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400">{subtitle}</p>}
+      {subtitle && <p className="text-xs text-stone-500 dark:text-stone-400">{subtitle}</p>}
       <div className="mt-4 h-56">{children}</div>
     </Card>
   )
@@ -77,7 +77,7 @@ export default function Stats() {
   if (!totals.attempts && !cardsReviewed) {
     return (
       <div>
-        <PageHeader icon="📊" title={t('stats.title')} />
+        <PageHeader title={t('stats.title')} />
         <EmptyState title={t('stats.noActivity')} action={<Button to="/quiz">{t('stats.firstQuiz')}</Button>}>
           {t('stats.noActivityHint')}
         </EmptyState>
@@ -87,14 +87,14 @@ export default function Stats() {
 
   return (
     <div>
-      <PageHeader icon="📊" title={t('stats.title')} subtitle={t('stats.subtitle')} />
+      <PageHeader title={t('stats.title')} subtitle={t('stats.subtitle')} />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
-        <Stat icon="✍️" label={t('stats.answers')} value={totals.attempts} />
-        <Stat icon="🎯" tone="emerald" label={t('stats.accuracy')} value={totals.attempts ? `${percent(totals.correct, totals.attempts)}%` : '—'} />
-        <Stat icon="🧩" tone="rose" label={t('stats.inBank')} value={mistakes} />
-        <Stat icon="🏆" tone="amber" label={t('stats.mastered')} value={Object.keys(progress.mastered).length} hint={t('stats.masteredHint')} />
-        <Stat icon="🃏" tone="violet" label={t('stats.cardsReviewed')} value={cardsReviewed} />
+        <Stat label={t('stats.answers')} value={totals.attempts} />
+        <Stat tone="emerald" label={t('stats.accuracy')} value={totals.attempts ? `${percent(totals.correct, totals.attempts)}%` : '—'} />
+        <Stat tone="rose" label={t('stats.inBank')} value={mistakes} />
+        <Stat tone="amber" label={t('stats.mastered')} value={Object.keys(progress.mastered).length} hint={t('stats.masteredHint')} />
+        <Stat tone="violet" label={t('stats.cardsReviewed')} value={cardsReviewed} />
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[1.6fr_1fr]">
@@ -102,20 +102,20 @@ export default function Stats() {
           <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
             <div>
               <h3 className="font-bold">{t('stats.activity')}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{t('stats.activityHint')}</p>
+              <p className="text-xs text-stone-500 dark:text-stone-400">{t('stats.activityHint')}</p>
             </div>
             <div className="flex gap-4 text-center">
               <div>
-                <p className="text-xl font-extrabold tabular-nums">🔥 {streak}</p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('stats.currentStreak')}</p>
+                <p className="text-xl tabular-nums">{streak}</p>
+                <p className="text-[11px] text-stone-500 dark:text-stone-400">{t('stats.currentStreak')}</p>
               </div>
               <div>
-                <p className="text-xl font-extrabold tabular-nums">{best}</p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('stats.bestStreak')}</p>
+                <p className="text-xl tabular-nums">{best}</p>
+                <p className="text-[11px] text-stone-500 dark:text-stone-400">{t('stats.bestStreak')}</p>
               </div>
               <div>
-                <p className="text-xl font-extrabold tabular-nums">{activeDays.length}</p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('stats.activeDays')}</p>
+                <p className="text-xl tabular-nums">{activeDays.length}</p>
+                <p className="text-[11px] text-stone-500 dark:text-stone-400">{t('stats.activeDays')}</p>
               </div>
             </div>
           </div>
@@ -124,16 +124,14 @@ export default function Stats() {
 
         <Card className="p-5 sm:p-6">
           <h3 className="font-bold">{t('stats.mastery')}</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">{t('stats.masteryHint')}</p>
+          <p className="text-xs text-stone-500 dark:text-stone-400">{t('stats.masteryHint')}</p>
           <ul className="mt-4 space-y-4">
             {subjects.map((s) => (
               <li key={s.id} className="flex items-center gap-4">
-                <ProgressRing value={subjectStats[s.id].mastery} color={s.color} size={52} label={`${s.name} ${subjectStats[s.id].mastery}%`} />
+                <ProgressRing value={subjectStats[s.id].mastery} size={52} label={`${s.name} ${subjectStats[s.id].mastery}%`} />
                 <div className="min-w-0">
-                  <p className="truncate font-semibold">
-                    {s.icon} {s.name}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <p className="truncate font-medium">{s.name}</p>
+                  <p className="text-xs text-stone-500 dark:text-stone-400">
                     {t('subjectCard.done', { done: subjectStats[s.id].done, total: subjectStats[s.id].total })}
                   </p>
                 </div>
@@ -145,7 +143,7 @@ export default function Stats() {
 
       <SectionTitle>{t('stats.weakest')}</SectionTitle>
       {weakest.length === 0 ? (
-        <Card className="text-sm text-slate-500">{t('stats.weakestEmpty')}</Card>
+        <Card className="text-sm text-stone-500">{t('stats.weakestEmpty')}</Card>
       ) : (
         <Card className="space-y-4">
           {weakest.map((w) => (
@@ -153,13 +151,13 @@ export default function Stats() {
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex justify-between gap-3 text-sm">
                   <span className="min-w-0 truncate">
-                    <span className="text-slate-500">
+                    <span className="text-stone-500">
                       {w.subject.icon} {w.subject.name} ·{' '}
                     </span>
                     {w.chapter.title}
                   </span>
                   <span className="shrink-0 font-semibold tabular-nums">
-                    {w.pct}% <span className="font-normal text-slate-500">({w.attempts})</span>
+                    {w.pct}% <span className="font-normal text-stone-500">({w.attempts})</span>
                   </span>
                 </div>
                 <ProgressBar value={w.pct} color={scoreColor(w.pct)} label={`${w.chapter.title} ${w.pct}%`} />
@@ -229,10 +227,10 @@ export default function Stats() {
 
         <Card>
           <h3 className="font-semibold">{t('stats.dailyLog')}</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">{t('stats.dailyLogHint')}</p>
+          <p className="text-xs text-stone-500 dark:text-stone-400">{t('stats.dailyLogHint')}</p>
           <div className="mt-3 max-h-56 overflow-auto">
             <table className="w-full text-sm tabular-nums">
-              <thead className="sticky top-0 bg-white text-left text-xs text-slate-500 dark:bg-slate-900">
+              <thead className="sticky top-0 bg-white text-left text-xs text-stone-500 dark:bg-stone-900">
                 <tr>
                   <th className="py-1 font-semibold">{t('stats.colDay')}</th>
                   <th className="py-1 text-right font-semibold">{t('stats.colAnswered')}</th>
@@ -243,7 +241,7 @@ export default function Stats() {
               </thead>
               <tbody>
                 {[...days].reverse().map((d) => (
-                  <tr key={d.day} className="border-t border-slate-100 dark:border-slate-800">
+                  <tr key={d.day} className="border-t border-stone-100 dark:border-stone-800">
                     <td className="py-1.5">{d.day}</td>
                     <td className="py-1.5 text-right">{d.answered}</td>
                     <td className="py-1.5 text-right">{d.accuracy == null ? '—' : `${d.accuracy}%`}</td>
@@ -260,7 +258,7 @@ export default function Stats() {
       {progress.sessions.length > 0 && (
         <>
           <SectionTitle>{t('stats.recent')}</SectionTitle>
-          <Card className="divide-y divide-slate-100 p-0 dark:divide-slate-800">
+          <Card className="divide-y divide-stone-100 p-0 dark:divide-stone-800">
             {[...progress.sessions]
               .reverse()
               .slice(0, 8)
@@ -270,7 +268,7 @@ export default function Stats() {
                     {formatDay(s.day, locale)} <Badge className="ml-2">{t(`mode.${s.mode}`)}</Badge>
                   </span>
                   <span className="flex items-center gap-3 tabular-nums">
-                    <span className="text-slate-500 dark:text-slate-400">
+                    <span className="text-stone-500 dark:text-stone-400">
                       {s.correct}/{s.total}
                     </span>
                     <span

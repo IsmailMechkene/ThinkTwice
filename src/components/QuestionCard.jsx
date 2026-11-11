@@ -10,7 +10,7 @@ export function QuestionMeta({ question }) {
     <div className="flex flex-wrap items-center gap-1.5">
       <Badge tone={question.difficulty}>{t(`difficulty.${question.difficulty}`)}</Badge>
       <Badge tone={question.tier}>{t(`tier.${question.tier}`)}</Badge>
-      <span className="text-xs text-slate-500 dark:text-slate-400">{chapterLabel(question)}</span>
+      <span className="text-xs text-stone-500 dark:text-stone-400">{chapterLabel(question)}</span>
     </div>
   )
 }
@@ -21,7 +21,7 @@ export default function QuestionCard({ question, arranged, chosen, reveal, onCho
   return (
     <Card className="p-5 sm:p-7">
       <QuestionMeta question={question} />
-      <h2 className="mt-4 text-lg leading-relaxed font-semibold sm:text-xl">
+      <h2 className="mt-4 text-xl leading-snug font-medium sm:text-2xl">
         <RichText text={question.question} />
       </h2>
       <CodeBlock code={question.code} />
@@ -38,23 +38,23 @@ export default function QuestionCard({ question, arranged, chosen, reveal, onCho
                 disabled={chosen != null}
                 onClick={() => onChoose(c.orig)}
                 className={cx(
-                  'flex w-full items-start gap-3 rounded-xl border-2 p-3.5 text-left transition sm:p-4',
+                  'flex w-full items-start gap-3 rounded-sm border p-3.5 text-left transition sm:p-4',
                   state === 'idle' &&
-                    'border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 dark:border-slate-700 dark:hover:border-indigo-500 dark:hover:bg-indigo-950/40',
-                  state === 'picked' && 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/50',
-                  state === 'right' && 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40',
-                  state === 'wrong' && 'border-rose-500 bg-rose-50 dark:bg-rose-950/40',
-                  state === 'dim' && 'border-slate-200 opacity-60 dark:border-slate-800',
+                    'border-stone-300 hover:border-stone-900 dark:border-stone-700 dark:hover:border-stone-300',
+                  state === 'picked' && 'border-stone-900 bg-stone-50 dark:border-stone-200 dark:bg-stone-800',
+                  state === 'right' && 'border-emerald-700 bg-emerald-50 dark:border-emerald-500 dark:bg-emerald-950/40',
+                  state === 'wrong' && 'border-rose-700 bg-rose-50 dark:border-rose-500 dark:bg-rose-950/40',
+                  state === 'dim' && 'border-stone-200 opacity-60 dark:border-stone-800',
                 )}
               >
                 <span
                   className={cx(
-                    'grid h-7 w-7 shrink-0 place-items-center rounded-lg text-sm font-bold',
+                    'grid h-6 w-6 shrink-0 place-items-center rounded-[2px] font-mono text-xs',
                     state === 'right'
-                      ? 'bg-emerald-600 text-white'
+                      ? 'bg-emerald-700 text-white'
                       : state === 'wrong'
-                        ? 'bg-rose-600 text-white'
-                        : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200',
+                        ? 'bg-rose-700 text-white'
+                        : 'border border-stone-400 text-stone-700 dark:border-stone-600 dark:text-stone-200',
                   )}
                 >
                   {state === 'right' ? <Icon name="check" className="h-4 w-4" /> : state === 'wrong' ? <Icon name="x" className="h-4 w-4" /> : c.letter}
@@ -76,7 +76,7 @@ export function Explanation({ question, arranged, chosen }) {
   const correctDisplay = arranged.find((c) => c.orig === question.answer)?.letter
   const right = chosen === question.answer
   return (
-    <Card className={cx('border-l-4', right ? 'border-l-emerald-500' : 'border-l-rose-500')}>
+    <Card className={cx('border-l-[3px]', right ? 'border-l-emerald-700' : 'border-l-rose-700')}>
       {chosen != null && (
         <p className={cx('font-bold', right ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400')}>
           {right ? t('explain.correct') : t('explain.notQuite', { letter: correctDisplay })}
@@ -86,18 +86,18 @@ export function Explanation({ question, arranged, chosen }) {
         <span className="font-semibold">{t('explain.why', { letter: correctDisplay })}</span>
         <RichText text={question.explanation} />
       </p>
-      <ul className="mt-3 space-y-1.5 text-sm text-slate-700 dark:text-slate-300">
+      <ul className="mt-3 space-y-1.5 text-sm text-stone-700 dark:text-stone-300">
         {arranged
           .filter((c) => c.orig !== question.answer)
           .map((c) => (
             <li key={c.letter} className={cx(c.orig === chosen && 'font-medium text-rose-700 dark:text-rose-300')}>
-              <span className="font-semibold">{c.letter} ✗ </span>
+              <span className="font-mono text-xs">{c.letter} ✗ </span>
               <RichText text={question.why?.[c.orig]} />
             </li>
           ))}
       </ul>
-      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-        📖 {question.ref} · {t('explain.source')}{question.sourceLabel}
+      <p className="mt-3 text-xs text-stone-500 dark:text-stone-400">
+        {question.ref} · {t('explain.source')}{question.sourceLabel}
       </p>
     </Card>
   )

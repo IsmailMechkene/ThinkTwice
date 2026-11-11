@@ -6,7 +6,7 @@ export default function LanguageSwitch() {
     <div
       role="group"
       aria-label={t('lang.label')}
-      className="flex rounded-xl border border-slate-200 p-0.5 text-xs font-bold dark:border-slate-700"
+      className="flex rounded-sm border border-stone-300 p-0.5 text-[11px] dark:border-stone-700"
     >
       {LANGUAGES.map((l) => (
         <button
@@ -15,10 +15,10 @@ export default function LanguageSwitch() {
           onClick={() => setLang(l.code)}
           aria-pressed={lang === l.code}
           title={l.label}
-          className={`rounded-lg px-2 py-1.5 transition ${
+          className={`rounded-[2px] px-2 py-1 font-mono transition ${
             lang === l.code
-              ? 'bg-indigo-600 text-white'
-              : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+              ? 'bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900'
+              : 'text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-white'
           }`}
         >
           {l.short}

@@ -12,9 +12,9 @@ export function questionStatus(i, { answers, visited, index, exam }) {
 const STYLES = {
   correct: 'bg-emerald-500 text-white border-emerald-500',
   wrong: 'bg-rose-500 text-white border-rose-500',
-  answered: 'bg-indigo-500 text-white border-indigo-500',
+  answered: 'bg-accent-500 text-white border-accent-500',
   skipped: 'bg-amber-50 text-amber-800 border-amber-400 border-dashed dark:bg-amber-950/40 dark:text-amber-300',
-  todo: 'bg-white text-slate-600 border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700',
+  todo: 'bg-white text-stone-600 border-stone-200 dark:bg-stone-900 dark:text-stone-300 dark:border-stone-700',
 }
 
 function Legend({ status, label }) {
@@ -45,7 +45,7 @@ export default function QuestionGrid({ total, answers, visited, index, exam, onJ
               className={cx(
                 'h-9 w-full rounded-lg border text-xs font-bold tabular-nums transition hover:scale-105',
                 STYLES[s],
-                i === index && 'ring-2 ring-indigo-600 ring-offset-2 ring-offset-white dark:ring-indigo-400 dark:ring-offset-slate-900',
+                i === index && 'ring-2 ring-accent-600 ring-offset-2 ring-offset-[var(--paper)] dark:ring-accent-400 dark:ring-offset-stone-900',
               )}
             >
               {i + 1}
@@ -53,7 +53,7 @@ export default function QuestionGrid({ total, answers, visited, index, exam, onJ
           </li>
         ))}
       </ol>
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-slate-500 dark:text-slate-400">
+      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-stone-500 dark:text-stone-400">
         {exam ? (
           <Legend status="answered" label={`${t('grid.answered')} (${count('answered')})`} />
         ) : (
