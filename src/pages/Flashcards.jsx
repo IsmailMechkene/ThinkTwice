@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router'
 import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
 import Flashcard from '../components/Flashcard'
-import { Button, Card, EmptyState, PageHeader, ProgressBar, Segmented } from '../components/ui'
+import { Button, Card, EmptyState, PageHeader, ProgressBar, SectionTitle, Segmented, StepTitle } from '../components/ui'
 import { useProgress } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
 import { flashcards, matchesFilter, subjectById } from '../lib/content'
@@ -15,7 +15,7 @@ const RELEARN_GAP = 3
 const SWIPE_THRESHOLD = 90
 
 // Leitner shelf: one column per box, bar height = share of cards; darker = better known.
-const BOX_SHADES = ['#d6d3d1', '#c3d1e6', '#98b0d3', '#6a8bbd', '#4669a3', '#2b4570']
+const BOX_SHADES = ['#d4d4d4', '#bfd5fe', '#93b8fd', '#6094fa', '#2557eb', '#1e358a']
 
 function BoxSummary({ cards, states }) {
   const { t } = useI18n()
@@ -27,17 +27,17 @@ function BoxSummary({ cards, states }) {
       {counts.map((n, i) => (
         <div key={i} className="flex flex-col items-center gap-1.5">
           <span className="text-sm font-bold tabular-nums">{n}</span>
-          <div className="flex h-24 w-full items-end overflow-hidden rounded-lg bg-stone-100 dark:bg-stone-800">
+          <div className="flex h-24 w-full items-end overflow-hidden rounded-lg bg-neutral-100 dark:bg-neutral-800">
             <div
               className="w-full rounded-lg transition-all duration-500"
               style={{ height: `${Math.max(n ? 6 : 0, (n / max) * 100)}%`, background: BOX_SHADES[i] }}
               title={`${i === 0 ? t('cards.new') : t('cards.box', { n: i })}: ${n}`}
             />
           </div>
-          <span className="text-center text-[11px] leading-tight font-semibold text-stone-600 dark:text-stone-300">
+          <span className="text-center text-[11px] leading-tight font-semibold text-neutral-600 dark:text-neutral-300">
             {i === 0 ? t('cards.new') : t('cards.box', { n: i })}
           </span>
-          <span className="text-[10px] text-stone-400">
+          <span className="text-[10px] text-neutral-400">
             {i === 0 ? '—' : BOX_INTERVAL_DAYS[i] === 0 ? t('cards.today') : t('cards.inDays', { n: BOX_INTERVAL_DAYS[i] })}
           </span>
         </div>
@@ -125,7 +125,7 @@ function Session({ deck, onExit }) {
       <div className="mb-4 flex items-center gap-3">
         <span className="shrink-0 text-sm font-semibold tabular-nums">{t('session.left', { count: queue.length })}</span>
         <ProgressBar value={done.knew} max={done.knew + queue.length} label={t('session.progress')} />
-        <button type="button" onClick={onExit} className="shrink-0 rounded-lg px-2 py-1 text-sm text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800">
+        <button type="button" onClick={onExit} className="shrink-0 rounded-lg px-2 py-1 text-sm text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800">
           {t('session.end')}
         </button>
       </div>
@@ -164,7 +164,7 @@ function Session({ deck, onExit }) {
           {t('session.knewIt')}
         </Button>
       </div>
-      <p className="mt-3 text-center text-xs text-stone-400">
+      <p className="mt-3 text-center text-xs text-neutral-400">
         {flipped ? t('session.honest') : t('session.thinkFirst')}
         <span className="hidden sm:inline"> · {t('session.keys')}</span>
         <span className="sm:hidden"> · {t('session.swipe')}</span>
@@ -201,22 +201,18 @@ export default function Flashcards() {
     <div>
       <PageHeader title={t('cards.title')} subtitle={t('cards.subtitle')} />
 
-      <Card className="p-5 sm:p-6">
-        <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-bold">{t('cards.boxesTitle')}</h2>
-          <p className="text-xs text-stone-500 dark:text-stone-400">{t('cards.boxesHint')}</p>
+      <div className="grid gap-x-6 gap-y-8 lg:grid-cols-[1fr_340px]">
+        <div>
+          <StepTitle n={1}>{t('step.what')}</StepTitle>
+          <Card className="p-5 sm:p-6">
+            <FilterPanel value={filter} onChange={setFilter} items={flashcards} />
+          </Card>
         </div>
-        <BoxSummary cards={cards} states={progress.flashcards} />
-      </Card>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_340px]">
-        <Card className="self-start p-5 sm:p-6">
-          <FilterPanel value={filter} onChange={setFilter} items={flashcards} />
-        </Card>
         <div className="lg:sticky lg:top-20 lg:self-start">
+          <StepTitle n={2}>{t('step.session')}</StepTitle>
           <Card className="space-y-5 p-5 sm:p-6">
             <div>
-              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{t('cards.mode')}</p>
+              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">{t('cards.mode')}</p>
               <Segmented
                 label={t('cards.mode')}
                 value={mode}
@@ -227,19 +223,24 @@ export default function Flashcards() {
                 ]}
               />
             </div>
-            <div className="rounded-md bg-stone-50 p-4 text-center dark:bg-stone-800/60">
+            <div className="rounded-md bg-neutral-50 p-4 text-center dark:bg-neutral-800/60">
               <p className="text-4xl font-semibold tabular-nums">{selection.length}</p>
-              <p className="text-sm text-stone-500 dark:text-stone-400">{t('cards.inSession')}</p>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">{t('cards.inSession')}</p>
             </div>
             <Button className="w-full py-3" disabled={!selection.length} onClick={startDeck}>
               {selection.length ? t('cards.study', { count: selection.length }) : t('cards.nothingDue')}
             </Button>
-            <p className="text-center text-xs text-stone-500 dark:text-stone-400">
+            <p className="text-center text-xs text-neutral-500 dark:text-neutral-400">
               {t('cards.intervals', { a: BOX_INTERVAL_DAYS[2], b: BOX_INTERVAL_DAYS[3], c: BOX_INTERVAL_DAYS[4], d: BOX_INTERVAL_DAYS[5] })}
             </p>
           </Card>
         </div>
       </div>
+
+      <SectionTitle hint={t('cards.boxesHint')}>{t('cards.boxesTitle')}</SectionTitle>
+      <Card className="p-5 sm:p-6">
+        <BoxSummary cards={cards} states={progress.flashcards} />
+      </Card>
     </div>
   )
 }

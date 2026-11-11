@@ -14,7 +14,7 @@ const STYLES = {
   wrong: 'bg-rose-500 text-white border-rose-500',
   answered: 'bg-accent-500 text-white border-accent-500',
   skipped: 'bg-amber-50 text-amber-800 border-amber-400 border-dashed dark:bg-amber-950/40 dark:text-amber-300',
-  todo: 'bg-white text-stone-600 border-stone-200 dark:bg-stone-900 dark:text-stone-300 dark:border-stone-700',
+  todo: 'bg-white text-neutral-600 border-neutral-200 dark:bg-neutral-900 dark:text-neutral-300 dark:border-neutral-700',
 }
 
 function Legend({ status, label }) {
@@ -45,7 +45,7 @@ export default function QuestionGrid({ total, answers, visited, index, exam, onJ
               className={cx(
                 'h-9 w-full rounded-lg border text-xs font-bold tabular-nums transition hover:scale-105',
                 STYLES[s],
-                i === index && 'ring-2 ring-accent-600 ring-offset-2 ring-offset-[var(--paper)] dark:ring-accent-400 dark:ring-offset-stone-900',
+                i === index && 'ring-2 ring-accent-600 ring-offset-2 ring-offset-[var(--paper)] dark:ring-accent-400 dark:ring-offset-neutral-900',
               )}
             >
               {i + 1}
@@ -53,7 +53,7 @@ export default function QuestionGrid({ total, answers, visited, index, exam, onJ
           </li>
         ))}
       </ol>
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-stone-500 dark:text-stone-400">
+      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-neutral-500 dark:text-neutral-400">
         {exam ? (
           <Legend status="answered" label={`${t('grid.answered')} (${count('answered')})`} />
         ) : (

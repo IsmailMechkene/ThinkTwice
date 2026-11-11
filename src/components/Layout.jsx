@@ -19,7 +19,7 @@ const NAV = [
 function CountBadge({ n }) {
   if (!n) return null
   return (
-    <span className="ml-1.5 rounded-sm bg-rose-600 px-1 text-[10px] leading-4 font-semibold text-white tabular-nums">
+    <span className="ml-1.5 rounded-md bg-rose-600 px-1 text-[10px] leading-4 font-semibold text-white tabular-nums">
       {n > 99 ? '99+' : n}
     </span>
   )
@@ -34,10 +34,15 @@ export default function Layout() {
 
   return (
     <div className="min-h-dvh pb-20 md:pb-0">
-      <header className="sticky top-0 z-40 border-b border-stone-300 bg-[var(--paper)] dark:border-stone-800">
+      <header className="sticky top-0 z-40 border-b border-neutral-200 bg-[var(--paper)] dark:border-neutral-800">
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
-          <NavLink to="/" className="font-serif text-xl leading-none tracking-tight">
-            Think<em className="text-accent-700 dark:text-accent-300">Twice</em>
+          <NavLink to="/" className="font-display flex items-center gap-2 text-[17px] leading-none">
+            <span aria-hidden className="grid h-6 w-6 place-items-center rounded-md bg-neutral-900 font-mono text-[11px] font-semibold tracking-normal text-white dark:bg-neutral-100 dark:text-neutral-900">
+              T²
+            </span>
+            <span>
+              Think<span className="text-neutral-400 dark:text-neutral-500">Twice</span>
+            </span>
           </NavLink>
           <nav className="ml-6 hidden h-full items-stretch gap-5 md:flex" aria-label={t('nav.main')}>
             {NAV.map((n) => (
@@ -48,8 +53,8 @@ export default function Layout() {
                 className={({ isActive }) =>
                   `-mb-px flex items-center border-b-2 text-sm transition ${
                     isActive
-                      ? 'border-stone-900 font-medium text-stone-900 dark:border-stone-100 dark:text-stone-100'
-                      : 'border-transparent text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100'
+                      ? 'border-neutral-900 font-medium text-neutral-900 dark:border-neutral-100 dark:text-neutral-100'
+                      : 'border-transparent text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100'
                   }`
                 }
               >
@@ -64,7 +69,7 @@ export default function Layout() {
               type="button"
               onClick={toggle}
               aria-label={theme === 'dark' ? t('theme.toLight') : t('theme.toDark')}
-              className="rounded-md p-2 text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800"
+              className="rounded-md p-2 text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
             >
               <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
             </button>
@@ -86,7 +91,7 @@ export default function Layout() {
       {/* Mobile tab bar */}
       <nav
         aria-label={t('nav.main')}
-        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-stone-300 bg-[var(--paper)] pb-[env(safe-area-inset-bottom)] md:hidden dark:border-stone-800"
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-neutral-200 bg-[var(--paper)] pb-[env(safe-area-inset-bottom)] md:hidden dark:border-neutral-800"
       >
         {NAV.map((n) => (
           <NavLink
@@ -95,7 +100,7 @@ export default function Layout() {
             end={n.end}
             className={({ isActive }) =>
               `relative flex flex-col items-center gap-0.5 py-2 text-[11px] font-medium ${
-                isActive ? 'text-stone-900 dark:text-stone-100' : 'text-stone-500 dark:text-stone-400'
+                isActive ? 'text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 dark:text-neutral-400'
               }`
             }
           >

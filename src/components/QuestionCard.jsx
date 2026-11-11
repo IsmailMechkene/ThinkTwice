@@ -10,7 +10,7 @@ export function QuestionMeta({ question }) {
     <div className="flex flex-wrap items-center gap-1.5">
       <Badge tone={question.difficulty}>{t(`difficulty.${question.difficulty}`)}</Badge>
       <Badge tone={question.tier}>{t(`tier.${question.tier}`)}</Badge>
-      <span className="text-xs text-stone-500 dark:text-stone-400">{chapterLabel(question)}</span>
+      <span className="text-xs text-neutral-500 dark:text-neutral-400">{chapterLabel(question)}</span>
     </div>
   )
 }
@@ -38,13 +38,13 @@ export default function QuestionCard({ question, arranged, chosen, reveal, onCho
                 disabled={chosen != null}
                 onClick={() => onChoose(c.orig)}
                 className={cx(
-                  'flex w-full items-start gap-3 rounded-sm border p-3.5 text-left transition sm:p-4',
+                  'flex w-full items-start gap-3 rounded-md border p-3.5 text-left transition sm:p-4',
                   state === 'idle' &&
-                    'border-stone-300 hover:border-stone-900 dark:border-stone-700 dark:hover:border-stone-300',
-                  state === 'picked' && 'border-stone-900 bg-stone-50 dark:border-stone-200 dark:bg-stone-800',
+                    'border-neutral-200 hover:border-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-200',
+                  state === 'picked' && 'border-neutral-900 bg-neutral-50 dark:border-neutral-200 dark:bg-neutral-800',
                   state === 'right' && 'border-emerald-700 bg-emerald-50 dark:border-emerald-500 dark:bg-emerald-950/40',
                   state === 'wrong' && 'border-rose-700 bg-rose-50 dark:border-rose-500 dark:bg-rose-950/40',
-                  state === 'dim' && 'border-stone-200 opacity-60 dark:border-stone-800',
+                  state === 'dim' && 'border-neutral-200 opacity-60 dark:border-neutral-800',
                 )}
               >
                 <span
@@ -54,7 +54,7 @@ export default function QuestionCard({ question, arranged, chosen, reveal, onCho
                       ? 'bg-emerald-700 text-white'
                       : state === 'wrong'
                         ? 'bg-rose-700 text-white'
-                        : 'border border-stone-400 text-stone-700 dark:border-stone-600 dark:text-stone-200',
+                        : 'border border-neutral-400 text-neutral-700 dark:border-neutral-600 dark:text-neutral-200',
                   )}
                 >
                   {state === 'right' ? <Icon name="check" className="h-4 w-4" /> : state === 'wrong' ? <Icon name="x" className="h-4 w-4" /> : c.letter}
@@ -86,7 +86,7 @@ export function Explanation({ question, arranged, chosen }) {
         <span className="font-semibold">{t('explain.why', { letter: correctDisplay })}</span>
         <RichText text={question.explanation} />
       </p>
-      <ul className="mt-3 space-y-1.5 text-sm text-stone-700 dark:text-stone-300">
+      <ul className="mt-3 space-y-1.5 text-sm text-neutral-700 dark:text-neutral-300">
         {arranged
           .filter((c) => c.orig !== question.answer)
           .map((c) => (
@@ -96,7 +96,7 @@ export function Explanation({ question, arranged, chosen }) {
             </li>
           ))}
       </ul>
-      <p className="mt-3 text-xs text-stone-500 dark:text-stone-400">
+      <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
         {question.ref} · {t('explain.source')}{question.sourceLabel}
       </p>
     </Card>

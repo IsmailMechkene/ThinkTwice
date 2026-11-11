@@ -6,7 +6,7 @@ import { Badge } from './ui'
 
 export default function Flashcard({ card, flipped, onFlip }) {
   const { t } = useI18n()
-  const face = 'flip-face flex min-h-72 flex-col rounded-md border border-stone-300 bg-white p-6 sm:min-h-80 sm:p-8 dark:border-stone-800 dark:bg-stone-900'
+  const face = 'flip-face flex min-h-72 flex-col rounded-md border border-neutral-200 bg-white p-6 sm:min-h-80 sm:p-8 dark:border-neutral-800 dark:bg-neutral-900'
   return (
     <div className="flip-card">
       <button
@@ -20,19 +20,19 @@ export default function Flashcard({ card, flipped, onFlip }) {
             {card.kind && <Badge>{t(`card.${card.kind}`)}</Badge>}
             <Badge tone={card.tier}>{t(`tier.${card.tier}`)}</Badge>
           </div>
-          <p className="my-auto py-6 text-center font-serif text-2xl leading-snug sm:text-3xl">
+          <p className="my-auto py-6 text-center font-display text-2xl leading-snug sm:text-3xl">
             <RichText text={card.front} />
           </p>
-          <p className="flex items-center justify-center gap-1.5 text-xs text-stone-400">
+          <p className="flex items-center justify-center gap-1.5 text-xs text-neutral-400">
             <Icon name="flip" className="h-4 w-4" /> {t('card.flipHint')}
           </p>
         </div>
-        <div className={`${face} flip-back border-t-[3px] border-t-stone-900 dark:border-t-stone-200`}>
+        <div className={`${face} flip-back border-t-[3px] border-t-neutral-900 dark:border-t-neutral-200`}>
           <p className="eyebrow">{t('card.answer')}</p>
           <p className="my-auto py-6 text-center text-lg leading-relaxed sm:text-xl">
             <RichText text={card.back} />
           </p>
-          <p className="text-center text-xs text-stone-500 dark:text-stone-400">
+          <p className="text-center text-xs text-neutral-500 dark:text-neutral-400">
             {chapterLabel(card)} · {card.ref} · {card.sourceLabel}
           </p>
         </div>

@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router'
 import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
 import Icon from '../components/Icon'
 import ResumeBanner from '../components/ResumeBanner'
-import { Button, Card, Chip, PageHeader, SectionTitle, Toggle } from '../components/ui'
+import { Button, Card, Chip, PageHeader, SectionTitle, StepTitle, Toggle } from '../components/ui'
 import { useMistakes } from '../hooks/useMistakes'
 import { useProgress } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
@@ -32,14 +32,14 @@ function Preset({ n, title, desc, onClick, disabled }) {
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="group flex flex-col rounded-md border border-stone-300 bg-white p-4 text-left transition hover:border-stone-900 disabled:pointer-events-none disabled:opacity-50 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-400"
+      className="group flex flex-col rounded-md border border-neutral-200 bg-white p-4 text-left transition hover:border-neutral-900 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-400"
     >
       <span className="flex items-center justify-between gap-2">
-        <span className="font-mono text-xs text-stone-400">{n}</span>
-        <Icon name="arrow" className="h-4 w-4 text-stone-300 transition group-hover:translate-x-0.5 group-hover:text-stone-900 dark:group-hover:text-stone-100" />
+        <span className="font-mono text-xs text-neutral-400">{n}</span>
+        <Icon name="arrow" className="h-4 w-4 text-neutral-300 transition group-hover:translate-x-0.5 group-hover:text-neutral-900 dark:group-hover:text-neutral-100" />
       </span>
-      <span className="mt-3 font-serif text-xl leading-tight">{title}</span>
-      <span className="mt-1 block text-sm text-stone-500 dark:text-stone-400">{desc}</span>
+      <span className="mt-3 font-display text-xl leading-tight">{title}</span>
+      <span className="mt-1 block text-sm text-neutral-500 dark:text-neutral-400">{desc}</span>
     </button>
   )
 }
@@ -97,18 +97,22 @@ export default function QuizSetup() {
           onClick={() => navigate('/quiz/play', { state: { mode: 'revise', filter: scope || {} } })}
         />
       </div>
-      <p className="mt-2 text-xs text-stone-500 dark:text-stone-400">{t('setup.presetsHint')}</p>
+      <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">{t('setup.presetsHint')}</p>
 
       <SectionTitle hint={t('setup.customHint')}>{t('setup.custom')}</SectionTitle>
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
-        <Card className="self-start p-5 sm:p-6">
-          <FilterPanel value={filter} onChange={setFilter} items={questions} showDifficulty />
-        </Card>
+      <div className="mt-5 grid gap-x-6 gap-y-8 lg:grid-cols-[1fr_340px]">
+        <div>
+          <StepTitle n={1}>{t('step.what')}</StepTitle>
+          <Card className="p-5 sm:p-6">
+            <FilterPanel value={filter} onChange={setFilter} items={questions} showDifficulty />
+          </Card>
+        </div>
 
         <div className="lg:sticky lg:top-20 lg:self-start">
+          <StepTitle n={2}>{t('step.how')}</StepTitle>
           <Card className="space-y-5 p-5 sm:p-6">
             <div>
-              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{t('setup.questions')}</p>
+              <p className="mb-2.5 text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">{t('setup.questions')}</p>
               <div className="flex flex-wrap gap-2">
                 {COUNTS.map((n) => (
                   <Chip key={n} active={count === n} onClick={() => setCount(n)}>
@@ -131,17 +135,17 @@ export default function QuizSetup() {
                   max={240}
                   value={minutes}
                   onChange={(e) => setMinutes(Math.max(1, Math.min(240, Number(e.target.value) || 1)))}
-                  className="mt-1 w-full rounded-lg border border-stone-300 bg-transparent px-3 py-2 dark:border-stone-700"
+                  className="mt-1 w-full rounded-lg border border-neutral-200 bg-transparent px-3 py-2 dark:border-neutral-700"
                 />
               </label>
             )}
 
-            <div className="rounded-md bg-stone-50 p-4 dark:bg-stone-800/60">
+            <div className="rounded-md bg-neutral-50 p-4 dark:bg-neutral-800/60">
               <p className="flex items-baseline gap-2">
                 <span className="text-3xl font-semibold tabular-nums">{effective}</span>
-                <span className="text-stone-600 dark:text-stone-300">{t('setup.match', { count: effective })}</span>
+                <span className="text-neutral-600 dark:text-neutral-300">{t('setup.match', { count: effective })}</span>
               </p>
-              <p className="mt-1 flex flex-wrap gap-x-3 text-xs text-stone-500 dark:text-stone-400">
+              <p className="mt-1 flex flex-wrap gap-x-3 text-xs text-neutral-500 dark:text-neutral-400">
                 <span>{t('setup.available', { count: available })}</span>
                 <span className="flex items-center gap-1">
                   <Icon name="timer" className="h-3.5 w-3.5" />

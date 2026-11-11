@@ -43,7 +43,7 @@ export default function ActivityHeatmap({ daily }) {
   return (
     <div>
       <div className="flex gap-2">
-        <div className="grid shrink-0 grid-rows-7 gap-[3px] pt-5 text-[10px] text-stone-400">
+        <div className="grid shrink-0 grid-rows-7 gap-[3px] pt-5 text-[10px] text-neutral-400">
           {[0, 1, 2, 3, 4, 5, 6].map((i) => (
             <span key={i} className="flex items-center">
               {i % 2 === 0 ? new Date(2024, 0, 1 + i).toLocaleDateString(locale, { weekday: 'narrow' }) : ''}
@@ -51,7 +51,7 @@ export default function ActivityHeatmap({ daily }) {
           ))}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="relative mb-1 h-4 text-[10px] text-stone-500 dark:text-stone-400">
+          <div className="relative mb-1 h-4 text-[10px] text-neutral-500 dark:text-neutral-400">
             {months.map((m) => (
               <span key={m.w} className="absolute" style={{ left: `${(m.w / WEEKS) * 100}%` }}>
                 {m.text}
@@ -63,14 +63,14 @@ export default function ActivityHeatmap({ daily }) {
               <span
                 key={c.key}
                 title={c.future ? '' : t('stats.dayTip', { date: formatDay(c.key, locale), count: c.n })}
-                className={`aspect-square rounded-[3px] ${c.key === today ? 'ring-2 ring-stone-400 dark:ring-stone-500' : ''}`}
+                className={`aspect-square rounded-[3px] ${c.key === today ? 'ring-2 ring-neutral-400 dark:ring-neutral-500' : ''}`}
                 style={{ background: c.future ? 'transparent' : `var(--heat-${level(c.n)})` }}
               />
             ))}
           </div>
         </div>
       </div>
-      <div className="mt-3 flex items-center justify-end gap-1 text-[10px] text-stone-500 dark:text-stone-400">
+      <div className="mt-3 flex items-center justify-end gap-1 text-[10px] text-neutral-500 dark:text-neutral-400">
         {t('stats.less')}
         {[0, 1, 2, 3, 4].map((l) => (
           <span key={l} className="h-3 w-3 rounded-[3px]" style={{ background: `var(--heat-${l})` }} />

@@ -3,60 +3,67 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
-  Look: a printed revision sheet. Warm paper, black ink, one blue-black
-  "fountain pen" accent. Serif for headings (Newsreader), a plain grotesque
-  for reading (IBM Plex Sans), and mono for figures, letters and labels.
+  Look: built around Geist. A neutral grey ramp, hairline borders, tight
+  semibold headings, and Geist Mono for figures, letters and small labels.
+  One blue accent, used sparingly; amber only as a "today / streak" marker.
 */
 @theme {
-  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
 
-  /* Blue-black ink */
-  --color-accent-50: #f1f4f9;
-  --color-accent-100: #e1e8f2;
-  --color-accent-200: #c3d1e6;
-  --color-accent-300: #98b0d3;
-  --color-accent-400: #6a8bbd;
-  --color-accent-500: #4669a3;
-  --color-accent-600: #345489;
-  --color-accent-700: #2b4570;
-  --color-accent-800: #24395b;
-  --color-accent-900: #1e2f4a;
-  --color-accent-950: #131e30;
+  --color-accent-50: #eff5ff;
+  --color-accent-100: #dbe8fe;
+  --color-accent-200: #bfd5fe;
+  --color-accent-300: #93b8fd;
+  --color-accent-400: #6094fa;
+  --color-accent-500: #3b72f6;
+  --color-accent-600: #2557eb;
+  --color-accent-700: #1d45d8;
+  --color-accent-800: #1e3aaf;
+  --color-accent-900: #1e358a;
+  --color-accent-950: #172254;
 
-  /* Highlighter, used sparingly (streak, current item) */
-  --color-marker: #e8b04a;
+  --color-marker: #f5a623;
 }
 
 :root {
-  --paper: #f5f3ee;
-  --accent: #345489;
+  --paper: #fafafa;
+  --accent: #2557eb;
 
   /* Activity heatmap: one hue, light → dark = less → more */
-  --heat-0: #e7e5e0;
-  --heat-1: #c3d1e6;
-  --heat-2: #6a8bbd;
-  --heat-3: #345489;
-  --heat-4: #1e2f4a;
-  --chart-series: #345489;
-  --chart-grid: #e7e5e4;
-  --chart-axis: #78716c;
+  --heat-0: #ebebeb;
+  --heat-1: #bfd5fe;
+  --heat-2: #6094fa;
+  --heat-3: #2557eb;
+  --heat-4: #1e358a;
+  --chart-series: #2557eb;
+  --chart-grid: #e5e5e5;
+  --chart-axis: #737373;
   --chart-surface: #ffffff;
 }
 .dark {
-  --paper: #12110f;
-  --accent: #98b0d3;
+  --paper: #0a0a0a;
+  --accent: #6094fa;
 
-  --heat-0: #292524;
-  --heat-1: #24395b;
-  --heat-2: #345489;
-  --heat-3: #6a8bbd;
-  --heat-4: #c3d1e6;
-  --chart-series: #98b0d3;
-  --chart-grid: #292524;
-  --chart-axis: #a8a29e;
-  --chart-surface: #1c1917;
+  /* Dark mode uses a lifted grey ramp: cards, borders and secondary text
+     sit clearly apart from the page instead of melting into it. */
+  --color-neutral-900: #1a1a1a;
+  --color-neutral-800: #2e2e2e;
+  --color-neutral-700: #454545;
+  --color-neutral-600: #6b6b6b;
+  --color-neutral-500: #a1a1a1;
+  --color-neutral-400: #bdbdbd;
+  --color-neutral-300: #d9d9d9;
+
+  --heat-0: #2e2e2e;
+  --heat-1: #1e358a;
+  --heat-2: #2557eb;
+  --heat-3: #6094fa;
+  --heat-4: #bfd5fe;
+  --chart-series: #6094fa;
+  --chart-grid: #2e2e2e;
+  --chart-axis: #bdbdbd;
+  --chart-surface: #1a1a1a;
 }
 
 html {
@@ -64,17 +71,19 @@ html {
 }
 
 body {
-  @apply text-stone-900 antialiased dark:text-stone-100;
+  @apply text-neutral-900 antialiased dark:text-neutral-100;
   background: var(--paper);
-  font-feature-settings: 'ss01';
+  letter-spacing: -0.006em;
 }
 
+/* Geist reads best in headings when semibold and tightly tracked. */
 h1,
 h2,
-h3 {
-  font-family: var(--font-serif);
-  font-optical-sizing: auto;
-  letter-spacing: -0.01em;
+h3,
+.font-display {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.035em;
 }
 
 /* Figures line up and read as data. */
@@ -83,17 +92,17 @@ h3 {
   letter-spacing: -0.02em;
 }
 
-/* Small caps-style label used above figures and sections. */
+/* Small uppercase label used above figures and sections. */
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  @apply text-stone-500 dark:text-stone-400;
+  @apply text-neutral-500 dark:text-neutral-400;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-marker) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
 @keyframes pop {

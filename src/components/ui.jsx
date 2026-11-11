@@ -6,7 +6,7 @@ export function Card({ className, children, ...rest }) {
   return (
     <div
       className={cx(
-        'rounded-md border border-stone-300 bg-white p-5 dark:border-stone-800 dark:bg-stone-900',
+        'rounded-md border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900',
         className,
       )}
       {...rest}
@@ -18,17 +18,17 @@ export function Card({ className, children, ...rest }) {
 
 const VARIANTS = {
   primary:
-    'bg-stone-900 text-white hover:bg-accent-800 disabled:bg-stone-400 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-accent-200 dark:disabled:bg-stone-700',
+    'bg-neutral-900 text-white hover:bg-accent-800 disabled:bg-neutral-400 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-accent-200 dark:disabled:bg-neutral-700',
   secondary:
-    'border border-stone-400 bg-transparent text-stone-900 hover:border-stone-900 hover:bg-white dark:border-stone-600 dark:text-stone-100 dark:hover:border-stone-300 dark:hover:bg-stone-900',
-  ghost: 'text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-800',
+    'border border-neutral-400 bg-transparent text-neutral-900 hover:border-neutral-900 hover:bg-white dark:border-neutral-600 dark:text-neutral-100 dark:hover:border-neutral-200 dark:hover:bg-neutral-900',
+  ghost: 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800',
   danger: 'border border-rose-300 text-rose-700 hover:bg-rose-50 dark:border-rose-800 dark:text-rose-300 dark:hover:bg-rose-950',
   good: 'bg-emerald-600 text-white hover:bg-emerald-500',
   bad: 'bg-rose-600 text-white hover:bg-rose-500',
 }
 
 const BASE =
-  'inline-flex items-center justify-center gap-2 rounded-sm px-4 py-2.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 disabled:cursor-not-allowed'
+  'inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 disabled:cursor-not-allowed'
 
 export function Button({ variant = 'primary', className, to, ...rest }) {
   const cls = cx(BASE, VARIANTS[variant], className)
@@ -43,10 +43,10 @@ export function Chip({ active, onClick, children, color }) {
       onClick={onClick}
       aria-pressed={active}
       className={cx(
-        'rounded-sm border px-3 py-1.5 text-sm transition',
+        'rounded-md border px-3 py-1.5 text-sm transition',
         active
-          ? 'border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900'
-          : 'border-stone-300 bg-white text-stone-700 hover:border-stone-500 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300 dark:hover:border-stone-500',
+          ? 'border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900'
+          : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:border-neutral-500',
       )}
     >
       {color && <span className="mr-1.5 inline-block h-2 w-2 rounded-[1px]" style={{ background: color }} />}
@@ -56,17 +56,17 @@ export function Chip({ active, onClick, children, color }) {
 }
 
 const BADGE_TONES = {
-  neutral: 'border-stone-300 text-stone-600 dark:border-stone-700 dark:text-stone-300',
+  neutral: 'border-neutral-200 text-neutral-600 dark:border-neutral-700 dark:text-neutral-300',
   easy: 'border-emerald-700/40 text-emerald-800 dark:border-emerald-400/40 dark:text-emerald-300',
   medium: 'border-amber-700/40 text-amber-800 dark:border-amber-400/40 dark:text-amber-300',
   hard: 'border-rose-700/40 text-rose-800 dark:border-rose-400/40 dark:text-rose-300',
-  core: 'border-stone-900 bg-stone-900 text-white dark:border-stone-100 dark:bg-stone-100 dark:text-stone-900',
-  bonus: 'border-dashed border-stone-400 text-stone-500 dark:border-stone-600 dark:text-stone-400',
+  core: 'border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900',
+  bonus: 'border-dashed border-neutral-400 text-neutral-500 dark:border-neutral-600 dark:text-neutral-400',
 }
 
 export function Badge({ tone = 'neutral', children, className }) {
   return (
-    <span className={cx('inline-flex items-center rounded-sm border px-1.5 py-px font-mono text-[11px] tracking-wide uppercase', BADGE_TONES[tone], className)}>
+    <span className={cx('inline-flex items-center rounded-md border px-1.5 py-px font-mono text-[11px] tracking-wide uppercase', BADGE_TONES[tone], className)}>
       {children}
     </span>
   )
@@ -76,7 +76,7 @@ export function ProgressBar({ value, max = 100, color = 'var(--accent)', classNa
   const pct = max ? Math.min(100, Math.round((value / max) * 100)) : 0
   return (
     <div
-      className={cx('h-1.5 w-full overflow-hidden bg-stone-200 dark:bg-stone-800', className)}
+      className={cx('h-1.5 w-full overflow-hidden bg-neutral-200 dark:bg-neutral-800', className)}
       role="progressbar"
       aria-valuenow={pct}
       aria-valuemin={0}
@@ -90,11 +90,11 @@ export function ProgressBar({ value, max = 100, color = 'var(--accent)', classNa
 
 export function PageHeader({ title, subtitle, actions, eyebrow }) {
   return (
-    <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-stone-300 pb-6 dark:border-stone-800">
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-neutral-200 pb-6 dark:border-neutral-800">
       <div className="min-w-0">
         {eyebrow && <p className="eyebrow mb-2">{eyebrow}</p>}
         <h1 className="text-3xl font-medium sm:text-4xl">{title}</h1>
-        {subtitle && <p className="mt-2 max-w-2xl text-stone-600 dark:text-stone-400">{subtitle}</p>}
+        {subtitle && <p className="mt-2 max-w-2xl text-neutral-600 dark:text-neutral-400">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
@@ -106,17 +106,29 @@ export function SectionTitle({ children, hint, action }) {
     <div className="mt-10 mb-3 flex flex-wrap items-end justify-between gap-2">
       <div>
         <h2 className="text-xl font-medium">{children}</h2>
-        {hint && <p className="text-sm text-stone-500 dark:text-stone-400">{hint}</p>}
+        {hint && <p className="text-sm text-neutral-500 dark:text-neutral-400">{hint}</p>}
       </div>
       {action}
     </div>
   )
 }
 
+// Numbered step heading for multi-part forms ("1 What to revise").
+export function StepTitle({ n, children }) {
+  return (
+    <p className="mb-3 flex items-baseline gap-2.5">
+      <span className="grid h-5 w-5 shrink-0 place-items-center self-center rounded-[2px] bg-neutral-900 font-mono text-[11px] text-white dark:bg-neutral-100 dark:text-neutral-900">
+        {n}
+      </span>
+      <span className="font-display text-lg">{children}</span>
+    </p>
+  )
+}
+
 // Two-or-more option switch (e.g. "Due today | All cards").
 export function Segmented({ options, value, onChange, label }) {
   return (
-    <div role="radiogroup" aria-label={label} className="inline-flex w-full rounded-sm border border-stone-300 p-0.5 dark:border-stone-700">
+    <div role="radiogroup" aria-label={label} className="inline-flex w-full rounded-md border border-neutral-200 p-0.5 dark:border-neutral-700">
       {options.map((o) => (
         <button
           key={o.value}
@@ -127,8 +139,8 @@ export function Segmented({ options, value, onChange, label }) {
           className={cx(
             'flex-1 rounded-[2px] px-3 py-2 text-sm font-medium transition',
             value === o.value
-              ? 'bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900'
-              : 'text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200',
+              ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900'
+              : 'text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200',
           )}
         >
           {o.label}
@@ -146,8 +158,8 @@ export function scoreColor(pct) {
 export function EmptyState({ title, children, action }) {
   return (
     <Card className="py-12 text-center">
-      <p className="font-serif text-2xl">{title}</p>
-      {children && <p className="mx-auto mt-2 max-w-md text-stone-600 dark:text-stone-400">{children}</p>}
+      <p className="font-display text-2xl">{title}</p>
+      {children && <p className="mx-auto mt-2 max-w-md text-neutral-600 dark:text-neutral-400">{children}</p>}
       {action && <div className="mt-5">{action}</div>}
     </Card>
   )
@@ -156,10 +168,10 @@ export function EmptyState({ title, children, action }) {
 // A ruled figure, like a line in a ledger. Old call sites may still pass icon/tone; they are ignored.
 export function Stat({ label, value, hint }) {
   return (
-    <div className="min-w-0 border-t-2 border-stone-900 pt-2 dark:border-stone-200">
+    <div className="min-w-0 border-t-2 border-neutral-900 pt-2 dark:border-neutral-200">
       <p className="eyebrow truncate">{label}</p>
-      <p className="mt-1.5 font-serif text-4xl leading-none">{value}</p>
-      {hint && <p className="mt-1.5 truncate text-xs text-stone-500 dark:text-stone-400">{hint}</p>}
+      <p className="mt-1.5 font-display text-4xl leading-none">{value}</p>
+      {hint && <p className="mt-1.5 truncate text-xs text-neutral-500 dark:text-neutral-400">{hint}</p>}
     </div>
   )
 }
@@ -172,7 +184,7 @@ export function ProgressRing({ value, size = 56, stroke = 6, color = 'var(--acce
   return (
     <span className="relative inline-grid shrink-0 place-items-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label={label}>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke} className="stroke-stone-200 dark:stroke-stone-800" />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke} className="stroke-neutral-200 dark:stroke-neutral-800" />
         {pct > 0 && (
           <circle
             cx={size / 2}
@@ -197,12 +209,12 @@ export function Toggle({ checked, onChange, label, hint }) {
     <label className="flex cursor-pointer items-start gap-3">
       <span className="relative mt-0.5 inline-flex shrink-0">
         <input type="checkbox" className="peer sr-only" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-        <span className="h-6 w-11 rounded-full bg-stone-300 transition peer-checked:bg-stone-900 dark:peer-checked:bg-accent-300 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-500 dark:bg-stone-700" />
+        <span className="h-6 w-11 rounded-full bg-neutral-300 transition peer-checked:bg-neutral-900 dark:peer-checked:bg-accent-300 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-500 dark:bg-neutral-700" />
         <span className="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition peer-checked:translate-x-5" />
       </span>
       <span>
         <span className="block text-sm font-medium">{label}</span>
-        {hint && <span className="block text-xs text-stone-500 dark:text-stone-400">{hint}</span>}
+        {hint && <span className="block text-xs text-neutral-500 dark:text-neutral-400">{hint}</span>}
       </span>
     </label>
   )

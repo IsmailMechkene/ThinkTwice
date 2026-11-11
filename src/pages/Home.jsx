@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import Icon from '../components/Icon'
 import ResumeBanner from '../components/ResumeBanner'
 import SubjectCard from '../components/SubjectCard'
-import { Button, Card, EmptyState, Stat } from '../components/ui'
+import { Button, Card, EmptyState } from '../components/ui'
 import { useMistakes } from '../hooks/useMistakes'
 import { useProgress, useSubjectStats } from '../hooks/useProgress'
 import { profileName, useI18n } from '../i18n/I18nContext'
@@ -18,11 +18,11 @@ function PlanItem({ n, text, to, state }) {
       <Link
         to={to}
         state={state}
-        className="group flex items-baseline gap-4 border-b border-stone-200 py-3 transition hover:border-stone-900 dark:border-stone-800 dark:hover:border-stone-300"
+        className="group flex items-baseline gap-4 border-b border-neutral-200 py-3 transition hover:border-neutral-900 dark:border-neutral-800 dark:hover:border-neutral-200"
       >
-        <span className="w-5 shrink-0 font-mono text-xs text-stone-400">{String(n).padStart(2, '0')}</span>
+        <span className="w-5 shrink-0 font-mono text-xs text-neutral-400">{String(n).padStart(2, '0')}</span>
         <span className="min-w-0 flex-1">{text}</span>
-        <Icon name="arrow" className="h-4 w-4 shrink-0 self-center text-stone-400 transition group-hover:translate-x-0.5 group-hover:text-stone-900 dark:group-hover:text-stone-100" />
+        <Icon name="arrow" className="h-4 w-4 shrink-0 self-center text-neutral-400 transition group-hover:translate-x-0.5 group-hover:text-neutral-900 dark:group-hover:text-neutral-100" />
       </Link>
     </li>
   )
@@ -64,6 +64,13 @@ export default function Home() {
     })
   if (unseen) plan.push({ text: t('home.planNew', { count: unseen }), to: '/quiz' })
 
+  // The three tools, in the order they feed each other.
+  const tools = [
+    { to: '/quiz', title: t('home.toolQuiz'), desc: t('home.toolQuizDesc'), meta: t('home.toolQuizMeta', { count: questions.length, unseen }) },
+    { to: '/mistakes', title: t('home.toolBank'), desc: t('home.toolBankDesc'), meta: t('home.toolBankMeta', { count: mistakes }) },
+    { to: '/flashcards', title: t('home.toolCards'), desc: t('home.toolCardsDesc'), meta: t('home.toolCardsMeta', { count: dueCards }) },
+  ]
+
   const visible = subjects.filter((s) => {
     const q = query.trim().toLowerCase()
     return !q || `${s.name} ${s.description} ${s.chapters.map((c) => c.title).join(' ')}`.toLowerCase().includes(q)
@@ -72,12 +79,12 @@ export default function Home() {
   return (
     <div>
       <ResumeBanner />
-      <section className="grid gap-10 border-b border-stone-300 pb-10 lg:grid-cols-[1.3fr_1fr] lg:gap-16 dark:border-stone-800">
+      <section className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
         <div>
           <p className="eyebrow">{t('home.hi', { name: profileName(currentProfile, t) })}</p>
-          <h1 className="mt-3 text-4xl leading-[1.05] font-normal sm:text-6xl">{t('home.title')}</h1>
-          <p className="mt-5 max-w-lg text-lg leading-relaxed text-stone-600 dark:text-stone-400">{t('home.lead')}</p>
-          <div className="mt-8 flex flex-wrap gap-2">
+          <h1 className="mt-3 text-4xl leading-[1.08] font-normal sm:text-5xl">{t('home.title')}</h1>
+          <p className="mt-4 max-w-lg leading-relaxed text-neutral-600 dark:text-neutral-400">{t('home.lead')}</p>
+          <div className="mt-6 flex flex-wrap gap-2">
             <Button to="/quiz">
               {t('home.startQuiz')} <Icon name="arrow" className="h-4 w-4" />
             </Button>
@@ -87,10 +94,10 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col">
-          <div className="flex items-baseline justify-between gap-3 border-b-2 border-stone-900 pb-2 dark:border-stone-200">
+        <div>
+          <div className="flex items-baseline justify-between gap-3 border-b-2 border-neutral-900 pb-2 dark:border-neutral-200">
             <h2 className="text-xl font-medium">{t('home.todayPlan')}</h2>
-            <span className="font-mono text-xs text-stone-600 dark:text-stone-400" title={t('home.streakHint', { count: streak })}>
+            <span className="font-mono text-xs text-neutral-600 dark:text-neutral-400" title={t('home.streakHint', { count: streak })}>
               {streak > 0 && <span aria-hidden className="mr-1.5 inline-block h-2 w-2 bg-marker align-middle" />}
               {t('home.streakBadge', { count: streak })}
             </span>
@@ -102,42 +109,52 @@ export default function Home() {
               ))}
             </ol>
           ) : (
-            <p className="mt-4 text-sm text-stone-600 dark:text-stone-400">{t('home.planDone')}</p>
+            <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">{t('home.planDone')}</p>
           )}
-          <p className="mt-4 text-xs text-stone-500 dark:text-stone-400">{t('home.streakHint', { count: streak })}</p>
+          <p className="mt-3 font-mono text-xs text-neutral-500 dark:text-neutral-400">
+            {t('home.todayLine', { answered: today?.answered || 0, pct: today?.answered ? percent(today.correct, today.answered) : 0 })}
+            {totals.attempts > 0 && ` · ${t('home.accuracy')} ${percent(totals.correct, totals.attempts)}%`}
+          </p>
         </div>
       </section>
 
-      <section className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
-        <Stat
-          label={t('home.answeredToday')}
-          value={today?.answered || 0}
-          hint={today?.answered ? t('home.pctCorrect', { pct: percent(today.correct, today.answered) }) : t('home.nothingYet')}
-        />
-        <Stat
-          label={t('home.accuracy')}
-          value={totals.attempts ? `${percent(totals.correct, totals.attempts)}%` : '—'}
-          hint={t('home.answers', { count: totals.attempts })}
-        />
-        <Stat label={t('home.mistakesToRevise')} value={mistakes} hint={t('home.mastered', { count: Object.keys(progress.mastered).length })} />
-        <Stat label={t('home.cardsDue')} value={dueCards} hint={t('home.cardsTotal', { count: flashcards.length })} />
+      <section className="mt-14">
+        <div className="mb-4">
+          <h2 className="text-2xl font-medium">{t('home.how')}</h2>
+          <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{t('home.howHint')}</p>
+        </div>
+        <ol className="grid border-t-2 border-neutral-900 md:grid-cols-3 dark:border-neutral-200">
+          {tools.map((tool, i) => (
+            <li key={tool.to} className="border-b border-neutral-200 md:border-b-0 md:border-l md:first:border-l-0 dark:border-neutral-800">
+              <Link to={tool.to} className={`group flex h-full flex-col py-5 ${i === 0 ? "md:pr-6" : "md:px-6"}`}>
+                <span className="font-mono text-xs text-neutral-400">{String(i + 1).padStart(2, '0')}</span>
+                <span className="mt-2 flex items-center gap-2 font-display text-2xl decoration-1 underline-offset-4 group-hover:underline">
+                  {tool.title}
+                  <Icon name="arrow" className="h-4 w-4 text-neutral-400 transition group-hover:translate-x-0.5 group-hover:text-neutral-900 dark:group-hover:text-neutral-100" />
+                </span>
+                <span className="mt-1.5 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{tool.desc}</span>
+                <span className="mt-auto pt-4 font-mono text-xs text-neutral-900 dark:text-neutral-100">{tool.meta}</span>
+              </Link>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section className="mt-14">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-2xl font-medium">
-            {t('home.subjects')} <span className="font-mono text-sm text-stone-500">{subjects.length}</span>
+            {t('home.subjects')} <span className="font-mono text-sm text-neutral-500">{subjects.length}</span>
           </h2>
           {subjects.length > 3 && (
             <label className="relative w-full sm:w-72">
               <span className="sr-only">{t('home.searchLabel')}</span>
-              <Icon name="search" className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-stone-400" />
+              <Icon name="search" className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
               <input
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t('home.searchPlaceholder')}
-                className="w-full rounded-sm border border-stone-300 bg-white py-2 pr-3 pl-9 text-sm focus:border-stone-900 focus:outline-none dark:border-stone-700 dark:bg-stone-900 dark:focus:border-stone-300"
+                className="w-full rounded-md border border-neutral-200 bg-white py-2 pr-3 pl-9 text-sm focus:border-neutral-900 focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:focus:border-neutral-200"
               />
             </label>
           )}
@@ -146,7 +163,7 @@ export default function Home() {
         {subjects.length === 0 ? (
           <EmptyState title={t('home.noSubjects')}>{t('home.noSubjectsHint')}</EmptyState>
         ) : visible.length === 0 ? (
-          <Card className="text-center text-stone-500">{t('home.noMatch', { query })}</Card>
+          <Card className="text-center text-neutral-500">{t('home.noMatch', { query })}</Card>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((s) => (

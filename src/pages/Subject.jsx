@@ -38,7 +38,7 @@ export default function Subject() {
         }
       />
 
-      <div className="mb-6 flex flex-wrap gap-x-6 gap-y-1 text-sm text-stone-600 dark:text-stone-400">
+      <div className="mb-6 flex flex-wrap gap-x-6 gap-y-1 text-sm text-neutral-600 dark:text-neutral-400">
         <span>{t('subject.questions', { count: subject.questionCount })}</span>
         <span>{t('subject.flashcardsCount', { count: subject.flashcardCount })}</span>
         <span>{t('subject.language', { lang: subject.language?.toUpperCase() })}</span>
@@ -72,8 +72,8 @@ export default function Subject() {
               <div className="min-w-0 flex-1">
                 <p className="eyebrow">{t('subject.chapter', { n: c.order ?? i + 1 })}</p>
                 <h3 className="mt-0.5 text-xl font-medium">{c.title}</h3>
-                {c.description && <p className="mt-0.5 text-sm text-stone-600 dark:text-stone-400">{c.description}</p>}
-                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
+                {c.description && <p className="mt-0.5 text-sm text-neutral-600 dark:text-neutral-400">{c.description}</p>}
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
                   <span>{t('subject.chapterCounts', { q: c.questionIds.length, core, cards: c.flashcardIds.length })}</span>
                   {attempts > 0 && <Badge>{t('subject.accuracyBadge', { pct: percent(correct, attempts) })}</Badge>}
                   {mistakes > 0 && <Badge tone="hard">{t('subject.toReviseBadge', { count: mistakes })}</Badge>}
@@ -96,7 +96,7 @@ export default function Subject() {
           )
         })}
       </div>
-      <p className="mt-6 text-xs text-stone-500">{t('subject.overall', { done: stats.done, total: stats.total })}</p>
+      <p className="mt-6 text-xs text-neutral-500">{t('subject.overall', { done: stats.done, total: stats.total })}</p>
     </div>
   )
 }

@@ -8,7 +8,7 @@ export default function RichText({ text, className }) {
         if (p === '\n') return <br key={i} />
         if (p.startsWith('`') && p.endsWith('`') && p.length > 1)
           return (
-            <code key={i} className="rounded bg-stone-100 px-1 py-0.5 font-mono text-[0.9em] dark:bg-stone-800">
+            <code key={i} className="rounded bg-neutral-100 px-1 py-0.5 font-mono text-[0.9em] dark:bg-neutral-800">
               {p.slice(1, -1)}
             </code>
           )
@@ -22,7 +22,7 @@ export default function RichText({ text, className }) {
 export function CodeBlock({ code }) {
   if (!code) return null
   return (
-    <pre className="mt-3 overflow-x-auto rounded-md bg-stone-900 p-4 font-mono text-sm leading-relaxed text-stone-100 dark:bg-black/60">
+    <pre className="mt-3 overflow-x-auto rounded-md bg-neutral-900 p-4 font-mono text-sm leading-relaxed text-neutral-100 dark:bg-black/60">
       <code>{code}</code>
     </pre>
   )

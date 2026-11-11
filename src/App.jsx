@@ -16,7 +16,7 @@ const Stats = lazy(() => import('./pages/Stats'))
 
 function Loading() {
   const { t } = useI18n()
-  return <p className="text-stone-500">{t('common.loading')}</p>
+  return <p className="text-neutral-500">{t('common.loading')}</p>
 }
 
 export default function App() {

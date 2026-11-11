@@ -25,7 +25,7 @@ function ScoreRing({ pct }) {
   const c = 2 * Math.PI * r
   return (
     <svg viewBox="0 0 120 120" className="h-32 w-32 shrink-0" role="img" aria-label={t('results.score', { pct })}>
-      <circle cx="60" cy="60" r={r} fill="none" strokeWidth="10" className="stroke-stone-200 dark:stroke-stone-800" />
+      <circle cx="60" cy="60" r={r} fill="none" strokeWidth="10" className="stroke-neutral-200 dark:stroke-neutral-800" />
       {pct > 0 && (
         <circle
           cx="60"
@@ -39,7 +39,7 @@ function ScoreRing({ pct }) {
           style={{ stroke: 'var(--accent)', transition: 'stroke-dasharray 0.8s ease' }}
         />
       )}
-      <text x="60" y="69" textAnchor="middle" className="fill-stone-900 font-serif text-[28px] dark:fill-stone-100">
+      <text x="60" y="69" textAnchor="middle" className="fill-neutral-900 font-display text-[28px] dark:fill-neutral-100">
         {pct}%
       </text>
     </svg>
@@ -107,7 +107,7 @@ export default function Results() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <section className="animate-pop border-b border-stone-300 pb-8 dark:border-stone-800">
+      <section className="animate-pop border-b border-neutral-200 pb-8 dark:border-neutral-800">
         <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
           <ScoreRing pct={summary.pct} />
           <div className="min-w-0">
@@ -115,8 +115,8 @@ export default function Results() {
               {t('results.title')} · {t(`mode.${result.mode}`)}
             </p>
             <h1 className="mt-2 text-3xl font-medium sm:text-4xl">{t('results.correctOf', { correct: summary.correct, total: summary.total })}</h1>
-            <p className="mt-2 text-stone-600 dark:text-stone-400">{t(verdictKey(summary.pct))}</p>
-            <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-1 font-mono text-xs text-stone-500 sm:justify-start dark:text-stone-400">
+            <p className="mt-2 text-neutral-600 dark:text-neutral-400">{t(verdictKey(summary.pct))}</p>
+            <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-1 font-mono text-xs text-neutral-500 sm:justify-start dark:text-neutral-400">
               <span>{t('results.time', { m: minutes, s: result.durationSec % 60 })}</span>
               {wrong.length > 0 && <span>{t('results.toBank', { count: wrong.length })}</span>}
               {skipped.length > 0 && <span>{t('results.skippedChip', { count: skipped.length })}</span>}
@@ -141,7 +141,7 @@ export default function Results() {
           <div key={c.key}>
             <div className="mb-1 flex justify-between gap-3 text-sm">
               <span className="min-w-0 truncate">
-                <span className="text-stone-500">{c.subject} · </span>
+                <span className="text-neutral-500">{c.subject} · </span>
                 {c.chapter}
               </span>
               <span className="shrink-0 font-semibold tabular-nums">
@@ -158,7 +158,7 @@ export default function Results() {
         <Card className="text-center">{skipped.length ? t('results.noWrong') : t('results.perfect')}</Card>
       ) : (
         <Card className="overflow-hidden p-0">
-          <ul className="divide-y divide-stone-100 dark:divide-stone-800">
+          <ul className="divide-y divide-neutral-100 dark:divide-neutral-800">
             {wrong.map((a) => (
               <MistakeItem key={a.qid} answer={a} />
             ))}
@@ -170,7 +170,7 @@ export default function Results() {
         <>
           <SectionTitle hint={t('results.skippedHint')}>{t('results.skipped', { count: skipped.length })}</SectionTitle>
           <Card className="overflow-hidden p-0">
-            <ul className="divide-y divide-stone-100 dark:divide-stone-800">
+            <ul className="divide-y divide-neutral-100 dark:divide-neutral-800">
               {skipped.map((a) => (
                 <MistakeItem key={a.qid} answer={a} />
               ))}

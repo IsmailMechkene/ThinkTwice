@@ -13,15 +13,15 @@ function toggleIn(list, value) {
 function Label({ children, hint }) {
   return (
     <div className="mb-2.5 flex items-baseline justify-between gap-2">
-      <p className="text-xs font-bold uppercase tracking-wide text-stone-500 dark:text-stone-400">{children}</p>
-      {hint && <p className="text-xs text-stone-400">{hint}</p>}
+      <p className="text-xs font-bold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">{children}</p>
+      {hint && <p className="text-xs text-neutral-400">{hint}</p>}
     </div>
   )
 }
 
 function CountBadge({ n }) {
   return (
-    <span className="rounded-md bg-stone-100 px-1.5 py-0.5 text-xs font-semibold text-stone-600 tabular-nums dark:bg-stone-800 dark:text-stone-300">
+    <span className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-xs font-semibold text-neutral-600 tabular-nums dark:bg-neutral-800 dark:text-neutral-300">
       {n}
     </span>
   )
@@ -67,20 +67,20 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
                     })
                   }
                   className={cx(
-                    'relative flex items-center gap-3 rounded-sm border p-3 text-left transition',
+                    'relative flex items-center gap-3 rounded-md border p-3 text-left transition',
                     on
-                      ? 'border-stone-900 bg-white dark:border-stone-200 dark:bg-stone-800'
-                      : 'border-stone-200 hover:border-stone-300 dark:border-stone-800 dark:hover:border-stone-700',
+                      ? 'border-neutral-900 bg-white dark:border-neutral-200 dark:bg-neutral-800'
+                      : 'border-neutral-200 hover:border-neutral-200 dark:border-neutral-800 dark:hover:border-neutral-700',
                   )}
                 >
                   <span className="h-2.5 w-2.5 shrink-0" style={{ background: s.color }} aria-hidden />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate font-medium">{s.name}</span>
-                    <span className="text-xs text-stone-500 dark:text-stone-400">{t('subjectCard.chapters', { count: s.chapters.length })}</span>
+                    <span className="text-xs text-neutral-500 dark:text-neutral-400">{t('subjectCard.chapters', { count: s.chapters.length })}</span>
                   </span>
                   <CountBadge n={counts.bySubject[s.id] || 0} />
                   {on && (
-                    <span className="absolute -top-2 -right-2 grid h-5 w-5 place-items-center rounded-[2px] bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900">
+                    <span className="absolute -top-2 -right-2 grid h-5 w-5 place-items-center rounded-[2px] bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900">
                       <Icon name="check" className="h-3 w-3" />
                     </span>
                   )}
@@ -94,21 +94,21 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
       {visibleSubjects.length > 0 && (
         <div>
           <Label hint={t('filter.noneMeansAll')}>{t('filter.chapters')}</Label>
-          <ul className="divide-y divide-stone-100 overflow-hidden rounded-md border border-stone-200 dark:divide-stone-800 dark:border-stone-800">
+          <ul className="divide-y divide-neutral-100 overflow-hidden rounded-md border border-neutral-200 dark:divide-neutral-800 dark:border-neutral-800">
             {visibleSubjects.flatMap((s) =>
               s.chapters.map((c, i) => {
                 const key = `${s.id}/${c.key}`
                 const on = value.chapterKeys.includes(key)
                 return (
                   <li key={key}>
-                    <label className="flex cursor-pointer items-center gap-3 px-3.5 py-2.5 transition hover:bg-stone-50 dark:hover:bg-stone-800/60">
+                    <label className="flex cursor-pointer items-center gap-3 px-3.5 py-2.5 transition hover:bg-neutral-50 dark:hover:bg-neutral-800/60">
                       <input
                         type="checkbox"
                         checked={on}
                         onChange={() => set({ chapterKeys: toggleIn(value.chapterKeys, key) })}
                         className="h-4 w-4 shrink-0 rounded accent-accent-600"
                       />
-                      <span className="w-5 shrink-0 text-xs font-bold text-stone-400 tabular-nums">{c.order ?? i + 1}</span>
+                      <span className="w-5 shrink-0 text-xs font-bold text-neutral-400 tabular-nums">{c.order ?? i + 1}</span>
                       <span className="min-w-0 flex-1 text-sm font-medium">
                         {visibleSubjects.length > 1 && <span aria-hidden>{s.icon} </span>}
                         {c.title}
@@ -126,15 +126,15 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
       <Toggle checked={value.coreOnly} onChange={(coreOnly) => set({ coreOnly })} label={t('filter.coreOnly')} hint={t('filter.coreOnlyHint')} />
 
       {(showDifficulty || sources.length > 1) && (
-        <details className="group rounded-md border border-stone-200 dark:border-stone-800" open={advancedCount > 0}>
+        <details className="group rounded-md border border-neutral-200 dark:border-neutral-800" open={advancedCount > 0}>
           <summary className="flex cursor-pointer list-none items-center justify-between px-3.5 py-2.5 text-sm font-semibold">
             <span>
               {t('filter.more')}
               {advancedCount > 0 && <span className="ml-2 rounded-full bg-accent-600 px-1.5 text-xs text-white">{advancedCount}</span>}
             </span>
-            <Icon name="arrow" className="h-4 w-4 rotate-90 text-stone-400 transition group-open:-rotate-90" />
+            <Icon name="arrow" className="h-4 w-4 rotate-90 text-neutral-400 transition group-open:-rotate-90" />
           </summary>
-          <div className="space-y-5 border-t border-stone-200 p-3.5 dark:border-stone-800">
+          <div className="space-y-5 border-t border-neutral-200 p-3.5 dark:border-neutral-800">
             {showDifficulty && (
               <div>
                 <Label>{t('filter.difficulty')}</Label>
