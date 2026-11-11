@@ -69,7 +69,7 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
                   className={cx(
                     'relative flex items-center gap-3 rounded-md border p-3 text-left transition',
                     on
-                      ? 'border-neutral-900 bg-white dark:border-neutral-200 dark:bg-neutral-800'
+                      ? 'border-accent-500 bg-accent-50 dark:border-accent-400 dark:bg-accent-950'
                       : 'border-neutral-200 hover:border-neutral-200 dark:border-neutral-800 dark:hover:border-neutral-700',
                   )}
                 >
@@ -80,7 +80,7 @@ export default function FilterPanel({ value, onChange, items, showDifficulty = f
                   </span>
                   <CountBadge n={counts.bySubject[s.id] || 0} />
                   {on && (
-                    <span className="absolute -top-2 -right-2 grid h-5 w-5 place-items-center rounded-[2px] bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900">
+                    <span className="absolute -top-2 -right-2 grid h-5 w-5 place-items-center rounded-[3px] bg-accent-600 text-white dark:bg-accent-500">
                       <Icon name="check" className="h-3 w-3" />
                     </span>
                   )}

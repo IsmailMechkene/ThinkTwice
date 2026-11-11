@@ -18,9 +18,9 @@ export function Card({ className, children, ...rest }) {
 
 const VARIANTS = {
   primary:
-    'bg-neutral-900 text-white hover:bg-accent-800 disabled:bg-neutral-400 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-accent-200 dark:disabled:bg-neutral-700',
+    'bg-accent-600 text-white hover:bg-accent-700 disabled:bg-neutral-300 disabled:text-neutral-500 dark:bg-accent-500 dark:hover:bg-accent-400 dark:disabled:bg-neutral-800 dark:disabled:text-neutral-500',
   secondary:
-    'border border-neutral-400 bg-transparent text-neutral-900 hover:border-neutral-900 hover:bg-white dark:border-neutral-600 dark:text-neutral-100 dark:hover:border-neutral-200 dark:hover:bg-neutral-900',
+    'border border-neutral-300 bg-white text-neutral-900 hover:border-accent-500 hover:text-accent-700 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:border-accent-400 dark:hover:text-accent-300',
   ghost: 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800',
   danger: 'border border-rose-300 text-rose-700 hover:bg-rose-50 dark:border-rose-800 dark:text-rose-300 dark:hover:bg-rose-950',
   good: 'bg-emerald-600 text-white hover:bg-emerald-500',
@@ -45,7 +45,7 @@ export function Chip({ active, onClick, children, color }) {
       className={cx(
         'rounded-md border px-3 py-1.5 text-sm transition',
         active
-          ? 'border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900'
+          ? 'border-accent-600 bg-accent-600 text-white dark:border-accent-500 dark:bg-accent-500'
           : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:border-neutral-500',
       )}
     >
@@ -56,11 +56,11 @@ export function Chip({ active, onClick, children, color }) {
 }
 
 const BADGE_TONES = {
-  neutral: 'border-neutral-200 text-neutral-600 dark:border-neutral-700 dark:text-neutral-300',
-  easy: 'border-emerald-700/40 text-emerald-800 dark:border-emerald-400/40 dark:text-emerald-300',
-  medium: 'border-amber-700/40 text-amber-800 dark:border-amber-400/40 dark:text-amber-300',
-  hard: 'border-rose-700/40 text-rose-800 dark:border-rose-400/40 dark:text-rose-300',
-  core: 'border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900',
+  neutral: 'border-neutral-200 bg-neutral-100 text-neutral-700 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300',
+  easy: 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',
+  medium: 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300',
+  hard: 'border-rose-200 bg-rose-50 text-rose-800 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-300',
+  core: 'border-accent-200 bg-accent-50 text-accent-800 dark:border-accent-800 dark:bg-accent-950 dark:text-accent-300',
   bonus: 'border-dashed border-neutral-400 text-neutral-500 dark:border-neutral-600 dark:text-neutral-400',
 }
 
@@ -117,7 +117,7 @@ export function SectionTitle({ children, hint, action }) {
 export function StepTitle({ n, children }) {
   return (
     <p className="mb-3 flex items-baseline gap-2.5">
-      <span className="grid h-5 w-5 shrink-0 place-items-center self-center rounded-[2px] bg-neutral-900 font-mono text-[11px] text-white dark:bg-neutral-100 dark:text-neutral-900">
+      <span className="grid h-5 w-5 shrink-0 place-items-center self-center rounded-[3px] bg-accent-600 font-mono text-[11px] text-white dark:bg-accent-500">
         {n}
       </span>
       <span className="font-display text-lg">{children}</span>
@@ -139,7 +139,7 @@ export function Segmented({ options, value, onChange, label }) {
           className={cx(
             'flex-1 rounded-[2px] px-3 py-2 text-sm font-medium transition',
             value === o.value
-              ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900'
+              ? 'bg-accent-600 text-white dark:bg-accent-500'
               : 'text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200',
           )}
         >
@@ -152,7 +152,7 @@ export function Segmented({ options, value, onChange, label }) {
 
 // Accuracy-to-status colour (always shown next to the number, never alone).
 export function scoreColor(pct) {
-  return pct >= 75 ? '#2f7d4f' : pct >= 50 ? '#b7791f' : '#b4363c'
+  return pct >= 75 ? '#16a34a' : pct >= 50 ? '#d97706' : '#e11d48'
 }
 
 export function EmptyState({ title, children, action }) {
@@ -165,10 +165,18 @@ export function EmptyState({ title, children, action }) {
   )
 }
 
-// A ruled figure, like a line in a ledger. Old call sites may still pass icon/tone; they are ignored.
-export function Stat({ label, value, hint }) {
+const STAT_TONES = {
+  accent: 'border-accent-500',
+  emerald: 'border-emerald-500',
+  rose: 'border-rose-500',
+  amber: 'border-amber-500',
+  violet: 'border-teal-500',
+}
+
+// A ruled figure; the rule carries the colour, the number stays in ink.
+export function Stat({ label, value, hint, tone = 'accent' }) {
   return (
-    <div className="min-w-0 border-t-2 border-neutral-900 pt-2 dark:border-neutral-200">
+    <div className={cx('min-w-0 border-t-[3px] pt-2', STAT_TONES[tone] || STAT_TONES.accent)}>
       <p className="eyebrow truncate">{label}</p>
       <p className="mt-1.5 font-display text-4xl leading-none">{value}</p>
       {hint && <p className="mt-1.5 truncate text-xs text-neutral-500 dark:text-neutral-400">{hint}</p>}
@@ -209,7 +217,7 @@ export function Toggle({ checked, onChange, label, hint }) {
     <label className="flex cursor-pointer items-start gap-3">
       <span className="relative mt-0.5 inline-flex shrink-0">
         <input type="checkbox" className="peer sr-only" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-        <span className="h-6 w-11 rounded-full bg-neutral-300 transition peer-checked:bg-neutral-900 dark:peer-checked:bg-accent-300 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-500 dark:bg-neutral-700" />
+        <span className="h-6 w-11 rounded-full bg-neutral-300 transition peer-checked:bg-accent-600 dark:peer-checked:bg-accent-500 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-500 dark:bg-neutral-700" />
         <span className="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition peer-checked:translate-x-5" />
       </span>
       <span>

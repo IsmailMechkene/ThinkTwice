@@ -40,8 +40,8 @@ export default function QuestionCard({ question, arranged, chosen, reveal, onCho
                 className={cx(
                   'flex w-full items-start gap-3 rounded-md border p-3.5 text-left transition sm:p-4',
                   state === 'idle' &&
-                    'border-neutral-200 hover:border-neutral-900 dark:border-neutral-700 dark:hover:border-neutral-200',
-                  state === 'picked' && 'border-neutral-900 bg-neutral-50 dark:border-neutral-200 dark:bg-neutral-800',
+                    'border-neutral-200 hover:border-accent-500 hover:bg-accent-50/60 dark:border-neutral-700 dark:hover:border-accent-400 dark:hover:bg-accent-950/40',
+                  state === 'picked' && 'border-accent-600 bg-accent-50 dark:border-accent-400 dark:bg-accent-950/50',
                   state === 'right' && 'border-emerald-700 bg-emerald-50 dark:border-emerald-500 dark:bg-emerald-950/40',
                   state === 'wrong' && 'border-rose-700 bg-rose-50 dark:border-rose-500 dark:bg-rose-950/40',
                   state === 'dim' && 'border-neutral-200 opacity-60 dark:border-neutral-800',

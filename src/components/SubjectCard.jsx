@@ -7,7 +7,8 @@ export default function SubjectCard({ subject, stats }) {
   return (
     <Link
       to={`/subject/${subject.id}`}
-      className="group flex flex-col rounded-md border border-neutral-200 bg-white p-5 transition hover:border-neutral-900 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-400"
+      className="group flex flex-col rounded-md border border-t-[3px] border-neutral-200 bg-white p-5 transition hover:border-neutral-400 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-600"
+      style={{ borderTopColor: subject.color }}
     >
       <div className="flex items-baseline justify-between gap-3">
         <p className="eyebrow flex items-center gap-2">
@@ -21,7 +22,7 @@ export default function SubjectCard({ subject, stats }) {
       <h3 className="mt-2 text-2xl leading-tight font-medium decoration-1 underline-offset-4 group-hover:underline">{subject.name}</h3>
       <p className="mt-1.5 line-clamp-2 text-sm text-neutral-600 dark:text-neutral-400">{subject.description}</p>
       <div className="mt-auto pt-6">
-        <ProgressBar value={stats.done} max={stats.total} label={t('subjectCard.done', { done: stats.done, total: stats.total })} />
+        <ProgressBar value={stats.done} max={stats.total} color={subject.color} label={t('subjectCard.done', { done: stats.done, total: stats.total })} />
         <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-neutral-500 dark:text-neutral-400">
           <span className="tabular-nums">{t('subjectCard.done', { done: stats.done, total: stats.total })}</span>
           <span>

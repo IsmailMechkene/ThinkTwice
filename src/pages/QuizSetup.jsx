@@ -26,19 +26,27 @@ function filterFromParams(params) {
   }
 }
 
+const PRESET_TONES = {
+  '01': { edge: 'var(--accent)', ink: 'text-accent-700 dark:text-accent-300' },
+  '02': { edge: '#f59e0b', ink: 'text-amber-700 dark:text-amber-300' },
+  '03': { edge: '#14b8a6', ink: 'text-teal-700 dark:text-teal-300' },
+  '04': { edge: '#f43f5e', ink: 'text-rose-700 dark:text-rose-300' },
+}
+
 function Preset({ n, title, desc, onClick, disabled }) {
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="group flex flex-col rounded-md border border-neutral-200 bg-white p-4 text-left transition hover:border-neutral-900 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-400"
+      className={`group flex flex-col rounded-md border border-l-[3px] border-neutral-200 bg-white p-4 text-left transition hover:border-neutral-400 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-600 ${PRESET_TONES[n].ink}`}
+      style={{ borderLeftColor: PRESET_TONES[n].edge }}
     >
       <span className="flex items-center justify-between gap-2">
-        <span className="font-mono text-xs text-neutral-400">{n}</span>
+        <span className="font-mono text-xs font-medium">{n}</span>
         <Icon name="arrow" className="h-4 w-4 text-neutral-300 transition group-hover:translate-x-0.5 group-hover:text-neutral-900 dark:group-hover:text-neutral-100" />
       </span>
-      <span className="mt-3 font-display text-xl leading-tight">{title}</span>
+      <span className="mt-3 font-display text-xl leading-tight text-neutral-900 dark:text-neutral-100">{title}</span>
       <span className="mt-1 block text-sm text-neutral-500 dark:text-neutral-400">{desc}</span>
     </button>
   )

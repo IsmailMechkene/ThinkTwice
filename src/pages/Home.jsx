@@ -12,17 +12,17 @@ import { dayKey, streakFrom } from '../lib/date'
 import { chapterAccuracy, percent } from '../lib/scoring'
 import { isDue } from '../lib/srs'
 
-function PlanItem({ n, text, to, state }) {
+function PlanItem({ dot, text, to, state }) {
   return (
     <li>
       <Link
         to={to}
         state={state}
-        className="group flex items-baseline gap-4 border-b border-neutral-200 py-3 transition hover:border-neutral-900 dark:border-neutral-800 dark:hover:border-neutral-200"
+        className="group flex items-baseline gap-3.5 border-b border-neutral-200 py-3 transition hover:border-accent-500 dark:border-neutral-800 dark:hover:border-accent-400"
       >
-        <span className="w-5 shrink-0 font-mono text-xs text-neutral-400">{String(n).padStart(2, '0')}</span>
+        <span aria-hidden className={`h-2.5 w-2.5 shrink-0 self-center rounded-[3px] ${dot}`} />
         <span className="min-w-0 flex-1">{text}</span>
-        <Icon name="arrow" className="h-4 w-4 shrink-0 self-center text-neutral-400 transition group-hover:translate-x-0.5 group-hover:text-neutral-900 dark:group-hover:text-neutral-100" />
+        <Icon name="arrow" className="h-4 w-4 shrink-0 self-center text-neutral-400 transition group-hover:translate-x-0.5 group-hover:text-accent-600 dark:group-hover:text-accent-400" />
       </Link>
     </li>
   )
@@ -55,20 +55,21 @@ export default function Home() {
 
   // The most useful next actions, in priority order.
   const plan = []
-  if (mistakes) plan.push({ text: t('home.planMistakes', { count: mistakes }), to: '/quiz/play', state: { mode: 'revise' } })
-  if (dueCards) plan.push({ text: t('home.planCards', { count: dueCards }), to: '/flashcards' })
+  if (mistakes) plan.push({ dot: 'bg-rose-500', text: t('home.planMistakes', { count: mistakes }), to: '/quiz/play', state: { mode: 'revise' } })
+  if (dueCards) plan.push({ dot: 'bg-teal-500', text: t('home.planCards', { count: dueCards }), to: '/flashcards' })
   if (weakest)
     plan.push({
+      dot: 'bg-amber-500',
       text: t('home.planWeakest', { chapter: weakest.chapter.title }),
       to: `/quiz?subject=${encodeURIComponent(weakest.subject.id)}&chapter=${encodeURIComponent(weakest.chapter.key)}`,
     })
-  if (unseen) plan.push({ text: t('home.planNew', { count: unseen }), to: '/quiz' })
+  if (unseen) plan.push({ dot: 'bg-accent-500', text: t('home.planNew', { count: unseen }), to: '/quiz' })
 
   // The three tools, in the order they feed each other.
   const tools = [
-    { to: '/quiz', title: t('home.toolQuiz'), desc: t('home.toolQuizDesc'), meta: t('home.toolQuizMeta', { count: questions.length, unseen }) },
-    { to: '/mistakes', title: t('home.toolBank'), desc: t('home.toolBankDesc'), meta: t('home.toolBankMeta', { count: mistakes }) },
-    { to: '/flashcards', title: t('home.toolCards'), desc: t('home.toolCardsDesc'), meta: t('home.toolCardsMeta', { count: dueCards }) },
+    { to: '/quiz', color: 'var(--accent)', ink: 'text-accent-700 dark:text-accent-300', title: t('home.toolQuiz'), desc: t('home.toolQuizDesc'), meta: t('home.toolQuizMeta', { count: questions.length, unseen }) },
+    { to: '/mistakes', color: '#f43f5e', ink: 'text-rose-700 dark:text-rose-300', title: t('home.toolBank'), desc: t('home.toolBankDesc'), meta: t('home.toolBankMeta', { count: mistakes }) },
+    { to: '/flashcards', color: '#14b8a6', ink: 'text-teal-700 dark:text-teal-300', title: t('home.toolCards'), desc: t('home.toolCardsDesc'), meta: t('home.toolCardsMeta', { count: dueCards }) },
   ]
 
   const visible = subjects.filter((s) => {
@@ -81,7 +82,7 @@ export default function Home() {
       <ResumeBanner />
       <section className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
         <div>
-          <p className="eyebrow">{t('home.hi', { name: profileName(currentProfile, t) })}</p>
+          <p className="eyebrow text-accent-700 dark:text-accent-300">{t('home.hi', { name: profileName(currentProfile, t) })}</p>
           <h1 className="mt-3 text-4xl leading-[1.08] font-normal sm:text-5xl">{t('home.title')}</h1>
           <p className="mt-4 max-w-lg leading-relaxed text-neutral-600 dark:text-neutral-400">{t('home.lead')}</p>
           <div className="mt-6 flex flex-wrap gap-2">
@@ -104,8 +105,8 @@ export default function Home() {
           </div>
           {plan.length ? (
             <ol>
-              {plan.slice(0, 4).map((p, i) => (
-                <PlanItem key={p.text} n={i + 1} {...p} />
+              {plan.slice(0, 4).map((p) => (
+                <PlanItem key={p.text} {...p} />
               ))}
             </ol>
           ) : (
@@ -123,17 +124,21 @@ export default function Home() {
           <h2 className="text-2xl font-medium">{t('home.how')}</h2>
           <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{t('home.howHint')}</p>
         </div>
-        <ol className="grid border-t-2 border-neutral-900 md:grid-cols-3 dark:border-neutral-200">
+        <ol className="grid gap-4 md:grid-cols-3">
           {tools.map((tool, i) => (
-            <li key={tool.to} className="border-b border-neutral-200 md:border-b-0 md:border-l md:first:border-l-0 dark:border-neutral-800">
-              <Link to={tool.to} className={`group flex h-full flex-col py-5 ${i === 0 ? "md:pr-6" : "md:px-6"}`}>
-                <span className="font-mono text-xs text-neutral-400">{String(i + 1).padStart(2, '0')}</span>
+            <li key={tool.to}>
+              <Link
+                to={tool.to}
+                className={`group flex h-full flex-col rounded-md border border-t-[3px] border-neutral-200 bg-white p-5 transition hover:border-neutral-400 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-600`}
+                style={{ borderTopColor: tool.color }}
+              >
+                <span className={`font-mono text-xs font-medium ${tool.ink}`}>{String(i + 1).padStart(2, '0')}</span>
                 <span className="mt-2 flex items-center gap-2 font-display text-2xl decoration-1 underline-offset-4 group-hover:underline">
                   {tool.title}
                   <Icon name="arrow" className="h-4 w-4 text-neutral-400 transition group-hover:translate-x-0.5 group-hover:text-neutral-900 dark:group-hover:text-neutral-100" />
                 </span>
                 <span className="mt-1.5 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">{tool.desc}</span>
-                <span className="mt-auto pt-4 font-mono text-xs text-neutral-900 dark:text-neutral-100">{tool.meta}</span>
+                <span className={`mt-auto pt-4 font-mono text-xs font-medium ${tool.ink}`}>{tool.meta}</span>
               </Link>
             </li>
           ))}
@@ -154,7 +159,7 @@ export default function Home() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t('home.searchPlaceholder')}
-                className="w-full rounded-md border border-neutral-200 bg-white py-2 pr-3 pl-9 text-sm focus:border-neutral-900 focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:focus:border-neutral-200"
+                className="w-full rounded-md border border-neutral-200 bg-white py-2 pr-3 pl-9 text-sm focus:border-accent-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:focus:border-neutral-200"
               />
             </label>
           )}

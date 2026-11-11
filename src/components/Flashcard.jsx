@@ -27,7 +27,7 @@ export default function Flashcard({ card, flipped, onFlip }) {
             <Icon name="flip" className="h-4 w-4" /> {t('card.flipHint')}
           </p>
         </div>
-        <div className={`${face} flip-back border-t-[3px] border-t-neutral-900 dark:border-t-neutral-200`}>
+        <div className={`${face} flip-back border-t-[3px] border-t-accent-600 dark:border-t-accent-400`}>
           <p className="eyebrow">{t('card.answer')}</p>
           <p className="my-auto py-6 text-center text-lg leading-relaxed sm:text-xl">
             <RichText text={card.back} />

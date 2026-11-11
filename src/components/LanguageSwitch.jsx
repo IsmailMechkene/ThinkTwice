@@ -17,7 +17,7 @@ export default function LanguageSwitch() {
           title={l.label}
           className={`rounded-[2px] px-2 py-1 font-mono transition ${
             lang === l.code
-              ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900'
+              ? 'bg-accent-600 text-white dark:bg-accent-500'
               : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white'
           }`}
         >

@@ -128,7 +128,7 @@ export default function Stats() {
           <ul className="mt-4 space-y-4">
             {subjects.map((s) => (
               <li key={s.id} className="flex items-center gap-4">
-                <ProgressRing value={subjectStats[s.id].mastery} size={52} label={`${s.name} ${subjectStats[s.id].mastery}%`} />
+                <ProgressRing value={subjectStats[s.id].mastery} color={s.color} size={52} label={`${s.name} ${subjectStats[s.id].mastery}%`} />
                 <div className="min-w-0">
                   <p className="truncate font-medium">{s.name}</p>
                   <p className="text-xs text-neutral-500 dark:text-neutral-400">

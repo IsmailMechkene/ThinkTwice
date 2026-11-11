@@ -3,9 +3,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
-  Look: built around Geist. A neutral grey ramp, hairline borders, tight
-  semibold headings, and Geist Mono for figures, letters and small labels.
-  One blue accent, used sparingly; amber only as a "today / streak" marker.
+  Look: built around Geist. Blue-tinted greys (not flat neutral), a vivid blue
+  for actions and active states, and a small set of meaning colours:
+  rose = mistakes, teal = flashcards, amber = streak / weak spots,
+  emerald = correct. Each subject also keeps its own colour.
 */
 @theme {
   --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -23,47 +24,61 @@
   --color-accent-900: #1e358a;
   --color-accent-950: #172254;
 
-  --color-marker: #f5a623;
+  --color-marker: #f59e0b;
+
+  /* Greys carry a little blue so surfaces and borders read clearly. */
+  --color-neutral-50: #f4f6fb;
+  --color-neutral-100: #eaeef6;
+  --color-neutral-200: #d5dbe8;
+  --color-neutral-300: #b9c2d4;
+  --color-neutral-400: #8d98ae;
+  --color-neutral-500: #5f6b82;
+  --color-neutral-600: #465066;
+  --color-neutral-700: #333c50;
+  --color-neutral-800: #222a3a;
+  --color-neutral-900: #111827;
+  --color-neutral-950: #0a0f1a;
 }
 
 :root {
-  --paper: #fafafa;
+  --paper: #f4f6fb;
   --accent: #2557eb;
 
   /* Activity heatmap: one hue, light → dark = less → more */
-  --heat-0: #ebebeb;
+  --heat-0: #e1e6f0;
   --heat-1: #bfd5fe;
   --heat-2: #6094fa;
   --heat-3: #2557eb;
   --heat-4: #1e358a;
   --chart-series: #2557eb;
-  --chart-grid: #e5e5e5;
-  --chart-axis: #737373;
+  --chart-grid: #d5dbe8;
+  --chart-axis: #5f6b82;
   --chart-surface: #ffffff;
 }
 .dark {
-  --paper: #0a0a0a;
+  --paper: #0b1120;
   --accent: #6094fa;
 
   /* Dark mode uses a lifted grey ramp: cards, borders and secondary text
      sit clearly apart from the page instead of melting into it. */
-  --color-neutral-900: #1a1a1a;
-  --color-neutral-800: #2e2e2e;
-  --color-neutral-700: #454545;
-  --color-neutral-600: #6b6b6b;
-  --color-neutral-500: #a1a1a1;
-  --color-neutral-400: #bdbdbd;
-  --color-neutral-300: #d9d9d9;
+  --color-neutral-900: #172033;
+  --color-neutral-800: #2a3650;
+  --color-neutral-700: #40506f;
+  --color-neutral-600: #6b7a99;
+  --color-neutral-500: #9aa7c2;
+  --color-neutral-400: #b8c3d9;
+  --color-neutral-300: #d6ddec;
+  --color-neutral-100: #eef2fa;
 
-  --heat-0: #2e2e2e;
+  --heat-0: #2a3650;
   --heat-1: #1e358a;
   --heat-2: #2557eb;
   --heat-3: #6094fa;
   --heat-4: #bfd5fe;
   --chart-series: #6094fa;
-  --chart-grid: #2e2e2e;
-  --chart-axis: #bdbdbd;
-  --chart-surface: #1a1a1a;
+  --chart-grid: #2a3650;
+  --chart-axis: #b8c3d9;
+  --chart-surface: #172033;
 }
 
 html {
@@ -92,13 +107,16 @@ h3,
   letter-spacing: -0.02em;
 }
 
-/* Small uppercase label used above figures and sections. */
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  @apply text-neutral-500 dark:text-neutral-400;
+/* Small uppercase label used above figures and sections.
+   In the components layer so colour utilities can override it. */
+@layer components {
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    @apply text-neutral-500 dark:text-neutral-400;
+  }
 }
 
 ::selection {

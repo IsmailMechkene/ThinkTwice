@@ -15,7 +15,7 @@ const RELEARN_GAP = 3
 const SWIPE_THRESHOLD = 90
 
 // Leitner shelf: one column per box, bar height = share of cards; darker = better known.
-const BOX_SHADES = ['#d4d4d4', '#bfd5fe', '#93b8fd', '#6094fa', '#2557eb', '#1e358a']
+const BOX_SHADES = ['#b9c2d4', '#bfd5fe', '#93b8fd', '#6094fa', '#2557eb', '#1e358a']
 
 function BoxSummary({ cards, states }) {
   const { t } = useI18n()

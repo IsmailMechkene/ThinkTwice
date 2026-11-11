@@ -36,13 +36,8 @@ export default function Layout() {
     <div className="min-h-dvh pb-20 md:pb-0">
       <header className="sticky top-0 z-40 border-b border-neutral-200 bg-[var(--paper)] dark:border-neutral-800">
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
-          <NavLink to="/" className="font-display flex items-center gap-2 text-[17px] leading-none">
-            <span aria-hidden className="grid h-6 w-6 place-items-center rounded-md bg-neutral-900 font-mono text-[11px] font-semibold tracking-normal text-white dark:bg-neutral-100 dark:text-neutral-900">
-              T²
-            </span>
-            <span>
-              Think<span className="text-neutral-400 dark:text-neutral-500">Twice</span>
-            </span>
+          <NavLink to="/" className="font-display text-lg leading-none">
+            Think<span className="text-accent-600 dark:text-accent-400">Twice</span>
           </NavLink>
           <nav className="ml-6 hidden h-full items-stretch gap-5 md:flex" aria-label={t('nav.main')}>
             {NAV.map((n) => (
@@ -53,7 +48,7 @@ export default function Layout() {
                 className={({ isActive }) =>
                   `-mb-px flex items-center border-b-2 text-sm transition ${
                     isActive
-                      ? 'border-neutral-900 font-medium text-neutral-900 dark:border-neutral-100 dark:text-neutral-100'
+                      ? 'border-accent-600 font-medium text-accent-700 dark:border-accent-400 dark:text-accent-300'
                       : 'border-transparent text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100'
                   }`
                 }
@@ -100,7 +95,7 @@ export default function Layout() {
             end={n.end}
             className={({ isActive }) =>
               `relative flex flex-col items-center gap-0.5 py-2 text-[11px] font-medium ${
-                isActive ? 'text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 dark:text-neutral-400'
+                isActive ? 'text-accent-700 dark:text-accent-300' : 'text-neutral-500 dark:text-neutral-400'
               }`
             }
           >

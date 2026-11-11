@@ -66,6 +66,7 @@ export default function Subject() {
             <Card key={c.key} className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <ProgressRing
                 value={masteryOf(c.questionIds, progress)}
+                color={subject.color}
                 size={60}
                 label={`${t('subject.mastery')} ${masteryOf(c.questionIds, progress)}%`}
               />
@@ -78,7 +79,7 @@ export default function Subject() {
                   {attempts > 0 && <Badge>{t('subject.accuracyBadge', { pct: percent(correct, attempts) })}</Badge>}
                   {mistakes > 0 && <Badge tone="hard">{t('subject.toReviseBadge', { count: mistakes })}</Badge>}
                 </div>
-                <ProgressBar className="mt-2 max-w-sm" value={done} max={c.questionIds.length} label={t('subject.chapterCounts', { q: c.questionIds.length, core, cards: c.flashcardIds.length })} />
+                <ProgressBar className="mt-2 max-w-sm" value={done} max={c.questionIds.length} color={subject.color} label={t('subject.chapterCounts', { q: c.questionIds.length, core, cards: c.flashcardIds.length })} />
               </div>
               <div className="flex gap-2">
                 <Button to={quizLink(c.key)} className="flex-1 sm:flex-none">
