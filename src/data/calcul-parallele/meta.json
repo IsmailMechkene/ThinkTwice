@@ -45,6 +45,11 @@
       "label": "Résumé final — Algorithmique & architectures parallèles",
       "file": "courses/calcul parallele/Resume_Algorithmique_Parallele_final.pdf",
       "author": ""
+    },
+    "cours-openmp": {
+      "label": "Cours — Programmation parallèle : OpenMP",
+      "file": "courses/calcul parallele/2- OpenMP.pdf",
+      "author": ""
     }
   }
 }

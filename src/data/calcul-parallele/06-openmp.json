@@ -515,6 +515,69 @@
       },
       "ref": "Résumé OpenMP §10 — Analyse",
       "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-025",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Sur une machine à 8 CPU, on lance une région `#pragma omp parallel` sans `num_threads()`, sans `omp_set_num_threads()` et sans définir `OMP_NUM_THREADS`. Combien de threads sont créés ?",
+      "choices": {
+        "A": "1 : sans réglage, la région s’exécute en séquentiel",
+        "B": "2 : un thread maître et un thread esclave",
+        "C": "8 : par défaut, autant de threads que de CPU",
+        "D": "Un nombre aléatoire choisi à l’exécution"
+      },
+      "answer": "C",
+      "explanation": "Par défaut, OpenMP crée autant de threads que la machine a de CPU : ici 8.",
+      "why": {
+        "A": "La région ne devient séquentielle que si une clause `if(expression)` vaut 0.",
+        "B": "Rien ne limite l’équipe à deux threads ; ce nombre ne vient que d’un réglage explicite.",
+        "D": "Le nombre par défaut est déterminé : c’est le nombre de CPU."
+      },
+      "ref": "Cours OpenMP, diapo 9 — A savoir",
+      "source": "cours-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-026",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Dans un programme C, quelle fonction renvoie le numéro du CPU sur lequel s’exécute le thread appelant ?",
+      "choices": {
+        "A": "`sched_getcpu()`, avec `#include <sched.h>`",
+        "B": "`omp_get_thread_num()`",
+        "C": "`sysconf(_SC_NPROCESSORS_ONLN)`",
+        "D": "`omp_get_num_threads()`"
+      },
+      "answer": "A",
+      "explanation": "`sched_getcpu()` (déclarée dans `<sched.h>`) renvoie le CPU qui exécute actuellement le thread. Le rang OpenMP du thread et ce numéro de CPU sont deux choses différentes.",
+      "why": {
+        "B": "`omp_get_thread_num()` donne le rang du thread dans l’équipe, pas le CPU qui l’exécute.",
+        "C": "`sysconf(_SC_NPROCESSORS_ONLN)` donne le nombre de CPU disponibles, pas celui du thread courant.",
+        "D": "`omp_get_num_threads()` donne le nombre de threads de la région parallèle."
+      },
+      "ref": "Cours OpenMP, diapo 9 — A savoir",
+      "source": "cours-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-027",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Depuis le terminal Linux, quelle commande donne le nombre de CPU de la machine (et donc le nombre de threads OpenMP par défaut) ?",
+      "choices": {
+        "A": "`echo $OMP_NUM_THREADS`",
+        "B": "`gcc -fopenmp -o prog prog.c`",
+        "C": "`cat /proc/cpuinfo | wc -l`",
+        "D": "`cat /proc/cpuinfo | grep processor | wc -l`"
+      },
+      "answer": "D",
+      "explanation": "`/proc/cpuinfo` contient un bloc par CPU, chacun commençant par une ligne `processor`. On garde ces lignes avec `grep processor` puis on les compte avec `wc -l`.",
+      "why": {
+        "A": "`OMP_NUM_THREADS` est le nombre de threads demandé par l’utilisateur ; il peut être vide ou différent du nombre de CPU.",
+        "B": "Cette commande compile le programme avec OpenMP ; elle n’affiche rien sur les CPU.",
+        "C": "Sans `grep processor`, on compte toutes les lignes du fichier (plusieurs dizaines par CPU)."
+      },
+      "ref": "Cours OpenMP, diapo 9 — A savoir",
+      "source": "cours-openmp"
     }
   ],
   "flashcards": [
@@ -661,6 +724,15 @@
       "back": "Partage de travail : chaque `#pragma omp section` est exécutée en parallèle par un thread différent. Elle sert aux tâches différentes.",
       "ref": "Résumé OpenMP §9",
       "source": "resume-openmp"
+    },
+    {
+      "id": "calcul-parallele-omp-f017",
+      "kind": "definition",
+      "tier": "bonus",
+      "front": "Nombre de threads par défaut, et comment connaître les CPU ?",
+      "back": "Par défaut : nombre de threads = nombre de CPU. Terminal : cat /proc/cpuinfo | grep processor | wc -l. En C : sysconf(_SC_NPROCESSORS_ONLN) pour le nombre de CPU, sched_getcpu() (<sched.h>) pour le CPU du thread courant.",
+      "ref": "Cours OpenMP, diapo 9",
+      "source": "cours-openmp"
     }
   ]
 }
