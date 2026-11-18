@@ -1,0 +1,455 @@
+{
+  "id": "stockage",
+  "title": "Ateliers E & F : EBS, snapshots et Instance Store",
+  "order": 5,
+  "description": "Identifier et formater le bon disque, montage /data, Reboot contre Stop/Start, snapshot, restauration dans l'AZ B, Instance Store et Terminate.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-stockage-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Vous attachez le volume de données à Web A sous /dev/sdf. Dans l'instance, lsblk ne montre aucun /dev/sdf. Pourquoi ?",
+      "choices": {
+        "A": "Le volume n'est pas encore formaté",
+        "B": "Sur ces instances, il apparaît en NVMe (ex. /dev/nvme1n1)",
+        "C": "Il faut redémarrer l'instance pour le voir",
+        "D": "Le volume est dans une autre AZ"
+      },
+      "answer": "B",
+      "explanation": "Sur les instances Nitro, les volumes EBS apparaissent comme périphériques NVMe. C'est pourquoi on repère le nouveau disque avec lsblk -f et blkid.",
+      "why": {
+        "A": "Un disque non formaté apparaît quand même dans lsblk.",
+        "C": "Les volumes EBS sont visibles à chaud, sans redémarrage.",
+        "D": "Un volume d'une autre AZ ne peut pas du tout être attaché."
+      },
+      "ref": "Atelier E.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "D'après cette sortie, quel disque faut-il formater en XFS pour /data ?",
+      "code": "$ lsblk -f\nNAME          FSTYPE LABEL UUID        MOUNTPOINTS\nnvme0n1\n├─nvme0n1p1   xfs    /     8c1e…-…     /\n├─nvme0n1p127\n└─nvme0n1p128 vfat         7B77-…      /boot/efi\nnvme1n1",
+      "choices": {
+        "A": "/dev/nvme0n1p1, déjà en xfs",
+        "B": "/dev/nvme0n1, le premier disque",
+        "C": "/dev/nvme0n1p128, en vfat",
+        "D": "/dev/nvme1n1 : aucun système de fichiers, non monté"
+      },
+      "answer": "D",
+      "explanation": "Le nouveau disque n'a ni FSTYPE ni point de montage. nvme0n1 porte la racine / : le formater détruirait le système.",
+      "why": {
+        "A": "C'est la partition racine montée sur / : la formater détruit l'OS.",
+        "B": "C'est le volume racine de l'instance.",
+        "C": "C'est la partition EFI de démarrage."
+      },
+      "ref": "Atelier E.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Après un Reboot de Web A, « ls /data » est vide. Que conclure ?",
+      "choices": {
+        "A": "Le volume n'est plus monté ; les données sont sur le disque",
+        "B": "Le Reboot a effacé le volume EBS",
+        "C": "Le volume a été détaché automatiquement",
+        "D": "Il faut reformater le disque avec mkfs.xfs"
+      },
+      "answer": "A",
+      "explanation": "Un mount fait à la main ne survit pas au redémarrage sans entrée dans /etc/fstab. Il suffit de remonter le volume pour retrouver experience.txt.",
+      "why": {
+        "B": "Un volume EBS garde ses données après un Reboot.",
+        "C": "Il reste attaché, mais il n'est simplement plus monté.",
+        "D": "Reformater effacerait vraiment les données."
+      },
+      "ref": "Atelier E.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment faire remonter /data automatiquement à chaque démarrage de Web A ?",
+      "choices": {
+        "A": "Relancer mkfs.xfs dans le User Data",
+        "B": "Mettre /dev/nvme1n1 dans le Security Group",
+        "C": "Ajouter une entrée /etc/fstab avec l'UUID et nofail",
+        "D": "Créer une AMI de l'instance"
+      },
+      "answer": "C",
+      "explanation": "L'UUID ne change pas, contrairement au nom NVMe. L'option nofail évite que le démarrage bloque si le volume est absent.",
+      "why": {
+        "A": "Le script reformaterait le disque. En plus, il ne s'exécute qu'une fois.",
+        "B": "Un SG filtre le trafic réseau, il n'a rien à voir avec les disques.",
+        "D": "Une AMI ne règle pas le montage au démarrage."
+      },
+      "ref": "Atelier E.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Que deviennent /data/experience.txt et le volume racine de Web A après un Stop/Start ?",
+      "choices": {
+        "A": "Les deux sont effacés",
+        "B": "Le volume racine est conservé, pas le volume de données",
+        "C": "Les deux sont conservés, ce sont des volumes EBS",
+        "D": "Le volume de données est conservé, pas le volume racine"
+      },
+      "answer": "C",
+      "explanation": "Les volumes EBS gardent leurs données après un Stop/Start. Il faut parfois juste remonter /data.",
+      "why": {
+        "A": "C'est le comportement de l'Instance Store, pas d'EBS.",
+        "B": "Les volumes de données EBS sont tout aussi persistants.",
+        "D": "Le volume racine EBS est conservé après un Stop."
+      },
+      "ref": "Atelier E.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Vous essayez d'attacher le volume de l'AZ A à Web B (AZ B). Résultat ?",
+      "choices": {
+        "A": "Impossible : volume et instance doivent être dans la même AZ",
+        "B": "Possible si le volume est détaché de Web A",
+        "C": "Possible, AWS copie le volume dans l'AZ B",
+        "D": "Possible, car les deux AZ sont dans la même région"
+      },
+      "answer": "A",
+      "explanation": "Un volume EBS est lié à une seule AZ. La console ne propose même pas Web B comme cible d'attachement.",
+      "why": {
+        "B": "Même détaché, le volume reste dans l'AZ A.",
+        "C": "L'attachement ne déplace jamais un volume.",
+        "D": "Pour EBS, il faut la même AZ, pas seulement la même région."
+      },
+      "ref": "Atelier E.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Comment retrouver les données du volume de l'AZ A sur Web B (AZ B), sans modifier le volume d'origine ?",
+      "choices": {
+        "A": "Modifier l'AZ du volume dans ses propriétés",
+        "B": "Créer une AMI du volume et la lancer dans l'AZ B",
+        "C": "Copier le snapshot vers l'AZ B",
+        "D": "Faire un snapshot, puis créer un volume dans l'AZ B"
+      },
+      "answer": "D",
+      "explanation": "Un snapshot est régional. On en crée un nouveau volume dans n'importe quelle AZ de la région, puis on l'attache à Web B.",
+      "why": {
+        "A": "On ne peut pas changer l'AZ d'un volume existant.",
+        "B": "L'AMI sert à lancer des instances, pas à restaurer un volume de données.",
+        "C": "On copie un snapshot vers une autre région, pas vers une AZ : il est déjà utilisable dans toute la région."
+      },
+      "ref": "Atelier E.4–5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-008",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le volume restauré dans l'AZ B est attaché à Web B. lsblk -f montre FSTYPE « xfs » avec un UUID. Que faire ensuite ?",
+      "choices": {
+        "A": "mkfs.xfs puis monter",
+        "B": "Le monter directement sur /data, sans mkfs",
+        "C": "Recopier experience.txt depuis Web A",
+        "D": "Lancer xfs_repair avant de monter"
+      },
+      "answer": "B",
+      "explanation": "Le snapshot a copié le système de fichiers XFS. On monte simplement le volume pour retrouver experience.txt. Un mkfs effacerait tout.",
+      "why": {
+        "A": "Le formatage détruirait les données restaurées.",
+        "C": "La restauration a justement pour but d'éviter cette copie.",
+        "D": "Rien n'indique que le système de fichiers soit endommagé."
+      },
+      "ref": "Atelier E.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi lancer sync avant de créer le snapshot du volume de données ?",
+      "choices": {
+        "A": "Pour copier le volume dans S3",
+        "B": "Pour écrire sur le disque les données encore en cache",
+        "C": "Pour détacher le volume proprement",
+        "D": "Pour changer l'AZ du volume"
+      },
+      "answer": "B",
+      "explanation": "Un snapshot copie les blocs présents sur le volume. sync vide le cache de l'OS : le fichier qu'on vient d'écrire est alors bien sur le disque.",
+      "why": {
+        "A": "C'est le snapshot qui est stocké par AWS : sync ne fait que vider le cache.",
+        "C": "sync ne détache rien.",
+        "D": "sync n'agit pas sur l'AZ."
+      },
+      "ref": "Atelier E.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle est la portée d'un snapshot EBS ?",
+      "choices": {
+        "A": "L'AZ du volume d'origine",
+        "B": "Global : utilisable dans toutes les régions",
+        "C": "L'instance à laquelle le volume était attaché",
+        "D": "La région : on le restaure dans n'importe quelle AZ"
+      },
+      "answer": "D",
+      "explanation": "Les snapshots sont stockés au niveau régional. C'est ce qui permet la reprise d'une AZ vers une autre.",
+      "why": {
+        "A": "Si c'était le cas, on ne pourrait pas restaurer dans l'AZ B.",
+        "B": "Pour une autre région, il faut d'abord copier le snapshot.",
+        "C": "Un snapshot ne dépend pas d'une instance."
+      },
+      "ref": "Atelier E.4 ; Q15–16",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un volume EBS est-il répliqué entre les AZ A et B ?",
+      "choices": {
+        "A": "Non, seulement à l'intérieur de son AZ",
+        "B": "Oui, sur toutes les AZ de la région",
+        "C": "Oui, dans l'AZ voisine",
+        "D": "Non, un volume EBS n'est jamais répliqué"
+      },
+      "answer": "A",
+      "explanation": "EBS réplique le volume à l'intérieur de son AZ. Pour résister à la perte de l'AZ, on s'appuie sur des snapshots régionaux.",
+      "why": {
+        "B": "C'est le comportement de S3 Standard, pas d'EBS.",
+        "C": "EBS ne copie rien automatiquement dans une autre AZ.",
+        "D": "Il est bien répliqué, mais seulement dans son AZ."
+      },
+      "ref": "Atelier E ; Q15–16",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous terminez Web A sans rien modifier. Que deviennent ses volumes ?",
+      "choices": {
+        "A": "Les deux volumes sont supprimés avec l'instance",
+        "B": "Les deux volumes sont conservés et facturés",
+        "C": "Le racine est supprimé, celui de données reste (et coûte)",
+        "D": "Les deux sont convertis en snapshots EBS"
+      },
+      "answer": "C",
+      "explanation": "Par défaut, DeleteOnTermination vaut true pour le volume racine et false pour un volume attaché ensuite. Il faut supprimer ce dernier au nettoyage.",
+      "why": {
+        "A": "Le volume de données, attaché après le lancement, est conservé.",
+        "B": "Le volume racine est supprimé par défaut.",
+        "D": "Terminate ne crée aucun snapshot."
+      },
+      "ref": "Atelier E ; §8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-013",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Un fichier témoin est sur un disque Instance Store. Que lui arrive-t-il après un Reboot, puis après un Stop/Start ?",
+      "choices": {
+        "A": "Perdu dans les deux cas",
+        "B": "Conservé dans les deux cas",
+        "C": "Conservé après Reboot, perdu après Stop/Start",
+        "D": "Perdu après Reboot, conservé après Stop/Start"
+      },
+      "answer": "C",
+      "explanation": "Au Reboot, l'instance reste sur le même hôte. Au Stop, le disque local est libéré et l'instance redémarre souvent ailleurs.",
+      "why": {
+        "A": "Les données d'un Instance Store survivent à un Reboot.",
+        "B": "Après un Stop/Start, le disque local est perdu.",
+        "D": "C'est l'inverse."
+      },
+      "ref": "Atelier F.1–2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-014",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une instance dont le volume RACINE est un Instance Store (AMI instance-store) : quelles actions de cycle de vie sont possibles ?",
+      "choices": {
+        "A": "Reboot et Terminate, pas Stop",
+        "B": "Reboot, Stop/Start et Terminate",
+        "C": "Stop/Start seulement, pas Reboot",
+        "D": "Terminate seulement"
+      },
+      "answer": "A",
+      "explanation": "Une instance dont la racine est un Instance Store ne peut pas être arrêtée : on peut seulement la redémarrer ou la terminer.",
+      "why": {
+        "B": "Le Stop est réservé aux instances dont la racine est un volume EBS.",
+        "C": "Le Reboot est possible et garde les données locales.",
+        "D": "Le Reboot est aussi possible."
+      },
+      "ref": "Atelier F ; Q19–20",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel type d'instance faut-il choisir pour tester l'Instance Store (atelier F) ?",
+      "choices": {
+        "A": "Un t3.micro avec un volume gp3",
+        "B": "N'importe quel type, en ajoutant un volume",
+        "C": "Un type Spot",
+        "D": "Un type « d » comme m5d ou c5d"
+      },
+      "answer": "D",
+      "explanation": "Le suffixe « d » indique des disques NVMe locaux. Un t3.micro n'a pas d'Instance Store.",
+      "why": {
+        "A": "Un t3.micro n'a que des volumes EBS.",
+        "B": "Un volume ajouté est un EBS, pas un Instance Store.",
+        "C": "Spot est un mode d'achat, pas un type de stockage."
+      },
+      "ref": "Atelier F.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Calcul nocturne : fichiers temporaires très rapides, données de résultat persistantes, photos partagées. Quel stockage pour chacun ?",
+      "choices": {
+        "A": "S3, Instance Store, EBS",
+        "B": "Instance Store, EBS, S3",
+        "C": "EBS, S3, Instance Store",
+        "D": "S3, S3, S3"
+      },
+      "answer": "B",
+      "explanation": "Instance Store : fichiers temporaires rapides et éphémères. EBS : disque bloc persistant d'une instance. S3 : objets durables accessibles par API.",
+      "why": {
+        "A": "Mettre les résultats sur Instance Store risque de les perdre au premier Stop.",
+        "C": "Des photos partagées sur Instance Store disparaîtraient au Stop.",
+        "D": "S3 n'est pas un disque monté pour des fichiers temporaires très rapides."
+      },
+      "ref": "Ateliers E, F, G ; Q12",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle différence d'accès entre EBS (bloc) et S3 (objet) a été visible dans le TP ?",
+      "choices": {
+        "A": "Les deux se montent avec mount",
+        "B": "EBS se monte ; S3 se lit par API",
+        "C": "S3 se formate en XFS comme EBS",
+        "D": "EBS s'utilise avec get-object"
+      },
+      "answer": "B",
+      "explanation": "On a lancé mkfs.xfs puis mount sur le volume EBS. Pour S3, on a utilisé aws s3api get-object avec un bucket et une clé.",
+      "why": {
+        "A": "On n'a pas monté S3 comme un disque dans le TP.",
+        "C": "On ne formate pas un bucket.",
+        "D": "EBS est un périphérique bloc, pas une API d'objets."
+      },
+      "ref": "Ateliers E, G ; Q12",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-018",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle est la différence entre Stop et Terminate pour Web A ?",
+      "choices": {
+        "A": "Les deux suppriment l'instance",
+        "B": "Terminate garde l'instance, Stop la supprime",
+        "C": "Aucune différence pour la facturation",
+        "D": "Stop : redémarrable ; Terminate : supprimée"
+      },
+      "answer": "D",
+      "explanation": "Une instance arrêtée garde ses volumes EBS et peut redémarrer. Une instance terminée n'existe plus, et son volume racine est supprimé par défaut.",
+      "why": {
+        "A": "Une instance arrêtée peut redémarrer.",
+        "B": "C'est l'inverse.",
+        "C": "Après un Stop, les heures d'instance ne sont plus facturées, mais les volumes EBS le sont toujours."
+      },
+      "ref": "Atelier F.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-019",
+      "difficulty": "hard",
+      "tier": "bonus",
+      "question": "Vous attachez le volume d'origine ET le volume restauré à la même instance. Le second « mount » XFS échoue. Pourquoi ?",
+      "choices": {
+        "A": "Les deux systèmes de fichiers ont le même UUID",
+        "B": "Le volume restauré est vide",
+        "C": "On ne peut pas attacher deux volumes à une instance",
+        "D": "Le snapshot est encore en pending"
+      },
+      "answer": "A",
+      "explanation": "La copie a le même UUID XFS que l'original. XFS refuse de monter deux UUID identiques, sauf avec -o nouuid.",
+      "why": {
+        "B": "Il contient bien le système de fichiers copié.",
+        "C": "On peut attacher plusieurs volumes à une instance.",
+        "D": "On ne peut pas créer de volume à partir d'un snapshot en pending."
+      },
+      "ref": "Atelier E.5",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-stockage-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Reboot / Stop-Start / Terminate : EBS racine, EBS données, Instance Store ?",
+      "back": "Reboot : tout est conservé. Stop/Start : EBS conservé, Instance Store perdu. Terminate : racine supprimée, données gardées, Instance Store perdu.",
+      "ref": "Atelier F.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Restaurer un volume de l'AZ A dans l'AZ B ?",
+      "back": "sync, puis snapshot (régional), créer un volume dans l'AZ B, l'attacher, lsblk -f, puis mount sans mkfs.",
+      "ref": "Atelier E.4–5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-f003",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi utiliser lsblk -f avant mkfs ?",
+      "back": "Le nom NVMe peut différer de /dev/sdf. Le nouveau disque n'a ni FSTYPE ni point de montage. Ne jamais formater nvme0n1, qui porte la racine.",
+      "ref": "Atelier E.1–2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Portée d'un volume EBS, d'un snapshot et d'une AMI ?",
+      "back": "Volume : une AZ. Snapshot et AMI : la région. Pour une autre région, il faut les copier.",
+      "ref": "Ateliers E, J",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-stockage-f005",
+      "kind": "why",
+      "tier": "core",
+      "front": "/data est vide après un Reboot ?",
+      "back": "Le montage fait à la main est perdu, mais les données sont toujours là. Remonter le volume, et pour la suite ajouter une entrée /etc/fstab (UUID, nofail).",
+      "ref": "Atelier E.3",
+      "source": "tp-aws"
+    }
+  ]
+}

@@ -1,0 +1,478 @@
+{
+  "id": "s3iam",
+  "title": "Atelier G : S3 privé, rôle IAM et moindre privilège",
+  "order": 6,
+  "description": "Bucket privé et versionné, durabilité contre disponibilité, rôle EC2 aux identifiants temporaires, policy GetObject sur photos/* et LabRole.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-s3iam-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Le bucket a le blocage de l'accès public activé. Quelqu'un ouvre l'URL de photos/photo-a.txt dans un navigateur, sans être authentifié. Résultat ?",
+      "choices": {
+        "A": "Le fichier s'affiche, l'URL suffit",
+        "B": "403 AccessDenied",
+        "C": "404 Not Found",
+        "D": "Une redirection vers la console AWS"
+      },
+      "answer": "B",
+      "explanation": "Une requête anonyme vers un bucket privé est refusée : S3 renvoie 403 AccessDenied.",
+      "why": {
+        "A": "Une URL S3 ne donne aucun droit à elle seule.",
+        "C": "L'objet existe : c'est l'autorisation qui manque.",
+        "D": "S3 renvoie une erreur XML 403, pas une redirection."
+      },
+      "ref": "Atelier G.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "S3 devient injoignable pendant 10 minutes, sans perte d'objet. Quelle propriété de S3 Standard est concernée ?",
+      "choices": {
+        "A": "La durabilité (99,999999999 %)",
+        "B": "Le versioning",
+        "C": "Le blocage de l'accès public",
+        "D": "La disponibilité (99,99 %)"
+      },
+      "answer": "D",
+      "explanation": "La disponibilité indique si l'on peut accéder aux objets. La durabilité (99,999999999 %) indique s'ils sont conservés sans perte.",
+      "why": {
+        "A": "Aucun objet n'a été perdu, donc la durabilité n'est pas en cause.",
+        "B": "Le versioning protège contre l'écrasement ou la suppression, pas contre une indisponibilité.",
+        "C": "Ce réglage contrôle les autorisations, pas la disponibilité."
+      },
+      "ref": "Atelier G.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi une durabilité de 99,999999999 % ne protège-t-elle PAS d'une suppression accidentelle de photo-a.txt ?",
+      "choices": {
+        "A": "S3 applique durablement la suppression demandée",
+        "B": "Parce que la durabilité ne s'applique qu'à Glacier",
+        "C": "Parce que les objets texte ne sont pas répliqués",
+        "D": "Parce qu'il faudrait un snapshot EBS du bucket"
+      },
+      "answer": "A",
+      "explanation": "La durabilité protège contre la perte physique des données. Une suppression voulue par un utilisateur est exécutée. C'est le versioning qui permet de revenir en arrière.",
+      "why": {
+        "B": "S3 Standard offre bien 11 neufs de durabilité.",
+        "C": "Tous les objets sont traités de la même façon, quel que soit leur type.",
+        "D": "On ne fait pas de snapshot EBS d'un bucket S3."
+      },
+      "ref": "Atelier G.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans le bucket versionné, vous supprimez photos/photo-a.txt par erreur (suppression simple). Comment le retrouver ?",
+      "choices": {
+        "A": "C'est impossible, la suppression est définitive",
+        "B": "Restaurer un snapshot EBS",
+        "C": "Supprimer le delete marker créé par la suppression",
+        "D": "Désactiver le versioning"
+      },
+      "answer": "C",
+      "explanation": "Avec le versioning, une suppression simple ajoute un delete marker au-dessus des versions. Le supprimer fait réapparaître la dernière version.",
+      "why": {
+        "A": "Avec le versioning, les anciennes versions sont conservées.",
+        "B": "S3 n'utilise pas de snapshots EBS.",
+        "D": "Le versioning ne peut qu'être suspendu, et cela ne restaure rien."
+      },
+      "ref": "Atelier G.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Vous modifiez photo-a.txt et le renvoyez à la même clé dans le bucket versionné. Que voit-on dans « Show versions » ?",
+      "choices": {
+        "A": "Une seule version, l'ancienne est écrasée",
+        "B": "Deux objets avec des clés différentes",
+        "C": "Deux versions, chacune avec son version ID",
+        "D": "Un delete marker et une version"
+      },
+      "answer": "C",
+      "explanation": "Un nouvel envoi crée une nouvelle version, qui devient la version actuelle. L'ancienne est gardée avec son propre version ID.",
+      "why": {
+        "A": "Ce serait le cas sans versioning.",
+        "B": "La clé reste photos/photo-a.txt : seul le version ID change.",
+        "D": "Un delete marker n'apparaît qu'après une suppression."
+      },
+      "ref": "Atelier G.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle est la clé complète de l'objet photo-a.txt déposé dans « photos » ?",
+      "choices": {
+        "A": "photos/photo-a.txt",
+        "B": "photo-a.txt",
+        "C": "s3://photos/photo-a.txt",
+        "D": "arn:aws:s3:::photos"
+      },
+      "answer": "A",
+      "explanation": "S3 n'a pas de vrais dossiers : « photos/ » est un préfixe qui fait partie de la clé.",
+      "why": {
+        "B": "Il manque le préfixe photos/.",
+        "C": "« photos » n'est pas le nom du bucket.",
+        "D": "C'est la forme d'un ARN de bucket, pas une clé d'objet."
+      },
+      "ref": "Atelier G.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-007",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le rôle de Web A n'a QUE cette policy. Que donne « aws s3 ls s3://NOM_BUCKET/photos/ » ?",
+      "code": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [{\n    \"Effect\": \"Allow\",\n    \"Action\": [\"s3:GetObject\"],\n    \"Resource\": \"arn:aws:s3:::NOM_BUCKET/photos/*\"\n  }]\n}",
+      "choices": {
+        "A": "La liste des deux objets",
+        "B": "La liste des objets du préfixe photos/ seulement",
+        "C": "Une liste vide, sans erreur",
+        "D": "AccessDenied : il faudrait s3:ListBucket sur le bucket"
+      },
+      "answer": "D",
+      "explanation": "Lister le contenu demande s3:ListBucket sur arn:aws:s3:::NOM_BUCKET, et non GetObject sur les objets.",
+      "why": {
+        "A": "GetObject permet de lire un objet, pas de lister le bucket.",
+        "B": "Lister demande ListBucket, quel que soit le préfixe.",
+        "C": "La requête est refusée : on obtient une erreur."
+      },
+      "ref": "Atelier G.3–4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Avec cette policy seule, depuis Web A, que donne « aws s3 cp /tmp/x.txt s3://NOM_BUCKET/photos/x.txt » ?",
+      "code": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [{\n    \"Effect\": \"Allow\",\n    \"Action\": [\"s3:GetObject\"],\n    \"Resource\": \"arn:aws:s3:::NOM_BUCKET/photos/*\"\n  }]\n}",
+      "choices": {
+        "A": "Succès, le préfixe photos/ est autorisé",
+        "B": "AccessDenied : s3:PutObject n'est pas accordé",
+        "C": "Succès, mais seulement en écrasant un objet existant",
+        "D": "Erreur réseau, faute de NAT"
+      },
+      "answer": "B",
+      "explanation": "La policy n'accorde que la lecture (GetObject). Une écriture est refusée par défaut, même dans le bon préfixe.",
+      "why": {
+        "A": "Seule l'action GetObject est autorisée sur ce préfixe.",
+        "C": "Écraser un objet est aussi un PutObject.",
+        "D": "Web A est dans un subnet public, avec IP publique."
+      },
+      "ref": "Atelier G.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Avec cette policy seule, que donne « aws s3api get-object --key docs/rapport.txt » sur le même bucket ?",
+      "code": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [{\n    \"Effect\": \"Allow\",\n    \"Action\": [\"s3:GetObject\"],\n    \"Resource\": \"arn:aws:s3:::NOM_BUCKET/photos/*\"\n  }]\n}",
+      "choices": {
+        "A": "Succès, GetObject vaut pour tout le bucket",
+        "B": "AccessDenied : hors de la ressource photos/*",
+        "C": "Succès, car docs/ est un sous-dossier",
+        "D": "404, car S3 ne refuse jamais une lecture"
+      },
+      "answer": "B",
+      "explanation": "La ressource autorisée est NOM_BUCKET/photos/*. Une clé hors de ce préfixe n'est couverte par aucun Allow, elle est donc refusée.",
+      "why": {
+        "A": "La ressource limite GetObject au préfixe photos/.",
+        "C": "docs/ n'est pas sous photos/.",
+        "D": "S3 refuse bien les lectures non autorisées."
+      },
+      "ref": "Atelier G.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-010",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Dans le Learner Lab, Web A utilise LabInstanceProfile (LabRole). La lecture de docs/rapport.txt RÉUSSIT. Que conclure ?",
+      "choices": {
+        "A": "La policy cible autorise en fait le préfixe docs/",
+        "B": "Le blocage de l'accès public du bucket est désactivé",
+        "C": "Il faut retirer des droits à LabRole pour corriger",
+        "D": "LabRole a plus de droits ; le test ne montre pas la policy cible"
+      },
+      "answer": "D",
+      "explanation": "Le résultat reflète les permissions réellement attachées (LabRole, large), pas la policy qu'on a écrite. Il faut le dire dans le rapport.",
+      "why": {
+        "A": "La policy cible limite bien la lecture à photos/*.",
+        "B": "Le blocage public concerne l'accès anonyme, pas un rôle IAM.",
+        "C": "Le TP interdit de retirer les permissions imposées par le lab."
+      },
+      "ref": "Atelier G.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sur Web A, « aws sts get-caller-identity » renvoie un Arn de la forme arn:aws:sts::…:assumed-role/LabRole/i-0abc…. Que prouve-t-il ?",
+      "choices": {
+        "A": "La CLI utilise les identifiants temporaires du rôle",
+        "B": "La CLI utilise des Access Keys d'un utilisateur IAM",
+        "C": "La CLI utilise le compte root",
+        "D": "Le rôle n'a aucun droit sur S3"
+      },
+      "answer": "A",
+      "explanation": "« assumed-role » indique une session temporaire obtenue en assumant le rôle via l'instance profile, sans clés statiques.",
+      "why": {
+        "B": "Avec des clés d'utilisateur, l'ARN serait de la forme arn:aws:iam::…:user/….",
+        "C": "L'ARN du root est de la forme arn:aws:iam::…:root.",
+        "D": "get-caller-identity indique qui appelle, pas les droits sur S3."
+      },
+      "ref": "Atelier G.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "D'où viennent les identifiants que la CLI utilise sur Web A, sans aucune Access Key configurée ?",
+      "choices": {
+        "A": "Du User Data, qui contient des clés au lancement",
+        "B": "Du compte root du Learner Lab, par défaut",
+        "C": "Du service de métadonnées (IMDS), via l'instance profile",
+        "D": "Du Security Group attaché à l'instance"
+      },
+      "answer": "C",
+      "explanation": "L'instance profile donne à l'instance des identifiants temporaires du rôle, obtenus via IMDS et renouvelés automatiquement.",
+      "why": {
+        "A": "Le TP interdit de mettre des clés dans le User Data.",
+        "B": "Les clés root ne doivent jamais être utilisées.",
+        "D": "Un SG ne fournit aucun identifiant."
+      },
+      "ref": "Atelier G.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-013",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Un étudiant a gardé ses propres Access Keys dans ~/.aws/credentials sur Web A. Quels identifiants la CLI utilise-t-elle ?",
+      "choices": {
+        "A": "Toujours l'instance profile, qui est prioritaire",
+        "B": "Les deux, en combinant leurs droits",
+        "C": "Les clés du fichier, prioritaires sur l'instance profile",
+        "D": "Aucun : la CLI refuse à cause du conflit"
+      },
+      "answer": "C",
+      "explanation": "La CLI cherche d'abord les variables d'environnement et les fichiers de configuration. L'instance profile ne vient qu'en dernier, donc le test du rôle est faussé.",
+      "why": {
+        "A": "L'instance profile vient en dernier dans l'ordre de recherche.",
+        "B": "La CLI utilise une seule source d'identifiants.",
+        "D": "La CLI prend simplement la première source trouvée."
+      },
+      "ref": "Atelier G.4 ; §3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pour le rôle EC2 du TP, quelle différence entre la trust policy et la permission policy ?",
+      "choices": {
+        "A": "Trust : qui peut assumer le rôle ; permission : quelles actions",
+        "B": "Trust : quelles actions ; permission : qui peut assumer",
+        "C": "Les deux listent les ports réseau autorisés",
+        "D": "La trust policy remplace l'instance profile"
+      },
+      "answer": "A",
+      "explanation": "La trust policy autorise ec2.amazonaws.com à assumer le rôle. La permission policy accorde s3:GetObject sur photos/*.",
+      "why": {
+        "B": "C'est l'inverse.",
+        "C": "Une policy IAM ne contrôle pas les ports.",
+        "D": "L'instance profile relie le rôle à l'EC2. La trust policy dit qui peut assumer le rôle."
+      },
+      "ref": "Atelier G.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Pourquoi le TP interdit-il de mettre des Access Keys dans une application sur EC2 ?",
+      "choices": {
+        "A": "Parce qu'EC2 ne sait pas lire un fichier de clés",
+        "B": "Parce que les clés ne fonctionnent qu'avec la console",
+        "C": "Parce que S3 refuse toute Access Key",
+        "D": "Ce sont des secrets longs qui fuient ; un rôle donne des clés temporaires"
+      },
+      "answer": "D",
+      "explanation": "Des clés statiques peuvent fuiter (code, AMI, journaux) et restent valides longtemps. Un rôle fournit des identifiants temporaires renouvelés automatiquement.",
+      "why": {
+        "A": "La CLI sait lire ce fichier : c'est une question de sécurité.",
+        "B": "Les Access Keys servent justement à l'accès par programme.",
+        "C": "S3 accepte des clés valides : c'est le risque de fuite qui pose problème."
+      },
+      "ref": "Atelier G.4 ; §3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans le Learner Lab, « iam:CreateRole » renvoie AccessDenied. Que demande le TP ?",
+      "choices": {
+        "A": "Utiliser les clés root pour créer le rôle",
+        "B": "Noter l'erreur, inspecter LabRole et rédiger la policy cible",
+        "C": "Faire Reset du lab et réessayer",
+        "D": "Retirer des droits à LabRole pour simuler"
+      },
+      "answer": "B",
+      "explanation": "On ne contourne pas le refus. On consigne l'action, le service et le message, puis on fait la variante analyse, sans prétendre que LabRole respecte le moindre privilège.",
+      "why": {
+        "A": "C'est formellement interdit par le TP.",
+        "C": "Reset peut effacer le travail sans rendre le budget.",
+        "D": "Il ne faut jamais retirer les permissions imposées par le lab."
+      },
+      "ref": "Atelier G.3 ; §3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Le nom du bucket « tp-igl4-<suffixe-unique> » doit être unique. À quelle échelle, et où sont stockées ses données ?",
+      "choices": {
+        "A": "Nom unique dans le compte ; données mondiales",
+        "B": "Nom unique au niveau mondial ; données dans la région R",
+        "C": "Nom unique dans la région ; données dans une AZ",
+        "D": "Nom unique dans le VPC ; données dans un subnet"
+      },
+      "answer": "B",
+      "explanation": "Les noms de bucket sont uniques sur tout AWS (d'où le suffixe), mais le bucket est créé dans une région.",
+      "why": {
+        "A": "Le nom doit être unique sur tous les comptes, et les données restent dans la région choisie.",
+        "C": "S3 Standard répartit les données sur plusieurs AZ de la région.",
+        "D": "S3 n'est pas dans le VPC."
+      },
+      "ref": "Atelier G.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Depuis Web A, « aws s3api get-object » reste bloqué puis échoue sur un timeout de connexion, sans AccessDenied. Quelle piste examiner d'abord ?",
+      "choices": {
+        "A": "La policy IAM du rôle",
+        "B": "Le versioning du bucket",
+        "C": "Le blocage de l'accès public",
+        "D": "Le réseau : sortie du SG, NACL ou route vers S3"
+      },
+      "answer": "D",
+      "explanation": "AccessDenied est un refus IAM renvoyé par S3. Un timeout signifie que la requête n'a pas atteint S3 : c'est un problème réseau.",
+      "why": {
+        "A": "Un problème IAM donnerait une réponse AccessDenied rapide.",
+        "B": "Le versioning n'empêche pas une lecture.",
+        "C": "Il ne concerne que l'accès anonyme et renverrait un 403."
+      },
+      "ref": "Atelier G ; J.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-019",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Une fois activé sur le bucket, peut-on désactiver le versioning ?",
+      "choices": {
+        "A": "Non, on peut seulement le suspendre",
+        "B": "Oui, et les anciennes versions sont supprimées",
+        "C": "Oui, si le bucket est vide",
+        "D": "Non, ni le suspendre ni le désactiver"
+      },
+      "answer": "A",
+      "explanation": "Un bucket versionné peut être « suspendu » (plus de nouvelles versions) mais ne revient jamais à l'état non versionné. Les versions existantes restent.",
+      "why": {
+        "B": "On ne peut pas revenir à l'état non versionné.",
+        "C": "Même vide, un bucket versionné ne peut qu'être suspendu.",
+        "D": "La suspension est possible."
+      },
+      "ref": "Atelier G.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-020",
+      "difficulty": "hard",
+      "tier": "bonus",
+      "question": "Avec seulement s3:GetObject (sans ListBucket), on lit photos/inexistant.txt. Quel code renvoie S3 ?",
+      "choices": {
+        "A": "404 NoSuchKey",
+        "B": "200 avec un contenu vide",
+        "C": "403 AccessDenied plutôt que 404",
+        "D": "500 Internal Error"
+      },
+      "answer": "C",
+      "explanation": "Sans s3:ListBucket, S3 ne révèle pas si une clé existe : il renvoie 403 au lieu de 404.",
+      "why": {
+        "A": "Il faudrait ListBucket pour obtenir un 404.",
+        "B": "S3 ne renvoie jamais un objet qui n'existe pas.",
+        "D": "Ce n'est pas une erreur du serveur."
+      },
+      "ref": "Atelier G.4",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-s3iam-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Durabilité vs disponibilité de S3 Standard ?",
+      "back": "Durabilité de 99,999999999 % : pas de perte de données. Disponibilité de 99,99 % : on peut accéder aux objets. Ni l'une ni l'autre ne protège d'une suppression.",
+      "ref": "Atelier G.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-f002",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi activer le versioning ?",
+      "back": "Écraser un objet crée une nouvelle version, et une suppression crée un delete marker. On peut donc toujours revenir à une ancienne version.",
+      "ref": "Atelier G.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Policy de moindre privilège du TP ?",
+      "back": "Allow s3:GetObject sur arn:aws:s3:::NOM_BUCKET/photos/*. Lister (ListBucket), écrire (PutObject) ou lire hors de photos/ est refusé.",
+      "ref": "Atelier G.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-f004",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi un test « refusé » réussit-il avec LabRole ?",
+      "back": "Le test reflète les permissions réellement attachées. LabRole a plus de droits que la policy cible.",
+      "ref": "Atelier G.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-s3iam-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "AccessDenied vs timeout ?",
+      "back": "AccessDenied : S3 a répondu, c'est un refus IAM. Timeout : la requête n'est pas arrivée, c'est un problème réseau (SG, NACL, route).",
+      "ref": "Ateliers G, J.4",
+      "source": "tp-aws"
+    }
+  ]
+}

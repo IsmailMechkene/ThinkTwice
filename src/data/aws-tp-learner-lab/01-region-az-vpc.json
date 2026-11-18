@@ -1,0 +1,370 @@
+{
+  "id": "vpc",
+  "title": "Atelier A : Région, AZ et VPC",
+  "order": 1,
+  "description": "Région R et deux AZ, VPC 10.20.0.0/16, quatre subnets, Internet Gateway et tables de routage publique/privée.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-vpc-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Web A est dans l'AZ A et Web B dans l'AZ B de la même région R. Un collègue écrit dans le rapport que l'application est « multi-région ». Pourquoi est-ce faux ?",
+      "choices": {
+        "A": "Il faudrait deux VPC distincts, un par AZ",
+        "B": "Les deux AZ font partie de la même région R",
+        "C": "Il faudrait une Internet Gateway par AZ",
+        "D": "Deux AZ partagent le même datacenter physique"
+      },
+      "answer": "B",
+      "explanation": "Une région contient plusieurs AZ isolées les unes des autres. Deux AZ d'une même région restent une seule région.",
+      "why": {
+        "A": "Le nombre de VPC ne définit pas le nombre de régions. Un VPC couvre déjà toutes les AZ de sa région.",
+        "C": "Une IGW est attachée au VPC entier. Elle n'a rien à voir avec la notion de région.",
+        "D": "Faux : les AZ sont physiquement séparées (alimentation, réseau). Elles restent pourtant dans la même région."
+      },
+      "ref": "Atelier A, À prouver",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel incident l'architecture à deux AZ (A et B) d'une seule région ne permet-elle PAS de surmonter ?",
+      "choices": {
+        "A": "Une coupure de courant dans un datacenter de l'AZ A",
+        "B": "Une inondation d'un site de l'AZ B",
+        "C": "Une panne réseau limitée à l'AZ A",
+        "D": "Une panne qui touche toute la région R"
+      },
+      "answer": "D",
+      "explanation": "Deux AZ protègent contre la perte d'une zone, pas contre un incident régional. Pour cela, il faudrait une seconde région (R2).",
+      "why": {
+        "A": "C'est justement le cas couvert : l'AZ B continue de fonctionner.",
+        "B": "L'AZ A reste disponible : la perte d'une seule AZ est couverte.",
+        "C": "Une panne limitée à une AZ est le scénario que deux AZ permettent de surmonter."
+      },
+      "ref": "Atelier A ; §4 Architecture cible",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Votre binôme et vous voyez tous les deux « us-east-1a » sur vos comptes Learner Lab. Comment savoir si c'est le même emplacement physique ?",
+      "choices": {
+        "A": "Comparer l'AZ ID (ex. use1-az4) des deux comptes",
+        "B": "Comparer le nom de zone, il est identique partout",
+        "C": "Comparer les ID de subnet",
+        "D": "Comparer les blocs CIDR des subnets"
+      },
+      "answer": "A",
+      "explanation": "Les noms de zone (us-east-1a…) sont associés différemment selon les comptes. L'AZ ID, lui, désigne la même zone physique pour tous les comptes.",
+      "why": {
+        "B": "Le nom de zone peut correspondre à des zones physiques différentes d'un compte à l'autre.",
+        "C": "Un subnet-id est propre à chaque compte, il n'indique pas la zone physique.",
+        "D": "Le CIDR est choisi librement, il n'a aucun lien avec l'emplacement physique."
+      },
+      "ref": "Atelier A.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-004",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Combien d'adresses IPv4 sont réellement utilisables pour des EC2 dans le subnet Public A (10.20.1.0/24) ?",
+      "choices": {
+        "A": "256",
+        "B": "254",
+        "C": "251",
+        "D": "65 536"
+      },
+      "answer": "C",
+      "explanation": "Un /24 contient 256 adresses, dont 5 sont réservées par AWS dans chaque subnet : 256 − 5 = 251.",
+      "why": {
+        "A": "Cette réponse oublie les 5 adresses réservées par AWS.",
+        "B": "254 correspond au calcul réseau classique (−2). AWS réserve 5 adresses, pas 2.",
+        "D": "65 536 est la taille du VPC entier (/16), pas celle d'un subnet /24."
+      },
+      "ref": "Atelier A.2 ; §4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans le subnet 10.20.1.0/24, laquelle de ces adresses ne peut PAS être attribuée à Web A ?",
+      "choices": {
+        "A": "10.20.1.4",
+        "B": "10.20.1.25",
+        "C": "10.20.1.2",
+        "D": "10.20.1.254"
+      },
+      "answer": "C",
+      "explanation": "AWS réserve .0 (réseau), .1 (routeur du VPC), .2 (DNS), .3 (usage futur) et .255 (diffusion).",
+      "why": {
+        "A": "10.20.1.4 est la première adresse attribuable du subnet.",
+        "B": "Cette adresse est dans la plage attribuable.",
+        "D": "Seule la dernière adresse (.255) est réservée, pas .254."
+      },
+      "ref": "Atelier A.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Qu'est-ce qui rend le subnet 10.20.1.0/24 « public » dans ce TP ?",
+      "choices": {
+        "A": "Sa table de routage a 0.0.0.0/0 vers l'IGW",
+        "B": "Son nom contient le mot « public »",
+        "C": "L'IGW est attachée au VPC",
+        "D": "Son bloc CIDR est dans 10.20.0.0/16"
+      },
+      "answer": "A",
+      "explanation": "Un subnet est public parce que la table de routage qui lui est associée envoie 0.0.0.0/0 vers l'Internet Gateway.",
+      "why": {
+        "B": "Le nom ou le tag ne change rien au routage.",
+        "C": "Attacher l'IGW ne suffit pas : sans route vers elle, le subnet reste privé.",
+        "D": "Les quatre subnets sont dans ce bloc, y compris les subnets privés."
+      },
+      "ref": "Atelier A.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous avez oublié d'associer Public B à la table publique : il utilise la table principale (seulement la route local). Web B a pourtant une IPv4 publique. Que donne curl -k https://<IP-de-Web-B> ?",
+      "choices": {
+        "A": "La page s'affiche : l'IP publique suffit",
+        "B": "Une erreur de certificat autosigné",
+        "C": "« Connection refused » renvoyé par Nginx",
+        "D": "Un timeout : l'IP publique seule ne suffit pas"
+      },
+      "answer": "D",
+      "explanation": "Sans route 0.0.0.0/0 vers l'IGW, les réponses de Web B ne peuvent pas repartir vers Internet. Il faut associer la table publique à Public B.",
+      "why": {
+        "A": "Une IP publique sans route vers l'IGW ne permet pas d'échanger avec Internet.",
+        "B": "Une erreur de certificat suppose une connexion TLS établie, ce qui n'est pas le cas ici.",
+        "C": "Le paquet n'arrive jamais à Nginx, donc aucun refus n'est renvoyé."
+      },
+      "ref": "Atelier A.3 ; B.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Public A est bien associé à la table avec 0.0.0.0/0 → IGW, mais Web A a été lancée sans IPv4 publique (auto-assign désactivé). Peut-on l'atteindre en HTTPS depuis Internet ?",
+      "choices": {
+        "A": "Oui, l'IGW traduit son IP privée automatiquement",
+        "B": "Non : il lui manque une IP publique ou une EIP",
+        "C": "Oui, si le Security Group autorise le port 443",
+        "D": "Non, il faut d'abord une NAT Gateway"
+      },
+      "answer": "B",
+      "explanation": "Pour être joignable depuis Internet, il faut à la fois une route vers l'IGW et une adresse publique (automatique ou Elastic IP).",
+      "why": {
+        "A": "L'IGW ne fait cette traduction que pour une instance qui a une IP publique.",
+        "C": "Le SG filtre le trafic mais ne donne pas d'adresse joignable.",
+        "D": "La NAT sert à la sortie depuis un subnet privé, pas à l'accès entrant."
+      },
+      "ref": "Atelier A.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quel est le rôle de la route « 10.20.0.0/16 → local » présente dans toutes les tables du VPC ?",
+      "choices": {
+        "A": "Envoyer le trafic Internet vers l'IGW",
+        "B": "Permettre le trafic entre les subnets du VPC",
+        "C": "Bloquer le trafic entre subnets publics et privés",
+        "D": "Donner une IP publique aux instances"
+      },
+      "answer": "B",
+      "explanation": "La route local, présente automatiquement et impossible à supprimer, permet à tous les subnets du VPC de communiquer entre eux.",
+      "why": {
+        "A": "C'est le rôle de 0.0.0.0/0 → igw-…, pas de la route local.",
+        "C": "Une route ne bloque rien. Le filtrage se fait avec les SG et les NACL.",
+        "D": "Les adresses publiques ne dépendent pas des routes."
+      },
+      "ref": "Atelier A.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi activer l'attribution automatique d'IPv4 publique seulement sur les subnets publics ?",
+      "choices": {
+        "A": "Parce que c'est impossible dans un subnet privé",
+        "B": "Pour que la NAT Gateway fonctionne",
+        "C": "Pour réduire le nombre d'adresses réservées",
+        "D": "Pour qu'une EC2 privée n'ait jamais d'IP publique par défaut"
+      },
+      "answer": "D",
+      "explanation": "Ce réglage est défini par subnet. L'activer seulement là où se trouve le web évite d'exposer par erreur une instance privée.",
+      "why": {
+        "A": "C'est possible techniquement : c'est justement pour cela qu'il faut le désactiver.",
+        "B": "La NAT utilise sa propre EIP. Ce réglage concerne les instances.",
+        "C": "Les 5 adresses réservées ne dépendent pas de ce réglage."
+      },
+      "ref": "Atelier A.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces éléments du TP est limité à UNE seule AZ ?",
+      "choices": {
+        "A": "Le subnet Public A (10.20.1.0/24)",
+        "B": "Le VPC tp-igl4-vpc",
+        "C": "L'AMI tp-igl4-web-ami",
+        "D": "Le bucket S3 tp-igl4-…"
+      },
+      "answer": "A",
+      "explanation": "Un subnet est dans une seule AZ. Le VPC, les AMI et les buckets S3 sont régionaux.",
+      "why": {
+        "B": "Un VPC couvre toutes les AZ de sa région.",
+        "C": "Une AMI est régionale : on la lance dans n'importe quelle AZ de R.",
+        "D": "Un bucket est régional et ses données sont réparties sur plusieurs AZ."
+      },
+      "ref": "Atelier A ; objectifs",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-012",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Vous essayez de créer un subnet 10.20.1.128/25 dans l'AZ B alors que Public A (10.20.1.0/24) existe déjà. Que se passe-t-il ?",
+      "choices": {
+        "A": "Accepté, car l'AZ est différente",
+        "B": "Accepté : le /25 remplace une partie du /24",
+        "C": "Refus : le CIDR chevauche celui de Public A",
+        "D": "Refus, car un /25 est trop petit"
+      },
+      "answer": "C",
+      "explanation": "Dans un VPC, les blocs CIDR des subnets ne doivent pas se chevaucher. 10.20.1.128/25 est inclus dans 10.20.1.0/24.",
+      "why": {
+        "A": "Le chevauchement est interdit dans tout le VPC, quelle que soit l'AZ.",
+        "B": "AWS ne découpe jamais un subnet existant.",
+        "D": "Un subnet peut aller jusqu'à /28 : la taille n'est pas le problème."
+      },
+      "ref": "Atelier A.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Peut-on associer le subnet Public A à deux tables de routage en même temps ?",
+      "choices": {
+        "A": "Oui, la plus spécifique l'emporte",
+        "B": "Oui, une publique et une privée",
+        "C": "Non : une seule table par subnet (partageable)",
+        "D": "Non, et une table ne peut servir qu'un subnet"
+      },
+      "answer": "C",
+      "explanation": "Chaque subnet est associé à une seule table de routage. C'est pourquoi la même table publique sert à Public A et à Public B.",
+      "why": {
+        "A": "La règle « route la plus spécifique » s'applique aux routes d'une même table, pas à plusieurs tables.",
+        "B": "Un subnet n'a jamais deux tables associées.",
+        "D": "Une même table peut être associée à plusieurs subnets."
+      },
+      "ref": "Atelier A.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-014",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Web A a une IPv4 publique mais aucun nom DNS public (ec2-…amazonaws.com). Quel réglage du VPC faut-il vérifier ?",
+      "choices": {
+        "A": "L'option « DNS hostnames » du VPC",
+        "B": "La route 0.0.0.0/0 vers l'IGW",
+        "C": "La règle 443 du Security Group",
+        "D": "L'association de la NACL au subnet"
+      },
+      "answer": "A",
+      "explanation": "Sans les noms d'hôte DNS activés sur le VPC, les instances n'ont pas de nom DNS public, même si elles ont une IP publique.",
+      "why": {
+        "B": "Le routage n'agit pas sur l'attribution des noms DNS.",
+        "C": "Le SG filtre le trafic, il ne crée pas de nom DNS.",
+        "D": "Une NACL filtre les paquets, sans lien avec le DNS."
+      },
+      "ref": "Atelier A.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-015",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Le VPC tp-igl4-vpc couvre l'AZ A et l'AZ B. Combien d'Internet Gateways faut-il pour que Public A et Public B accèdent à Internet ?",
+      "choices": {
+        "A": "Deux, une par AZ",
+        "B": "Deux, une par subnet public",
+        "C": "Quatre, une par subnet",
+        "D": "Une seule, attachée au VPC"
+      },
+      "answer": "D",
+      "explanation": "L'IGW est attachée au VPC (une par VPC). Les deux subnets publics l'utilisent grâce à la même table de routage.",
+      "why": {
+        "A": "L'IGW n'est pas liée à une AZ.",
+        "B": "Une IGW n'est pas attachée à un subnet mais au VPC.",
+        "C": "Les subnets privés ne doivent même pas avoir de route vers l'IGW."
+      },
+      "ref": "Atelier A.3 ; §4",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-vpc-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Région vs AZ ?",
+      "back": "Une région est une zone géographique qui contient plusieurs AZ isolées (alimentation, réseau). Deux AZ dans une même région restent une seule région.",
+      "ref": "Atelier A",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Qu'est-ce qui rend un subnet « public » ?",
+      "back": "Sa table de routage contient 0.0.0.0/0 → IGW. Pour être joignable, l'instance doit en plus avoir une IP publique ou une EIP.",
+      "ref": "Atelier A.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-f003",
+      "kind": "formula",
+      "tier": "core",
+      "front": "Adresses utilisables dans un subnet AWS en /24 ?",
+      "back": "256 − 5 = 251. Réservées : .0 (réseau), .1 (routeur), .2 (DNS), .3 (futur), .255 (diffusion).",
+      "ref": "Atelier A.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-f004",
+      "kind": "distinction",
+      "tier": "bonus",
+      "front": "Nom de zone vs AZ ID ?",
+      "back": "Le nom de zone (us-east-1a) peut désigner des zones physiques différentes selon le compte. L'AZ ID (use1-az4) est identique pour tous les comptes.",
+      "ref": "Atelier A.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-vpc-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Portée : VPC, subnet, AMI, bucket S3, volume EBS ?",
+      "back": "VPC, AMI, bucket et snapshot : la région. Subnet et volume EBS : une seule AZ.",
+      "ref": "Objectifs",
+      "source": "tp-aws"
+    }
+  ]
+}

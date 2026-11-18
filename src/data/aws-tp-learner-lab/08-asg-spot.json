@@ -1,0 +1,382 @@
+{
+  "id": "asg",
+  "title": "Atelier I : Auto Scaling et EC2 Spot",
+  "order": 8,
+  "description": "Launch Template, ASG min 1 / désiré 1 / max 2 sur deux AZ, scalabilité contre élasticité, Target Tracking, Spot et points de reprise.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-asg-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Vous passez à la main le desired de l'ASG de 1 à 2, puis le remettez à 1. Qu'est-ce que ce test démontre ?",
+      "choices": {
+        "A": "L'élasticité : l'ASG réagit seul à la charge",
+        "B": "La scalabilité : on peut ajouter de la capacité",
+        "C": "La haute disponibilité grâce au load balancer",
+        "D": "La tolérance aux interruptions Spot"
+      },
+      "answer": "B",
+      "explanation": "Changer la capacité à la main montre qu'on peut l'augmenter. L'élasticité suppose une adaptation automatique à la demande.",
+      "why": {
+        "A": "C'est vous qui avez changé desired, pas une réaction automatique.",
+        "C": "Il n'y a pas de load balancer dans ce TP.",
+        "D": "Le test ne concerne pas Spot."
+      },
+      "ref": "Atelier I.3 ; Q1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Que faut-il ajouter pour démontrer l'ÉLASTICITÉ de l'ASG ?",
+      "choices": {
+        "A": "Augmenter max à 10",
+        "B": "Passer desired à 2 de façon permanente",
+        "C": "Copier l'AMI dans une autre région",
+        "D": "Une politique Target Tracking (ex. CPU moyen à 40 %)"
+      },
+      "answer": "D",
+      "explanation": "Une politique automatique ajuste desired selon une métrique CloudWatch : c'est l'adaptation à la demande sans intervention.",
+      "why": {
+        "A": "max fixe un plafond, il ne déclenche rien.",
+        "B": "C'est une capacité fixe, pas une adaptation.",
+        "C": "La copie d'AMI ne concerne pas l'Auto Scaling."
+      },
+      "ref": "Atelier I.4 ; Q1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous terminez à la main l'instance gérée par l'ASG (min=1, desired=1). Que se passe-t-il ?",
+      "choices": {
+        "A": "L'ASG lance une nouvelle instance pour revenir à 1",
+        "B": "Rien, l'ASG passe à 0 instance",
+        "C": "L'ASG est supprimé automatiquement",
+        "D": "L'ASG redémarre l'instance terminée"
+      },
+      "answer": "A",
+      "explanation": "L'ASG maintient la capacité désirée. Une instance terminée est remplacée automatiquement.",
+      "why": {
+        "B": "desired vaut toujours 1 : l'ASG rétablit la capacité.",
+        "C": "L'ASG continue d'exister.",
+        "D": "Une instance terminée ne peut pas redémarrer : une nouvelle est créée."
+      },
+      "ref": "Atelier I.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi le Launch Template ne doit-il contenir aucune donnée métier locale à la machine ?",
+      "choices": {
+        "A": "Parce qu'un Launch Template ne peut pas contenir d'AMI",
+        "B": "Parce que les données ralentissent l'ASG",
+        "C": "Les instances de l'ASG peuvent être remplacées à tout moment",
+        "D": "Parce que le SG refuse les instances avec des données"
+      },
+      "answer": "C",
+      "explanation": "Une réduction de capacité ou un remplacement termine des instances et supprime leur disque racine. Les données doivent être dans S3 ou sur un stockage persistant.",
+      "why": {
+        "A": "Il référence justement l'AMI de l'atelier B.",
+        "B": "Le problème est la perte des données, pas la vitesse.",
+        "D": "Un SG ne regarde pas le contenu des disques."
+      },
+      "ref": "Atelier I.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "ASG sur Public A et Public B, desired passé à 2. Où seront normalement les deux instances ?",
+      "choices": {
+        "A": "Les deux dans l'AZ A, la première de la liste",
+        "B": "Les deux dans l'AZ de l'AMI",
+        "C": "Une dans l'AZ A, une dans l'AZ B",
+        "D": "Une dans la région R, une dans R2"
+      },
+      "answer": "C",
+      "explanation": "L'ASG répartit les instances entre les AZ de ses subnets. C'est ce qu'on vérifie en notant les AZ.",
+      "why": {
+        "A": "L'ASG équilibre les instances entre les AZ.",
+        "B": "Une AMI n'a pas d'AZ.",
+        "D": "Un ASG ne couvre qu'une seule région."
+      },
+      "ref": "Atelier I.2–3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-006",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Target Tracking à 40 % de CPU : vous lancez une charge CPU, mais aucune instance n'est ajoutée au bout d'une minute. Explication la plus probable ?",
+      "choices": {
+        "A": "Les métriques CloudWatch et l'alarme demandent plusieurs minutes",
+        "B": "Target Tracking ne fonctionne qu'avec un load balancer",
+        "C": "max=2 empêche toute augmentation",
+        "D": "L'ASG n'agit que sur la mémoire"
+      },
+      "answer": "A",
+      "explanation": "La politique réagit à des métriques agrégées sur des périodes de plusieurs minutes. L'effet est donc différé, comme le note le TP.",
+      "why": {
+        "B": "La métrique ASGAverageCPUUtilization fonctionne sans load balancer.",
+        "C": "max=2 autorise justement de passer de 1 à 2.",
+        "D": "La métrique choisie est le CPU moyen de l'ASG."
+      },
+      "ref": "Atelier I.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "ASG min=1, desired=1, max=2. Le CPU est à 100 % sur les deux instances. Combien d'instances au maximum ?",
+      "choices": {
+        "A": "3",
+        "B": "1",
+        "C": "Sans limite tant que le CPU dépasse 40 %",
+        "D": "2"
+      },
+      "answer": "D",
+      "explanation": "max fixe le plafond : la politique ne peut jamais lancer plus de 2 instances.",
+      "why": {
+        "A": "Ce serait au-delà de max.",
+        "B": "La politique peut monter jusqu'à max (2).",
+        "C": "max est une limite stricte."
+      },
+      "ref": "Atelier I.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Sans load balancer, l'ASG a 2 instances. Comment les utilisateurs accèdent-ils au service ?",
+      "choices": {
+        "A": "Par l'IP de l'ASG, qui répartit le trafic",
+        "B": "Par l'IP de chaque instance, sans point unique",
+        "C": "Par l'EIP de la NAT Gateway de Public A",
+        "D": "Par l'adresse associée à l'AMI du template"
+      },
+      "answer": "B",
+      "explanation": "L'ASG gère le nombre d'instances mais ne répartit pas le trafic. Sans load balancer, chaque instance a sa propre adresse.",
+      "why": {
+        "A": "Un ASG n'a pas d'adresse et ne répartit pas le trafic.",
+        "C": "La NAT ne sert qu'à la sortie des subnets privés.",
+        "D": "Une AMI n'a pas d'adresse."
+      },
+      "ref": "Atelier I.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Au nettoyage, vous terminez l'instance de l'ASG, mais une nouvelle apparaît. Quel ordre faut-il suivre ?",
+      "choices": {
+        "A": "Supprimer d'abord le Launch Template",
+        "B": "desired/min à 0, supprimer l'ASG, puis le Launch Template",
+        "C": "Terminer l'instance plusieurs fois de suite",
+        "D": "Supprimer le VPC directement"
+      },
+      "answer": "B",
+      "explanation": "Tant que l'ASG demande au moins une instance, il remplace celles qu'on termine. Le Launch Template se supprime après l'ASG qui l'utilise.",
+      "why": {
+        "A": "L'ASG l'utilise encore : il faut supprimer l'ASG d'abord.",
+        "C": "L'ASG la remplacera à chaque fois.",
+        "D": "Le VPC ne peut pas être supprimé tant que des ressources l'utilisent."
+      },
+      "ref": "Atelier I ; §8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-010",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle est la principale contrepartie d'une instance Spot par rapport à On-Demand ?",
+      "choices": {
+        "A": "Elle coûte plus cher qu'On-Demand",
+        "B": "Elle ne peut pas utiliser d'AMI personnalisée",
+        "C": "Elle demande un engagement d'un an",
+        "D": "AWS peut l'interrompre, avec un préavis d'environ 2 minutes"
+      },
+      "answer": "D",
+      "explanation": "Spot utilise la capacité inutilisée d'AWS avec une forte remise, mais AWS peut récupérer l'instance à tout moment.",
+      "why": {
+        "A": "Spot est nettement moins cher.",
+        "B": "Une instance Spot se lance avec n'importe quelle AMI.",
+        "C": "C'est le cas des Reserved Instances ou des Savings Plans."
+      },
+      "ref": "Atelier I.5–6 ; Q13",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Le calcul nocturne de l'université supporte une interruption. Pourquoi Spot est-il adapté ?",
+      "choices": {
+        "A": "Moins cher, et le travail reprend depuis un point de reprise",
+        "B": "Spot garantit que la tâche ne sera jamais interrompue",
+        "C": "Spot est plus rapide que On-Demand",
+        "D": "Spot donne une IP publique fixe"
+      },
+      "answer": "A",
+      "explanation": "Une tâche qui supporte l'interruption et enregistre son état peut profiter de la remise Spot. Si elle est interrompue, elle repart du dernier checkpoint.",
+      "why": {
+        "B": "C'est l'inverse : l'interruption est possible.",
+        "C": "Le type d'instance est le même. Seul le mode d'achat change.",
+        "D": "Spot n'a aucun lien avec les EIP."
+      },
+      "ref": "Atelier I.6",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-012",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Où une tâche Spot doit-elle écrire ses checkpoints pour pouvoir reprendre sur une autre instance ?",
+      "choices": {
+        "A": "Dans l'Instance Store de l'instance Spot",
+        "B": "Sur le volume racine de l'instance Spot",
+        "C": "Dans S3, hors de l'instance",
+        "D": "Dans le User Data de l'instance"
+      },
+      "answer": "C",
+      "explanation": "Si l'instance est terminée, son disque racine et son Instance Store disparaissent. S3 garde les checkpoints, lisibles depuis n'importe quelle nouvelle instance.",
+      "why": {
+        "A": "Il est perdu à l'interruption.",
+        "B": "Il est supprimé si l'instance est terminée.",
+        "D": "Le User Data est un script de démarrage, pas un stockage."
+      },
+      "ref": "Atelier I.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-013",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Une tâche de 6 h écrit un checkpoint dans S3 toutes les 15 minutes. Elle est interrompue à 3 h 40 ; le dernier checkpoint date de 3 h 30. Que se passe-t-il ?",
+      "choices": {
+        "A": "Elle repart de 0 h",
+        "B": "Elle repart de 3 h 40 sans rien perdre",
+        "C": "Elle repart de 3 h 30 : 10 minutes sont à refaire",
+        "D": "Elle repart de 3 h 15"
+      },
+      "answer": "C",
+      "explanation": "On repart du dernier état enregistré : on ne perd au plus qu'un intervalle de checkpoint. Plus les checkpoints sont fréquents, moins on perd, mais plus ils coûtent.",
+      "why": {
+        "A": "Ce serait le cas sans checkpoint.",
+        "B": "Le travail fait depuis le dernier checkpoint est perdu.",
+        "D": "Le checkpoint de 3 h 30 est le plus récent."
+      },
+      "ref": "Atelier I.5 : fréquence des checkpoints",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Votre instance Spot de test n'a pas été interrompue pendant la séance. Que peut-on en conclure ?",
+      "choices": {
+        "A": "Rien : une interruption est possible, pas garantie",
+        "B": "Que Spot ne s'interrompt jamais dans cette région",
+        "C": "Que les checkpoints sont inutiles",
+        "D": "Que l'instance est devenue On-Demand"
+      },
+      "answer": "A",
+      "explanation": "L'absence d'interruption pendant un test ne prouve pas que la reprise fonctionne. Il faut la décrire ou la simuler (arrêt manuel puis reprise).",
+      "why": {
+        "B": "Une interruption peut survenir à tout moment.",
+        "C": "Ils restent indispensables pour une future interruption.",
+        "D": "Une instance ne change pas de mode d'achat."
+      },
+      "ref": "Atelier I.6",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans quel cas faut-il choisir On-Demand plutôt que Spot pour le calcul ?",
+      "choices": {
+        "A": "La tâche est courte et peut être relancée",
+        "B": "Le budget est très limité",
+        "C": "La tâche écrit ses checkpoints dans S3",
+        "D": "Tâche non interruptible et sans checkpoint"
+      },
+      "answer": "D",
+      "explanation": "Si une interruption est inacceptable (échéance stricte, pas de reprise possible), On-Demand garantit que l'instance reste disponible.",
+      "why": {
+        "A": "C'est un bon cas pour Spot.",
+        "B": "Un budget serré pousse plutôt vers Spot.",
+        "C": "Avec des checkpoints, Spot devient intéressant."
+      },
+      "ref": "Atelier I.6",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-016",
+      "difficulty": "hard",
+      "tier": "bonus",
+      "question": "Sur l'instance de l'ASG (sans load balancer), Nginx plante mais l'OS tourne. L'ASG la remplace-t-il ?",
+      "choices": {
+        "A": "Oui, l'ASG teste le port 443",
+        "B": "Non : le contrôle EC2 par défaut ne voit pas Nginx",
+        "C": "Oui, CloudWatch redémarre Nginx",
+        "D": "Non, car l'ASG ne remplace jamais d'instance"
+      },
+      "answer": "B",
+      "explanation": "Sans load balancer, l'ASG ne vérifie que l'état EC2 de l'instance. Une application en panne sur une instance qui tourne n'est pas détectée.",
+      "why": {
+        "A": "Il faudrait un health check de load balancer pour tester l'application.",
+        "C": "CloudWatch ne relance pas de service sans configuration.",
+        "D": "Il remplace les instances en mauvais état EC2 ou terminées."
+      },
+      "ref": "Atelier I.2",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-asg-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Scalabilité vs élasticité ?",
+      "back": "Scalabilité : pouvoir augmenter la capacité (desired passé de 1 à 2 à la main). Élasticité : s'adapter automatiquement à la demande (Target Tracking).",
+      "ref": "Atelier I ; Q1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "min / desired / max d'un ASG ?",
+      "back": "min : plancher. desired : capacité cible maintenue (les instances terminées sont remplacées). max : plafond infranchissable.",
+      "ref": "Atelier I.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-f003",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi écrire les checkpoints Spot dans S3 ?",
+      "back": "Une instance Spot peut être interrompue (préavis d'environ 2 min). Son disque est alors perdu, alors que S3 reste lisible par l'instance qui reprend.",
+      "ref": "Atelier I.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-asg-f004",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi l'ASG relance-t-il une instance au nettoyage ?",
+      "back": "desired vaut toujours au moins 1. Il faut le mettre à 0 (ainsi que min), puis supprimer l'ASG avant le Launch Template.",
+      "ref": "§8",
+      "source": "tp-aws"
+    }
+  ]
+}

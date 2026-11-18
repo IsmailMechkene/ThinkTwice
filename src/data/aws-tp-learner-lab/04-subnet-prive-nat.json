@@ -1,0 +1,361 @@
+{
+  "id": "nat",
+  "title": "Atelier D : Subnet privé et NAT Gateway",
+  "order": 4,
+  "description": "EC2 sans IP publique, absence de sortie sans route, NAT Gateway dans Public A avec EIP, test de sortie et nettoyage.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-nat-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Une IGW est attachée au VPC. Une EC2 de Private A (table sans 0.0.0.0/0, pas d'IP publique) exécute curl -I https://example.com. Résultat ?",
+      "choices": {
+        "A": "Succès, car l'IGW est attachée au VPC",
+        "B": "Échec : sans route par défaut, aucune sortie vers Internet",
+        "C": "Succès, grâce à la route local",
+        "D": "Succès, si le SG autorise la sortie"
+      },
+      "answer": "B",
+      "explanation": "C'est la table de routage du subnet qui compte. Attacher une IGW au VPC ne donne pas d'accès aux subnets dont la table ne pointe pas vers elle.",
+      "why": {
+        "A": "L'IGW n'est utilisée que par les subnets qui ont une route vers elle.",
+        "C": "La route local ne couvre que 10.20.0.0/16.",
+        "D": "Un SG ne crée pas de chemin : il faut d'abord une route."
+      },
+      "ref": "Atelier D.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans quel subnet faut-il créer la NAT Gateway publique pour Private A ?",
+      "choices": {
+        "A": "Dans Private A, à côté de l'instance",
+        "B": "Dans Private B, pour séparer les AZ",
+        "C": "Directement sur l'IGW, sans subnet",
+        "D": "Dans Public A, qui a une route vers l'IGW"
+      },
+      "answer": "D",
+      "explanation": "La NAT doit pouvoir joindre Internet elle-même. On la place donc dans un subnet public dont la table a 0.0.0.0/0 → IGW.",
+      "why": {
+        "A": "Dans un subnet privé, la NAT n'aurait aucune sortie vers Internet.",
+        "B": "Private B est privé aussi, donc sans sortie.",
+        "C": "Une NAT Gateway est toujours créée dans un subnet."
+      },
+      "ref": "Atelier D.3 ; §4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle route faut-il ajouter, et dans quelle table, pour que Private A sorte vers Internet ?",
+      "choices": {
+        "A": "0.0.0.0/0 → nat-… dans la table de Private A",
+        "B": "0.0.0.0/0 → nat-… dans la table publique",
+        "C": "0.0.0.0/0 → igw-… dans la table de Private A",
+        "D": "10.20.11.0/24 → nat-… dans la table publique"
+      },
+      "answer": "A",
+      "explanation": "Le trafic de Private A doit passer par la NAT, qui l'envoie ensuite vers l'IGW grâce à la table publique.",
+      "why": {
+        "B": "Les subnets publics continuent de sortir directement par l'IGW.",
+        "C": "Le subnet deviendrait public, et sans IP publique l'instance ne sortirait pas.",
+        "D": "Le retour vers Private A passe déjà par la route local."
+      },
+      "ref": "Atelier D.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une fois la NAT en place, un serveur sur Internet tente d'ouvrir une connexion vers l'instance de Private A. Que se passe-t-il ?",
+      "choices": {
+        "A": "Succès, via l'EIP de la NAT",
+        "B": "Succès, si le SG privé autorise l'entrée",
+        "C": "Échec : la NAT ne laisse passer que les connexions sortantes",
+        "D": "Succès, car la table publique a une route vers l'IGW"
+      },
+      "answer": "C",
+      "explanation": "La NAT ne laisse rentrer que les réponses aux connexions ouvertes de l'intérieur. L'instance n'a ni IP publique ni redirection de port.",
+      "why": {
+        "A": "L'EIP de la NAT ne redirige aucune connexion entrante vers l'instance.",
+        "B": "Même avec un SG ouvert, aucun chemin entrant n'existe.",
+        "D": "Cette route concerne les subnets publics, pas Private A."
+      },
+      "ref": "Atelier D.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-005",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Depuis l'instance de Private A, curl https://example.com fonctionne via la NAT. Quelle IP source example.com voit-il ?",
+      "choices": {
+        "A": "L'IP privée 10.20.11.x de l'instance",
+        "B": "L'IP publique de Web A",
+        "C": "L'Elastic IP associée à la NAT Gateway",
+        "D": "Une IP différente pour chaque requête"
+      },
+      "answer": "C",
+      "explanation": "La NAT remplace l'adresse privée source par son EIP. Toutes les instances privées sortent donc avec cette même adresse publique.",
+      "why": {
+        "A": "Une adresse privée n'est pas routable sur Internet.",
+        "B": "La NAT n'utilise pas l'IP d'une autre instance.",
+        "D": "L'EIP de la NAT est fixe."
+      },
+      "ref": "Atelier D.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "L'instance privée n'a ni SSH ni IP publique, et Session Manager est refusé dans le lab. Comment récupérer le résultat du test curl ?",
+      "choices": {
+        "A": "Le lancer dans le User Data et lire le journal système",
+        "B": "Associer temporairement une EIP et ouvrir 22 à 0.0.0.0/0",
+        "C": "Ajouter 0.0.0.0/0 → IGW dans la table privée",
+        "D": "Mettre des Access Keys dans le User Data"
+      },
+      "answer": "A",
+      "explanation": "Le TP propose de consigner les tests réseau dans la sortie User Data, visible dans cloud-init-output.log et via « Get system log » de la console.",
+      "why": {
+        "B": "Cela expose l'instance, contrairement à l'objectif du subnet privé.",
+        "C": "Le subnet deviendrait public, ce qui fausse le test.",
+        "D": "C'est interdit par le TP et ne donne aucun accès au shell."
+      },
+      "ref": "Atelier D.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-007",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Instance dans Private A avec un instance profile SSM, mais sans NAT ni VPC endpoints. Session Manager peut-il s'y connecter ?",
+      "choices": {
+        "A": "Oui, Session Manager ne passe pas par le réseau",
+        "B": "Oui, si le port 22 est ouvert dans le SG",
+        "C": "Oui, grâce à l'IGW attachée au VPC",
+        "D": "Non, l'agent SSM doit pouvoir joindre les endpoints SSM"
+      },
+      "answer": "D",
+      "explanation": "Session Manager ne demande aucun port entrant, mais l'agent ouvre une connexion HTTPS sortante vers le service SSM. Sans NAT ni endpoint, c'est impossible.",
+      "why": {
+        "A": "L'agent communique avec SSM sur le réseau, en HTTPS sortant.",
+        "B": "Session Manager n'utilise pas SSH.",
+        "C": "Private A n'a pas de route vers l'IGW."
+      },
+      "ref": "Atelier D.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Fin du test NAT : quel ordre de nettoyage est correct ?",
+      "choices": {
+        "A": "Libérer l'EIP, puis supprimer la NAT",
+        "B": "Supprimer la NAT, attendre « deleted », puis libérer l'EIP",
+        "C": "Supprimer l'IGW : la NAT s'arrête seule",
+        "D": "Faire « End Lab » : tout est supprimé"
+      },
+      "answer": "B",
+      "explanation": "L'EIP ne peut pas être libérée tant que la NAT l'utilise. Il faut aussi retirer la route 0.0.0.0/0 → nat de la table privée.",
+      "why": {
+        "A": "L'EIP est encore associée à la NAT : sa libération échoue.",
+        "C": "La NAT et l'EIP restent facturées, et l'IGW ne se détache pas tant que des adresses publiques existent.",
+        "D": "Le TP précise que End Lab ne prouve pas la suppression des ressources."
+      },
+      "ref": "Atelier D.4 ; §8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous supprimez la NAT Gateway mais oubliez la route 0.0.0.0/0 → nat-… dans la table privée. État de cette route ?",
+      "choices": {
+        "A": "Elle bascule automatiquement vers l'IGW",
+        "B": "Elle devient « blackhole », sa cible n'existe plus",
+        "C": "Elle est supprimée automatiquement",
+        "D": "Elle continue de fonctionner via l'EIP"
+      },
+      "answer": "B",
+      "explanation": "Une route dont la cible a été supprimée apparaît en blackhole : le trafic est perdu. On supprime la route pendant le nettoyage.",
+      "why": {
+        "A": "AWS ne réécrit jamais une route vers une autre cible.",
+        "C": "La route reste et apparaît en blackhole.",
+        "D": "Sans NAT, l'EIP n'assure aucun routage."
+      },
+      "ref": "Atelier D.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-010",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Pourquoi le TP demande-t-il de créer la NAT juste pour le test et de la supprimer aussitôt ?",
+      "choices": {
+        "A": "Elle bloque le trafic des subnets publics",
+        "B": "Elle rend l'instance privée joignable",
+        "C": "Elle s'arrête seule après une heure",
+        "D": "Elle est facturée à l'heure, même sans trafic"
+      },
+      "answer": "D",
+      "explanation": "La NAT Gateway est facturée à l'heure, plus le volume traité, et son EIP aussi. Dans le Learner Lab, cela consomme vite le budget.",
+      "why": {
+        "A": "Elle n'a aucun effet sur les subnets publics.",
+        "B": "Elle ne permet aucune connexion entrante.",
+        "C": "Une NAT reste active tant qu'on ne la supprime pas."
+      },
+      "ref": "Atelier D ; §3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "L'instance privée a été lancée AVANT la création de la NAT ; son User Data (dnf install) a échoué. Vous ajoutez la NAT et la route. Le dnf du User Data réussit-il maintenant ?",
+      "choices": {
+        "A": "Non, le script a déjà tourné au premier boot",
+        "B": "Oui, cloud-init réessaie dès que le réseau revient",
+        "C": "Oui, après un simple Reboot",
+        "D": "Oui, car la NAT ré-exécute les scripts"
+      },
+      "answer": "A",
+      "explanation": "Le User Data ne s'exécute qu'une fois. Il faut relancer la commande à la main ou lancer une nouvelle instance.",
+      "why": {
+        "B": "cloud-init ne relance pas un User Data qui a échoué.",
+        "C": "Un Reboot ne relance pas un script User Data classique.",
+        "D": "La NAT ne fait que de la traduction d'adresses."
+      },
+      "ref": "Atelier D.1 ; B.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pour que l'instance privée reçoive la réponse d'example.com via la NAT, faut-il une règle ENTRANTE 443 dans son SG ?",
+      "choices": {
+        "A": "Oui, une entrée 443 depuis 0.0.0.0/0",
+        "B": "Oui, une entrée 1024–65535 depuis la NAT",
+        "C": "Non, le SG est stateful et laisse entrer la réponse",
+        "D": "Oui, une entrée depuis l'EIP de la NAT"
+      },
+      "answer": "C",
+      "explanation": "La connexion est ouverte de l'intérieur : le SG laisse rentrer la réponse. Il suffit que la sortie soit autorisée (c'est le cas par défaut).",
+      "why": {
+        "A": "C'est inutile, et cela ouvrirait une entrée sans raison.",
+        "B": "Ce serait nécessaire pour une NACL, pas pour un SG.",
+        "D": "Le SG stateful n'en a pas besoin."
+      },
+      "ref": "Atelier D.4 ; C.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-013",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quelle différence de rôle entre l'IGW et la NAT Gateway dans ce TP ?",
+      "choices": {
+        "A": "IGW : sortie seulement ; NAT : accès dans les 2 sens",
+        "B": "Les deux rendent les instances privées joignables",
+        "C": "IGW : accès dans les 2 sens ; NAT : sortie seulement",
+        "D": "La NAT remplace l'IGW dans le VPC"
+      },
+      "answer": "C",
+      "explanation": "L'IGW relie Internet aux instances qui ont une IP publique, dans les deux sens. La NAT permet aux instances privées de sortir sans être joignables.",
+      "why": {
+        "A": "C'est l'inverse.",
+        "B": "La NAT ne permet aucune connexion entrante.",
+        "D": "La NAT a besoin de l'IGW pour sortir."
+      },
+      "ref": "Atelier D ; §4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-014",
+      "difficulty": "hard",
+      "tier": "bonus",
+      "question": "Private B (AZ B) utilise aussi la NAT de Public A. Quel risque cela crée-t-il ?",
+      "choices": {
+        "A": "Si l'AZ A tombe, Private B perd aussi sa sortie",
+        "B": "Aucun : une NAT Gateway est régionale",
+        "C": "Private B devient joignable depuis Internet",
+        "D": "Le routage entre AZ est impossible"
+      },
+      "answer": "A",
+      "explanation": "Une NAT Gateway est zonale. La bonne pratique est d'avoir une NAT par AZ, avec une route vers la NAT de la même AZ.",
+      "why": {
+        "B": "Une NAT Gateway publique est créée dans un subnet, donc dans une AZ.",
+        "C": "La NAT n'ouvre aucun accès entrant, quelle que soit l'AZ.",
+        "D": "Une route vers une NAT d'une autre AZ fonctionne."
+      },
+      "ref": "Atelier D ; §4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-015",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Peut-on associer un Security Group à une NAT Gateway ?",
+      "choices": {
+        "A": "Oui, il est obligatoire à la création",
+        "B": "Oui, celui du subnet public est hérité",
+        "C": "Non, mais une policy IAM la filtre",
+        "D": "Non ; on filtre avec le SG de l'instance et les NACL"
+      },
+      "answer": "D",
+      "explanation": "Une NAT Gateway gérée ne prend pas de SG. Le filtrage se fait sur le SG des instances privées et sur les NACL des subnets.",
+      "why": {
+        "A": "La création d'une NAT Gateway ne demande pas de SG.",
+        "B": "Un SG ne s'hérite pas d'un subnet.",
+        "C": "IAM ne filtre pas les paquets."
+      },
+      "ref": "Atelier D",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-nat-f001",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi une IGW sur le VPC ne suffit-elle pas au subnet privé ?",
+      "back": "C'est la table du subnet qui décide. Sans 0.0.0.0/0 vers l'IGW ou la NAT, il n'y a aucune sortie.",
+      "ref": "Atelier D.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Montage NAT du TP ?",
+      "back": "NAT dans Public A avec une EIP. Table de Private A : 0.0.0.0/0 → nat. La NAT sort ensuite par la table publique vers l'IGW.",
+      "ref": "Atelier D.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-f003",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi la NAT n'expose-t-elle pas l'instance privée ?",
+      "back": "Elle ne laisse rentrer que les réponses aux connexions sortantes. L'instance n'a pas d'IP publique et aucun port n'est redirigé.",
+      "ref": "Atelier D.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-nat-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Nettoyage NAT ?",
+      "back": "Supprimer la route vers la NAT, supprimer la NAT, attendre « deleted », puis libérer l'EIP.",
+      "ref": "Atelier D.4",
+      "source": "tp-aws"
+    }
+  ]
+}

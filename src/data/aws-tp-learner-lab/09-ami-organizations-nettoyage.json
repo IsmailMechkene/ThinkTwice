@@ -1,0 +1,454 @@
+{
+  "id": "gouv",
+  "title": "Atelier J et nettoyage : AMI interrégionale, Organizations, responsabilité partagée",
+  "order": 9,
+  "description": "AMI régionale et copie vers R2, comptes multiples et facture consolidée, modèle de responsabilité partagée, IAM contre réseau, nettoyage final et règles du Learner Lab.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-gouv-001",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans la région R2, vous lancez une instance avec l'ID ami-… de tp-igl4-web-ami (créée dans R). Résultat ?",
+      "choices": {
+        "A": "Le lancement réussit, l'AMI est globale",
+        "B": "L'AMI est introuvable dans R2 : il faut la copier",
+        "C": "Le lancement réussit après une copie de l'EIP",
+        "D": "Le lancement réussit dans l'AZ A seulement"
+      },
+      "answer": "B",
+      "explanation": "Une AMI est régionale. Pour l'utiliser dans R2, on la copie (Copy AMI), ce qui crée une nouvelle AMI dans R2.",
+      "why": {
+        "A": "Une AMI n'est pas globale.",
+        "C": "Une EIP n'a aucun rôle dans le lancement.",
+        "D": "L'AZ A appartient à R, pas à R2."
+      },
+      "ref": "Atelier J.1 ; Q11",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Après la copie de tp-igl4-web-ami vers R2, que constate-t-on en comparant les deux AMI ?",
+      "choices": {
+        "A": "Elles ont le même ID",
+        "B": "L'AMI de R est déplacée vers R2",
+        "C": "L'AMI de R2 réutilise les snapshots de R",
+        "D": "ID différents, snapshots propres à R2"
+      },
+      "answer": "D",
+      "explanation": "La copie est une nouvelle ressource dans R2, avec son propre ID et ses snapshots. Il faut nettoyer les deux régions.",
+      "why": {
+        "A": "Chaque région attribue son propre ID.",
+        "B": "L'originale reste dans R.",
+        "C": "Les snapshots sont copiés dans R2."
+      },
+      "ref": "Atelier J.1 ; §8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans l'étude Organizations (Enseignement, Recherche, Administration), quel est le rôle du compte de gestion ?",
+      "choices": {
+        "A": "Gérer l'organisation et payer une facture consolidée",
+        "B": "Héberger toutes les ressources des trois comptes",
+        "C": "Fusionner les utilisateurs IAM des trois comptes",
+        "D": "Remplacer les comptes membres"
+      },
+      "answer": "A",
+      "explanation": "Le compte de gestion crée ou invite les comptes membres, applique des politiques et reçoit une seule facture pour tous les comptes.",
+      "why": {
+        "B": "Chaque compte garde ses propres ressources.",
+        "C": "IAM reste séparé dans chaque compte.",
+        "D": "Les comptes membres existent toujours et restent isolés."
+      },
+      "ref": "Atelier J.2 ; Q3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-004",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "En plus d'une facture unique, quel avantage financier apporte la facturation consolidée ?",
+      "choices": {
+        "A": "Chaque compte reçoit un budget gratuit illimité",
+        "B": "Les ressources sont automatiquement moins chères de moitié",
+        "C": "L'usage des comptes est cumulé pour les remises sur volume",
+        "D": "Les comptes membres ne paient plus rien du tout"
+      },
+      "answer": "C",
+      "explanation": "Avec la facturation consolidée, l'usage de tous les comptes est additionné pour atteindre les paliers de tarif dégressif.",
+      "why": {
+        "A": "Il n'y a pas de budget gratuit illimité.",
+        "B": "Les remises dépendent des volumes, pas d'un taux fixe.",
+        "D": "Leur usage est payé par le compte de gestion."
+      },
+      "ref": "Atelier J.2 ; Q3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-005",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Dans l'organisation, une SCP autorise S3 pour le compte Recherche. Un utilisateur IAM de ce compte n'a aucune policy. Peut-il lire un bucket ?",
+      "choices": {
+        "A": "Oui, la SCP lui accorde S3",
+        "B": "Oui, s'il est dans le compte de gestion",
+        "C": "Non : une SCP limite les droits mais n'en accorde aucun",
+        "D": "Non, une SCP bloque toujours S3"
+      },
+      "answer": "C",
+      "explanation": "La SCP fixe le maximum autorisé dans le compte. Il faut en plus une policy IAM qui accorde l'action.",
+      "why": {
+        "A": "Une SCP n'accorde jamais de permission.",
+        "B": "Il est dans le compte Recherche.",
+        "D": "Ici, la SCP autorise S3, mais elle ne suffit pas."
+      },
+      "ref": "Atelier J.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Responsabilité partagée : à qui revient l'installation d'un correctif critique de l'OS invité Amazon Linux sur Web A ?",
+      "choices": {
+        "A": "Au client",
+        "B": "À AWS",
+        "C": "À l'enseignant du lab",
+        "D": "Au fournisseur d'Nginx"
+      },
+      "answer": "A",
+      "explanation": "Sur EC2, le client gère l'OS invité : correctifs, configuration et applications. AWS gère l'infrastructure en dessous.",
+      "why": {
+        "B": "AWS ne gère pas l'OS invité d'une instance EC2.",
+        "C": "Dans le modèle, il n'y a que deux parties : AWS et le client.",
+        "D": "C'est au client d'appliquer les correctifs, quel que soit l'auteur du logiciel."
+      },
+      "ref": "Atelier J.3 ; Q5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-007",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Responsabilité partagée : panne d'un disque physique dans un datacenter AWS. Qui en est responsable ?",
+      "choices": {
+        "A": "Le client",
+        "B": "Le client et AWS à parts égales",
+        "C": "Le fournisseur d'accès Internet",
+        "D": "AWS"
+      },
+      "answer": "D",
+      "explanation": "La sécurité DU cloud (matériel, datacenters, hyperviseur) revient à AWS.",
+      "why": {
+        "A": "Le client n'a aucun accès au matériel physique.",
+        "B": "Le matériel est entièrement à la charge d'AWS.",
+        "C": "Il n'intervient pas dans les datacenters AWS."
+      },
+      "ref": "Atelier J.3 ; Q5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-008",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Le port 22 a été ouvert à 0.0.0.0/0 par erreur dans un Security Group. Qui en est responsable ?",
+      "choices": {
+        "A": "AWS, qui aurait dû bloquer la règle",
+        "B": "Le client : il configure ses SG",
+        "C": "Personne, c'est la valeur par défaut",
+        "D": "AWS, car c'est un problème réseau"
+      },
+      "answer": "B",
+      "explanation": "La configuration des SG fait partie de la sécurité DANS le cloud, qui revient au client.",
+      "why": {
+        "A": "AWS fournit l'outil, c'est le client qui le configure.",
+        "C": "Par défaut, un SG n'autorise aucun trafic entrant.",
+        "D": "La configuration du réseau virtuel relève du client."
+      },
+      "ref": "Atelier J.3 ; Q5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Classez : (1) contrôle des visiteurs du datacenter, (2) correctif de l'OS invité, (3) port 22 ouvert dans un SG, (4) panne d'un disque physique.",
+      "choices": {
+        "A": "AWS : 1, 2 et 4 ; client : 3",
+        "B": "AWS : 1 et 4 ; client : 2 et 3",
+        "C": "AWS : 4 ; client : 1, 2 et 3",
+        "D": "AWS : 1 et 3 ; client : 2 et 4"
+      },
+      "answer": "B",
+      "explanation": "Le physique (accès aux sites, matériel) revient à AWS. L'OS invité et la configuration du réseau virtuel reviennent au client.",
+      "why": {
+        "A": "Le correctif de l'OS invité revient au client sur EC2.",
+        "C": "Le client n'a aucun rôle dans l'accès physique aux datacenters.",
+        "D": "Le SG revient au client et le disque physique à AWS."
+      },
+      "ref": "Atelier J.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Le SG de Web A autorise 443 depuis partout. Un utilisateur sans aucune permission S3 peut-il lire le bucket grâce à cela ?",
+      "choices": {
+        "A": "Oui, l'ouverture du port 443 donne accès à S3",
+        "B": "Oui, s'il passe par Web A",
+        "C": "Non, car S3 n'utilise pas le port 443",
+        "D": "Non : le SG filtre des paquets, IAM autorise des actions API"
+      },
+      "answer": "D",
+      "explanation": "Un filtre réseau ouvert ne donne aucun droit sur les API AWS. L'accès à S3 dépend des policies IAM et des policies de bucket.",
+      "why": {
+        "A": "S3 n'utilise pas le SG de Web A pour autoriser les requêtes.",
+        "B": "Sans rôle autorisé sur l'instance, la requête est refusée.",
+        "C": "S3 utilise bien HTTPS. C'est l'autorisation IAM qui manque."
+      },
+      "ref": "Atelier J.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-011",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Un administrateur IAM (AdministratorAccess) ne peut pas joindre Web A en HTTPS : son IP n'est pas dans le SG. Pourquoi ses droits IAM ne suffisent-ils pas ?",
+      "choices": {
+        "A": "Le SG filtre les paquets, quelle que soit l'identité IAM",
+        "B": "Parce qu'AdministratorAccess exclut EC2",
+        "C": "Parce qu'il faut se connecter en root",
+        "D": "Parce que HTTPS demande une policy S3"
+      },
+      "answer": "A",
+      "explanation": "Les droits IAM permettent de MODIFIER le SG par l'API, mais les paquets restent filtrés selon les règles en place.",
+      "why": {
+        "B": "AdministratorAccess inclut EC2.",
+        "C": "Le root ne contourne pas non plus un SG.",
+        "D": "HTTPS vers Nginx n'a aucun lien avec S3."
+      },
+      "ref": "Atelier J.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous désenregistrez tp-igl4-web-ami. Quelle ressource facturable reste peut-être présente ?",
+      "choices": {
+        "A": "L'Internet Gateway",
+        "B": "Le Launch Template",
+        "C": "Le snapshot EBS associé à l'AMI",
+        "D": "Le bucket S3"
+      },
+      "answer": "C",
+      "explanation": "Désenregistrer une AMI ne supprime pas ses snapshots. Il faut les supprimer ensuite, comme le rappelle le §8.",
+      "why": {
+        "A": "Elle n'a aucun lien avec l'AMI.",
+        "B": "Le Launch Template ne coûte rien, et ce n'est pas un reste de l'AMI.",
+        "D": "Il n'a aucun lien avec l'AMI."
+      },
+      "ref": "§8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-013",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "La suppression du snapshot de l'AMI échoue : il est utilisé par une AMI. Que faire ?",
+      "choices": {
+        "A": "Forcer la suppression avec les clés root",
+        "B": "Copier le snapshot vers R2",
+        "C": "Désenregistrer d'abord l'AMI, puis supprimer le snapshot",
+        "D": "Terminer toutes les instances du compte"
+      },
+      "answer": "C",
+      "explanation": "Un snapshot utilisé par une AMI enregistrée est protégé. Une fois l'AMI désenregistrée, on peut le supprimer.",
+      "why": {
+        "A": "On n'utilise jamais le root, et ce n'est pas nécessaire.",
+        "B": "On créerait une ressource de plus à nettoyer.",
+        "D": "Ce n'est pas la cause du blocage."
+      },
+      "ref": "§8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "La suppression d'un subnet échoue avec DependencyViolation. Cause probable ?",
+      "choices": {
+        "A": "Une interface réseau l'utilise encore (EC2, NAT…)",
+        "B": "Le bucket S3 est encore versionné",
+        "C": "Le snapshot EBS existe encore",
+        "D": "L'AMI est encore enregistrée"
+      },
+      "answer": "A",
+      "explanation": "Un subnet ne peut être supprimé que lorsqu'aucune interface réseau n'y est attachée. Il faut d'abord terminer les instances et supprimer la NAT.",
+      "why": {
+        "B": "S3 n'est pas dans le subnet.",
+        "C": "Un snapshot n'est pas attaché à un subnet.",
+        "D": "Une AMI ne dépend pas d'un subnet."
+      },
+      "ref": "§8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous supprimez les deux objets visibles du bucket versionné, mais « Delete bucket » échoue. Pourquoi ?",
+      "choices": {
+        "A": "Le blocage public empêche toute suppression",
+        "B": "Il faut d'abord supprimer le VPC",
+        "C": "Un bucket ne se supprime qu'après 30 jours",
+        "D": "Anciennes versions et delete markers restent dans le bucket"
+      },
+      "answer": "D",
+      "explanation": "Dans un bucket versionné, une suppression simple ajoute un delete marker. Il faut vider toutes les versions et tous les markers (fonction Empty).",
+      "why": {
+        "A": "Il n'empêche pas de supprimer un bucket.",
+        "B": "S3 n'est pas dans le VPC.",
+        "C": "Un bucket vide peut être supprimé tout de suite."
+      },
+      "ref": "§8 ; Atelier G",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-016",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Peut-on se fier à « End Lab » pour prouver que les ressources du TP sont supprimées ?",
+      "choices": {
+        "A": "Oui, End Lab supprime tout",
+        "B": "Non : il faut les supprimer et le vérifier en capture",
+        "C": "Oui, si on fait aussi Reset",
+        "D": "Oui, pour toutes les ressources sauf S3"
+      },
+      "answer": "B",
+      "explanation": "Le TP demande de détruire chaque ressource, de vérifier dans les régions utilisées et de joindre une capture finale avec le budget restant.",
+      "why": {
+        "A": "End Lab arrête la session, ce n'est pas une preuve de suppression.",
+        "C": "Reset peut effacer le travail sans rendre le budget.",
+        "D": "Aucune ressource n'est supprimée de façon garantie par End Lab."
+      },
+      "ref": "§3 ; §8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-017",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "« CreateNatGateway » renvoie AccessDenied dans votre Learner Lab. Que faire selon le TP ?",
+      "choices": {
+        "A": "Réessayer avec les clés root",
+        "B": "Noter le refus et livrer un diagramme annoté et l'analyse",
+        "C": "Faire Reset pour récupérer les permissions",
+        "D": "Créer la NAT dans un compte personnel"
+      },
+      "answer": "B",
+      "explanation": "On ne contourne pas un AccessDenied. On note l'action, le service et le message, avec une capture, puis on fait la variante analyse ou simulation.",
+      "why": {
+        "A": "C'est interdit.",
+        "C": "Reset ne donne pas de permissions et peut tout effacer.",
+        "D": "Le TP impose d'utiliser seulement le compte de laboratoire."
+      },
+      "ref": "Atelier D ; §3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-018",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Quel ordre de suppression réseau est correct à la fin du TP ?",
+      "choices": {
+        "A": "VPC, subnets, puis NAT",
+        "B": "IGW, NAT, puis EIP",
+        "C": "SG, puis instances, puis NAT",
+        "D": "NAT, EIP, routes, IGW, NACL, SG, subnets, VPC"
+      },
+      "answer": "D",
+      "explanation": "On supprime d'abord ce qui utilise des adresses ou des interfaces (NAT, EIP), puis les routes et l'IGW, les NACL et SG spécifiques, les subnets et enfin le VPC.",
+      "why": {
+        "A": "Le VPC ne peut pas être supprimé tant qu'il contient des ressources.",
+        "B": "L'IGW ne se détache pas tant que des adresses publiques sont utilisées dans le VPC.",
+        "C": "Un SG utilisé par une instance ne peut pas être supprimé."
+      },
+      "ref": "§8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-019",
+      "difficulty": "easy",
+      "tier": "bonus",
+      "question": "À quoi servent les tags Project=TP-IGL4 et Owner=<groupe> imposés par le TP ?",
+      "choices": {
+        "A": "Les retrouver pour le nettoyage et les coûts",
+        "B": "Ouvrir automatiquement le port 443 du SG",
+        "C": "Donner des droits IAM aux membres du groupe",
+        "D": "Rendre les ressources du TP gratuites"
+      },
+      "answer": "A",
+      "explanation": "Des tags cohérents permettent de filtrer les ressources du TP dans la console et de vérifier qu'il n'en reste aucune.",
+      "why": {
+        "B": "Les tags ne modifient pas les SG.",
+        "C": "Les tags seuls n'accordent aucun droit.",
+        "D": "Les tags n'agissent pas sur les prix."
+      },
+      "ref": "§3",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-gouv-f001",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi l'AMI de R ne se lance-t-elle pas dans R2 ?",
+      "back": "Une AMI est régionale. Copy AMI crée dans R2 une nouvelle AMI, avec un autre ID et ses propres snapshots.",
+      "ref": "Atelier J.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Facture consolidée (Organizations) ?",
+      "back": "Le compte de gestion paie une facture unique pour tous les comptes membres. L'usage est cumulé pour les remises sur volume. Ressources et IAM restent séparés.",
+      "ref": "Atelier J.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "AWS vs client (responsabilité partagée) ?",
+      "back": "AWS : physique, matériel, datacenters, hyperviseur. Client : OS invité, correctifs, SG, IAM, données.",
+      "ref": "Atelier J.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-f004",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "IAM vs filtres réseau ?",
+      "back": "IAM : qui peut faire quelle action API sur quelle ressource. SG et NACL : quels paquets (IP, ports, flux) passent. L'un ne remplace pas l'autre.",
+      "ref": "Atelier J.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-gouv-f005",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Pièges du nettoyage ?",
+      "back": "Mettre l'ASG à 0 avant de le supprimer. Désenregistrer l'AMI, puis supprimer son snapshot. Vider toutes les versions S3. Supprimer la NAT avant de libérer l'EIP.",
+      "ref": "§8",
+      "source": "tp-aws"
+    }
+  ]
+}

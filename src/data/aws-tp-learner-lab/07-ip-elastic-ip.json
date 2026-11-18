@@ -1,0 +1,226 @@
+{
+  "id": "ip",
+  "title": "Atelier H : IPv4 publique, Elastic IP et cycle de vie",
+  "order": 7,
+  "description": "IPv4 publique automatique et IPv4 privée face à Reboot et Stop/Start, Elastic IP, facturation et libération.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-ip-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Web A a une IPv4 publique automatique. Après un Stop/Start, que deviennent ses adresses ?",
+      "choices": {
+        "A": "Les deux sont conservées",
+        "B": "Nouvelle IPv4 publique ; l'IPv4 privée ne change pas",
+        "C": "Les deux changent",
+        "D": "La publique est conservée, la privée change"
+      },
+      "answer": "B",
+      "explanation": "L'IPv4 publique automatique est libérée au Stop et une nouvelle est attribuée au Start. L'IPv4 privée reste attachée à l'interface.",
+      "why": {
+        "A": "L'IPv4 publique automatique change.",
+        "C": "L'IPv4 privée est conservée.",
+        "D": "C'est l'inverse."
+      },
+      "ref": "Atelier H.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Web A a une IPv4 publique automatique (sans EIP). Que deviennent ses adresses après un simple Reboot ?",
+      "choices": {
+        "A": "Seule l'IPv4 publique change",
+        "B": "Seule l'IPv4 privée change",
+        "C": "Les deux adresses changent",
+        "D": "Les deux adresses sont conservées"
+      },
+      "answer": "D",
+      "explanation": "Un Reboot ne libère pas les adresses : seul un Stop/Start change l'IP publique automatique.",
+      "why": {
+        "A": "C'est vrai pour un Stop/Start, pas pour un Reboot.",
+        "B": "L'IP privée ne change ni au Reboot ni au Stop/Start.",
+        "C": "Un Reboot garde les deux adresses."
+      },
+      "ref": "Atelier H.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Une Elastic IP est associée à Web A. Après un Stop/Start, quelle adresse publique a Web A ?",
+      "choices": {
+        "A": "La même EIP : elle reste associée",
+        "B": "Une nouvelle IP publique automatique",
+        "C": "Aucune, l'EIP est libérée au Stop",
+        "D": "L'EIP revient, mais seulement après un Reboot"
+      },
+      "answer": "A",
+      "explanation": "Une EIP est une adresse statique de votre compte. Elle reste associée à l'instance pendant un Stop/Start.",
+      "why": {
+        "B": "C'est le comportement sans EIP.",
+        "C": "L'EIP n'est libérée que si vous le faites vous-même.",
+        "D": "L'EIP reste associée en continu, Reboot ou pas."
+      },
+      "ref": "Atelier H.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-004",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Après un Stop/Start de Web A (sans EIP), « curl -k https://<ancienne-IP> » donne un timeout. Faut-il modifier la règle 443 du SG ?",
+      "choices": {
+        "A": "Oui, le SG est lié à l'ancienne IP publique",
+        "B": "Oui, il faut ajouter la nouvelle IP privée",
+        "C": "Non : utiliser la nouvelle IP publique du serveur",
+        "D": "Non, il faut recréer l'AMI"
+      },
+      "answer": "C",
+      "explanation": "La règle du SG porte sur la source (votre IP de test), qui n'a pas changé. C'est l'adresse publique du serveur qui a changé.",
+      "why": {
+        "A": "Le SG est attaché à l'interface de l'instance, pas à son IP publique.",
+        "B": "L'IP privée n'a pas changé et n'est pas filtrée ici.",
+        "D": "L'AMI n'a rien à voir avec l'adresse IP."
+      },
+      "ref": "Atelier H.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Fin de l'atelier H : comment libérer correctement l'Elastic IP de Web A ?",
+      "choices": {
+        "A": "Terminer Web A suffit à la libérer",
+        "B": "La désassocier suffit",
+        "C": "La désassocier, puis la libérer (Release)",
+        "D": "Faire « End Lab »"
+      },
+      "answer": "C",
+      "explanation": "Une EIP reste allouée au compte, et facturée, tant qu'elle n'est pas libérée. On la désassocie d'abord, puis on la libère.",
+      "why": {
+        "A": "Terminer l'instance désassocie l'EIP, mais elle reste allouée au compte.",
+        "B": "Une EIP désassociée reste allouée et facturée.",
+        "D": "End Lab ne prouve pas que les ressources sont supprimées."
+      },
+      "ref": "Atelier H.2 ; §8",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quel point de facturation des IPv4 publiques le TP rappelle-t-il ?",
+      "choices": {
+        "A": "IPv4 publiques et EIP sont facturées, associées ou non",
+        "B": "Une EIP n'est jamais facturée",
+        "C": "Seule l'IP privée est facturée",
+        "D": "L'IP automatique est payante, l'EIP gratuite à vie"
+      },
+      "answer": "A",
+      "explanation": "Les IPv4 publiques (automatiques ou EIP) sont facturées à l'heure. Une EIP inutilisée continue de coûter tant qu'elle n'est pas libérée.",
+      "why": {
+        "B": "Une EIP gardée sans être libérée coûte de l'argent.",
+        "C": "Les adresses privées ne sont pas facturées en tant que telles.",
+        "D": "L'EIP est facturée elle aussi."
+      },
+      "ref": "Atelier H.3 ; §3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-007",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces trois éléments donne une adresse publique STABLE à travers les Stop/Start ?",
+      "choices": {
+        "A": "L'IP publique automatique",
+        "B": "L'AMI tp-igl4-web-ami",
+        "C": "L'ID de l'instance",
+        "D": "L'Elastic IP"
+      },
+      "answer": "D",
+      "explanation": "Seule l'EIP reste la même. L'IP publique automatique change au Stop/Start, et l'AMI est un modèle d'instance, pas une adresse.",
+      "why": {
+        "A": "Elle change à chaque Stop/Start.",
+        "B": "Une AMI est une image de disque, pas une adresse réseau.",
+        "C": "C'est un identifiant AWS, pas une adresse joignable."
+      },
+      "ref": "Atelier H.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Peut-on associer une EIP allouée dans la région R à une instance de la région R2 ?",
+      "choices": {
+        "A": "Oui, une EIP est globale",
+        "B": "Non, une EIP appartient à une région",
+        "C": "Oui, après une copie d'AMI",
+        "D": "Oui, si les VPC ont le même CIDR"
+      },
+      "answer": "B",
+      "explanation": "Une Elastic IP est allouée dans une région et ne s'associe qu'à des ressources de cette région.",
+      "why": {
+        "A": "Une EIP n'est pas globale.",
+        "C": "Copier une AMI ne déplace pas d'adresse IP.",
+        "D": "Le CIDR ne change rien à la portée régionale de l'EIP."
+      },
+      "ref": "Atelier H",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-009",
+      "difficulty": "hard",
+      "tier": "bonus",
+      "question": "Dans l'ASG, une instance remplace une instance terminée. Son IP publique est différente. Pourquoi est-ce gênant sans load balancer ?",
+      "choices": {
+        "A": "Le SG refuse les nouvelles IP serveur",
+        "B": "Aucune adresse fixe : les clients ne savent pas où se connecter",
+        "C": "L'ASG garde l'ancienne IP pour l'instance remplaçante",
+        "D": "L'AMI fixe l'adresse IP de l'instance"
+      },
+      "answer": "B",
+      "explanation": "Chaque nouvelle instance reçoit une nouvelle IP. Sans load balancer, rien ne donne aux clients un point d'entrée stable.",
+      "why": {
+        "A": "Le SG filtre les sources, pas l'adresse du serveur.",
+        "C": "Les IP automatiques ne sont pas transférées d'une instance à l'autre.",
+        "D": "Une AMI ne contient aucune adresse IP publique."
+      },
+      "ref": "Ateliers H, I",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-ip-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "IP publique automatique vs EIP au Stop/Start ?",
+      "back": "L'IP automatique change au Stop/Start, et l'IP privée est conservée. L'EIP reste associée et stable. Au Reboot, rien ne change.",
+      "ref": "Atelier H",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Nettoyage d'une EIP ?",
+      "back": "La désassocier, puis la libérer (Release). Une EIP allouée reste facturée, même inutilisée.",
+      "ref": "Atelier H.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ip-f003",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "IP automatique, EIP, AMI ?",
+      "back": "IP automatique : non stable. EIP : adresse statique régionale, facturée. AMI : modèle d'instance, pas une adresse.",
+      "ref": "Atelier H.3",
+      "source": "tp-aws"
+    }
+  ]
+}

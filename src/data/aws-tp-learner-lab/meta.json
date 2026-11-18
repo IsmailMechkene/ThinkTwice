@@ -1,0 +1,15 @@
+{
+  "name": "TP AWS Learner Lab (IGL4)",
+  "description": "QCM sur les manipulations du TP intégrateur avancé AWS : VPC, EC2 et AMI, SG et NACL, NAT, EBS, S3 et IAM, Elastic IP, ASG et Spot, Organizations et nettoyage.",
+  "icon": "🧪",
+  "color": "#d97706",
+  "language": "fr",
+  "contributors": [],
+  "sources": {
+    "tp-aws": {
+      "label": "TP intégrateur avancé AWS — Learner Lab (IGL4)",
+      "file": "courses/cloud/TP_AWS_Learner_Lab_Avance_IGL4_sans_duree.pdf",
+      "author": ""
+    }
+  }
+}

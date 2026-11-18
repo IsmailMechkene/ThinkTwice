@@ -1,0 +1,384 @@
+{
+  "id": "sgnacl",
+  "title": "Atelier C : Security Groups, NACL et ports éphémères",
+  "order": 3,
+  "description": "SG stateful contre NACL stateless, panne HTTPS provoquée par une NACL, diagnostic de l'aller et du retour, ordre des règles.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-sgnacl-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Vous supprimez toutes les règles SORTANTES de tp-igl4-web-sg et gardez l'entrée 443 depuis votre IP. La page HTTPS se charge-t-elle encore ?",
+      "choices": {
+        "A": "Non, il faut une règle sortante 443",
+        "B": "Oui, le SG est stateful et laisse passer la réponse",
+        "C": "Non, il faut une règle sortante 1024–65535",
+        "D": "Oui, mais seulement en HTTP"
+      },
+      "answer": "B",
+      "explanation": "Un SG suit l'état des connexions : la réponse à une connexion entrante autorisée sort sans règle sortante.",
+      "why": {
+        "A": "Ce raisonnement vaut pour une NACL (stateless), pas pour un SG.",
+        "C": "C'est la correction d'une NACL. Un SG n'en a pas besoin.",
+        "D": "Le protocole ne change rien : c'est le suivi d'état du SG qui laisse passer la réponse."
+      },
+      "ref": "Atelier C.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-002",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Cette NACL est associée à Public A et le SG autorise 443 depuis votre IP. Que donne HTTPS vers Web A ?",
+      "code": "NACL tp-igl4-nacl (Public A)\nEntrant : 100 ALLOW TCP 443   source <IP-client>/32\n          *   DENY  ALL\nSortant : 100 ALLOW TCP 443   dest   <IP-client>/32\n          *   DENY  ALL",
+      "choices": {
+        "A": "Succès : l'entrée et la sortie 443 suffisent",
+        "B": "Échec : la requête entrante est bloquée",
+        "C": "Succès : le SG stateful laisse repasser la réponse",
+        "D": "Échec : la réponse vers le port éphémère est bloquée"
+      },
+      "answer": "D",
+      "explanation": "La requête entre (vers le port 443), mais la réponse sort vers le port éphémère du client (ex. 51734). La NACL, stateless, ne l'autorise pas.",
+      "why": {
+        "A": "La réponse n'est pas envoyée vers le port 443 du client mais vers son port éphémère.",
+        "B": "La règle entrante 100 autorise la requête.",
+        "C": "Le SG la laisse passer, mais la NACL du subnet la bloque ensuite. Il faut passer les deux."
+      },
+      "ref": "Atelier C.3–4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Quelle correction rétablit HTTPS avec la NACL fautive (entrée 443, sortie 443 vers le client) ?",
+      "code": "NACL tp-igl4-nacl (Public A)\nEntrant : 100 ALLOW TCP 443   source <IP-client>/32\n          *   DENY  ALL\nSortant : 100 ALLOW TCP 443   dest   <IP-client>/32\n          *   DENY  ALL",
+      "choices": {
+        "A": "Ajouter en sortie TCP 1024–65535 vers <IP-client>/32",
+        "B": "Ajouter en entrée TCP 1024–65535 depuis le client",
+        "C": "Ajouter dans le SG une sortie 1024–65535",
+        "D": "Ajouter en sortie TCP 80 vers <IP-client>/32"
+      },
+      "answer": "A",
+      "explanation": "La réponse part du port 443 du serveur vers un port éphémère du client. La règle sortante doit donc autoriser ces ports de destination.",
+      "why": {
+        "B": "La réponse sort de Web A : c'est une règle sortante qui manque.",
+        "C": "Le SG laisse déjà passer la réponse. C'est la NACL qui bloque.",
+        "D": "Le port 80 n'intervient pas dans la réponse HTTPS."
+      },
+      "ref": "Atelier C.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-004",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Paquet retour de Web A : source 10.20.1.25:443 → destination <IP-client>:51734. Quel champ la règle SORTANTE de la NACL doit-elle autoriser ?",
+      "choices": {
+        "A": "Le port source 443 du serveur",
+        "B": "Le port de destination 443",
+        "C": "Le port de destination 51734 (éphémère du client)",
+        "D": "Aucun : la NACL suit l'état de la connexion"
+      },
+      "answer": "C",
+      "explanation": "Les règles NACL portent sur le port de destination du paquet. Au retour, c'est le port éphémère choisi par le client.",
+      "why": {
+        "A": "Les règles NACL ne filtrent pas le port source.",
+        "B": "443 est la destination de la requête aller, pas de la réponse.",
+        "D": "Une NACL est stateless : chaque sens doit être autorisé."
+      },
+      "ref": "Atelier C.4 : diagnostic aller/retour",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous créez une NACL personnalisée sans ajouter de règle, puis l'associez à Public A. Effet sur Web A ?",
+      "choices": {
+        "A": "Tout est autorisé, comme avec la NACL par défaut",
+        "B": "Seul le trafic sortant est autorisé",
+        "C": "Tout le trafic du subnet est bloqué",
+        "D": "Les règles du SG s'appliquent seules"
+      },
+      "answer": "C",
+      "explanation": "Une NACL personnalisée neuve n'a que la règle * DENY, en entrée comme en sortie, donc tout est refusé.",
+      "why": {
+        "A": "C'est la NACL par défaut qui autorise tout, pas une NACL neuve.",
+        "B": "Les deux sens sont refusés par la règle *.",
+        "D": "Les deux filtres s'appliquent : la NACL refuse avant même le SG."
+      },
+      "ref": "Atelier C.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-006",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "NACL entrante de Public A : règle 100 DENY TCP 443 depuis 0.0.0.0/0, règle 200 ALLOW TCP 443 depuis <IP-client>/32. Votre HTTPS passe-t-il ?",
+      "choices": {
+        "A": "Non, la règle 100 correspond en premier et refuse",
+        "B": "Oui, la règle la plus spécifique (/32) gagne",
+        "C": "Oui, une règle ALLOW l'emporte sur un DENY",
+        "D": "Non, car une NACL ne peut pas contenir de DENY"
+      },
+      "answer": "A",
+      "explanation": "Les règles NACL sont lues par numéro croissant et la première qui correspond s'applique. Ici, la règle 100 refuse avant la 200.",
+      "why": {
+        "B": "Une NACL ne choisit pas la règle la plus spécifique : seul l'ordre des numéros compte.",
+        "C": "Aucune priorité de l'ALLOW : c'est la première règle qui correspond qui s'applique.",
+        "D": "Les NACL acceptent des règles DENY, contrairement aux SG."
+      },
+      "ref": "Atelier C.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-007",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "NACL entrante : règle 90 ALLOW TCP 443 depuis <IP-client>/32, règle 100 DENY ALL depuis 0.0.0.0/0. Le reste d'Internet peut-il joindre le port 443 ?",
+      "choices": {
+        "A": "Oui, la règle 90 ouvre 443 à tous",
+        "B": "Non, et votre client est aussi bloqué par la 100",
+        "C": "Oui, car le SG ne connaît pas l'ordre des règles",
+        "D": "Non : seul le client passe (90), les autres tombent sur 100"
+      },
+      "answer": "D",
+      "explanation": "Votre paquet correspond d'abord à la règle 90 et passe. Les autres sources ne correspondent pas à 90 et sont refusées par la 100.",
+      "why": {
+        "A": "La règle 90 est limitée à votre /32.",
+        "B": "Votre paquet a déjà été accepté par la 90 : la 100 n'est pas lue.",
+        "C": "Le SG n'ouvre 443 qu'à votre IP, et la NACL refuse de toute façon."
+      },
+      "ref": "Atelier C.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous voulez bloquer UNE adresse IP malveillante précise tout en laissant 443 ouvert à d'autres. Quel outil le permet ?",
+      "choices": {
+        "A": "Une règle DENY dans le Security Group",
+        "B": "Une règle DENY numérotée dans la NACL",
+        "C": "Retirer la route 0.0.0.0/0 de la table publique",
+        "D": "Une policy IAM qui refuse cette IP"
+      },
+      "answer": "B",
+      "explanation": "Un SG n'a que des règles ALLOW. Pour refuser explicitement une adresse, on place un DENY dans la NACL, avant l'ALLOW.",
+      "why": {
+        "A": "Un SG ne peut pas contenir de règle DENY.",
+        "C": "Toute l'Internet serait coupée, pas une seule IP.",
+        "D": "IAM contrôle les appels API, pas les paquets qui arrivent sur le port 443."
+      },
+      "ref": "Atelier C.5 ; J.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-009",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "curl -k https://<IP-Web-A> renvoie « Connection timed out ». Que peut-on en déduire ?",
+      "choices": {
+        "A": "Nginx est arrêté sur l'instance",
+        "B": "Un paquet est filtré ou mal routé (SG, NACL ou route)",
+        "C": "Le certificat autosigné est invalide",
+        "D": "C'est forcément la NACL, car un SG renvoie un refus"
+      },
+      "answer": "B",
+      "explanation": "Un SG et une NACL rejettent sans rien répondre : le client attend jusqu'au timeout. Le symptôme ne dit pas lequel des deux bloque.",
+      "why": {
+        "A": "Si Nginx était arrêté et le paquet arrivait, on aurait « Connection refused ».",
+        "C": "Une erreur de certificat suppose une connexion établie.",
+        "D": "Un SG rejette lui aussi sans répondre : le timeout est le même."
+      },
+      "ref": "Atelier C.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "curl -k https://<IP-Web-A> répond immédiatement « Connection refused ». Où chercher ?",
+      "choices": {
+        "A": "Dans les règles du Security Group",
+        "B": "Dans la NACL de Public A",
+        "C": "Dans la table de routage publique",
+        "D": "Sur l'instance : rien n'écoute sur 443 (Nginx ?)"
+      },
+      "answer": "D",
+      "explanation": "Un refus immédiat (RST) prouve que le paquet est arrivé à l'OS : SG, NACL et route sont bons. Aucun processus n'écoute sur le port.",
+      "why": {
+        "A": "Un SG rejette sans répondre : il ne provoque pas de refus immédiat.",
+        "B": "Une NACL rejette aussi sans répondre.",
+        "C": "Un problème de route donne un timeout, pas un refus."
+      },
+      "ref": "Atelier B.3 ; C.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "La NACL corrigée de Public A autorise seulement : entrée 443 depuis le client, sortie 1024–65535 vers le client. Sur Web A, « sudo dnf update » échoue. Pourquoi ?",
+      "choices": {
+        "A": "La NACL bloque l'accès aux dépôts et leurs réponses",
+        "B": "Le SG bloque les réponses des dépôts",
+        "C": "La route vers l'IGW a disparu",
+        "D": "dnf exige une Elastic IP"
+      },
+      "answer": "A",
+      "explanation": "Pour joindre les dépôts, il faut une sortie 443/80 vers ces serveurs et une entrée sur les ports éphémères pour leurs réponses. Ici, tout est limité au client.",
+      "why": {
+        "B": "Le SG est stateful et sa sortie est ouverte : les réponses passent.",
+        "C": "La NACL ne modifie pas les routes.",
+        "D": "Une IP publique automatique suffit pour sortir."
+      },
+      "ref": "Atelier C.3 : « règles minimales nécessaires à l'administration »",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pendant le test, la NACL fautive est associée seulement à Public A. Web B (Public B) répond-il encore en HTTPS ?",
+      "choices": {
+        "A": "Non : une NACL s'applique à tout le VPC",
+        "B": "Non, car Web B partage le même SG",
+        "C": "Oui : une NACL ne s'applique qu'aux subnets associés",
+        "D": "Oui, mais seulement en HTTP"
+      },
+      "answer": "C",
+      "explanation": "Une NACL agit au niveau du subnet. Public B garde sa propre NACL (celle par défaut), donc Web B n'est pas touché.",
+      "why": {
+        "A": "Une NACL est associée à des subnets, pas au VPC entier.",
+        "B": "Le SG de Web B autorise 443 : il n'est pas en cause.",
+        "D": "Web B n'écoute qu'en HTTPS, et sa NACL autorise tout."
+      },
+      "ref": "Atelier C.2",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-013",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "HTTPS marchait au labo. Chez vous, avec une autre box, curl vers Web A donne un timeout. Cause la plus probable ?",
+      "choices": {
+        "A": "L'IP privée de Web A a changé",
+        "B": "Le certificat n'est valable que sur un réseau",
+        "C": "Votre IP publique a changé, la règle /32 ne correspond plus",
+        "D": "Nginx refuse les nouveaux clients"
+      },
+      "answer": "C",
+      "explanation": "La règle 443 du SG n'autorise que l'ancienne IP de test en /32. Il faut la mettre à jour avec la nouvelle.",
+      "why": {
+        "A": "L'IP privée ne joue aucun rôle dans l'accès depuis Internet.",
+        "B": "Un certificat ne dépend pas du réseau, et une erreur de certificat ne donne pas un timeout.",
+        "D": "Rien dans la configuration Nginx ne filtre par IP."
+      },
+      "ref": "Atelier B.1",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-014",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Pourquoi le TP propose-t-il d'ouvrir les ports 1024–65535 en sortie plutôt qu'une plage exacte ?",
+      "choices": {
+        "A": "La plage éphémère dépend de l'OS du client",
+        "B": "Parce que Nginx répond depuis un port aléatoire",
+        "C": "Parce qu'une NACL ne sait pas filtrer un seul port",
+        "D": "Pour autoriser aussi SSH et HTTP"
+      },
+      "answer": "A",
+      "explanation": "Linux utilise souvent 32768–60999 et Windows 49152–65535. La plage 1024–65535 couvre ces cas, d'où « adapter si le client utilise un autre intervalle ».",
+      "why": {
+        "B": "Le serveur répond depuis le port 443. C'est le port du client qui varie.",
+        "C": "Une NACL peut filtrer un port unique, comme 443.",
+        "D": "Ces ports ne servent pas aux réponses du serveur."
+      },
+      "ref": "Atelier C.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-015",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous ajoutez au SG une règle 443 depuis 0.0.0.0/0, à côté de la règle 443 depuis votre /32. Quel est l'effet ?",
+      "choices": {
+        "A": "La règle /32 reste prioritaire, rien ne change",
+        "B": "La règle la plus récente remplace l'ancienne",
+        "C": "Conflit : AWS refuse d'enregistrer la règle",
+        "D": "443 est ouvert à tout Internet (les règles s'additionnent)"
+      },
+      "answer": "D",
+      "explanation": "Un SG évalue toutes ses règles ALLOW ensemble, sans ordre. La règle la plus large suffit à ouvrir le port.",
+      "why": {
+        "A": "Un SG n'a pas de priorité entre règles : elles s'additionnent.",
+        "B": "Les deux règles coexistent.",
+        "C": "Des règles qui se recouvrent sont acceptées."
+      },
+      "ref": "Atelier C.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-016",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Comment remettre Public A dans un état sûr après le test NACL ?",
+      "choices": {
+        "A": "Supprimer le subnet Public A et le recréer",
+        "B": "Réassocier Public A à la NACL précédente (par défaut)",
+        "C": "Supprimer la NACL par défaut du VPC",
+        "D": "Laisser Public A sans aucune NACL"
+      },
+      "answer": "B",
+      "explanation": "Le TP demande de sauvegarder les règles initiales, puis de réassocier l'ACL précédente. La NACL par défaut autorise tout et le SG reste le filtre principal.",
+      "why": {
+        "A": "C'est inutile et cela casse Web A.",
+        "C": "La NACL par défaut ne peut pas être supprimée.",
+        "D": "Un subnet est toujours associé à une NACL."
+      },
+      "ref": "Atelier C.5",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-sgnacl-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "SG vs NACL ?",
+      "back": "SG : stateful, au niveau de l'instance (ENI), ALLOW seulement, toutes les règles évaluées. NACL : stateless, au niveau du subnet, ALLOW et DENY, règles numérotées et première correspondance.",
+      "ref": "Atelier C",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-f002",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi « sortie 443 seulement » casse-t-elle HTTPS avec une NACL ?",
+      "back": "La réponse part de 443 vers le port éphémère du client. Il faut autoriser en sortie TCP 1024–65535 vers l'IP du client.",
+      "ref": "Atelier C.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-f003",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Port éphémère ?",
+      "back": "Port source temporaire choisi par le client pour une connexion. Linux : 32768–60999 ; Windows : 49152–65535. AWS recommande d'ouvrir 1024–65535.",
+      "ref": "Atelier C.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-sgnacl-f004",
+      "kind": "definition",
+      "tier": "core",
+      "front": "NACL par défaut vs NACL personnalisée neuve ?",
+      "back": "La NACL par défaut autorise tout. Une NACL personnalisée neuve n'a que * DENY et bloque donc tout.",
+      "ref": "Atelier C.2",
+      "source": "tp-aws"
+    }
+  ]
+}

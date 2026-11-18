@@ -1,0 +1,391 @@
+{
+  "id": "ec2",
+  "title": "Atelier B : EC2, User Data et AMI",
+  "order": 2,
+  "description": "Script User Data (Nginx HTTPS autosigné), cloud-init, création d'une AMI et lancement de Web B depuis cette AMI.",
+  "questions": [
+    {
+      "id": "aws-tp-learner-lab-ec2-001",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Quand un script User Data classique s'exécute-t-il par défaut ?",
+      "choices": {
+        "A": "À chaque démarrage (Start ou Reboot)",
+        "B": "Une seule fois, au premier démarrage de l'instance",
+        "C": "À chaque connexion SSH à l'instance",
+        "D": "À la création de l'AMI à partir de l'instance"
+      },
+      "answer": "B",
+      "explanation": "cloud-init exécute le script une fois par instance, au premier boot, en tant que root. Il ne s'exécute plus aux démarrages suivants.",
+      "why": {
+        "A": "Ce n'est pas le comportement par défaut d'un script User Data classique.",
+        "C": "Les connexions SSH ne déclenchent pas cloud-init.",
+        "D": "Créer une AMI ne lance aucun script."
+      },
+      "ref": "Atelier B.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-002",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Sous quel utilisateur le script User Data de l'annexe A s'exécute-t-il ?",
+      "choices": {
+        "A": "ec2-user",
+        "B": "nginx",
+        "C": "ssm-user",
+        "D": "root"
+      },
+      "answer": "D",
+      "explanation": "Le User Data s'exécute en root. C'est pourquoi le script lance dnf et systemctl sans sudo.",
+      "why": {
+        "A": "ec2-user est l'utilisateur de connexion, pas celui de cloud-init.",
+        "B": "L'utilisateur nginx n'existe pas encore au début du script.",
+        "C": "ssm-user est l'utilisateur des sessions Session Manager."
+      },
+      "ref": "Annexe A",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-003",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Après un Stop/Start de Web A, HTTPS répond toujours, alors que le User Data ne se ré-exécute pas. Pourquoi ?",
+      "choices": {
+        "A": "systemctl enable a activé Nginx au démarrage",
+        "B": "Le User Data se ré-exécute à chaque Start",
+        "C": "L'AMI réinstalle Nginx à chaque démarrage",
+        "D": "Le Security Group relance le service"
+      },
+      "answer": "A",
+      "explanation": "« systemctl enable --now nginx » démarre Nginx et l'active au boot. Le service redémarre donc avec l'OS, sans le script.",
+      "why": {
+        "B": "Un script User Data classique ne tourne qu'au premier démarrage.",
+        "C": "Web A n'a pas été lancée depuis l'AMI, et une AMI n'installe rien au boot.",
+        "D": "Un SG filtre le trafic, il ne gère pas les services de l'OS."
+      },
+      "ref": "Atelier B.5 ; Annexe A",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-004",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Web B est lancée à partir de tp-igl4-web-ami, sans User Data. Que contient la page d'accueil de Web B ?",
+      "choices": {
+        "A": "Le nom d'hôte de Web B, regénéré au boot",
+        "B": "Une page vide, car Nginx n'est pas installé",
+        "C": "Le nom d'hôte de Web A, figé dans l'AMI",
+        "D": "Une erreur, car il manque le User Data"
+      },
+      "answer": "C",
+      "explanation": "index.html a été écrit par le User Data sur Web A, puis copié dans l'AMI. Comme rien ne s'exécute sur Web B, la page garde le hostname de Web A.",
+      "why": {
+        "A": "Pour cela, il faudrait qu'un script s'exécute sur Web B, ce qui n'est pas le cas.",
+        "B": "Nginx et sa configuration sont dans le volume racine copié par l'AMI.",
+        "D": "Le User Data ne sert qu'à l'initialisation : l'image contient déjà tout."
+      },
+      "ref": "Atelier B.4–5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-005",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Lequel de ces éléments n'est PAS contenu dans tp-igl4-web-ami ?",
+      "choices": {
+        "A": "Le paquet Nginx installé",
+        "B": "Le fichier /etc/nginx/conf.d/tp-ssl.conf",
+        "C": "Le Security Group tp-igl4-web-sg",
+        "D": "La clé /etc/pki/tls/private/tp.key"
+      },
+      "answer": "C",
+      "explanation": "Une AMI contient un snapshot du volume racine (OS, paquets, fichiers) et des métadonnées. Le SG, le subnet et l'IP sont choisis au lancement.",
+      "why": {
+        "A": "Les paquets installés sont dans le volume racine, donc dans l'AMI.",
+        "B": "Ce fichier est sur le disque racine : il est dans l'AMI.",
+        "D": "La clé privée est copiée avec le disque. Attention, c'est la même pour toutes les instances."
+      },
+      "ref": "Atelier B.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-006",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "HTTPS ne répond pas sur Web A. Quel journal montre ce qu'a fait le script User Data ?",
+      "choices": {
+        "A": "/var/log/cloud-init-output.log",
+        "B": "/var/log/nginx/access.log",
+        "C": "~/.bash_history d'ec2-user",
+        "D": "Les journaux CloudTrail du compte"
+      },
+      "answer": "A",
+      "explanation": "La sortie standard et les erreurs du User Data (avec la trace de set -x) sont écrites dans /var/log/cloud-init-output.log.",
+      "why": {
+        "B": "Ce journal ne contient que les requêtes HTTP reçues par Nginx.",
+        "C": "Le script n'est pas lancé dans un shell interactif d'ec2-user.",
+        "D": "CloudTrail enregistre les appels API AWS, pas ce qui s'exécute dans l'OS."
+      },
+      "ref": "Atelier B.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-007",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Avec « set -euxo pipefail », la commande « dnf install -y nginx openssl » échoue (dépôts inaccessibles). Que se passe-t-il ensuite ?",
+      "choices": {
+        "A": "Le script continue et Nginx démarre quand même",
+        "B": "cloud-init relance le script jusqu'à ce qu'il réussisse",
+        "C": "AWS termine l'instance automatiquement",
+        "D": "Le script s'arrête ; Nginx n'est ni configuré ni lancé"
+      },
+      "answer": "D",
+      "explanation": "-e arrête le script à la première commande en erreur, et -x trace chaque commande dans le journal cloud-init.",
+      "why": {
+        "A": "-e arrête justement le script dès la première erreur.",
+        "B": "cloud-init ne relance pas un User Data qui a échoué.",
+        "C": "L'instance reste en running, seul le script a échoué."
+      },
+      "ref": "Annexe A ; B.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-008",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "curl -k https://<IP-publique> renvoie un timeout. Sur l'instance, systemctl status nginx indique « active (running) ». Quelle cause est la plus probable ?",
+      "choices": {
+        "A": "Le certificat est autosigné",
+        "B": "Le SG n'autorise 443 que depuis une autre IP cliente",
+        "C": "Nginx n'est pas installé",
+        "D": "Le User Data ne s'est pas exécuté"
+      },
+      "answer": "B",
+      "explanation": "Un timeout signifie que le paquet est filtré ou mal routé avant d'atteindre Nginx (SG, NACL, route ou IP publique). Nginx tourne bien.",
+      "why": {
+        "A": "Un certificat donne une erreur TLS, pas un timeout. De plus, -k ignore la validation.",
+        "C": "systemctl indique que le service tourne.",
+        "D": "Nginx tourne, donc le script est allé au bout."
+      },
+      "ref": "Atelier B.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-009",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "Dans le test « curl -k https://<IPv4-publique> », à quoi sert l'option -k ?",
+      "choices": {
+        "A": "À forcer l'utilisation de TLS 1.3",
+        "B": "À accepter le certificat autosigné sans le valider",
+        "C": "À suivre les redirections HTTP",
+        "D": "À n'afficher que les en-têtes"
+      },
+      "answer": "B",
+      "explanation": "-k (--insecure) désactive la vérification du certificat. C'est acceptable seulement dans le TP, avec un certificat autosigné.",
+      "why": {
+        "A": "-k n'a aucun lien avec la version de TLS.",
+        "C": "C'est l'option -L.",
+        "D": "C'est l'option -I, utilisée à l'atelier D."
+      },
+      "ref": "Atelier B.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-010",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Dans le navigateur, https://<IP-de-Web-A> affiche « Votre connexion n'est pas privée ». Qu'en conclure ?",
+      "choices": {
+        "A": "Le Security Group bloque le port 443 entrant",
+        "B": "Nginx est arrêté sur l'instance Web A",
+        "C": "La NACL bloque les ports éphémères de retour",
+        "D": "Le serveur répond ; seul le certificat autosigné est refusé"
+      },
+      "answer": "D",
+      "explanation": "Pour afficher cet avertissement, le navigateur a reçu le certificat : le réseau, le SG et Nginx fonctionnent. Le certificat autosigné n'est simplement pas reconnu.",
+      "why": {
+        "A": "Un blocage par le SG donnerait un timeout, sans aucun certificat reçu.",
+        "B": "Un Nginx arrêté ne pourrait pas envoyer de certificat.",
+        "C": "Le navigateur a reçu une réponse : le chemin retour fonctionne."
+      },
+      "ref": "Atelier B.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-011",
+      "difficulty": "hard",
+      "tier": "core",
+      "question": "Le certificat est généré avec « -days 2 ». Une semaine plus tard, vous lancez une nouvelle instance depuis tp-igl4-web-ami. Que se passe-t-il ?",
+      "choices": {
+        "A": "Elle sert un certificat expiré, copié depuis l'AMI",
+        "B": "L'AMI a expiré au bout de 2 jours",
+        "C": "Le User Data régénère un certificat neuf",
+        "D": "Nginx refuse de démarrer, HTTPS est muet"
+      },
+      "answer": "A",
+      "explanation": "Le certificat est un fichier du disque racine, copié tel quel dans l'AMI. Rien ne le régénère au lancement, il est donc expiré.",
+      "why": {
+        "B": "Une AMI n'expire pas. Seul le certificat qu'elle contient expire.",
+        "C": "Aucun User Data n'est exécuté sur l'instance lancée depuis l'AMI.",
+        "D": "Nginx démarre avec un certificat expiré. Ce sont les clients qui le signalent."
+      },
+      "ref": "Annexe A ; B.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-012",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Vous voulez des instances qui démarrent vite avec Nginx déjà installé, mais dont la page indique leur propre hostname. Quelle combinaison choisir ?",
+      "choices": {
+        "A": "L'AMI seule, sans User Data",
+        "B": "Un User Data complet sans AMI, à chaque lancement",
+        "C": "Une AMI avec Nginx + un court User Data qui écrit la page",
+        "D": "Copier l'AMI une fois par AZ"
+      },
+      "answer": "C",
+      "explanation": "L'AMI fournit ce qui est commun à toutes les instances (paquets, configuration). Le User Data, exécuté au premier boot, ajoute ce qui est propre à chaque instance.",
+      "why": {
+        "A": "La page garderait le hostname de l'instance source.",
+        "B": "Cela fonctionne, mais chaque instance réinstalle tout et dépend des dépôts : c'est plus lent.",
+        "D": "Une AMI est régionale : pas besoin de la copier par AZ."
+      },
+      "ref": "Atelier B : tableau AMI vs User Data",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-013",
+      "difficulty": "easy",
+      "tier": "core",
+      "question": "L'AMI a été créée à partir de Web A (AZ A). Peut-on lancer Web B dans Public B (AZ B) avec cette AMI ?",
+      "choices": {
+        "A": "Non, l'AMI est liée à l'AZ A",
+        "B": "Seulement après une copie vers l'AZ B",
+        "C": "Oui, une AMI est utilisable dans toute la région",
+        "D": "Seulement dans le même subnet que Web A"
+      },
+      "answer": "C",
+      "explanation": "Une AMI est une ressource régionale : elle se lance dans n'importe quelle AZ de la région R.",
+      "why": {
+        "A": "C'est le volume EBS qui est lié à une AZ, pas l'AMI.",
+        "B": "On copie une AMI vers une autre région, pas vers une autre AZ.",
+        "D": "Le subnet se choisit librement au lancement."
+      },
+      "ref": "Atelier B.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-014",
+      "difficulty": "hard",
+      "tier": "bonus",
+      "question": "Vous arrêtez Web A, modifiez son User Data (nouvelle page), puis la redémarrez. La page change-t-elle ?",
+      "choices": {
+        "A": "Non : un script classique ne tourne qu'au 1er boot",
+        "B": "Oui, tout User Data modifié est ré-exécuté",
+        "C": "Oui, mais seulement après un Reboot",
+        "D": "Non : on ne peut pas modifier le User Data"
+      },
+      "answer": "A",
+      "explanation": "cloud-init sait que le script de cette instance a déjà été exécuté. Modifier l'attribut User Data ne le relance pas, sauf configuration spéciale.",
+      "why": {
+        "B": "C'est une idée fausse fréquente : le script classique n'est pas relancé.",
+        "C": "Un Reboot ne relance pas non plus un script classique.",
+        "D": "On peut le modifier quand l'instance est arrêtée, mais il ne sera pas ré-exécuté."
+      },
+      "ref": "Atelier B.5",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-015",
+      "difficulty": "medium",
+      "tier": "bonus",
+      "question": "Pendant la création de tp-igl4-web-ami, HTTPS sur Web A est coupé quelques instants. Pourquoi ?",
+      "choices": {
+        "A": "L'AMI supprime temporairement le SG",
+        "B": "L'IP publique est déplacée vers l'AMI",
+        "C": "Nginx est désinstallé pendant la copie",
+        "D": "Par défaut, AWS redémarre l'instance pour créer l'AMI"
+      },
+      "answer": "D",
+      "explanation": "Sans l'option « No reboot », AWS redémarre l'instance pour obtenir un système de fichiers cohérent avant de prendre le snapshot.",
+      "why": {
+        "A": "Créer une AMI ne modifie pas le Security Group.",
+        "B": "Une AMI n'a pas d'adresse IP.",
+        "C": "La création d'une AMI ne touche pas aux paquets."
+      },
+      "ref": "Atelier B.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-016",
+      "difficulty": "medium",
+      "tier": "core",
+      "question": "Le TP interdit d'ouvrir SSH à 0.0.0.0/0. Quelle option d'administration respecte cette consigne ?",
+      "choices": {
+        "A": "Ouvrir 22 à 0.0.0.0/0 avec un mot de passe fort",
+        "B": "Session Manager, ou 22 limité à votre IP en /32",
+        "C": "Ouvrir 22 à 0.0.0.0/0 seulement en sortie",
+        "D": "Mettre des Access Keys dans le User Data"
+      },
+      "answer": "B",
+      "explanation": "Session Manager ne demande aucun port entrant. Sinon, on limite le port 22 à l'IP de test en /32.",
+      "why": {
+        "A": "Le port reste exposé au monde entier, ce qui est contraire à la consigne.",
+        "C": "Une règle sortante ne permet pas de se connecter à l'instance.",
+        "D": "Le TP interdit les clés statiques, et elles ne servent pas à SSH."
+      },
+      "ref": "Atelier B.1 ; §3",
+      "source": "tp-aws"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "aws-tp-learner-lab-ec2-f001",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "AMI vs User Data ?",
+      "back": "L'AMI est une image figée du disque (OS, paquets, fichiers). Le User Data est un script exécuté une fois, au premier boot d'une instance, en root.",
+      "ref": "Atelier B",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-f002",
+      "kind": "definition",
+      "tier": "core",
+      "front": "Où lire la sortie du User Data ?",
+      "back": "/var/log/cloud-init-output.log. On vérifie aussi systemctl status nginx, les routes et le SG.",
+      "ref": "Atelier B.3",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-f003",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi Web B affiche-t-elle le hostname de Web A ?",
+      "back": "index.html a été écrit sur Web A puis copié dans l'AMI, et aucun script n'est exécuté sur Web B.",
+      "ref": "Atelier B.4",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-f004",
+      "kind": "why",
+      "tier": "core",
+      "front": "Pourquoi Nginx revient-il après un Stop/Start ?",
+      "back": "« systemctl enable » l'a activé au démarrage. Le User Data, lui, ne se ré-exécute pas.",
+      "ref": "Annexe A",
+      "source": "tp-aws"
+    },
+    {
+      "id": "aws-tp-learner-lab-ec2-f005",
+      "kind": "distinction",
+      "tier": "core",
+      "front": "Timeout, refused ou erreur de certificat ?",
+      "back": "Timeout : filtrage ou routage (SG, NACL, route). Refused : rien n'écoute sur le port. Erreur de certificat : le serveur répond, seul le certificat est refusé.",
+      "ref": "Atelier B.3",
+      "source": "tp-aws"
+    }
+  ]
+}
