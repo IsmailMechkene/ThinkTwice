@@ -32,7 +32,7 @@ export default function ResumeBanner() {
         >
           {t('resume.discard')}
         </Button>
-        <Button to="/quiz/play">{t('resume.continue')}</Button>
+        <Button to={`/quiz/play${active.spec || ''}`}>{t('resume.continue')}</Button>
       </div>
     </div>
   )

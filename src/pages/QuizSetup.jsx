@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
 import Icon from '../components/Icon'
@@ -7,24 +7,14 @@ import { Button, Card, Chip, PageHeader, SectionTitle, StepTitle, Toggle } from 
 import { useMistakes } from '../hooks/useMistakes'
 import { useProgress } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
-import { matchesFilter, questions, subjectById } from '../lib/content'
+import { matchesFilter, questions } from '../lib/content'
 import { pickQuestions } from '../lib/quiz'
+import { filterFromParams, quizPath, writeFilter } from '../lib/share'
 
 const COUNTS = [5, 10, 20, 40]
 // Rough pace used for the time estimate.
 const MINUTES_PER_QUESTION = 1.25
 
-function filterFromParams(params) {
-  const subject = params.get('subject')
-  const chapter = params.get('chapter')
-  const valid = subject && subjectById[subject]
-  return {
-    ...EMPTY_FILTER,
-    subjectIds: valid ? [subject] : [],
-    chapterKeys: valid && chapter ? [`${subject}/${chapter}`] : [],
-    coreOnly: params.get('core') === '1',
-  }
-}
 
 const PRESET_TONES = {
   '01': { edge: 'var(--accent)', ink: 'text-accent-700 dark:text-accent-300' },
@@ -53,15 +43,32 @@ function Preset({ n, title, desc, onClick, disabled }) {
 }
 
 export default function QuizSetup() {
-  const [params] = useSearchParams()
+  const [params, setParams] = useSearchParams()
   const navigate = useNavigate()
   const { progress } = useProgress()
   const { t } = useI18n()
-  const [filter, setFilter] = useState(() => filterFromParams(params))
-  const [count, setCount] = useState(() => Number(params.get('count')) || 10)
-  const [prioritize, setPrioritize] = useState(true)
-  const [exam, setExam] = useState(false)
-  const [minutes, setMinutes] = useState(15)
+  // Every setting lives in the URL, so a copied link opens the same setup:
+  // ?subject=…&chapter=…&count=20|all&prio=0&exam=15
+  const filter = useMemo(() => filterFromParams(params), [params])
+  const count = params.get('count') === 'all' ? 0 : Number(params.get('count')) || 10
+  const prioritize = params.get('prio') !== '0'
+  const examParam = Number(params.get('exam'))
+  const exam = examParam > 0
+  const minutes = exam ? Math.min(240, examParam) : 15
+  const update = (fn) =>
+    setParams(
+      (prev) => {
+        const next = new URLSearchParams(prev)
+        fn(next)
+        return next
+      },
+      { replace: true },
+    )
+  const setFilter = (f) => update((p) => writeFilter(p, f))
+  const setCount = (n) => update((p) => (n === 10 ? p.delete('count') : p.set('count', n === 0 ? 'all' : String(n))))
+  const setPrioritize = (on) => update((p) => (on ? p.delete('prio') : p.set('prio', '0')))
+  const setExam = (on) => update((p) => (on ? p.set('exam', String(minutes)) : p.delete('exam')))
+  const setMinutes = (m) => update((p) => p.set('exam', String(m)))
   const scope = useMemo(() => (filter.subjectIds.length ? { subjectIds: filter.subjectIds } : undefined), [filter.subjectIds])
   const { count: mistakeCount } = useMistakes(scope)
 
@@ -71,7 +78,7 @@ export default function QuizSetup() {
 
   function launch(f, { n, examMinutes = null, weak = prioritize } = {}) {
     const picked = pickQuestions(f, { count: n || undefined, prioritize: weak, stats: progress.questions })
-    navigate('/quiz/play', { state: { mode: examMinutes ? 'exam' : 'quiz', questionIds: picked.map((q) => q.id), examMinutes } })
+    navigate(quizPath({ mode: examMinutes ? 'exam' : 'quiz', questionIds: picked.map((q) => q.id), examMinutes }))
   }
 
   // Presets keep the subject selection, nothing else.
@@ -102,7 +109,7 @@ export default function QuizSetup() {
           title={t('preset.mistakes')}
           desc={mistakeCount ? t('setup.reviseMistakes', { count: mistakeCount }) : t('player.noMistakesHint')}
           disabled={!mistakeCount}
-          onClick={() => navigate('/quiz/play', { state: { mode: 'revise', filter: scope || {} } })}
+          onClick={() => navigate(quizPath({ mode: 'revise', filter: scope }))}
         />
       </div>
       <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">{t('setup.presetsHint')}</p>

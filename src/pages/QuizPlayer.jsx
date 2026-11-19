@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router'
+import { Navigate, useLocation, useNavigate, useSearchParams } from 'react-router'
 import Icon from '../components/Icon'
 import QuestionCard, { Explanation } from '../components/QuestionCard'
 import QuestionGrid from '../components/QuestionGrid'
@@ -11,27 +11,36 @@ import { arrangeChoices } from '../lib/quiz'
 import { shuffle } from '../lib/random'
 import { clearActiveQuiz, loadActiveQuiz, saveActiveQuiz } from '../lib/activeQuiz'
 import { summarize } from '../lib/scoring'
+import { quizSpecFromParams, resultPath } from '../lib/share'
 
 export const RESULT_KEY = 'thinktwice:lastResult'
 
 // Builds the fixed list of questions for this session (frozen at mount).
-// Without navigation state (reload, "Resume" button), the saved quiz in progress is restored.
-function useSession(state, progress, profileId) {
+// The URL describes the quiz (see lib/share.js), so a shared link starts the same quiz.
+// If the saved quiz in progress has the same URL (reload, "Resume" button), it is restored instead.
+function useSession(search, progress, profileId) {
   return useState(() => {
-    if (!state) return loadActiveQuiz(profileId)
+    const spec = quizSpecFromParams(new URLSearchParams(search))
+    const saved = loadActiveQuiz(profileId)
+    if (!spec) return saved
+    if (saved && saved.session.spec === search) return saved
     clearActiveQuiz(profileId)
-    let ids = state.questionIds
-    if (state.mode === 'revise') {
-      ids = shuffle(
-        Object.keys(progress.mistakes).filter((id) => questionById[id] && matchesFilter(questionById[id], state.filter || {})),
-      )
+    let ids = spec.questionIds
+    if (spec.mode === 'revise') {
+      ids = shuffle(Object.keys(progress.mistakes).filter((id) => questionById[id] && matchesFilter(questionById[id], spec.filter)))
     }
     const items = (ids || [])
       .map((id) => questionById[id])
       .filter(Boolean)
-      .map((q) => ({ question: q, arranged: arrangeChoices(q, state.mode === 'revise') }))
+      .map((q) => ({ question: q, arranged: arrangeChoices(q, spec.mode === 'revise') }))
     return {
-      session: { mode: state.mode, items, deadline: state.examMinutes ? Date.now() + state.examMinutes * 60_000 : null, startedAt: Date.now() },
+      session: {
+        mode: spec.mode,
+        spec: search,
+        items,
+        deadline: spec.examMinutes ? Date.now() + spec.examMinutes * 60_000 : null,
+        startedAt: Date.now(),
+      },
       index: 0,
       answers: [],
       visited: [],
@@ -45,18 +54,24 @@ function formatTime(ms) {
 }
 
 // Each navigation to /quiz/play starts a fresh session, even from /quiz/play itself.
+// A bare /quiz/play (old bookmark, "Resume") is redirected to the URL of the saved quiz, so it can be shared.
 export default function QuizPlayerPage() {
   const location = useLocation()
+  const { currentProfile } = useProgress()
+  if (!location.search) {
+    const spec = loadActiveQuiz(currentProfile.id)?.session.spec
+    if (spec) return <Navigate to={`/quiz/play${spec}`} replace />
+  }
   return <QuizPlayer key={location.key} />
 }
 
 function QuizPlayer() {
-  const { state } = useLocation()
+  const [params] = useSearchParams()
   const navigate = useNavigate()
   const { progress, answerQuestion, recordSession, currentProfile } = useProgress()
   const { t } = useI18n()
   const profileId = currentProfile.id
-  const restored = useSession(state, progress, profileId)
+  const restored = useSession(params.toString() ? `?${params}` : '', progress, profileId)
   const session = restored?.session
 
   const [index, setIndex] = useState(restored?.index ?? 0)
@@ -93,7 +108,7 @@ function QuizPlayer() {
       } catch {
         /* ignore */
       }
-      navigate('/results', { replace: true, state: { result } })
+      navigate(resultPath(result), { replace: true })
     },
     [session, recordSession, navigate, profileId],
   )

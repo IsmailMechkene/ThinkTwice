@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router'
-import FilterPanel, { EMPTY_FILTER } from '../components/FilterPanel'
+import FilterPanel from '../components/FilterPanel'
 import Flashcard from '../components/Flashcard'
 import { Button, Card, EmptyState, PageHeader, ProgressBar, SectionTitle, Segmented, StepTitle } from '../components/ui'
 import { useProgress } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
-import { flashcards, matchesFilter, subjectById } from '../lib/content'
+import { flashcardById, flashcards, matchesFilter } from '../lib/content'
 import { dayKey } from '../lib/date'
 import { shuffle } from '../lib/random'
+import { filterFromParams, readIds, writeFilter, writeIds } from '../lib/share'
 import { BOX_INTERVAL_DAYS, boxOf, isDue, MAX_BOX } from '../lib/srs'
 
 // A card missed during a session comes back a few cards later in the same session.
@@ -174,24 +175,41 @@ function Session({ deck, onExit }) {
 }
 
 export default function Flashcards() {
-  const [params] = useSearchParams()
+  const [params, setParams] = useSearchParams()
   const { progress } = useProgress()
   const { t } = useI18n()
-  const [filter, setFilter] = useState(() => {
-    const s = params.get('subject')
-    const c = params.get('chapter')
-    const valid = s && subjectById[s]
-    return { ...EMPTY_FILTER, subjectIds: valid ? [s] : [], chapterKeys: valid && c ? [`${s}/${c}`] : [] }
-  })
-  const [deck, setDeck] = useState(null)
-  const [mode, setMode] = useState('due')
+  // Filter, mode and the running deck all live in the URL (?subject=…&mode=all&p=…&q=…),
+  // so a copied link opens the same selection, or the same deck in the same order.
+  const filter = useMemo(() => filterFromParams(params), [params])
+  const mode = params.get('mode') === 'all' ? 'all' : 'due'
+  const deckKey = params.get('q') || ''
+  const deck = useMemo(() => {
+    const ids = readIds(params)
+    return ids ? ids.map((id) => flashcardById[id]).filter(Boolean) : null
+  }, [params])
+  const update = (fn, replace = true) =>
+    setParams(
+      (prev) => {
+        const next = new URLSearchParams(prev)
+        fn(next)
+        return next
+      },
+      { replace },
+    )
+  const setFilter = (f) => update((p) => writeFilter(p, f))
+  const setMode = (m) => update((p) => (m === 'all' ? p.set('mode', 'all') : p.delete('mode')))
+  const setDeck = (cards) =>
+    update((p) => {
+      if (cards) writeIds(p, cards.map((c) => c.id))
+      else ['p', 'q'].forEach((k) => p.delete(k))
+    }, !cards)
 
   const today = dayKey()
   const cards = useMemo(() => flashcards.filter((f) => matchesFilter(f, filter)), [filter])
   const due = useMemo(() => cards.filter((f) => isDue(progress.flashcards[f.id], today)), [cards, progress.flashcards, today])
   const selection = mode === 'due' ? due : cards
 
-  if (deck) return <Session deck={deck} onExit={() => setDeck(null)} />
+  if (deck?.length) return <Session key={deckKey} deck={deck} onExit={() => setDeck(null)} />
 
   // Due cards: lowest box first so the weakest cards are seen first.
   const startDeck = () =>

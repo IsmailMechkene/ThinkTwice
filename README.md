@@ -178,6 +178,8 @@ Text fields support `` `inline code` ``, `**bold**` and `\n` line breaks.
 
 Routing uses `HashRouter` (URLs look like `/#/quiz`) and Vite's `base` is `'./'` (relative paths). The same build works at a domain root or in a sub-folder, with no server configuration.
 
+Every page keeps its state in the URL (filters, quiz questions, results, flashcard decks; see `src/lib/share.js`), so a copied link opens exactly the same view for someone else. Personal data stays personal: a shared "revise my mistakes" link uses the viewer's own mistake bank.
+
 ### Cloudflare Pages (what we use)
 
 **Connected to GitHub (auto-deploys on every push):**

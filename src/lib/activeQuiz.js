@@ -8,6 +8,7 @@ const key = (profileId) => `activeQuiz:${profileId}`
 export function saveActiveQuiz(profileId, session, index, answers, visited = []) {
   save(key(profileId), {
     mode: session.mode,
+    spec: session.spec || '',
     items: session.items.map((it) => ({ qid: it.question.id, order: it.arranged.map((c) => c.orig) })),
     deadline: session.deadline,
     startedAt: session.startedAt,
@@ -36,7 +37,7 @@ export function loadActiveQuiz(profileId) {
   })
   const answers = kept.map(({ a }) => a)
   return {
-    session: { mode: s.mode, items, deadline: s.deadline ?? null, startedAt: s.startedAt ?? Date.now() },
+    session: { mode: s.mode, spec: typeof s.spec === 'string' ? s.spec : '', items, deadline: s.deadline ?? null, startedAt: s.startedAt ?? Date.now() },
     // Back on the question you were looking at (you can now move freely, so don't jump to the first open one).
     index: Math.max(0, Math.min(Number.isInteger(s.index) ? s.index : 0, items.length - 1)),
     answers,
@@ -50,6 +51,7 @@ export function activeQuizSummary(profileId) {
   if (!restored) return null
   return {
     mode: restored.session.mode,
+    spec: restored.session.spec,
     answered: restored.answers.filter(Boolean).length,
     total: restored.session.items.length,
   }

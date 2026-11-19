@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react'
-import { useLocation } from 'react-router'
+import { Navigate, useSearchParams } from 'react-router'
 import RichText, { CodeBlock } from '../components/RichText'
 import { Explanation, QuestionMeta } from '../components/QuestionCard'
 import Icon from '../components/Icon'
 import { Button, Card, EmptyState, ProgressBar, scoreColor, SectionTitle } from '../components/ui'
 import { LETTERS, questionById } from '../lib/content'
 import { percent, summarize, verdictKey } from '../lib/scoring'
+import { quizPath, resultFromParams, resultPath } from '../lib/share'
 import { useI18n } from '../i18n/I18nContext'
 import { RESULT_KEY } from './QuizPlayer'
 
-function loadResult(state) {
-  if (state?.result) return state.result
+function loadStoredResult() {
   try {
     return JSON.parse(localStorage.getItem(RESULT_KEY))
   } catch {
@@ -90,12 +90,15 @@ function MistakeItem({ answer }) {
 }
 
 export default function Results() {
-  const { state } = useLocation()
+  const [params] = useSearchParams()
   const { t } = useI18n()
-  const result = useMemo(() => loadResult(state), [state])
+  // The URL holds the whole result (see lib/share.js), so a shared link shows the same page.
+  const result = useMemo(() => (params.toString() ? resultFromParams(params, questionById) : null), [params])
+  const stored = useMemo(() => (params.toString() ? null : loadStoredResult()), [params])
   const answers = useMemo(() => (result?.answers || []).filter((a) => questionById[a.qid]), [result])
   const summary = useMemo(() => summarize(answers.map((a) => ({ ...a, question: questionById[a.qid] }))), [answers])
 
+  if (stored?.answers?.length) return <Navigate to={resultPath(stored)} replace />
   if (!answers.length) {
     return <EmptyState title={t('results.none')} action={<Button to="/quiz">{t('results.startQuiz')}</Button>} />
   }
@@ -123,7 +126,7 @@ export default function Results() {
             </div>
             <div className="mt-5 flex flex-wrap justify-center gap-2 sm:justify-start">
               {wrong.length > 0 && (
-                <Button to="/quiz/play" state={{ mode: 'revise' }}>
+                <Button to={quizPath({ mode: 'revise' })}>
                   {t('results.revise')} <Icon name="arrow" className="h-4 w-4" />
                 </Button>
               )}

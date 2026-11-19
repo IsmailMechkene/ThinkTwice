@@ -4,7 +4,7 @@ import { allSourceLabels, DIFFICULTIES, subjects } from '../lib/content'
 import Icon from './Icon'
 import { Chip, cx, Toggle } from './ui'
 
-export const EMPTY_FILTER = { subjectIds: [], chapterKeys: [], difficulties: [], sources: [], coreOnly: false }
+export { EMPTY_FILTER } from '../lib/share'
 
 function toggleIn(list, value) {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]

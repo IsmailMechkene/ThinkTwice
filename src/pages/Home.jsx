@@ -10,6 +10,7 @@ import { profileName, useI18n } from '../i18n/I18nContext'
 import { flashcards, questions, subjects } from '../lib/content'
 import { dayKey, streakFrom } from '../lib/date'
 import { chapterAccuracy, percent } from '../lib/scoring'
+import { quizPath } from '../lib/share'
 import { isDue } from '../lib/srs'
 
 function PlanItem({ dot, text, to, state }) {
@@ -55,7 +56,7 @@ export default function Home() {
 
   // The most useful next actions, in priority order.
   const plan = []
-  if (mistakes) plan.push({ dot: 'bg-rose-500', text: t('home.planMistakes', { count: mistakes }), to: '/quiz/play', state: { mode: 'revise' } })
+  if (mistakes) plan.push({ dot: 'bg-rose-500', text: t('home.planMistakes', { count: mistakes }), to: quizPath({ mode: 'revise' }) })
   if (dueCards) plan.push({ dot: 'bg-teal-500', text: t('home.planCards', { count: dueCards }), to: '/flashcards' })
   if (weakest)
     plan.push({

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 import Icon from '../components/Icon'
 import { Explanation } from '../components/QuestionCard'
 import RichText, { CodeBlock } from '../components/RichText'
@@ -11,6 +11,7 @@ import { chapterOf, questionById, subjectById, subjects } from '../lib/content'
 import { formatDay } from '../lib/date'
 import { STREAK_TO_MASTER } from '../lib/mistakes'
 import { arrangeChoices } from '../lib/quiz'
+import { quizPath } from '../lib/share'
 
 // Filled dots = correct answers already given (on different days) towards leaving the bank.
 function StreakDots({ streak, title }) {
@@ -75,7 +76,10 @@ export default function Mistakes() {
   const navigate = useNavigate()
   const { progress } = useProgress()
   const { t } = useI18n()
-  const [subjectId, setSubjectId] = useState(null)
+  const [params, setParams] = useSearchParams()
+  // The selected subject lives in the URL (?subject=…) so the view can be linked.
+  const subjectId = subjectById[params.get('subject')] ? params.get('subject') : null
+  const setSubjectId = (id) => setParams(id ? { subject: id } : {}, { replace: true })
   const filter = useMemo(() => (subjectId ? { subjectIds: [subjectId] } : undefined), [subjectId])
   const { entries } = useMistakes(filter)
   const { entries: all } = useMistakes()
@@ -103,7 +107,7 @@ export default function Mistakes() {
 
   const halfway = entries.filter((m) => m.entry.streak > 0).length
   const repeat = entries.filter((m) => m.entry.timesWrong > 1).length
-  const revise = (f) => navigate('/quiz/play', { state: { mode: 'revise', filter: f } })
+  const revise = (f) => navigate(quizPath({ mode: 'revise', filter: f }))
 
   return (
     <div>
