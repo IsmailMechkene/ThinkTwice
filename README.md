@@ -178,7 +178,7 @@ Text fields support `` `inline code` ``, `**bold**` and `\n` line breaks.
 
 Routing uses `HashRouter` (URLs look like `/#/quiz`) and Vite's `base` is `'./'` (relative paths). The same build works at a domain root or in a sub-folder, with no server configuration.
 
-Every page keeps its state in the URL (filters, quiz questions, results, flashcard decks; see `src/lib/share.js`), so a copied link opens exactly the same view for someone else. Personal data stays personal: a shared "revise my mistakes" link uses the viewer's own mistake bank.
+Every page keeps its state in the URL (filters, quiz questions, results, flashcard decks; see `src/lib/share.js`), so a copied link opens exactly the same view for someone else. Links stay short: a random quiz is stored as filters + a 5-character seed, and a weak-first pick as 2 characters per question. Adding or removing questions in a chapter can change what an older link points to. Personal data stays personal: a shared "revise my mistakes" link uses the viewer's own mistake bank.
 
 ### Cloudflare Pages (what we use)
 

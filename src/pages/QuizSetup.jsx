@@ -9,6 +9,7 @@ import { useProgress } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
 import { matchesFilter, questions } from '../lib/content'
 import { pickQuestions } from '../lib/quiz'
+import { newSeed } from '../lib/random'
 import { filterFromParams, quizPath, writeFilter } from '../lib/share'
 
 const COUNTS = [5, 10, 20, 40]
@@ -76,9 +77,14 @@ export default function QuizSetup() {
   const effective = count === 0 ? available : Math.min(count, available)
   const estimate = Math.max(1, Math.round(effective * MINUTES_PER_QUESTION))
 
+  // A random pick is stored as a seed (tiny link). A weak-first pick depends on your stats,
+  // so the chosen questions themselves go in the link.
   function launch(f, { n, examMinutes = null, weak = prioritize } = {}) {
-    const picked = pickQuestions(f, { count: n || undefined, prioritize: weak, stats: progress.questions })
-    navigate(quizPath({ mode: examMinutes ? 'exam' : 'quiz', questionIds: picked.map((q) => q.id), examMinutes }))
+    const mode = examMinutes ? 'exam' : 'quiz'
+    const spec = weak
+      ? { mode, filter: f, questionIds: pickQuestions(f, { count: n || undefined, prioritize: true, stats: progress.questions }).map((q) => q.id), examMinutes }
+      : { mode, filter: f, count: n, seed: newSeed(), examMinutes }
+    navigate(quizPath(spec))
   }
 
   // Presets keep the subject selection, nothing else.

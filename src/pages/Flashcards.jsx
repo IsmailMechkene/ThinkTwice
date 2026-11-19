@@ -5,10 +5,10 @@ import Flashcard from '../components/Flashcard'
 import { Button, Card, EmptyState, PageHeader, ProgressBar, SectionTitle, Segmented, StepTitle } from '../components/ui'
 import { useProgress } from '../hooks/useProgress'
 import { useI18n } from '../i18n/I18nContext'
-import { flashcardById, flashcards, matchesFilter } from '../lib/content'
+import { flashcards, matchesFilter } from '../lib/content'
 import { dayKey } from '../lib/date'
-import { shuffle } from '../lib/random'
-import { filterFromParams, readIds, writeFilter, writeIds } from '../lib/share'
+import { newSeed, seededRandom, shuffle } from '../lib/random'
+import { filterFromParams, writeFilter } from '../lib/share'
 import { BOX_INTERVAL_DAYS, boxOf, isDue, MAX_BOX } from '../lib/srs'
 
 // A card missed during a session comes back a few cards later in the same session.
@@ -178,15 +178,12 @@ export default function Flashcards() {
   const [params, setParams] = useSearchParams()
   const { progress } = useProgress()
   const { t } = useI18n()
-  // Filter, mode and the running deck all live in the URL (?subject=…&mode=all&p=…&q=…),
-  // so a copied link opens the same selection, or the same deck in the same order.
+  // Filter, mode and the running deck all live in the URL (?subject=…&mode=all&s=<seed>),
+  // so a copied link opens the same selection; the seed gives the same card order.
+  // In "due" mode the deck is made of the viewer's own due cards.
   const filter = useMemo(() => filterFromParams(params), [params])
   const mode = params.get('mode') === 'all' ? 'all' : 'due'
-  const deckKey = params.get('q') || ''
-  const deck = useMemo(() => {
-    const ids = readIds(params)
-    return ids ? ids.map((id) => flashcardById[id]).filter(Boolean) : null
-  }, [params])
+  const seed = params.get('s') || ''
   const update = (fn, replace = true) =>
     setParams(
       (prev) => {
@@ -198,22 +195,23 @@ export default function Flashcards() {
     )
   const setFilter = (f) => update((p) => writeFilter(p, f))
   const setMode = (m) => update((p) => (m === 'all' ? p.set('mode', 'all') : p.delete('mode')))
-  const setDeck = (cards) =>
-    update((p) => {
-      if (cards) writeIds(p, cards.map((c) => c.id))
-      else ['p', 'q'].forEach((k) => p.delete(k))
-    }, !cards)
+  const startDeck = () => update((p) => p.set('s', newSeed()), false)
+  const exitDeck = () => update((p) => p.delete('s'))
 
   const today = dayKey()
   const cards = useMemo(() => flashcards.filter((f) => matchesFilter(f, filter)), [filter])
   const due = useMemo(() => cards.filter((f) => isDue(progress.flashcards[f.id], today)), [cards, progress.flashcards, today])
   const selection = mode === 'due' ? due : cards
 
-  if (deck?.length) return <Session key={deckKey} deck={deck} onExit={() => setDeck(null)} />
-
+  // Frozen when the session starts: reviewing cards must not reshuffle the running deck.
   // Due cards: lowest box first so the weakest cards are seen first.
-  const startDeck = () =>
-    setDeck(mode === 'due' ? shuffle(selection).sort((a, b) => boxOf(progress.flashcards[a.id]) - boxOf(progress.flashcards[b.id])) : shuffle(selection))
+  const deck = useMemo(() => {
+    if (!seed) return null
+    const shuffled = shuffle(selection, seededRandom(seed))
+    return mode === 'due' ? shuffled.sort((a, b) => boxOf(progress.flashcards[a.id]) - boxOf(progress.flashcards[b.id])) : shuffled
+  }, [seed]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (deck?.length) return <Session key={seed} deck={deck} onExit={exitDeck} />
 
   return (
     <div>

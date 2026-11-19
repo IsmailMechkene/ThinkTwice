@@ -25,10 +25,10 @@ function useSession(search, progress, profileId) {
     if (!spec) return saved
     if (saved && saved.session.spec === search) return saved
     clearActiveQuiz(profileId)
-    let ids = spec.questionIds
-    if (spec.mode === 'revise') {
-      ids = shuffle(Object.keys(progress.mistakes).filter((id) => questionById[id] && matchesFilter(questionById[id], spec.filter)))
-    }
+    const ids =
+      spec.mode === 'revise'
+        ? shuffle(Object.keys(progress.mistakes).filter((id) => questionById[id] && matchesFilter(questionById[id], spec.filter)))
+        : spec.questionIds
     const items = (ids || [])
       .map((id) => questionById[id])
       .filter(Boolean)
@@ -108,7 +108,7 @@ function QuizPlayer() {
       } catch {
         /* ignore */
       }
-      navigate(resultPath(result), { replace: true })
+      navigate(resultPath(result, quizSpecFromParams(new URLSearchParams(session.spec || ''))), { replace: true })
     },
     [session, recordSession, navigate, profileId],
   )
